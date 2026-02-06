@@ -26,7 +26,7 @@ public class GradingStudentsTests
         var input = new List<int> { 73, 67, 38, 33 };
 
         // Act
-        var result = GradingStudents.GradingStudentsMethodWitHLamdas(input);
+        var result = GradingStudents.GradingStudentsMethodWithLamdas(input);
 
         // Assert
         Assert.Equal(

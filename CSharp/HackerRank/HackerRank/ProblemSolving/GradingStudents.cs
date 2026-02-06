@@ -42,41 +42,40 @@ public class GradingStudents()
     }
 
     public static List<int> GradingStudentsMethodWithLamdas(List<int> grades)
-{
-    if (grades == null)
     {
-        throw new ArgumentNullException(nameof(grades));
-    }
-
-    var isFailing = (int grade) => grade < 38;
-    var isMultipleOfFive = (int grade) => grade % 5 == 0;
-
-    var roundedGrades = new List<int>(grades.Count);
-
-    foreach (var grade in grades)
-    {
-        if (isFailing(grade))
+        if (grades == null)
         {
-            roundedGrades.Add(grade);
-            continue;
+            throw new ArgumentNullException(nameof(grades));
         }
 
-        if (!isMultipleOfFive(grade))
-        {
-            var remainder = grade % 5;
-            var delta = 5 - remainder;
+        var isFailing = (int grade) => grade < 38;
+        var isMultipleOfFive = (int grade) => grade % 5 == 0;
 
-            if (delta <= 2)
+        var roundedGrades = new List<int>(grades.Count);
+
+        foreach (var grade in grades)
+        {
+            if (isFailing(grade))
             {
-                roundedGrades.Add(grade + delta);
+                roundedGrades.Add(grade);
                 continue;
             }
+
+            if (!isMultipleOfFive(grade))
+            {
+                var remainder = grade % 5;
+                var delta = 5 - remainder;
+
+                if (delta <= 2)
+                {
+                    roundedGrades.Add(grade + delta);
+                    continue;
+                }
+            }
+
+            roundedGrades.Add(grade);
         }
 
-        roundedGrades.Add(grade);
+        return roundedGrades;
     }
-
-    return roundedGrades;
-}
-
 }
