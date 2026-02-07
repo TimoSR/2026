@@ -7,8 +7,15 @@ public class GradingStudents()
     private static readonly Func<int, bool> IsPassing = grade => !IsFailing(grade);
     private static readonly Func<int, bool> IsMultipleOfFive = grade => grade % 5 == 0;
     private static readonly Func<int, bool> IsNotMultipleOfFive = grade => !IsMultipleOfFive(grade);
+    private static readonly Func<int, bool> GradeShouldBeRounded = grade => IsPassing(grade) && IsNotMultipleOfFive(grade);
 
     public static int Add(int a, int b) => a + b;
+
+    public Func<int, int, int> AddDelegate = (a, b) =>
+    {
+        var result = a + b;
+        return result;
+    };
 
     public static List<int> GradingStudentsMethodWithDelegates(List<int> grades)
     {
@@ -18,7 +25,7 @@ public class GradingStudents()
         {   
             var result = grade;
 
-            if(IsPassing(result) && IsNotMultipleOfFive(result))
+            if (GradeShouldBeRounded(result))
             {
                 var remainder = result % 5;
 
@@ -42,6 +49,15 @@ public class GradingStudents()
         var isPassing = (int grade) => !isFailing(grade);
         var isMultipleOfFive = (int grade) => grade % 5 == 0;
         var isNotMultipleOfFive = (int grade) => !isMultipleOfFive(grade);
+        var gradeShouldBeRounded = (int grade) => isPassing(grade) && isNotMultipleOfFive(grade);
+
+        Func<int, bool> isFailingDelegateExample = grade =>
+        {
+            if (grade < 0)
+                throw new ArgumentOutOfRangeException(nameof(grade));
+
+            return grade < 38;
+        };
 
         var roundedGrades = new List<int>(grades.Count);
 
@@ -49,7 +65,7 @@ public class GradingStudents()
         {   
             var result = grade;
 
-            if(isPassing(result) && isNotMultipleOfFive(result))
+            if (gradeShouldBeRounded(result))
             {
                 var remainder = result % 5;
 

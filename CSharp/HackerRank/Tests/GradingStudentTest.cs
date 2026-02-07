@@ -11,10 +11,11 @@ public class GradingStudentsTests
 
         // Act
         var result = GradingStudents.GradingStudentsMethodWithDelegates(input);
+        var compare = new List<int> { 75, 67, 40, 33 };
 
         // Assert
         Assert.Equal(
-            new List<int> { 75, 67, 40, 33 },
+            compare,
             result
         );
     }
@@ -27,10 +28,11 @@ public class GradingStudentsTests
 
         // Act
         var result = GradingStudents.GradingStudentsMethodWithLamdas(input);
+        var compare = new List<int> { 75, 67, 40, 33 };
 
         // Assert
         Assert.Equal(
-            new List<int> { 75, 67, 40, 33 },
+            compare,
             result
         );
     }
