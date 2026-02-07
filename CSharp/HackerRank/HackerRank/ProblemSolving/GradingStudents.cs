@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class GradingStudents()
 {
     private static readonly Func<int, bool> IsFailing = grade => grade < 38;
-    private static readonly Func<int, bool> IsNotFailing = grade => !IsFailing(grade);
+    private static readonly Func<int, bool> IsPassing = grade => !IsFailing(grade);
     private static readonly Func<int, bool> IsMultipleOfFive = grade => grade % 5 == 0;
     private static readonly Func<int, bool> IsNotMultipleOfFive = grade => !IsMultipleOfFive(grade);
 
@@ -18,7 +18,7 @@ public class GradingStudents()
         {   
             var result = grade;
 
-            if(IsNotFailing(result) && IsNotMultipleOfFive(result))
+            if(IsPassing(result) && IsNotMultipleOfFive(result))
             {
                 var remainder = result % 5;
 
@@ -39,7 +39,7 @@ public class GradingStudents()
     public static List<int> GradingStudentsMethodWithLamdas(List<int> grades)
     {
         var isFailing = (int grade) => grade < 38;
-        var isNotFailing = (int grade) => !isFailing(grade);
+        var isPassing = (int grade) => !isFailing(grade);
         var isMultipleOfFive = (int grade) => grade % 5 == 0;
         var isNotMultipleOfFive = (int grade) => !isMultipleOfFive(grade);
 
@@ -49,7 +49,7 @@ public class GradingStudents()
         {   
             var result = grade;
 
-            if(isNotFailing(result) && isNotMultipleOfFive(result))
+            if(isPassing(result) && isNotMultipleOfFive(result))
             {
                 var remainder = result % 5;
 
