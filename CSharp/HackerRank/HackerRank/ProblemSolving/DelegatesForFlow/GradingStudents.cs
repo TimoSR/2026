@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class GradingStudents()
 {
+    //boolean algebra–driven style
     private static readonly Func<int, bool> IsFailing = grade => grade < 38;
     private static readonly Func<int, bool> IsPassing = grade => !IsFailing(grade);
     private static readonly Func<int, bool> IsMultipleOfFive = grade => grade % 5 == 0;
