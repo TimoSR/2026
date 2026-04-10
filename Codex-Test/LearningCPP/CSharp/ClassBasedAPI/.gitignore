@@ -1,0 +1,5 @@
+csharp/bin/
+csharp/obj/
+cpp/app_cpp.exe
+c/app_c.exe
+rust/target/

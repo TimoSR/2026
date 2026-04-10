@@ -1,0 +1,6 @@
+[package]
+name = "graphics3d_rust_alternative"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
