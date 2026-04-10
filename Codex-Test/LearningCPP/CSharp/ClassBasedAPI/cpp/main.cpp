@@ -386,6 +386,7 @@ inline RenderEngineConfiguration RenderEngineConfigurationCtor::ToConfiguration(
 }
 
 class RenderEngine {
+    
 public:
     explicit RenderEngine(RenderOptions options)
         : options_(std::move(options)) {}

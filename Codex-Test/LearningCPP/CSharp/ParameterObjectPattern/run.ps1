@@ -4,8 +4,12 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$source = Join-Path $PSScriptRoot "main.cpp"
 $output = Join-Path $PSScriptRoot "parameter_object_demo.exe"
+$sources = Get-ChildItem -Path $PSScriptRoot -Filter "*.cpp" | Sort-Object Name | ForEach-Object { $_.FullName }
+
+if (-not $sources -or $sources.Count -eq 0) {
+    throw "No .cpp files found in $PSScriptRoot"
+}
 
 if ($Clean -and (Test-Path $output)) {
     Remove-Item -LiteralPath $output
@@ -41,14 +45,18 @@ if (-not $compiler) {
 }
 
 Write-Host "Compiling with $($compiler.path)..."
+Write-Host "Sources:"
+foreach ($src in $sources) {
+    Write-Host "  $src"
+}
 
 if ($compiler.kind -eq "gcc-like") {
-    & $compiler.path -std=c++20 -Wall -Wextra -pedantic $source -o $output
+    & $compiler.path -std=c++20 -Wall -Wextra -pedantic @sources -o $output
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
     }
 } else {
-    & $compiler.path /nologo /std:c++20 /EHsc /W4 /Fe:$output $source
+    & $compiler.path /nologo /std:c++20 /EHsc /W4 /Fe:$output @sources
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
     }

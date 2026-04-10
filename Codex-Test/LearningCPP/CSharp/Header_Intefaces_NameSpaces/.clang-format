@@ -1,0 +1,44 @@
+Language: Cpp
+BasedOnStyle: LLVM
+
+# General
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+ContinuationIndentWidth: 4
+
+# Braces
+BreakBeforeBraces: Allman
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortBlocksOnASingleLine: Never
+
+# Constructors / initializer lists
+ConstructorInitializerIndentWidth: 4
+BreakConstructorInitializersBeforeComma: false
+PackConstructorInitializers: NextLine
+
+# Namespaces
+NamespaceIndentation: All
+
+# Functions / declarations
+BinPackParameters: false
+BinPackArguments: false
+
+# Keep code readable rather than densely packed
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllArgumentsOnNextLine: false
+
+# Includes
+SortIncludes: Never
+
+# Whitespace
+SpaceBeforeParens: ControlStatements
+PointerAlignment: Left
+ReferenceAlignment: Left
+
+# Empty lines / compactness
+KeepEmptyLinesAtTheStartOfBlocks: false
+MaxEmptyLinesToKeep: 1

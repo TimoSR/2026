@@ -1,0 +1,24 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "Windows-Clang",
+      "compilerPath": "C:/Program Files/LLVM/bin/clang++.exe",
+      "intelliSenseMode": "windows-clang-x64",
+      "cStandard": "c17",
+      "cppStandard": "c++20",
+      "includePath": [
+        "${workspaceFolder}/examples/header_first/include",
+        "${workspaceFolder}/examples/source_divided/src",
+        "${workspaceFolder}/**"
+      ],
+      "browse": {
+        "path": [
+          "${workspaceFolder}/examples/header_first/include",
+          "${workspaceFolder}/examples/source_divided/src",
+          "${workspaceFolder}"
+        ]
+      }
+    }
+  ]
+}

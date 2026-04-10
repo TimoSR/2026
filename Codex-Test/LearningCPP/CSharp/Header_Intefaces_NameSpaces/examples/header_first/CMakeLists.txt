@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.20)
+project(header_first_example LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_executable(header_first_demo
+    src/main.cpp
+    src/orders/order_service.cpp
+    src/payments/stripe_payment_processor.cpp
+)
+
+target_include_directories(header_first_demo PRIVATE include)
