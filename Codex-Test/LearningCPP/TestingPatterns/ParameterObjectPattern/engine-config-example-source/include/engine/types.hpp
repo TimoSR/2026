@@ -3,7 +3,9 @@
 #include <cstdint>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <utility>
 
 namespace demo
 {
@@ -160,6 +162,33 @@ namespace demo
 
         return "Unknown";
     }
+
+    class FrameTarget final
+    {
+    public:
+        static FrameTarget FPS(int framesPerSecond)
+        {
+            if (framesPerSecond <= 0)
+            {
+                throw std::invalid_argument("FrameTarget FPS must be > 0.");
+            }
+
+            return FrameTarget(framesPerSecond);
+        }
+
+        [[nodiscard]] int FramesPerSecond() const noexcept
+        {
+            return framesPerSecond_;
+        }
+
+    private:
+        explicit FrameTarget(int framesPerSecond) noexcept
+            : framesPerSecond_(framesPerSecond)
+        {
+        }
+
+        int framesPerSecond_ = 60;
+    };
 
     struct ImageId final
     {

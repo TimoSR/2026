@@ -28,7 +28,7 @@ namespace demo
         std::string title_;
         Resolution resolution_{};
         VSync vSync_ = VSync::Enabled;
-        int targetFramesPerSecond_ = 60;
+        FrameTarget frameTarget_ = FrameTarget::FPS(60);
         bool open_ = true;
     };
 }

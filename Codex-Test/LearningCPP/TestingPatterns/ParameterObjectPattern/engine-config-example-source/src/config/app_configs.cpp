@@ -49,7 +49,7 @@ namespace demo::config::app
             .title = "Whale Demo",
             .resolution = Resolution::FHD(),
             .vSync = VSync::Enabled,
-            .targetFramesPerSecond = 144,
+            .frameTarget = FrameTarget::FPS(144),
         };
     }
 
@@ -58,7 +58,7 @@ namespace demo::config::app
         return window::Runtime{
             .resolution = Resolution::UHD4K(),
             .vSync = VSync::Enabled,
-            .targetFramesPerSecond = 144,
+            .frameTarget = FrameTarget::FPS(144),
         };
     }
 }

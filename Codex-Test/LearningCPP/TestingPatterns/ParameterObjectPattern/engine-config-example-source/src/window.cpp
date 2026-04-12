@@ -1,7 +1,6 @@
 #include "engine/window.hpp"
 
 #include <iostream>
-#include <stdexcept>
 
 #include "engine/types.hpp"
 
@@ -11,18 +10,13 @@ namespace demo
         : title_(std::move(config.title)),
           resolution_(config.resolution),
           vSync_(config.vSync),
-          targetFramesPerSecond_(config.targetFramesPerSecond)
+          frameTarget_(config.frameTarget)
     {
-        if (targetFramesPerSecond_ <= 0)
-        {
-            throw std::invalid_argument("Window targetFramesPerSecond must be > 0.");
-        }
-
         std::cout
             << "[window] open title=\"" << title_ << "\""
             << " resolution=" << ToString(resolution_)
             << " vSync=" << ToString(vSync_)
-            << " targetFps=" << targetFramesPerSecond_
+            << " targetFps=" << frameTarget_.FramesPerSecond()
             << '\n';
     }
 
@@ -33,19 +27,14 @@ namespace demo
 
     void Window::UpdateConfig(config::window::Runtime config)
     {
-        if (config.targetFramesPerSecond <= 0)
-        {
-            throw std::invalid_argument("Window targetFramesPerSecond must be > 0.");
-        }
-
         resolution_ = config.resolution;
         vSync_ = config.vSync;
-        targetFramesPerSecond_ = config.targetFramesPerSecond;
+        frameTarget_ = config.frameTarget;
 
         std::cout
             << "[window] update resolution=" << ToString(resolution_)
             << " vSync=" << ToString(vSync_)
-            << " targetFps=" << targetFramesPerSecond_
+            << " targetFps=" << frameTarget_.FramesPerSecond()
             << '\n';
     }
 

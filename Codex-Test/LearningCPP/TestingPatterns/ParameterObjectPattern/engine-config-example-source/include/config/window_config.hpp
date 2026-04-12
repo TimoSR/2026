@@ -11,13 +11,13 @@ namespace demo::config::window
         std::string title = "Demo Window";
         Resolution resolution = Resolution::FHD();
         VSync vSync = VSync::Enabled;
-        int targetFramesPerSecond = 60;
+        FrameTarget frameTarget = FrameTarget::FPS(60);
     };
 
     struct Runtime final
     {
         Resolution resolution = Resolution::FHD();
         VSync vSync = VSync::Enabled;
-        int targetFramesPerSecond = 60;
+        FrameTarget frameTarget = FrameTarget::FPS(60);
     };
 }

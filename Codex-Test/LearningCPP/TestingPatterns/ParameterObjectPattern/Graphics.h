@@ -1,19 +1,17 @@
 #pragma once
 
-#include <string>
 #include <unordered_map>
 
-#include "RenderTypes.h"
+#include "ConfigTypes.h"
 
-class RenderEngine {
+class Graphics {
 public:
-    static RenderEngine Run();
-    static RenderEngine Run(RenderEngineConfiguration config);
+    static Graphics Create();
+    static Graphics Create(Config::Graphics config);
 
-    void UpdateConfiguration(RenderEngineConfiguration config);
+    void UpdateConfig(Config::Graphics config);
 
     void LoadImage(const char* name, const char* filePath);
-    void PlaySound(const char* filePath) const;
     void DrawText(const char* text, int x, int y) const;
     void DrawImage(const char* name, int x, int y) const;
     void Stop();
@@ -21,25 +19,27 @@ public:
     void printSummary() const;
 
 private:
-    struct InternalConfig {
+    struct InternalRenderConfig {
         RenderBackend renderBackend = RenderBackend::Vulkan;
         Resolution resolution = Resolution::FullHD();
         ShadowQuality shadowQuality = ShadowQuality::High;
         AntiAliasing antiAliasing = AntiAliasing::TAA();
-        int targetFramesPerSecond = 60;
+        Framerate frameRate = Framerate::from_fps(60);
         VSync vSync = VSync::Enabled;
         DiagnosticsLevel diagnosticsLevel = DiagnosticsLevel::Basic;
         int effectiveFramesPerSecond = 60;
     };
 
-    explicit RenderEngine(InternalConfig config);
+    explicit Graphics(InternalRenderConfig renderConfig);
 
-    static InternalConfig translate(RenderEngineConfiguration config);
-    static void validate(const RenderEngineConfiguration& config);
-    static int resolveEffectiveFPS(const RenderEngineConfiguration& config);
+    static InternalRenderConfig translate(Config::Graphics config);
+    static void validate(const Config::Graphics& config);
+    static int resolveEffectiveFPS(const Config::Graphics& config);
     void ensureRunning() const;
 
-    InternalConfig config_;
+    InternalRenderConfig renderConfig_;
     bool running_ = false;
     std::unordered_map<std::string, std::string> images_;
 };
+
+
