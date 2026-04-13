@@ -1,3 +1,5 @@
+use crate::types::Text;
+
 #[derive(Debug, Clone, Copy)]
 pub struct AppConfig {
     pub display: DisplayConfig,
@@ -131,8 +133,6 @@ impl AudioConfig {
         )
     }
 }
-
-pub type Text = &'static str;
 
 #[derive(Debug, Clone, Copy)]
 pub struct WindowConfig {

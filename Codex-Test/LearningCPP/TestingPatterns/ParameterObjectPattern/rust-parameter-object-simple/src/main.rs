@@ -1,8 +1,9 @@
 mod config;
 mod systems;
+pub mod types;
+mod making_runs_for_main;
 
 use crate::config::*;
-
 use crate::systems::{Audio, Graphics, Window};
 
 fn main() -> Result<(), String> {
@@ -42,19 +43,19 @@ fn main() -> Result<(), String> {
 
     validate_config(app_config)?;
 
-    let mut graphics = Graphics::new(app_config);
-    let mut audio = Audio::new(app_config);
-    let mut window = Window::new(app_config);
+    let mut custom_graphics = Graphics::new(app_config);
+    let mut custom_audio = Audio::new(app_config);
+    let mut custom_window = Window::new(app_config);
 
-    graphics.load_image("whale", "whale.png");
-    audio.play_sound("music.ogg");
+    custom_graphics.load_image("whale", "whale.png");
+    custom_audio.play_sound("music.ogg");
 
-    graphics.draw_text("Hello World!", 400, 300);
-    graphics.draw_image("whale", 300, 200);
+    custom_graphics.draw_text("Hello World!", 400, 300);
+    custom_graphics.draw_image("whale", 300, 200);
 
     let mut runtime_config = app_config.clone();
-    
-    runtime_config.display = DisplayConfig 
+
+    runtime_config.display = DisplayConfig
     {
         resolution: Resolution::qhd(),
         frame_rate: Framerate::from_fps(120),
@@ -71,27 +72,27 @@ fn main() -> Result<(), String> {
 
     validate_config(runtime_config)?;
 
-    graphics.update_config(runtime_config);
-    audio.update_config(runtime_config);
-    window.update_config(runtime_config);
+    custom_graphics.update_config(runtime_config);
+    custom_audio.update_config(runtime_config);
+    custom_window.update_config(runtime_config);
 
-    graphics.draw_text("After runtime config update", 180, 120);
+    custom_graphics.draw_text("After runtime config update", 180, 120);
+    custom_audio.stop();
+    custom_window.close();
+    custom_graphics.stop();
+
+    // Default Setup
+
+    let mut graphics = Graphics::default();
+    let mut audio = Audio::default();
+    let mut window = Window::default();
+
+    graphics.draw_text("Default preset path", 64, 64);
+    audio.play_sound("default.ogg");
+
     audio.stop();
     window.close();
     graphics.stop();
 
-    // Default Setup
-
-    let mut default_graphics = Graphics::default();
-    let mut default_audio = Audio::default();
-    let mut default_window = Window::default();
-
-    default_graphics.draw_text("Default preset path", 64, 64);
-    default_audio.play_sound("default.ogg");
-
-    default_audio.stop();
-    default_window.close();
-    default_graphics.stop();
-
-    Ok(())
+    return Ok(());
 }
