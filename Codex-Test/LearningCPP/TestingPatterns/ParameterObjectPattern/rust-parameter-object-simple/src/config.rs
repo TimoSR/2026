@@ -1,4 +1,4 @@
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct AppConfig {
     pub display: DisplayConfig,
     pub diagnostics: DiagnosticsConfig,
@@ -19,7 +19,7 @@ impl Default for AppConfig {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct DisplayConfig {
     pub resolution: Resolution,
     pub refresh_rate: Framerate,
@@ -48,7 +48,7 @@ impl DisplayConfig {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct DiagnosticsConfig {
     pub level: DiagnosticsLevel,
 }
@@ -67,7 +67,7 @@ impl DiagnosticsConfig {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct RenderConfig {
     pub render_backend: RenderBackend,
     pub shadow_quality: ShadowQuality,
@@ -95,7 +95,7 @@ impl RenderConfig {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Copy)]
 pub struct AudioConfig {
     pub audio_backend: AudioBackend,
     pub master_volume: Volume,
@@ -132,9 +132,11 @@ impl AudioConfig {
     }
 }
 
-#[derive(Debug, Clone)]
+pub type Text = &'static str;
+
+#[derive(Debug, Clone, Copy)]
 pub struct WindowConfig {
-    pub title: String,
+    pub title: Text,
     pub window_mode: WindowMode,
     pub cursor_mode: CursorMode,
     pub resizable: Resizable,
@@ -143,7 +145,7 @@ pub struct WindowConfig {
 impl Default for WindowConfig {
     fn default() -> Self {
         Self {
-            title: "Parameter Object Pattern Demo".to_string(),
+            title: "Parameter Object Pattern Demo",
             window_mode: WindowMode::Windowed,
             cursor_mode: CursorMode::Visible,
             resizable: Resizable::Enabled,
@@ -155,7 +157,7 @@ impl WindowConfig {
     pub fn summary(&self) -> String {
         format!(
             "title='{}', mode={}, cursor={}, resizable={}",
-            self.title,
+            self.title.to_string(),
             self.window_mode.as_str(),
             self.cursor_mode.as_str(),
             self.resizable.as_str()
@@ -375,7 +377,7 @@ impl CursorMode {
     }
 }
 
-pub fn validate_config(config: &AppConfig) -> Result<(), String> {
+pub fn validate_config(config: AppConfig) -> Result<(), String> {
     if config.display.resolution.width == 0 || config.display.resolution.height == 0 {
         return Err("resolution must be greater than 0".to_string());
     }

@@ -14,36 +14,43 @@ pub struct Graphics {
 }
 
 impl Graphics {
-    pub fn create(config: &AppConfig) -> Self {
-        let graphics = Self {
+    pub fn create(config: AppConfig) -> Self
+    {
+        let graphics = Graphics {
             display: config.display.clone(),
             diagnostics: config.diagnostics.clone(),
             render: config.render.clone(),
             running: true,
             images: HashMap::new(),
         };
+
         println!(
             "[Graphics] Created ({}, {}, diagnostics={})",
             graphics.display.summary(),
             graphics.render.summary(),
             graphics.diagnostics.summary()
         );
-        graphics
+
+        return graphics;
     }
 
     pub fn create_default() -> Self {
-        Self::create(&AppConfig::default())
+        Self::create(AppConfig::default())
     }
 
-    pub fn update_config(&mut self, config: &AppConfig) {
-        self.display = config.display.clone();
-        self.diagnostics = config.diagnostics.clone();
-        self.render = config.render.clone();
+    pub fn update_config(&mut self, config: AppConfig)
+    {
+        let graphics = self;
+        
+        graphics.display = config.display.clone();
+        graphics.diagnostics = config.diagnostics.clone();
+        graphics.render = config.render.clone();
+        
         println!(
             "[Graphics] Updated ({}, {}, diagnostics={})",
-            self.display.summary(),
-            self.render.summary(),
-            self.diagnostics.summary()
+            graphics.display.summary(),
+            graphics.render.summary(),
+            graphics.diagnostics.summary()
         );
     }
 
@@ -82,7 +89,7 @@ pub struct Audio {
 }
 
 impl Audio {
-    pub fn create(config: &AppConfig) -> Self {
+    pub fn create(config: AppConfig) -> Self {
         let audio = Self {
             diagnostics: config.diagnostics.clone(),
             config: config.audio.clone(),
@@ -97,10 +104,10 @@ impl Audio {
     }
 
     pub fn create_default() -> Self {
-        Self::create(&AppConfig::default())
+        Self::create(AppConfig::default())
     }
 
-    pub fn update_config(&mut self, config: &AppConfig) {
+    pub fn update_config(&mut self, config: AppConfig) {
         self.diagnostics = config.diagnostics.clone();
         self.config = config.audio.clone();
         println!(
@@ -129,7 +136,7 @@ pub struct Window {
 }
 
 impl Window {
-    pub fn create(config: &AppConfig) -> Self {
+    pub fn create(config: AppConfig) -> Self {
         let window = Self {
             config: config.window.clone(),
             open: true,
@@ -139,10 +146,10 @@ impl Window {
     }
 
     pub fn create_default() -> Self {
-        Self::create(&AppConfig::default())
+        Self::create(AppConfig::default())
     }
 
-    pub fn update_config(&mut self, config: &AppConfig) {
+    pub fn update_config(&mut self, config: AppConfig) {
         self.config = config.window.clone();
         println!("[Window] Updated ({})", self.config.summary());
     }

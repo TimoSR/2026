@@ -33,18 +33,18 @@ fn main() -> Result<(), String> {
             output_sample_rate: SampleRate::from_hz(48_000),
         },
         window: WindowConfig {
-            title: "Parameter Object Pattern Demo".to_string(),
+            title: "Parameter Object Pattern Demo",
             window_mode: WindowMode::Borderless,
             cursor_mode: CursorMode::Visible,
             resizable: Resizable::Disabled,
         },
     };
 
-    validate_config(&app_config)?;
+    validate_config(app_config)?;
 
-    let mut graphics = Graphics::create(&app_config);
-    let mut audio = Audio::create(&app_config);
-    let mut window = Window::create(&app_config);
+    let mut graphics = Graphics::create(app_config);
+    let mut audio = Audio::create(app_config);
+    let mut window = Window::create(app_config);
 
     graphics.load_image("whale", "whale.png");
     audio.play_sound("music.ogg");
@@ -64,16 +64,16 @@ fn main() -> Result<(), String> {
     runtime_config.diagnostics.level = DiagnosticsLevel::Basic;
     runtime_config.audio.music_volume = Volume::from_percent(60);
     runtime_config.audio.sfx_volume = Volume::from_percent(80);
-    runtime_config.window.title = "Runtime Window Profile".to_string();
+    runtime_config.window.title = "Runtime Window Profile";
     runtime_config.window.window_mode = WindowMode::Windowed;
     runtime_config.window.cursor_mode = CursorMode::Captured;
     runtime_config.window.resizable = Resizable::Enabled;
 
-    validate_config(&runtime_config)?;
+    validate_config(runtime_config)?;
 
-    graphics.update_config(&runtime_config);
-    audio.update_config(&runtime_config);
-    window.update_config(&runtime_config);
+    graphics.update_config(runtime_config);
+    audio.update_config(runtime_config);
+    window.update_config(runtime_config);
 
     graphics.draw_text("After runtime config update", 180, 120);
     audio.stop();
