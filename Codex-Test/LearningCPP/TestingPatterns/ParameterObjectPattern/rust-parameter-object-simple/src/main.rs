@@ -17,9 +17,9 @@ fn main() -> Result<(), String> {
             v_sync: VSync::Enabled,
         },
         diagnostics: DiagnosticsConfig {
-            DiagnosticsLevel: DiagnosticsLevel::Full,
+            diagnostics_level: DiagnosticsLevel::Full,
         },
-        render: RenderConfig {
+        graphics: GraphicsConfig {
             render_backend: RenderBackend::DirectX12,
             shadow_quality: ShadowQuality::High,
             anti_aliasing: AntiAliasing::Msaa4,
@@ -42,9 +42,9 @@ fn main() -> Result<(), String> {
 
     validate_config(app_config)?;
 
-    let mut graphics = Graphics::create(app_config);
-    let mut audio = Audio::create(app_config);
-    let mut window = Window::create(app_config);
+    let mut graphics = Graphics::new(app_config);
+    let mut audio = Audio::new(app_config);
+    let mut window = Window::new(app_config);
 
     graphics.load_image("whale", "whale.png");
     audio.play_sound("music.ogg");
@@ -61,7 +61,7 @@ fn main() -> Result<(), String> {
         v_sync: VSync::Disabled,
     };
 
-    runtime_config.diagnostics.DiagnosticsLevel = DiagnosticsLevel::Basic;
+    runtime_config.diagnostics.diagnostics_level = DiagnosticsLevel::Basic;
     runtime_config.audio.music_volume = Volume::from_percent(60);
     runtime_config.audio.sfx_volume = Volume::from_percent(80);
     runtime_config.window.title = "Runtime Window Profile";
@@ -82,9 +82,9 @@ fn main() -> Result<(), String> {
 
     // Default Setup
 
-    let mut default_graphics = Graphics::create_default();
-    let mut default_audio = Audio::create_default();
-    let mut default_window = Window::create_default();
+    let mut default_graphics = Graphics::default();
+    let mut default_audio = Audio::default();
+    let mut default_window = Window::default();
 
     default_graphics.draw_text("Default preset path", 64, 64);
     default_audio.play_sound("default.ogg");

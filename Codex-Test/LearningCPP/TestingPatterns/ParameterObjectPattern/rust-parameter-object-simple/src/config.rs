@@ -2,7 +2,7 @@
 pub struct AppConfig {
     pub display: DisplayConfig,
     pub diagnostics: DiagnosticsConfig,
-    pub render: RenderConfig,
+    pub graphics: GraphicsConfig,
     pub audio: AudioConfig,
     pub window: WindowConfig,
 }
@@ -12,7 +12,7 @@ impl Default for AppConfig {
         Self {
             display: DisplayConfig::default(),
             diagnostics: DiagnosticsConfig::default(),
-            render: RenderConfig::default(),
+            graphics: GraphicsConfig::default(),
             audio: AudioConfig::default(),
             window: WindowConfig::default(),
         }
@@ -50,31 +50,31 @@ impl DisplayConfig {
 
 #[derive(Debug, Clone, Copy)]
 pub struct DiagnosticsConfig {
-    pub DiagnosticsLevel: DiagnosticsLevel,
+    pub diagnostics_level: DiagnosticsLevel,
 }
 
 impl Default for DiagnosticsConfig {
     fn default() -> Self {
         Self {
-            DiagnosticsLevel: DiagnosticsLevel::Basic,
+            diagnostics_level: DiagnosticsLevel::Basic,
         }
     }
 }
 
 impl DiagnosticsConfig {
     pub fn summary(&self) -> &'static str {
-        self.DiagnosticsLevel.as_str()
+        self.diagnostics_level.as_str()
     }
 }
 
 #[derive(Debug, Clone, Copy)]
-pub struct RenderConfig {
+pub struct GraphicsConfig {
     pub render_backend: RenderBackend,
     pub shadow_quality: ShadowQuality,
     pub anti_aliasing: AntiAliasing,
 }
 
-impl Default for RenderConfig {
+impl Default for GraphicsConfig {
     fn default() -> Self {
         Self {
             render_backend: RenderBackend::Vulkan,
@@ -84,7 +84,7 @@ impl Default for RenderConfig {
     }
 }
 
-impl RenderConfig {
+impl GraphicsConfig {
     pub fn summary(&self) -> String {
         format!(
             "backend={}, shadows={}, aa={}",

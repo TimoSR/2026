@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::config::{
-    AppConfig, AudioConfig, DiagnosticsConfig, DisplayConfig, RenderConfig, WindowConfig,
+    AppConfig, AudioConfig, DiagnosticsConfig, DisplayConfig, GraphicsConfig, WindowConfig,
 };
 
 #[derive(Debug)]
@@ -9,19 +9,19 @@ pub struct Graphics
 {
     display: DisplayConfig,
     diagnostics: DiagnosticsConfig,
-    render: RenderConfig,
+    render: GraphicsConfig,
     running: bool,
     images: HashMap<String, String>,
 }
 
 impl Graphics
 {
-    pub fn create(config: AppConfig) -> Self
+    pub fn new(config: AppConfig) -> Self
     {
         let graphics = Graphics {
             display: config.display,
             diagnostics: config.diagnostics,
-            render: config.render,
+            render: config.graphics,
             running: true,
             images: HashMap::new(),
         };
@@ -36,9 +36,9 @@ impl Graphics
         return graphics;
     }
 
-    pub fn create_default() -> Self
+    pub fn default() -> Self
     {
-        return Self::create(AppConfig::default());
+        return Self::new(AppConfig::default());
     }
 
     pub fn update_config(&mut self, config: AppConfig)
@@ -47,7 +47,7 @@ impl Graphics
 
         graphics.display = config.display;
         graphics.diagnostics = config.diagnostics;
-        graphics.render = config.render;
+        graphics.render = config.graphics;
         
         println!(
             "[Graphics] Updated ({}, {}, diagnostics={})",
@@ -107,7 +107,7 @@ pub struct Audio
 }
 
 impl Audio {
-    pub fn create(config: AppConfig) -> Self {
+    pub fn new(config: AppConfig) -> Self {
         let audio = Self {
             diagnostics: config.diagnostics.clone(),
             config: config.audio.clone(),
@@ -121,8 +121,8 @@ impl Audio {
         audio
     }
 
-    pub fn create_default() -> Self {
-        Self::create(AppConfig::default())
+    pub fn default() -> Self {
+        Self::new(AppConfig::default())
     }
 
     pub fn update_config(&mut self, config: AppConfig) {
@@ -154,7 +154,7 @@ pub struct Window {
 }
 
 impl Window {
-    pub fn create(config: AppConfig) -> Self {
+    pub fn new(config: AppConfig) -> Self {
         let window = Self {
             config: config.window.clone(),
             open: true,
@@ -163,8 +163,8 @@ impl Window {
         window
     }
 
-    pub fn create_default() -> Self {
-        Self::create(AppConfig::default())
+    pub fn default() -> Self {
+        Self::new(AppConfig::default())
     }
 
     pub fn update_config(&mut self, config: AppConfig) {
