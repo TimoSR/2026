@@ -9,15 +9,15 @@ fn main() -> Result<(), String> {
 
     //Customized
 
-    let app_config = AppConfig 
+    let app_config = AppConfig
     {
         display: DisplayConfig {
             resolution: Resolution::uhd4k(),
-            refresh_rate: Framerate::from_fps(144),
+            frame_rate: Framerate::from_fps(144),
             v_sync: VSync::Enabled,
         },
         diagnostics: DiagnosticsConfig {
-            level: DiagnosticsLevel::Full,
+            DiagnosticsLevel: DiagnosticsLevel::Full,
         },
         render: RenderConfig {
             render_backend: RenderBackend::DirectX12,
@@ -57,11 +57,11 @@ fn main() -> Result<(), String> {
     runtime_config.display = DisplayConfig 
     {
         resolution: Resolution::qhd(),
-        refresh_rate: Framerate::from_fps(120),
+        frame_rate: Framerate::from_fps(120),
         v_sync: VSync::Disabled,
     };
 
-    runtime_config.diagnostics.level = DiagnosticsLevel::Basic;
+    runtime_config.diagnostics.DiagnosticsLevel = DiagnosticsLevel::Basic;
     runtime_config.audio.music_volume = Volume::from_percent(60);
     runtime_config.audio.sfx_volume = Volume::from_percent(80);
     runtime_config.window.title = "Runtime Window Profile";

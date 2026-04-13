@@ -22,7 +22,7 @@ impl Default for AppConfig {
 #[derive(Debug, Clone, Copy)]
 pub struct DisplayConfig {
     pub resolution: Resolution,
-    pub refresh_rate: Framerate,
+    pub frame_rate: Framerate,
     pub v_sync: VSync,
 }
 
@@ -30,7 +30,7 @@ impl Default for DisplayConfig {
     fn default() -> Self {
         Self {
             resolution: Resolution::full_hd(),
-            refresh_rate: Framerate::from_fps(60),
+            frame_rate: Framerate::from_fps(60),
             v_sync: VSync::Enabled,
         }
     }
@@ -42,7 +42,7 @@ impl DisplayConfig {
             "{}x{} @ {}Hz, v_sync={}",
             self.resolution.width,
             self.resolution.height,
-            self.refresh_rate.fps,
+            self.frame_rate.fps,
             self.v_sync.as_str()
         )
     }
@@ -50,20 +50,20 @@ impl DisplayConfig {
 
 #[derive(Debug, Clone, Copy)]
 pub struct DiagnosticsConfig {
-    pub level: DiagnosticsLevel,
+    pub DiagnosticsLevel: DiagnosticsLevel,
 }
 
 impl Default for DiagnosticsConfig {
     fn default() -> Self {
         Self {
-            level: DiagnosticsLevel::Basic,
+            DiagnosticsLevel: DiagnosticsLevel::Basic,
         }
     }
 }
 
 impl DiagnosticsConfig {
     pub fn summary(&self) -> &'static str {
-        self.level.as_str()
+        self.DiagnosticsLevel.as_str()
     }
 }
 
@@ -382,7 +382,7 @@ pub fn validate_config(config: AppConfig) -> Result<(), String> {
         return Err("resolution must be greater than 0".to_string());
     }
 
-    if config.display.refresh_rate.fps == 0 {
+    if config.display.frame_rate.fps == 0 {
         return Err("refresh_rate must be greater than 0".to_string());
     }
 

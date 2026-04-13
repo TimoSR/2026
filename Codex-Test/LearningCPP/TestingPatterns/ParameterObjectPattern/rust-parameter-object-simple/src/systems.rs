@@ -5,7 +5,8 @@ use crate::config::{
 };
 
 #[derive(Debug)]
-pub struct Graphics {
+pub struct Graphics
+{
     display: DisplayConfig,
     diagnostics: DiagnosticsConfig,
     render: RenderConfig,
@@ -13,13 +14,14 @@ pub struct Graphics {
     images: HashMap<String, String>,
 }
 
-impl Graphics {
+impl Graphics
+{
     pub fn create(config: AppConfig) -> Self
     {
         let graphics = Graphics {
-            display: config.display.clone(),
-            diagnostics: config.diagnostics.clone(),
-            render: config.render.clone(),
+            display: config.display,
+            diagnostics: config.diagnostics,
+            render: config.render,
             running: true,
             images: HashMap::new(),
         };
@@ -34,17 +36,18 @@ impl Graphics {
         return graphics;
     }
 
-    pub fn create_default() -> Self {
-        Self::create(AppConfig::default())
+    pub fn create_default() -> Self
+    {
+        return Self::create(AppConfig::default());
     }
 
     pub fn update_config(&mut self, config: AppConfig)
     {
         let graphics = self;
-        
-        graphics.display = config.display.clone();
-        graphics.diagnostics = config.diagnostics.clone();
-        graphics.render = config.render.clone();
+
+        graphics.display = config.display;
+        graphics.diagnostics = config.diagnostics;
+        graphics.render = config.render;
         
         println!(
             "[Graphics] Updated ({}, {}, diagnostics={})",
@@ -54,19 +57,29 @@ impl Graphics {
         );
     }
 
-    pub fn load_image(&mut self, name: &str, file_path: &str) {
-        self.images.insert(name.to_string(), file_path.to_string());
+    pub fn load_image(&mut self, name: &str, file_path: &str)
+    {
+        let graphics = self;
+
+        graphics.images.insert(name.to_string(), file_path.to_string());
+
         println!("[Graphics] Loaded image '{name}' from '{file_path}'");
     }
 
-    pub fn draw_text(&self, text: &str, x: i32, y: i32) {
-        if self.running {
+    pub fn draw_text(&self, text: &str, x: i32, y: i32)
+    {
+        let graphics = self;
+
+        if graphics.running {
             println!("[Graphics] Draw text '{text}' at ({x}, {y})");
         }
     }
 
-    pub fn draw_image(&self, name: &str, x: i32, y: i32) {
-        if self.running {
+    pub fn draw_image(&self, name: &str, x: i32, y: i32)
+    {
+        let graphics = self;
+
+        if graphics.running {
             if let Some(file_path) = self.images.get(name) {
                 println!("[Graphics] Draw image '{name}' ({file_path}) at ({x}, {y})");
             } else {
@@ -75,14 +88,19 @@ impl Graphics {
         }
     }
 
-    pub fn stop(&mut self) {
-        self.running = false;
+    pub fn stop(&mut self)
+    {
+        let graphics = self;
+
+        graphics.running = false;
+
         println!("[Graphics] Stopped");
     }
 }
 
 #[derive(Debug)]
-pub struct Audio {
+pub struct Audio
+{
     diagnostics: DiagnosticsConfig,
     config: AudioConfig,
     running: bool,
