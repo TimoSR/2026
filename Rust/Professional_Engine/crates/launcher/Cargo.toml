@@ -1,0 +1,8 @@
+[package]
+name = "launcher"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+engine-core.workspace = true
+game-client.workspace = true

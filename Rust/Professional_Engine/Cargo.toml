@@ -1,0 +1,22 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/engine-core",
+    "crates/engine-runtime",
+    "crates/engine-render",
+    "crates/engine-audio",
+    "crates/game-client",
+    "crates/launcher",
+    "examples/executable-api-demo",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+
+[workspace.dependencies]
+engine-core = { path = "crates/engine-core" }
+engine-runtime = { path = "crates/engine-runtime" }
+engine-render = { path = "crates/engine-render" }
+engine-audio = { path = "crates/engine-audio" }
+game-client = { path = "crates/game-client" }
