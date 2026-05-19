@@ -1,0 +1,29 @@
+[project]
+name = "demo"
+out_dir = "build"
+target = "demo_app"
+
+[install]
+include_paths = []   # (resolve fills these)
+lib_paths = []       # (resolve fills these)
+link_libs = [
+  { name = "sdl2", value = "SDL2.lib" }
+]
+
+
+# fmt via Git + CMake
+[[dependencies]]
+name = "fmt"
+kind = "Git"
+url = "https://github.com/fmtlib/fmt.git"
+tag = "11.0.2"
+cmake.options = ["-DFMT_TEST=OFF"]
+
+# SDL2 via vcpkg (Windows example; works on others with vcpkg too)
+[[dependencies]]
+name = "sdl2"
+kind = "Vcpkg"
+package = "sdl2"
+triplet = "x64-windows"
+# features = []
+# version = "=2.32.8"
