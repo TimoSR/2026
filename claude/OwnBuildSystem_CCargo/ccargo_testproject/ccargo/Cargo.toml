@@ -1,0 +1,29 @@
+[package]
+name = "ccargo"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "A user-first C++ build tool with pluggable dependency installers (git, choco)."
+repository = "https://example.com/ccargo"
+
+[dependencies]
+anyhow = "1.0"
+thiserror = "1.0"
+clap = { version = "4.5", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+toml = "0.8"
+serde_json = "1.0"
+serde_with = "3.9"
+directories = "5.0"
+git2 = "0.19"
+glob = "0.3"
+which = "6.0"
+indicatif = "0.17"
+rayon = "1.10"
+walkdir = "2.5"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+duct = "0.13"
+
+[target.'cfg(windows)'.dependencies]
+winreg = "0.52"
