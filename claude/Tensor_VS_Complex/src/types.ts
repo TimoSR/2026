@@ -5,6 +5,6 @@ export type Wave = {
 };
 
 export type WaveKey = keyof Wave;
-export type AlgorithmKey = "cx" | "ts" | "bin" | "opt";
+export type AlgorithmKey = "cx" | "ts" | "bin" | "opt" | "simd" | "rust";
 export type ViewMode = "all" | AlgorithmKey;
 export type WaveCombiner = (waves: readonly Wave[], t: number) => number;

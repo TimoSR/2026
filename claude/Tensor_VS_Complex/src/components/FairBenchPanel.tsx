@@ -1,7 +1,18 @@
 import { useCallback, useState } from "react";
 import { iqr, median } from "../core/stats";
 import type { AlgorithmKey, Wave } from "../types";
-import { COLORS, FNS, KEYS, NAMES, cxCombine, optCombine } from "../wave-algorithms";
+import {
+  COLORS,
+  FNS,
+  KEYS,
+  NAMES,
+  cxCombine,
+  isRustOptReady,
+  isSimdOptReady,
+  optCombine,
+  rustOptCombine,
+  simdOptCombine,
+} from "../wave-algorithms";
 import DotChart from "./DotChart";
 
 const TRIAL_OPTIONS = [5, 11, 21];
@@ -26,6 +37,8 @@ type BenchmarkResult = {
   margin: string;
   maxError: number;
   medians: MetricMap;
+  rustMaxError: number;
+  simdMaxError: number;
   times: TimingMap;
   winner: RankedMetric;
 };
@@ -35,7 +48,11 @@ type FairBenchPanelProps = {
 };
 
 function emptyTimings(): TimingMap {
-  return { cx: [], ts: [], bin: [], opt: [] };
+  const timings = {} as TimingMap;
+  KEYS.forEach((key) => {
+    timings[key] = [];
+  });
+  return timings;
 }
 
 function rankFastest(values: MetricMap): RankedMetric {
@@ -95,16 +112,37 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
     const margin = (((medians.cx - medians.opt) / medians.cx) * 100).toFixed(1);
 
     let maxError = 0;
+    let simdMaxError = 0;
+    let rustMaxError = 0;
     for (let index = 0; index < 200; index += 1) {
       const localTime = index * 0.05;
+      const optValue = optCombine(waves, localTime, 0.01);
       maxError = Math.max(
         maxError,
-        Math.abs(cxCombine(waves, localTime) - optCombine(waves, localTime, 0.01)),
+        Math.abs(cxCombine(waves, localTime) - optValue),
+      );
+      simdMaxError = Math.max(
+        simdMaxError,
+        Math.abs(optValue - simdOptCombine(waves, localTime)),
+      );
+      rustMaxError = Math.max(
+        rustMaxError,
+        Math.abs(optValue - rustOptCombine(waves, localTime)),
       );
     }
 
     setProgress(null);
-    setResult({ consistent, iqrs, margin, maxError, medians, times, winner });
+    setResult({
+      consistent,
+      iqrs,
+      margin,
+      maxError,
+      medians,
+      rustMaxError,
+      simdMaxError,
+      times,
+      winner,
+    });
     setRunning(false);
   }, [iterations, trials, waves]);
 
@@ -207,7 +245,11 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
         })}
       </div>
 
-      <p className="bench-note">Each dot is one trial. Darker dots are slower.</p>
+      <p className="bench-note">
+        Each dot is one trial. Darker dots are slower. Wasm SIMD{" "}
+        {isSimdOptReady() ? "is active" : "fell back to optimised tensor"}. Rust wasm{" "}
+        {isRustOptReady() ? "is active" : "fell back to optimised tensor"}.
+      </p>
 
       {result && (
         <>
@@ -217,6 +259,8 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
               ["opt vs complex", `${Number.parseFloat(result.margin) > 0 ? "+" : ""}${result.margin}%`],
               ["most consistent", NAMES[result.consistent[0]]],
               ["opt max error", result.maxError.toFixed(4)],
+              ["simd max error", result.simdMaxError.toFixed(4)],
+              ["rust max error", result.rustMaxError.toFixed(4)],
             ].map(([label, value]) => (
               <div key={label} className="summary-tile">
                 <strong>{value}</strong>

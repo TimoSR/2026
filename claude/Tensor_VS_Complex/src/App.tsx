@@ -21,6 +21,8 @@ const SUBTITLES: Record<AlgorithmKey, string> = {
   ts: "Float32Array [cos, sin] - typed buffer",
   bin: "Q12 lookup table - bitmask - Int32Array",
   opt: "angle-step recurrence - cos-only - Float32Array",
+  simd: "WebAssembly SIMD - vector cos approximation",
+  rust: "Rust compiled to WebAssembly - f32 tensor",
 };
 
 const VIEW_OPTIONS: ReadonlyArray<readonly [ViewMode, string]> = [
@@ -29,6 +31,8 @@ const VIEW_OPTIONS: ReadonlyArray<readonly [ViewMode, string]> = [
   ["ts", "Tensor"],
   ["bin", "Binary"],
   ["opt", "Optimised"],
+  ["simd", "Wasm SIMD"],
+  ["rust", "Rust Wasm"],
 ];
 
 export default function App() {
@@ -43,9 +47,11 @@ export default function App() {
   const tsRef = useRef<HTMLCanvasElement | null>(null);
   const binRef = useRef<HTMLCanvasElement | null>(null);
   const optRef = useRef<HTMLCanvasElement | null>(null);
+  const simdRef = useRef<HTMLCanvasElement | null>(null);
+  const rustRef = useRef<HTMLCanvasElement | null>(null);
 
   const canvasRefs = useMemo<Record<AlgorithmKey, RefObject<HTMLCanvasElement | null>>>(
-    () => ({ cx: cxRef, ts: tsRef, bin: binRef, opt: optRef }),
+    () => ({ cx: cxRef, ts: tsRef, bin: binRef, opt: optRef, simd: simdRef, rust: rustRef }),
     [],
   );
 
@@ -111,7 +117,7 @@ export default function App() {
         <header className="app-header">
           <div>
             <h1>Wave Simulation</h1>
-            <p>Complex, tensor, binary, and optimised tensor representations.</p>
+            <p>Complex, tensor, binary, optimised tensor, WebAssembly SIMD, and Rust wasm representations.</p>
           </div>
         </header>
 
@@ -179,8 +185,7 @@ export default function App() {
                   ))}
                 </div>
                 <p className="panel-note">
-                  All four canvases render the same wave with different internal
-                  representations.
+                  Every canvas renders the same wave with a different internal representation.
                 </p>
               </div>
 

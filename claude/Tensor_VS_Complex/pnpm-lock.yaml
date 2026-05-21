@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      complex.js:
+        specifier: ^2.4.3
+        version: 2.4.3
       react:
         specifier: ^19.0.0
         version: 19.2.6
@@ -30,6 +33,9 @@ importers:
       vite:
         specifier: ^7.0.0
         version: 7.3.3
+      wabt:
+        specifier: ^1.0.39
+        version: 1.0.39
 
 packages:
 
@@ -471,6 +477,9 @@ packages:
   caniuse-lite@1.0.30001793:
     resolution: {integrity: sha512-iwSsYWaCOoh26cV8NwNRViHlrfUvYsHDfRVcbtmw0Kg6PJIZZXwMkj1442FYLBGkeUf1juAsU3DTfxW579mrPA==}
 
+  complex.js@2.4.3:
+    resolution: {integrity: sha512-UrQVSUur14tNX6tiP4y8T4w4FeJAX3bi2cIv0pu/DTLFNxoq7z2Yh83Vfzztj6Px3X/lubqQ9IrPp7Bpn6p4MQ==}
+
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
@@ -637,6 +646,10 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  wabt@1.0.39:
+    resolution: {integrity: sha512-ba+dRL/75VQQY7RkU/CgriGbkoWAfS8TDyUlJfJhJ8KhtXgMl5dhNvoPNUcQ9IWRhW8u41glMSuZeTvsYq2rRg==}
+    hasBin: true
 
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
@@ -984,6 +997,8 @@ snapshots:
 
   caniuse-lite@1.0.30001793: {}
 
+  complex.js@2.4.3: {}
+
   convert-source-map@2.0.0: {}
 
   csstype@3.2.3: {}
@@ -1129,5 +1144,7 @@ snapshots:
       tinyglobby: 0.2.16
     optionalDependencies:
       fsevents: 2.3.3
+
+  wabt@1.0.39: {}
 
   yallist@3.1.1: {}

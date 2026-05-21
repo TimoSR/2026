@@ -6,4 +6,5 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 vite-dev*.log
+rust/**/target/
 .DS_Store
