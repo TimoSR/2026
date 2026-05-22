@@ -2,6 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "vite",
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "rustup target add wasm32-unknown-unknown && pnpm build",
+  "buildCommand": "rustup target add wasm32-unknown-unknown && pnpm build:vercel",
   "outputDirectory": "dist"
 }
