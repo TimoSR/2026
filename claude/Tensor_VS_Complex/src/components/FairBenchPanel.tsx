@@ -10,6 +10,7 @@ import {
   COLORS,
   KEYS,
   NAMES,
+  isCOptReady,
   isRustOptReady,
 } from "../wave-algorithms";
 import DotChart from "./DotChart";
@@ -205,6 +206,7 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
 
       <p className="bench-note">
         Benchmarks run in a background worker. Each dot is one trial. Darker dots are slower.
+        C wasm {isCOptReady() ? "is active" : "fell back to optimised tensor"}.
         Rust wasm {isRustOptReady() ? "is active" : "fell back to optimised tensor"}.
       </p>
 
@@ -216,6 +218,7 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
               ["opt vs complex", `${Number.parseFloat(result.margin) > 0 ? "+" : ""}${result.margin}%`],
               ["most consistent", NAMES[result.consistent[0]]],
               ["opt max error", result.maxError.toFixed(4)],
+              ["c max error", result.cMaxError.toFixed(4)],
               ["rust max error", result.rustMaxError.toFixed(4)],
             ].map(([label, value]) => (
               <div key={label} className="summary-tile">

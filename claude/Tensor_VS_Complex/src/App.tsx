@@ -30,6 +30,7 @@ const SUBTITLES: Record<AlgorithmKey, string> = {
   ts: "Float32Array [cos, sin] - typed buffer",
   bin: "Q12 lookup table - bitmask - Int32Array",
   opt: "angle-step recurrence - cos-only - Float32Array",
+  c: "C compiled to WebAssembly - f32 tensor",
   rust: "Rust compiled to WebAssembly - f32 tensor",
 };
 
@@ -39,6 +40,7 @@ const VIEW_OPTIONS: ReadonlyArray<readonly [ViewMode, string]> = [
   ["ts", "Tensor"],
   ["bin", "Binary"],
   ["opt", "Optimised"],
+  ["c", "C Wasm"],
   ["rust", "Rust Wasm"],
 ];
 
@@ -63,10 +65,11 @@ export default function App() {
   const tsRef = useRef<HTMLCanvasElement | null>(null);
   const binRef = useRef<HTMLCanvasElement | null>(null);
   const optRef = useRef<HTMLCanvasElement | null>(null);
+  const cRef = useRef<HTMLCanvasElement | null>(null);
   const rustRef = useRef<HTMLCanvasElement | null>(null);
 
   const canvasRefs = useMemo<Record<AlgorithmKey, RefObject<HTMLCanvasElement | null>>>(
-    () => ({ cx: cxRef, ts: tsRef, bin: binRef, opt: optRef, rust: rustRef }),
+    () => ({ cx: cxRef, ts: tsRef, bin: binRef, opt: optRef, c: cRef, rust: rustRef }),
     [],
   );
 
@@ -156,7 +159,7 @@ export default function App() {
         <header className="app-header">
           <div>
             <h1>Wave Simulation</h1>
-            <p>Complex, tensor, binary, optimised tensor, and Rust wasm representations.</p>
+            <p>Complex, tensor, binary, optimised tensor, C wasm, and Rust wasm representations.</p>
           </div>
         </header>
 

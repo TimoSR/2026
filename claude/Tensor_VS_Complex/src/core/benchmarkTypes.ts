@@ -10,6 +10,7 @@ export type MetricMap = Record<AlgorithmKey, number>;
 export type RankedMetric = readonly [AlgorithmKey, number];
 
 export type BenchmarkResult = {
+  cMaxError: number;
   consistent: RankedMetric;
   iqrs: MetricMap;
   margin: string;

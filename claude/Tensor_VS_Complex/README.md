@@ -6,6 +6,7 @@ A React/Vite app for comparing wave-combination implementations:
 - Tensor-style typed buffer
 - Binary lookup table
 - Optimised tensor variant
+- C compiled-to-WebAssembly variant
 - Rust compiled-to-WebAssembly variant
 
 ## Run locally

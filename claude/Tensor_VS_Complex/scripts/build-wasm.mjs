@@ -4,7 +4,38 @@ import path from "node:path";
 
 const root = process.cwd();
 
+await buildCOptimizedTensor();
 await buildRustOptimizedTensor();
+
+async function buildCOptimizedTensor() {
+  const sourcePath = path.join(root, "c", "optimized-tensor", "optimized_tensor.c");
+  const wasmPath = path.join(root, "c", "optimized-tensor", "target", "optimized_tensor.wasm");
+  const outputPath = path.join(root, "src", "wasm", "cOptimizedTensor.wasm-bytes.ts");
+
+  await mkdir(path.dirname(wasmPath), { recursive: true });
+
+  await run("clang", [
+    "--target=wasm32-unknown-unknown",
+    "-O3",
+    "-nostdlib",
+    "-Wl,--no-entry",
+    "-Wl,--export-memory",
+    "-Wl,--export=max_waves",
+    "-Wl,--export=amps_ptr",
+    "-Wl,--export=freqs_ptr",
+    "-Wl,--export=phases_ptr",
+    "-Wl,--export=combine",
+    "-o",
+    wasmPath,
+    sourcePath,
+  ]);
+
+  await writeBytesModule(
+    outputPath,
+    "cOptimizedTensorWasmBytes",
+    await readFile(wasmPath),
+  );
+}
 
 async function buildRustOptimizedTensor() {
   const manifestPath = path.join(root, "rust", "optimized-tensor", "Cargo.toml");

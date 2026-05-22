@@ -10,6 +10,7 @@ import { iqr, median } from "../core/stats";
 import {
   FNS,
   KEYS,
+  cOptCombine,
   cxCombine,
   optCombine,
   rustOptCombine,
@@ -82,6 +83,7 @@ async function runBenchmark({
   const margin = (((medians.cx - medians.opt) / medians.cx) * 100).toFixed(1);
 
   let maxError = 0;
+  let cMaxError = 0;
   let rustMaxError = 0;
   for (let index = 0; index < 200; index += 1) {
     const localTime = index * 0.05;
@@ -90,6 +92,10 @@ async function runBenchmark({
       maxError,
       Math.abs(cxCombine(waves, localTime) - optValue),
     );
+    cMaxError = Math.max(
+      cMaxError,
+      Math.abs(optValue - cOptCombine(waves, localTime)),
+    );
     rustMaxError = Math.max(
       rustMaxError,
       Math.abs(optValue - rustOptCombine(waves, localTime)),
@@ -97,6 +103,7 @@ async function runBenchmark({
   }
 
   return {
+    cMaxError,
     consistent,
     iqrs,
     margin,
