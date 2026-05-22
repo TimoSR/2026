@@ -31,7 +31,7 @@ export default function CalculationApproachPanel({
           <p>Values sampled at the center marker in the wave graphs.</p>
         </div>
         <div className="tracked-actions">
-          <div className="tracked-time">t = {formatValue(sampleTime)}</div>
+          <div className="tracked-time">time = {formatValue(sampleTime)} s</div>
           <button
             type="button"
             className="control-button"
