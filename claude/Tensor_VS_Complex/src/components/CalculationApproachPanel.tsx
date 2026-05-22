@@ -3,6 +3,8 @@ import type { WaveTensorResult } from "../wave-algorithms/tensor";
 
 type CalculationApproachPanelProps = {
   complexResult: ComplexWaveResult;
+  onPlayingChange: () => void;
+  playing: boolean;
   sampleTime: number;
   tensorResult: WaveTensorResult;
 };
@@ -13,6 +15,8 @@ function formatValue(value: number): string {
 
 export default function CalculationApproachPanel({
   complexResult,
+  onPlayingChange,
+  playing,
   sampleTime,
   tensorResult,
 }: CalculationApproachPanelProps) {
@@ -23,7 +27,16 @@ export default function CalculationApproachPanel({
     <section className="panel calculation-panel">
       <div className="panel-heading-row">
         <div className="panel-heading">Tracked graph point</div>
-        <div className="tracked-time">t = {formatValue(sampleTime)}</div>
+        <div className="tracked-actions">
+          <div className="tracked-time">t = {formatValue(sampleTime)}</div>
+          <button
+            type="button"
+            className="control-button"
+            onClick={onPlayingChange}
+          >
+            {playing ? "Pause" : "Play"}
+          </button>
+        </div>
       </div>
 
       <div className="approach-grid">

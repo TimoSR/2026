@@ -176,20 +176,7 @@ export default function App() {
             ))}
           </div>
 
-          <div className="toolbar-actions">
-            <ControlButton
-              active={showComponents}
-              onClick={() => setShowComponents((current) => !current)}
-            >
-              Components
-            </ControlButton>
-            <ControlButton
-              active={playing}
-              onClick={() => setPlaying((current) => !current)}
-            >
-              {playing ? "Pause" : "Play"}
-            </ControlButton>
-          </div>
+          <div className="toolbar-actions" />
         </div>
 
         <div className="workspace-grid">
@@ -197,7 +184,15 @@ export default function App() {
             <section className="panel wave-components-panel">
               <div className="panel-heading-row">
                 <div className="panel-heading">Wave components</div>
-                <ControlButton onClick={addWave}>+ Wave</ControlButton>
+                <div className="panel-actions">
+                  <ControlButton
+                    active={showComponents}
+                    onClick={() => setShowComponents((current) => !current)}
+                  >
+                    Components
+                  </ControlButton>
+                  <ControlButton onClick={addWave}>+ Wave</ControlButton>
+                </div>
               </div>
               <div className="wave-list">
                 {waves.map((wave, index) => (
@@ -236,6 +231,8 @@ export default function App() {
 
             <CalculationApproachPanel
               complexResult={complexResult}
+              onPlayingChange={() => setPlaying((current) => !current)}
+              playing={playing}
               sampleTime={trackedTime}
               tensorResult={tensorResult}
             />

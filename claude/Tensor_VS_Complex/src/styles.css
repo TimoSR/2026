@@ -11,6 +11,7 @@
   --subtle: #707987;
   --accent: #f5a524;
   --danger: #e06464;
+  --sticky-offset: 24px;
 }
 
 * {
@@ -167,8 +168,12 @@ button {
 .components-sidebar,
 .code-sidebar {
   position: sticky;
-  top: 16px;
+  top: var(--sticky-offset);
   min-width: 0;
+}
+
+.code-sidebar {
+  overflow: visible;
 }
 
 .canvas-stack {
@@ -250,6 +255,12 @@ button {
   color: var(--subtle);
   font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
   font-size: 0.74rem;
+}
+
+.tracked-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .approach-grid {
@@ -519,7 +530,7 @@ button {
 
 .panel-heading-row {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 10px;
@@ -531,6 +542,17 @@ button {
 
 .wave-components-panel .control-button {
   flex: 0 0 auto;
+}
+
+.panel-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+.wave-components-panel .panel-actions {
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .wave-list {
@@ -648,9 +670,9 @@ button {
 
 .code-panel {
   display: flex;
-  max-height: calc(100vh - 32px);
-  min-height: 520px;
   flex-direction: column;
+  min-height: 0;
+  overflow: visible;
   padding: 0;
 }
 
@@ -668,7 +690,8 @@ button {
 }
 
 .highlighted-code {
-  flex: 1 1 auto;
+  flex: 0 1 auto;
+  max-height: calc(100vh - (var(--sticky-offset) * 2) - 150px);
   min-height: 0;
   margin: 0;
   overflow: auto;
@@ -758,8 +781,8 @@ button {
   }
 
   .code-panel {
+    height: auto;
     max-height: none;
-    min-height: 0;
   }
 
   .highlighted-code {
