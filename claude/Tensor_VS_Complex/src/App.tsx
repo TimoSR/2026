@@ -165,6 +165,8 @@ export default function App() {
 
         <div className="workspace-grid">
           <aside className="components-sidebar" aria-label="Wave components">
+            <Explainer />
+
             <section className="panel wave-components-panel">
               <header className="section-header">
                 <div>
@@ -201,6 +203,7 @@ export default function App() {
                 ))}
               </div>
             </section>
+
           </aside>
 
           <div className="simulation-column">
@@ -246,8 +249,6 @@ export default function App() {
             />
 
             <FairBenchPanel waves={waves} />
-
-            <Explainer />
           </div>
 
           <aside className="code-sidebar" aria-label="Wave algorithm source">

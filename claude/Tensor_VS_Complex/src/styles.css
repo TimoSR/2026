@@ -79,7 +79,7 @@ button {
 .app-header h1,
 .bench-header h2,
 .section-header h2,
-.explainer h2 {
+.research-panel h2 {
   margin: 0;
   color: var(--text);
   font-weight: 650;
@@ -93,6 +93,7 @@ button {
 .app-header p,
 .bench-header p,
 .section-header p,
+.research-summary p,
 .panel-note,
 .bench-note,
 .metric-subtext,
@@ -384,12 +385,13 @@ button {
 
 .bench-header h2,
 .section-header h2,
-.explainer h2 {
+.research-panel h2 {
   font-size: 0.95rem;
 }
 
 .bench-header p,
-.section-header p {
+.section-header p,
+.research-summary p {
   margin: 4px 0 0;
   font-size: 0.78rem;
 }
@@ -731,29 +733,79 @@ button {
   margin: 12px 0 0;
 }
 
-.explainer {
+.research-panel {
+  margin-bottom: 16px;
+  padding: 0;
+}
+
+.research-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.research-summary::-webkit-details-marker {
+  display: none;
+}
+
+.research-summary span {
+  display: grid;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
+  border: 1px solid var(--border);
   color: var(--muted);
+  place-items: center;
 }
 
-.explainer h2 {
-  margin-bottom: 12px;
-  color: var(--accent);
+.research-summary span::before {
+  content: "+";
+  font-size: 1rem;
+  line-height: 1;
 }
 
-.explainer p {
+.research-panel[open] .research-summary {
+  border-bottom: 1px solid var(--border);
+}
+
+.research-panel[open] .research-summary span::before {
+  content: "-";
+}
+
+.research-body {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px 16px;
+}
+
+.research-point {
+  border-left: 2px solid rgba(245, 165, 36, 0.45);
+  padding-left: 10px;
+}
+
+.research-point-conclusion {
+  border-left-color: var(--accent);
+}
+
+.research-point span {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.research-point p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.84rem;
-  line-height: 1.65;
-}
-
-.explainer p + p {
-  margin-top: 12px;
-}
-
-.explainer strong {
-  color: var(--text);
-  font-weight: 650;
+  font-size: 0.78rem;
+  line-height: 1.55;
 }
 
 .code-panel {
