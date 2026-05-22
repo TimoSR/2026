@@ -13,7 +13,6 @@ import {
   cxCombine,
   optCombine,
   rustOptCombine,
-  simdOptCombine,
 } from "../wave-algorithms";
 
 function emptyTimings(): TimingMap {
@@ -83,7 +82,6 @@ async function runBenchmark({
   const margin = (((medians.cx - medians.opt) / medians.cx) * 100).toFixed(1);
 
   let maxError = 0;
-  let simdMaxError = 0;
   let rustMaxError = 0;
   for (let index = 0; index < 200; index += 1) {
     const localTime = index * 0.05;
@@ -91,10 +89,6 @@ async function runBenchmark({
     maxError = Math.max(
       maxError,
       Math.abs(cxCombine(waves, localTime) - optValue),
-    );
-    simdMaxError = Math.max(
-      simdMaxError,
-      Math.abs(optValue - simdOptCombine(waves, localTime)),
     );
     rustMaxError = Math.max(
       rustMaxError,
@@ -109,7 +103,6 @@ async function runBenchmark({
     maxError,
     medians,
     rustMaxError,
-    simdMaxError,
     times,
     winner,
   };

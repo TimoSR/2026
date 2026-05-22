@@ -1,31 +1,10 @@
 import { spawn } from "node:child_process";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import wabtFactory from "wabt";
 
 const root = process.cwd();
 
-await buildWatSimd();
 await buildRustOptimizedTensor();
-
-async function buildWatSimd() {
-  const sourcePath = path.join(root, "src", "wasm", "optimizedTensorSimd.wat");
-  const outputPath = path.join(root, "src", "wasm", "optimizedTensorSimd.wasm-bytes.ts");
-
-  const wat = await readFile(sourcePath, "utf8");
-  const wabt = await wabtFactory();
-  const module = wabt.parseWat(sourcePath, wat, { simd: true });
-
-  module.resolveNames();
-  module.validate({ simd: true });
-
-  const { buffer } = module.toBinary({
-    log: false,
-    write_debug_names: true,
-  });
-
-  await writeBytesModule(outputPath, "optimizedTensorSimdWasmBytes", buffer);
-}
 
 async function buildRustOptimizedTensor() {
   const manifestPath = path.join(root, "rust", "optimized-tensor", "Cargo.toml");

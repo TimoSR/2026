@@ -3,17 +3,14 @@ import { binCombine } from "./binary";
 import { cxCombine } from "./complex";
 import { optCombine } from "./optimisedTensor";
 import { isRustOptReady, rustOptCombine } from "./rustOptimisedTensor";
-import { isSimdOptReady, simdOptCombine } from "./simdOptimisedTensor";
 import { tsCombine } from "./tensor";
 
 export {
   binCombine,
   cxCombine,
   isRustOptReady,
-  isSimdOptReady,
   optCombine,
   rustOptCombine,
-  simdOptCombine,
   tsCombine,
 };
 
@@ -22,7 +19,6 @@ export const FNS: Record<AlgorithmKey, WaveCombiner> = {
   ts: tsCombine,
   bin: binCombine,
   opt: (waves, t) => optCombine(waves, t, 0.01),
-  simd: simdOptCombine,
   rust: rustOptCombine,
 };
 
@@ -31,7 +27,6 @@ export const COLORS: Record<AlgorithmKey, string> = {
   ts: "#ad7eea",
   bin: "#45c58b",
   opt: "#f5a524",
-  simd: "#f97373",
   rust: "#38d5c8",
 };
 
@@ -40,8 +35,7 @@ export const NAMES: Record<AlgorithmKey, string> = {
   ts: "tensor",
   bin: "binary",
   opt: "optimised",
-  simd: "wasm simd",
   rust: "rust wasm",
 };
 
-export const KEYS = ["cx", "ts", "bin", "opt", "simd", "rust"] as const satisfies readonly AlgorithmKey[];
+export const KEYS = ["cx", "ts", "bin", "opt", "rust"] as const satisfies readonly AlgorithmKey[];

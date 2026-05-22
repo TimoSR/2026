@@ -3,7 +3,6 @@ import binaryCode from "../wave-algorithms/binary.ts?raw";
 import complexCode from "../wave-algorithms/complex.ts?raw";
 import optimisedTensorCode from "../wave-algorithms/optimisedTensor.ts?raw";
 import rustOptimisedTensorCode from "../../rust/optimized-tensor/src/lib.rs?raw";
-import simdOptimisedTensorCode from "../wave-algorithms/simdOptimisedTensor.ts?raw";
 import tensorCode from "../wave-algorithms/tensor.ts?raw";
 
 export type CodeSampleKey = AlgorithmKey;
@@ -13,7 +12,6 @@ export const CODE_KEYS = [
   "ts",
   "bin",
   "opt",
-  "simd",
   "rust",
 ] as const satisfies readonly CodeSampleKey[];
 
@@ -22,7 +20,6 @@ export const CODE_NAMES: Record<CodeSampleKey, string> = {
   ts: "tensor",
   bin: "binary",
   opt: "optimised",
-  simd: "wasm simd",
   rust: "rust wasm",
 };
 
@@ -31,6 +28,5 @@ export const CODES: Record<CodeSampleKey, string> = {
   ts: tensorCode,
   bin: binaryCode,
   opt: optimisedTensorCode,
-  simd: simdOptimisedTensorCode,
   rust: rustOptimisedTensorCode,
 };

@@ -16,7 +16,6 @@ export type BenchmarkResult = {
   maxError: number;
   medians: MetricMap;
   rustMaxError: number;
-  simdMaxError: number;
   times: TimingMap;
   winner: RankedMetric;
 };

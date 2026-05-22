@@ -30,7 +30,6 @@ const SUBTITLES: Record<AlgorithmKey, string> = {
   ts: "Float32Array [cos, sin] - typed buffer",
   bin: "Q12 lookup table - bitmask - Int32Array",
   opt: "angle-step recurrence - cos-only - Float32Array",
-  simd: "WebAssembly SIMD - vector cos approximation",
   rust: "Rust compiled to WebAssembly - f32 tensor",
 };
 
@@ -40,7 +39,6 @@ const VIEW_OPTIONS: ReadonlyArray<readonly [ViewMode, string]> = [
   ["ts", "Tensor"],
   ["bin", "Binary"],
   ["opt", "Optimised"],
-  ["simd", "Wasm SIMD"],
   ["rust", "Rust Wasm"],
 ];
 
@@ -65,11 +63,10 @@ export default function App() {
   const tsRef = useRef<HTMLCanvasElement | null>(null);
   const binRef = useRef<HTMLCanvasElement | null>(null);
   const optRef = useRef<HTMLCanvasElement | null>(null);
-  const simdRef = useRef<HTMLCanvasElement | null>(null);
   const rustRef = useRef<HTMLCanvasElement | null>(null);
 
   const canvasRefs = useMemo<Record<AlgorithmKey, RefObject<HTMLCanvasElement | null>>>(
-    () => ({ cx: cxRef, ts: tsRef, bin: binRef, opt: optRef, simd: simdRef, rust: rustRef }),
+    () => ({ cx: cxRef, ts: tsRef, bin: binRef, opt: optRef, rust: rustRef }),
     [],
   );
 
@@ -159,7 +156,7 @@ export default function App() {
         <header className="app-header">
           <div>
             <h1>Wave Simulation</h1>
-            <p>Complex, tensor, binary, optimised tensor, WebAssembly SIMD, and Rust wasm representations.</p>
+            <p>Complex, tensor, binary, optimised tensor, and Rust wasm representations.</p>
           </div>
         </header>
 
@@ -170,12 +167,20 @@ export default function App() {
                 <div className="panel-heading">Wave components</div>
                 <div className="panel-actions">
                   <ControlButton
+                    aria-pressed={showComponents}
                     active={showComponents}
                     onClick={() => setShowComponents((current) => !current)}
+                    title="Toggle component traces in the simulation canvases"
                   >
-                    Components
+                    {showComponents ? "Hide traces" : "Show traces"}
                   </ControlButton>
-                  <ControlButton onClick={addWave}>+ Wave</ControlButton>
+                  <ControlButton
+                    disabled={waves.length >= 6}
+                    onClick={addWave}
+                    title={waves.length >= 6 ? "Maximum of 6 waves" : "Add another wave"}
+                  >
+                    Add wave
+                  </ControlButton>
                 </div>
               </div>
               <div className="wave-list">

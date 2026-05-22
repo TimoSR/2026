@@ -2,6 +2,7 @@ import type { Wave, WaveCombiner } from "../types";
 import { CANVAS_HEIGHT, POINT_COUNT } from "./constants";
 
 const TRACKED_POINT_RATIO = 0.5;
+const GRID_DIVISIONS = 12;
 
 export function getTrackedGraphTime(t: number): number {
   return t + TRACKED_POINT_RATIO * Math.PI * 4;
@@ -27,7 +28,7 @@ export function drawCanvas(
 
   context.setTransform(dpr, 0, 0, dpr, 0, 0);
   context.clearRect(0, 0, width, CANVAS_HEIGHT);
-  drawGrid(context, width);
+  drawGrid(context, width, dpr);
 
   const maxAmp = waves.reduce((sum, wave) => sum + wave.amp, 0) || 1;
   const scale = (CANVAS_HEIGHT / 2 - 6) / maxAmp;
@@ -51,10 +52,10 @@ export function drawCanvas(
 
   context.stroke();
 
-  drawTrackedPoint(context, waves, t, width, scale, fn, color);
+  drawTrackedPoint(context, waves, t, width, scale, fn, color, dpr);
 }
 
-function drawGrid(context: CanvasRenderingContext2D, width: number): void {
+function drawGrid(context: CanvasRenderingContext2D, width: number, dpr: number): void {
   const background = context.createLinearGradient(0, 0, 0, CANVAS_HEIGHT);
   background.addColorStop(0, "#121821");
   background.addColorStop(0.5, "#0f141c");
@@ -62,63 +63,55 @@ function drawGrid(context: CanvasRenderingContext2D, width: number): void {
   context.fillStyle = background;
   context.fillRect(0, 0, width, CANVAS_HEIGHT);
 
-  drawGridLines(context, width, 24, "rgba(148, 163, 184, 0.08)", 1);
-  drawGridLines(context, width, 96, "rgba(148, 163, 184, 0.16)", 1);
-  drawHorizontalGridLines(context, width, 20, "rgba(148, 163, 184, 0.08)", 1);
+  drawVerticalGridLines(context, width, GRID_DIVISIONS, "rgba(148, 163, 184, 0.08)", dpr);
 
   context.beginPath();
   context.strokeStyle = "rgba(245, 165, 36, 0.24)";
-  context.lineWidth = 1.25;
-  context.moveTo(0, CANVAS_HEIGHT / 2 + 0.5);
-  context.lineTo(width, CANVAS_HEIGHT / 2 + 0.5);
+  context.lineWidth = getHairlineWidth(dpr);
+  context.moveTo(0, snapToDevicePixel(CANVAS_HEIGHT / 2, dpr));
+  context.lineTo(width, snapToDevicePixel(CANVAS_HEIGHT / 2, dpr));
   context.stroke();
 
   context.beginPath();
   context.strokeStyle = "rgba(255, 255, 255, 0.06)";
-  context.lineWidth = 1;
-  context.moveTo(0, 0.5);
-  context.lineTo(width, 0.5);
-  context.moveTo(0, CANVAS_HEIGHT - 0.5);
-  context.lineTo(width, CANVAS_HEIGHT - 0.5);
+  context.lineWidth = getHairlineWidth(dpr);
+  context.moveTo(0, snapToDevicePixel(0, dpr));
+  context.lineTo(width, snapToDevicePixel(0, dpr));
+  context.moveTo(0, snapToEndDevicePixel(CANVAS_HEIGHT, dpr));
+  context.lineTo(width, snapToEndDevicePixel(CANVAS_HEIGHT, dpr));
   context.stroke();
 }
 
-function drawGridLines(
+function drawVerticalGridLines(
   context: CanvasRenderingContext2D,
   width: number,
-  spacing: number,
+  divisions: number,
   color: string,
-  lineWidth: number,
+  dpr: number,
 ): void {
   context.beginPath();
   context.strokeStyle = color;
-  context.lineWidth = lineWidth;
+  context.lineWidth = getHairlineWidth(dpr);
 
-  for (let x = 0; x <= width; x += spacing) {
-    context.moveTo(Math.round(x) + 0.5, 0);
-    context.lineTo(Math.round(x) + 0.5, CANVAS_HEIGHT);
+  for (let index = 1; index < divisions; index += 1) {
+    const x = snapToDevicePixel((width * index) / divisions, dpr);
+    context.moveTo(x, 0);
+    context.lineTo(x, CANVAS_HEIGHT);
   }
 
   context.stroke();
 }
 
-function drawHorizontalGridLines(
-  context: CanvasRenderingContext2D,
-  width: number,
-  spacing: number,
-  color: string,
-  lineWidth: number,
-): void {
-  context.beginPath();
-  context.strokeStyle = color;
-  context.lineWidth = lineWidth;
+function getHairlineWidth(dpr: number): number {
+  return 1 / dpr;
+}
 
-  for (let y = spacing; y < CANVAS_HEIGHT; y += spacing) {
-    context.moveTo(0, Math.round(y) + 0.5);
-    context.lineTo(width, Math.round(y) + 0.5);
-  }
+function snapToDevicePixel(value: number, dpr: number): number {
+  return (Math.round(value * dpr) + 0.5) / dpr;
+}
 
-  context.stroke();
+function snapToEndDevicePixel(value: number, dpr: number): number {
+  return (Math.round(value * dpr) - 0.5) / dpr;
 }
 
 function drawTrackedPoint(
@@ -129,17 +122,18 @@ function drawTrackedPoint(
   scale: number,
   fn: WaveCombiner,
   color: string,
+  dpr: number,
 ): void {
-  const x = width * TRACKED_POINT_RATIO;
+  const x = snapToDevicePixel(width * TRACKED_POINT_RATIO, dpr);
   const localTime = getTrackedGraphTime(t);
   const y = CANVAS_HEIGHT / 2 - fn(waves, localTime) * scale;
 
   context.beginPath();
   context.strokeStyle = "rgba(242, 244, 247, 0.28)";
-  context.lineWidth = 1;
+  context.lineWidth = getHairlineWidth(dpr);
   context.setLineDash([4, 4]);
-  context.moveTo(Math.round(x) + 0.5, 0);
-  context.lineTo(Math.round(x) + 0.5, CANVAS_HEIGHT);
+  context.moveTo(x, 0);
+  context.lineTo(x, CANVAS_HEIGHT);
   context.stroke();
   context.setLineDash([]);
 
