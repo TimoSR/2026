@@ -107,7 +107,7 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
     <section className="panel bench-panel">
       <header className="bench-header">
         <div>
-          <h2>Fair benchmark</h2>
+          <h2>Benchmark</h2>
           <p>Randomised order, median of N trials.</p>
         </div>
 

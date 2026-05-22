@@ -78,6 +78,7 @@ button {
 
 .app-header h1,
 .bench-header h2,
+.section-header h2,
 .explainer h2 {
   margin: 0;
   color: var(--text);
@@ -91,6 +92,7 @@ button {
 
 .app-header p,
 .bench-header p,
+.section-header p,
 .panel-note,
 .bench-note,
 .metric-subtext,
@@ -273,13 +275,11 @@ button {
   padding: 16px;
 }
 
-.bench-panel {
+.bench-panel,
+.calculation-panel,
+.wave-components-panel {
   margin-bottom: 16px;
   padding: 0;
-}
-
-.calculation-panel {
-  margin-bottom: 16px;
 }
 
 .tracked-time,
@@ -299,6 +299,7 @@ button {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
+  padding: 16px;
 }
 
 .approach-card {
@@ -359,7 +360,8 @@ button {
   grid-column: span 2;
 }
 
-.bench-header {
+.bench-header,
+.section-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -369,11 +371,13 @@ button {
 }
 
 .bench-header h2,
+.section-header h2,
 .explainer h2 {
   font-size: 0.95rem;
 }
 
-.bench-header p {
+.bench-header p,
+.section-header p {
   margin: 4px 0 0;
   font-size: 0.78rem;
 }
@@ -582,25 +586,29 @@ button {
   gap: 8px;
 }
 
+.wave-components-panel .control-button {
+  padding-inline: 8px;
+}
+
+.wave-components-panel .section-header {
+  align-items: stretch;
+  flex-direction: column;
+}
+
 .wave-components-panel .panel-actions {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   width: 100%;
 }
 
-.wave-components-panel .panel-heading-row {
-  display: grid;
-  gap: 8px;
-}
-
-.wave-components-panel .control-button {
+.wave-components-panel .panel-actions .control-button {
   width: 100%;
-  padding-inline: 8px;
 }
 
 .wave-list {
   display: grid;
   gap: 10px;
+  padding: 16px;
 }
 
 .wave-row {

@@ -33,9 +33,6 @@ importers:
       vite:
         specifier: ^7.0.0
         version: 7.3.3
-      wabt:
-        specifier: ^1.0.39
-        version: 1.0.39
 
 packages:
 
@@ -647,10 +644,6 @@ packages:
       yaml:
         optional: true
 
-  wabt@1.0.39:
-    resolution: {integrity: sha512-ba+dRL/75VQQY7RkU/CgriGbkoWAfS8TDyUlJfJhJ8KhtXgMl5dhNvoPNUcQ9IWRhW8u41glMSuZeTvsYq2rRg==}
-    hasBin: true
-
   yallist@3.1.1:
     resolution: {integrity: sha512-a4UGQaWPH59mOXUYnAG2ewncQS4i4F43Tv3JoAM+s2VDAmS9NsK8GpDMLrCHPksFT7h3K6TOoUNn2pb7RoXx4g==}
 
@@ -1144,7 +1137,5 @@ snapshots:
       tinyglobby: 0.2.16
     optionalDependencies:
       fsevents: 2.3.3
-
-  wabt@1.0.39: {}
 
   yallist@3.1.1: {}

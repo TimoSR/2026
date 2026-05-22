@@ -163,8 +163,11 @@ export default function App() {
         <div className="workspace-grid">
           <aside className="components-sidebar" aria-label="Wave components">
             <section className="panel wave-components-panel">
-              <div className="panel-heading-row">
-                <div className="panel-heading">Wave components</div>
+              <header className="section-header">
+                <div>
+                  <h2>Wave Components</h2>
+                  <p>Amplitude, frequency, and phase inputs for every renderer.</p>
+                </div>
                 <div className="panel-actions">
                   <ControlButton
                     aria-pressed={showComponents}
@@ -182,7 +185,7 @@ export default function App() {
                     Add wave
                   </ControlButton>
                 </div>
-              </div>
+              </header>
               <div className="wave-list">
                 {waves.map((wave, index) => (
                   <WaveRow
@@ -194,9 +197,6 @@ export default function App() {
                   />
                 ))}
               </div>
-              <p className="panel-note">
-                These inputs feed every renderer in the centered simulation view.
-              </p>
             </section>
           </aside>
 

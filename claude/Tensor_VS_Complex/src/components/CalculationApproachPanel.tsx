@@ -25,8 +25,11 @@ export default function CalculationApproachPanel({
 
   return (
     <section className="panel calculation-panel">
-      <div className="panel-heading-row">
-        <div className="panel-heading">Tracked graph point</div>
+      <header className="section-header">
+        <div>
+          <h2>Tracked Graph Point</h2>
+          <p>Values sampled at the center marker in the wave graphs.</p>
+        </div>
         <div className="tracked-actions">
           <div className="tracked-time">t = {formatValue(sampleTime)}</div>
           <button
@@ -37,7 +40,7 @@ export default function CalculationApproachPanel({
             {playing ? "Pause" : "Play"}
           </button>
         </div>
-      </div>
+      </header>
 
       <div className="approach-grid">
         <article className="approach-card">
