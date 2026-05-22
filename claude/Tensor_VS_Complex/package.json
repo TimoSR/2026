@@ -6,9 +6,11 @@
   "type": "module",
   "scripts": {
     "build:wasm": "node scripts/build-wasm.mjs",
+    "build:wasm:c": "node scripts/build-wasm.mjs --skip-rust",
+    "build:wasm:rust": "node scripts/build-wasm.mjs --skip-c",
     "build:web": "tsc --noEmit && vite build",
     "build": "pnpm build:wasm && pnpm build:web",
-    "build:vercel": "pnpm build:wasm && pnpm build:web",
+    "build:vercel": "pnpm build:wasm:rust && pnpm build:web",
     "dev": "vite --host 127.0.0.1",
     "dev:wasm": "pnpm build:wasm && vite --host 127.0.0.1",
     "typecheck": "tsc --noEmit",
