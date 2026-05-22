@@ -1,20 +1,29 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { RefObject } from "react";
+import CalculationApproachPanel from "./components/CalculationApproachPanel";
 import CanvasPanel from "./components/CanvasPanel";
 import CodePanel from "./components/CodePanel";
 import ControlButton from "./components/ControlButton";
 import Explainer from "./components/Explainer";
 import FairBenchPanel from "./components/FairBenchPanel";
 import WaveRow from "./components/WaveRow";
-import { drawCanvas } from "./core/canvas";
+import { drawCanvas, getTrackedGraphTime } from "./core/canvas";
+import type { CodeSampleKey } from "./data/codeSamples";
 import type { AlgorithmKey, ViewMode, Wave, WaveKey } from "./types";
 import { COLORS, FNS, KEYS, NAMES } from "./wave-algorithms";
+import { combineAsComplex } from "./wave-algorithms/complex";
+import type { ComplexWaveResult } from "./wave-algorithms/complex";
+import { combineAsTensor } from "./wave-algorithms/tensor";
+import type { WaveTensorResult } from "./wave-algorithms/tensor";
 
 const INITIAL_WAVES: Wave[] = [
   { amp: 1.0, freq: 1.0, phase: 0.0 },
   { amp: 0.5, freq: 2.0, phase: 1.0 },
   { amp: 0.3, freq: 3.0, phase: 2.5 },
 ];
+
+const TIME_STEP = 0.006;
+const DERIVED_UPDATE_FRAME_INTERVAL = 12;
 
 const SUBTITLES: Record<AlgorithmKey, string> = {
   cx: "Re(sum amp * e^i theta) - baseline",
@@ -40,8 +49,17 @@ export default function App() {
   const [playing, setPlaying] = useState(true);
   const [showComponents, setShowComponents] = useState(true);
   const [view, setView] = useState<ViewMode>("all");
+  const [codeMode, setCodeMode] = useState<CodeSampleKey>("cx");
+  const [trackedTime, setTrackedTime] = useState(() => getTrackedGraphTime(0));
+  const [complexResult, setComplexResult] = useState<ComplexWaveResult>(() =>
+    combineAsComplex(INITIAL_WAVES, getTrackedGraphTime(0)),
+  );
+  const [tensorResult, setTensorResult] = useState<WaveTensorResult>(() =>
+    combineAsTensor(INITIAL_WAVES, getTrackedGraphTime(0)),
+  );
 
   const tRef = useRef(0);
+  const frameRef = useRef(0);
   const rafRef = useRef<number | null>(null);
   const cxRef = useRef<HTMLCanvasElement | null>(null);
   const tsRef = useRef<HTMLCanvasElement | null>(null);
@@ -56,9 +74,18 @@ export default function App() {
   );
 
   const animate = useCallback(() => {
-    if (playing) tRef.current += 0.02;
+    if (playing) tRef.current += TIME_STEP;
 
     const t = tRef.current;
+    frameRef.current = (frameRef.current + 1) % DERIVED_UPDATE_FRAME_INTERVAL;
+
+    if (playing && frameRef.current === 0) {
+      const sampleTime = getTrackedGraphTime(t);
+      setTrackedTime(sampleTime);
+      setComplexResult(combineAsComplex(waves, sampleTime));
+      setTensorResult(combineAsTensor(waves, sampleTime));
+    }
+
     KEYS.forEach((key) => {
       if (view === "all" || view === key) {
         drawCanvas(
@@ -83,6 +110,13 @@ export default function App() {
       }
     };
   }, [animate]);
+
+  useEffect(() => {
+    const sampleTime = getTrackedGraphTime(tRef.current);
+    setTrackedTime(sampleTime);
+    setComplexResult(combineAsComplex(waves, sampleTime));
+    setTensorResult(combineAsTensor(waves, sampleTime));
+  }, [waves]);
 
   const updateWave = (index: number, key: WaveKey, value: number) => {
     setWaves((current) =>
@@ -111,6 +145,14 @@ export default function App() {
     });
   };
 
+  const updateView = (nextView: ViewMode) => {
+    setView(nextView);
+
+    if (nextView !== "all") {
+      setCodeMode(nextView);
+    }
+  };
+
   return (
     <main className="app">
       <section className="app-shell">
@@ -127,7 +169,7 @@ export default function App() {
               <ControlButton
                 key={value}
                 active={view === value}
-                onClick={() => setView(value)}
+                onClick={() => updateView(value)}
               >
                 {label}
               </ControlButton>
@@ -147,11 +189,33 @@ export default function App() {
             >
               {playing ? "Pause" : "Play"}
             </ControlButton>
-            <ControlButton onClick={addWave}>+ Wave</ControlButton>
           </div>
         </div>
 
         <div className="workspace-grid">
+          <aside className="components-sidebar" aria-label="Wave components">
+            <section className="panel wave-components-panel">
+              <div className="panel-heading-row">
+                <div className="panel-heading">Wave components</div>
+                <ControlButton onClick={addWave}>+ Wave</ControlButton>
+              </div>
+              <div className="wave-list">
+                {waves.map((wave, index) => (
+                  <WaveRow
+                    key={index}
+                    wave={wave}
+                    index={index}
+                    onChange={updateWave}
+                    onRemove={removeWave}
+                  />
+                ))}
+              </div>
+              <p className="panel-note">
+                These inputs feed every renderer in the centered simulation view.
+              </p>
+            </section>
+          </aside>
+
           <div className="simulation-column">
             <section className="canvas-stack" aria-label="Wave renderers">
               {KEYS.map(
@@ -163,38 +227,26 @@ export default function App() {
                       subtitle={SUBTITLES[key]}
                       color={COLORS[key]}
                       canvasRef={canvasRefs[key]}
+                      selected={codeMode === key}
+                      onSelect={() => setCodeMode(key)}
                     />
                   ),
               )}
             </section>
 
+            <CalculationApproachPanel
+              complexResult={complexResult}
+              sampleTime={trackedTime}
+              tensorResult={tensorResult}
+            />
+
             <FairBenchPanel waves={waves} />
 
-            <section className="main-grid">
-              <div className="panel">
-                <div className="panel-heading">Wave components</div>
-                <div className="wave-list">
-                  {waves.map((wave, index) => (
-                    <WaveRow
-                      key={index}
-                      wave={wave}
-                      index={index}
-                      onChange={updateWave}
-                      onRemove={removeWave}
-                    />
-                  ))}
-                </div>
-                <p className="panel-note">
-                  Every canvas renders the same wave with a different internal representation.
-                </p>
-              </div>
-
-              <Explainer />
-            </section>
+            <Explainer />
           </div>
 
           <aside className="code-sidebar" aria-label="Wave algorithm source">
-            <CodePanel />
+            <CodePanel codeMode={codeMode} onCodeModeChange={setCodeMode} />
           </aside>
         </div>
       </section>

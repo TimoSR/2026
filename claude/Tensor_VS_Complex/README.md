@@ -25,6 +25,18 @@ The Rust implementation is compiled during `pnpm dev`, `pnpm build`, and
 rustup target add wasm32-unknown-unknown
 ```
 
+## Native Rust example
+
+Run the optimized tensor code directly as Rust, without compiling it to
+WebAssembly:
+
+```bash
+pnpm rust:direct
+```
+
+That command runs `rust/optimized-tensor/examples/direct_call.rs`, which calls
+the Rust `combine_optimized_tensor` function directly.
+
 ## Build
 
 ```bash

@@ -1,4 +1,4 @@
-import type { CSSProperties, RefObject } from "react";
+import type { CSSProperties, KeyboardEvent, RefObject } from "react";
 import { CANVAS_HEIGHT } from "../core/constants";
 
 type CSSVariableStyle = CSSProperties & Record<`--${string}`, string | number>;
@@ -8,11 +8,35 @@ type CanvasPanelProps = {
   subtitle: string;
   color: string;
   canvasRef: RefObject<HTMLCanvasElement | null>;
+  selected: boolean;
+  onSelect: () => void;
 };
 
-export default function CanvasPanel({ label, subtitle, color, canvasRef }: CanvasPanelProps) {
+export default function CanvasPanel({
+  label,
+  subtitle,
+  color,
+  canvasRef,
+  selected,
+  onSelect,
+}: CanvasPanelProps) {
+  const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+
+    event.preventDefault();
+    onSelect();
+  };
+
   return (
-    <article className="canvas-panel">
+    <article
+      aria-label={`Show ${label} implementation code`}
+      aria-pressed={selected}
+      className={`canvas-panel canvas-panel-selectable${selected ? " is-selected" : ""}`}
+      onClick={onSelect}
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+    >
       <header className="canvas-panel-header">
         <span
           className="canvas-color"

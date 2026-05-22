@@ -1,20 +1,18 @@
 export default function Explainer() {
   return (
     <section className="panel explainer">
-      <h2>What makes optimised faster</h2>
+      <h2>Complex numbers as tensors</h2>
       <p>
-        <strong>Angle-step recurrence:</strong> compute the delta once per wave and
-        step forward with the cosine angle-addition identity.
+        <strong>2D real vector:</strong> a complex value z = re + i * im is the
+        same state as [x, y], where x = re and y = im.
       </p>
       <p>
-        <strong>Cos-only accumulation:</strong> complex and plain tensor compute the
-        sine component but never return it. The optimised variant avoids that
-        returned-output mismatch.
+        <strong>Rotating wave component:</strong> x = amp * cos(angle) and y =
+        amp * sin(angle). The signal is the x-axis projection.
       </p>
       <p>
-        <strong>Randomised median benchmark:</strong> the run order is shuffled and
-        the median is reported so warm-up effects are less likely to dominate the
-        result.
+        <strong>Derived values:</strong> magnitude = sqrt(x^2 + y^2), and phase =
+        atan2(y, x). No imaginary-number representation is required.
       </p>
     </section>
   );

@@ -1,25 +1,26 @@
-import { useState } from "react";
-import { CODES } from "../data/codeSamples";
-import type { AlgorithmKey } from "../types";
-import { KEYS, NAMES } from "../wave-algorithms";
+import { CODE_KEYS, CODE_NAMES, CODES } from "../data/codeSamples";
+import type { CodeSampleKey } from "../data/codeSamples";
 import HighlightedCode from "./HighlightedCode";
 
-export default function CodePanel() {
-  const [codeMode, setCodeMode] = useState<AlgorithmKey>("cx");
+type CodePanelProps = {
+  codeMode: CodeSampleKey;
+  onCodeModeChange: (codeMode: CodeSampleKey) => void;
+};
 
+export default function CodePanel({ codeMode, onCodeModeChange }: CodePanelProps) {
   return (
     <section className="panel code-panel">
       <div className="code-tabs" role="tablist" aria-label="Implementation code">
-        {KEYS.map((key) => (
+        {CODE_KEYS.map((key) => (
           <button
             key={key}
             type="button"
             role="tab"
             aria-selected={codeMode === key}
             className={codeMode === key ? "is-active" : ""}
-            onClick={() => setCodeMode(key)}
+            onClick={() => onCodeModeChange(key)}
           >
-            {NAMES[key]}
+            {CODE_NAMES[key]}
           </button>
         ))}
       </div>

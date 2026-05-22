@@ -12,7 +12,8 @@
     "typecheck": "tsc --noEmit",
     "prebuild": "pnpm build:wasm",
     "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "rust:direct": "cargo run --manifest-path rust/optimized-tensor/Cargo.toml --example direct_call"
   },
   "dependencies": {
     "complex.js": "^2.4.3",

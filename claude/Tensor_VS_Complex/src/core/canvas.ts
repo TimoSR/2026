@@ -1,6 +1,12 @@
 import type { Wave, WaveCombiner } from "../types";
 import { CANVAS_HEIGHT, POINT_COUNT } from "./constants";
 
+const TRACKED_POINT_RATIO = 0.5;
+
+export function getTrackedGraphTime(t: number): number {
+  return t + TRACKED_POINT_RATIO * Math.PI * 4;
+}
+
 export function drawCanvas(
   canvas: HTMLCanvasElement | null,
   waves: readonly Wave[],
@@ -44,6 +50,8 @@ export function drawCanvas(
   }
 
   context.stroke();
+
+  drawTrackedPoint(context, waves, t, width, scale, fn, color);
 }
 
 function drawGrid(context: CanvasRenderingContext2D, width: number): void {
@@ -110,6 +118,37 @@ function drawHorizontalGridLines(
     context.lineTo(width, Math.round(y) + 0.5);
   }
 
+  context.stroke();
+}
+
+function drawTrackedPoint(
+  context: CanvasRenderingContext2D,
+  waves: readonly Wave[],
+  t: number,
+  width: number,
+  scale: number,
+  fn: WaveCombiner,
+  color: string,
+): void {
+  const x = width * TRACKED_POINT_RATIO;
+  const localTime = getTrackedGraphTime(t);
+  const y = CANVAS_HEIGHT / 2 - fn(waves, localTime) * scale;
+
+  context.beginPath();
+  context.strokeStyle = "rgba(242, 244, 247, 0.28)";
+  context.lineWidth = 1;
+  context.setLineDash([4, 4]);
+  context.moveTo(Math.round(x) + 0.5, 0);
+  context.lineTo(Math.round(x) + 0.5, CANVAS_HEIGHT);
+  context.stroke();
+  context.setLineDash([]);
+
+  context.beginPath();
+  context.fillStyle = color;
+  context.strokeStyle = "#f2f4f7";
+  context.lineWidth = 1.5;
+  context.arc(x, y, 4, 0, Math.PI * 2);
+  context.fill();
   context.stroke();
 }
 

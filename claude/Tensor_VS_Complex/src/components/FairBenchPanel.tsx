@@ -1,17 +1,17 @@
-import { useCallback, useState } from "react";
-import { iqr, median } from "../core/stats";
-import type { AlgorithmKey, Wave } from "../types";
+import { useCallback, useEffect, useRef, useState } from "react";
+import type {
+  BenchmarkProgress,
+  BenchmarkRequest,
+  BenchmarkResult,
+  BenchmarkWorkerMessage,
+} from "../core/benchmarkTypes";
+import type { Wave } from "../types";
 import {
   COLORS,
-  FNS,
   KEYS,
   NAMES,
-  cxCombine,
   isRustOptReady,
   isSimdOptReady,
-  optCombine,
-  rustOptCombine,
-  simdOptCombine,
 } from "../wave-algorithms";
 import DotChart from "./DotChart";
 
@@ -22,128 +22,84 @@ const ITERATION_OPTIONS: ReadonlyArray<readonly [number, string]> = [
   [200000, "200k"],
 ];
 
-type Progress = {
-  current: number;
-  total: number;
-};
-
-type TimingMap = Record<AlgorithmKey, number[]>;
-type MetricMap = Record<AlgorithmKey, number>;
-type RankedMetric = readonly [AlgorithmKey, number];
-
-type BenchmarkResult = {
-  consistent: RankedMetric;
-  iqrs: MetricMap;
-  margin: string;
-  maxError: number;
-  medians: MetricMap;
-  rustMaxError: number;
-  simdMaxError: number;
-  times: TimingMap;
-  winner: RankedMetric;
-};
-
 type FairBenchPanelProps = {
   waves: readonly Wave[];
 };
-
-function emptyTimings(): TimingMap {
-  const timings = {} as TimingMap;
-  KEYS.forEach((key) => {
-    timings[key] = [];
-  });
-  return timings;
-}
-
-function rankFastest(values: MetricMap): RankedMetric {
-  return KEYS.reduce<RankedMetric>(
-    (best, key) => (values[key] < best[1] ? [key, values[key]] : best),
-    [KEYS[0], values[KEYS[0]]],
-  );
-}
 
 export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
   const [trials, setTrials] = useState(11);
   const [iterations, setIterations] = useState(50000);
   const [running, setRunning] = useState(false);
-  const [progress, setProgress] = useState<Progress | null>(null);
+  const [progress, setProgress] = useState<BenchmarkProgress | null>(null);
   const [result, setResult] = useState<BenchmarkResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const workerRef = useRef<Worker | null>(null);
 
-  const run = useCallback(async () => {
-    setRunning(true);
-    setResult(null);
-
-    const input = new Float32Array(iterations);
-    for (let index = 0; index < iterations; index += 1) {
-      input[index] = index * 0.01;
-    }
-
-    const times = emptyTimings();
-
-    for (let trial = 0; trial < trials; trial += 1) {
-      setProgress({ current: trial + 1, total: trials });
-      const order = [...KEYS].sort(() => Math.random() - 0.5);
-
-      await new Promise((resolve) => {
-        setTimeout(resolve, 0);
-      });
-
-      for (const key of order) {
-        const fn = FNS[key];
-        const start = performance.now();
-
-        for (let index = 0; index < iterations; index += 1) {
-          fn(waves, input[index]);
-        }
-
-        times[key].push(performance.now() - start);
-      }
-    }
-
-    const medians = {} as MetricMap;
-    const iqrs = {} as MetricMap;
-    KEYS.forEach((key) => {
-      medians[key] = median(times[key]);
-      iqrs[key] = iqr(times[key]);
-    });
-
-    const winner = rankFastest(medians);
-    const consistent = rankFastest(iqrs);
-    const margin = (((medians.cx - medians.opt) / medians.cx) * 100).toFixed(1);
-
-    let maxError = 0;
-    let simdMaxError = 0;
-    let rustMaxError = 0;
-    for (let index = 0; index < 200; index += 1) {
-      const localTime = index * 0.05;
-      const optValue = optCombine(waves, localTime, 0.01);
-      maxError = Math.max(
-        maxError,
-        Math.abs(cxCombine(waves, localTime) - optValue),
-      );
-      simdMaxError = Math.max(
-        simdMaxError,
-        Math.abs(optValue - simdOptCombine(waves, localTime)),
-      );
-      rustMaxError = Math.max(
-        rustMaxError,
-        Math.abs(optValue - rustOptCombine(waves, localTime)),
-      );
-    }
-
+  const stopBenchmark = useCallback(() => {
+    workerRef.current?.terminate();
+    workerRef.current = null;
     setProgress(null);
-    setResult({
-      consistent,
-      iqrs,
-      margin,
-      maxError,
-      medians,
-      rustMaxError,
-      simdMaxError,
-      times,
-      winner,
-    });
     setRunning(false);
+  }, []);
+
+  useEffect(() => stopBenchmark, [stopBenchmark]);
+
+  const run = useCallback(() => {
+    workerRef.current?.terminate();
+
+    setRunning(true);
+    setError(null);
+    setResult(null);
+    setProgress({ current: 0, total: trials });
+
+    const worker = new Worker(
+      new URL("../workers/benchmarkWorker.ts", import.meta.url),
+      { type: "module" },
+    );
+
+    workerRef.current = worker;
+
+    worker.onmessage = (event: MessageEvent<BenchmarkWorkerMessage>) => {
+      if (workerRef.current !== worker) return;
+
+      if (event.data.type === "progress") {
+        setProgress(event.data.progress);
+        return;
+      }
+
+      if (event.data.type === "result") {
+        setResult(event.data.result);
+        setProgress(null);
+        setRunning(false);
+        worker.terminate();
+        workerRef.current = null;
+        return;
+      }
+
+      setError(event.data.message);
+      setProgress(null);
+      setRunning(false);
+      worker.terminate();
+      workerRef.current = null;
+    };
+
+    worker.onerror = (event) => {
+      if (workerRef.current !== worker) return;
+
+      setError(event.message || "Benchmark worker failed");
+      setProgress(null);
+      setRunning(false);
+      worker.terminate();
+      workerRef.current = null;
+    };
+
+    const request: BenchmarkRequest = {
+      iterations,
+      trials,
+      waves: waves.map(({ amp, freq, phase }) => ({ amp, freq, phase })),
+    };
+
+    worker.postMessage(request);
   }, [iterations, trials, waves]);
 
   const maxMedian = result ? Math.max(...Object.values(result.medians)) : 1;
@@ -188,10 +144,9 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
           <button
             type="button"
             className="control-button"
-            onClick={run}
-            disabled={running}
+            onClick={running ? stopBenchmark : run}
           >
-            {running ? "Running" : "Run"}
+            {running ? "Cancel" : "Run"}
           </button>
         </div>
       </header>
@@ -199,7 +154,9 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
       {progress && (
         <div className="progress-block">
           <div className="progress-label">
-            Running trial {progress.current} of {progress.total}
+            {progress.current === 0
+              ? "Preparing benchmark"
+              : `Running trial ${progress.current} of ${progress.total}`}
           </div>
           <div className="progress-track">
             <span
@@ -209,6 +166,8 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
           </div>
         </div>
       )}
+
+      {error && <div className="benchmark-error">{error}</div>}
 
       <div className="benchmark-grid">
         {KEYS.map((key) => {
@@ -246,9 +205,9 @@ export default function FairBenchPanel({ waves }: FairBenchPanelProps) {
       </div>
 
       <p className="bench-note">
-        Each dot is one trial. Darker dots are slower. Wasm SIMD{" "}
-        {isSimdOptReady() ? "is active" : "fell back to optimised tensor"}. Rust wasm{" "}
-        {isRustOptReady() ? "is active" : "fell back to optimised tensor"}.
+        Benchmarks run in a background worker. Each dot is one trial. Darker dots are slower.
+        Wasm SIMD {isSimdOptReady() ? "is active" : "fell back to optimised tensor"}.
+        Rust wasm {isRustOptReady() ? "is active" : "fell back to optimised tensor"}.
       </p>
 
       {result && (

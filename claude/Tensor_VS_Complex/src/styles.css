@@ -19,6 +19,8 @@
 
 html {
   background: var(--bg);
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -49,7 +51,7 @@ button {
 }
 
 .app-shell {
-  width: min(1440px, calc(100% - 32px));
+  width: min(1540px, calc(100% - 32px));
   margin: 0 auto;
   padding: 28px 0 40px;
 }
@@ -150,15 +152,19 @@ button {
 
 .workspace-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 420px);
+  grid-template-columns: minmax(260px, 320px) minmax(520px, 820px) minmax(320px, 420px);
   gap: 16px;
   align-items: start;
+  justify-content: center;
 }
 
 .simulation-column {
+  justify-self: center;
   min-width: 0;
+  width: 100%;
 }
 
+.components-sidebar,
 .code-sidebar {
   position: sticky;
   top: 16px;
@@ -177,6 +183,15 @@ button {
   border: 1px solid var(--border);
   border-radius: 8px;
   background: rgba(24, 26, 31, 0.92);
+}
+
+.canvas-panel-selectable {
+  cursor: pointer;
+}
+
+.canvas-panel-selectable:focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
 }
 
 .canvas-panel-header {
@@ -224,6 +239,81 @@ button {
 .bench-panel {
   margin-bottom: 16px;
   padding: 0;
+}
+
+.calculation-panel {
+  margin-bottom: 16px;
+}
+
+.tracked-time,
+.formula-line {
+  color: var(--subtle);
+  font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.74rem;
+}
+
+.approach-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.approach-card {
+  min-width: 0;
+  border: 1px solid rgba(75, 82, 96, 0.55);
+  border-radius: 8px;
+  background: rgba(17, 19, 23, 0.72);
+  padding: 12px;
+}
+
+.approach-title {
+  margin-bottom: 5px;
+  color: var(--text);
+  font-size: 0.84rem;
+  font-weight: 650;
+}
+
+.formula-line {
+  margin-bottom: 10px;
+}
+
+.derived-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.derived-tile {
+  min-width: 0;
+  border: 1px solid rgba(75, 82, 96, 0.55);
+  border-radius: 8px;
+  background: var(--surface-soft);
+  padding: 10px;
+}
+
+.derived-tile strong,
+.derived-tile span {
+  display: block;
+}
+
+.derived-tile strong {
+  overflow: hidden;
+  color: var(--text);
+  font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+  font-size: 0.82rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.derived-tile span {
+  margin-top: 5px;
+  color: var(--subtle);
+  font-size: 0.72rem;
+}
+
+.derived-vector {
+  grid-column: span 2;
 }
 
 .bench-header {
@@ -285,6 +375,16 @@ button {
   border-radius: inherit;
   background: var(--accent);
   transition: width 120ms ease;
+}
+
+.benchmark-error {
+  margin: 12px 16px 0;
+  border: 1px solid rgba(224, 100, 100, 0.36);
+  border-radius: 6px;
+  background: rgba(224, 100, 100, 0.1);
+  color: #f0aaaa;
+  font-size: 0.78rem;
+  padding: 8px 10px;
 }
 
 .benchmark-grid {
@@ -417,6 +517,22 @@ button {
   font-weight: 650;
 }
 
+.panel-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.panel-heading-row .panel-heading {
+  margin-bottom: 0;
+}
+
+.wave-components-panel .control-button {
+  flex: 0 0 auto;
+}
+
 .wave-list {
   display: grid;
   gap: 2px;
@@ -434,6 +550,21 @@ button {
 
 .wave-row:last-child {
   border-bottom: 0;
+}
+
+.components-sidebar .wave-row {
+  grid-template-columns: 22px minmax(0, 1fr) 36px;
+  min-height: 0;
+  padding: 8px 0;
+}
+
+.components-sidebar .wave-control {
+  grid-column: 2;
+}
+
+.components-sidebar .icon-button {
+  grid-column: 3;
+  grid-row: 1;
 }
 
 .wave-index {
@@ -541,6 +672,7 @@ button {
   min-height: 0;
   margin: 0;
   overflow: auto;
+  scrollbar-gutter: stable;
   background: #111317;
   color: #c4ccd8;
   font-family: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
@@ -608,8 +740,21 @@ button {
     grid-template-columns: 1fr;
   }
 
+  .components-sidebar,
   .code-sidebar {
     position: static;
+  }
+
+  .simulation-column {
+    order: 1;
+  }
+
+  .components-sidebar {
+    order: 2;
+  }
+
+  .code-sidebar {
+    order: 3;
   }
 
   .code-panel {
@@ -623,13 +768,14 @@ button {
 }
 
 @media (max-width: 900px) {
+  .approach-grid,
   .benchmark-grid,
   .summary-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .main-grid {
-    grid-template-columns: 1fr;
+  .derived-vector {
+    grid-column: span 2;
   }
 }
 
@@ -664,6 +810,10 @@ button {
   .canvas-subtitle {
     white-space: normal;
   }
+
+  .approach-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 520px) {
@@ -679,7 +829,12 @@ button {
   }
 
   .benchmark-grid,
+  .derived-grid,
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .derived-vector {
+    grid-column: auto;
   }
 }
