@@ -48,18 +48,22 @@ export default function CalculationApproachPanel({
           <div className="formula-line">z = re + i * im</div>
           <div className="derived-grid">
             <div className="derived-tile">
+              <div className="derived-label">signal</div>
               <strong>{formatValue(complexResult.signal)}</strong>
               <span>signal = re</span>
             </div>
             <div className="derived-tile derived-vector">
+              <div className="derived-label">vector</div>
               <strong>{formatValue(re)} + i * {formatValue(im)}</strong>
               <span>z</span>
             </div>
             <div className="derived-tile">
+              <div className="derived-label">magnitude</div>
               <strong>{formatValue(complexResult.magnitude)}</strong>
               <span>|z|</span>
             </div>
             <div className="derived-tile">
+              <div className="derived-label">phase</div>
               <strong>{formatValue(complexResult.phase)}</strong>
               <span>arg(z)</span>
             </div>
@@ -71,18 +75,22 @@ export default function CalculationApproachPanel({
           <div className="formula-line">v = [x, y]</div>
           <div className="derived-grid">
             <div className="derived-tile">
+              <div className="derived-label">signal</div>
               <strong>{formatValue(tensorResult.signal)}</strong>
               <span>signal = x</span>
             </div>
             <div className="derived-tile derived-vector">
+              <div className="derived-label">vector</div>
               <strong>[{formatValue(x)}, {formatValue(y)}]</strong>
               <span>v</span>
             </div>
             <div className="derived-tile">
+              <div className="derived-label">magnitude</div>
               <strong>{formatValue(tensorResult.magnitude)}</strong>
               <span>sqrt(x^2 + y^2)</span>
             </div>
             <div className="derived-tile">
+              <div className="derived-label">phase</div>
               <strong>{formatValue(tensorResult.phase)}</strong>
               <span>atan2(y, x)</span>
             </div>

@@ -328,16 +328,28 @@ button {
 }
 
 .derived-tile {
+  position: relative;
   min-width: 0;
   border: 1px solid rgba(75, 82, 96, 0.55);
   border-radius: var(--radius-panel);
   background: var(--surface-soft);
-  padding: 10px;
+  padding: 24px 10px 10px;
 }
 
 .derived-tile strong,
 .derived-tile span {
   display: block;
+}
+
+.derived-label {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  color: var(--subtle);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
 .derived-tile strong {
