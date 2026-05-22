@@ -163,22 +163,6 @@ export default function App() {
           </div>
         </header>
 
-        <div className="toolbar" aria-label="Simulation controls">
-          <div className="segmented-control" aria-label="Wave view">
-            {VIEW_OPTIONS.map(([value, label]) => (
-              <ControlButton
-                key={value}
-                active={view === value}
-                onClick={() => updateView(value)}
-              >
-                {label}
-              </ControlButton>
-            ))}
-          </div>
-
-          <div className="toolbar-actions" />
-        </div>
-
         <div className="workspace-grid">
           <aside className="components-sidebar" aria-label="Wave components">
             <section className="panel wave-components-panel">
@@ -212,6 +196,22 @@ export default function App() {
           </aside>
 
           <div className="simulation-column">
+            <div className="toolbar" aria-label="Simulation controls">
+              <div className="segmented-control" aria-label="Wave view">
+                {VIEW_OPTIONS.map(([value, label]) => (
+                  <ControlButton
+                    key={value}
+                    active={view === value}
+                    onClick={() => updateView(value)}
+                  >
+                    {label}
+                  </ControlButton>
+                ))}
+              </div>
+
+              <div className="toolbar-actions" />
+            </div>
+
             <section className="canvas-stack" aria-label="Wave renderers">
               {KEYS.map(
                 (key) =>

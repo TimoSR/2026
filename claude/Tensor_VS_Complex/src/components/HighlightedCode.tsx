@@ -1,3 +1,5 @@
+import { forwardRef } from "react";
+
 type SyntaxType =
   | "builtin"
   | "comment"
@@ -98,25 +100,29 @@ function highlightLine(line: string): CodePart[] {
   return parts;
 }
 
-export default function HighlightedCode({ code }: HighlightedCodeProps) {
-  const lines = code.replace(/\n$/, "").split("\n");
+const HighlightedCode = forwardRef<HTMLPreElement, HighlightedCodeProps>(
+  function HighlightedCode({ code }, ref) {
+    const lines = code.replace(/\n$/, "").split("\n");
 
-  return (
-    <pre className="highlighted-code">
-      <code>
-        {lines.map((line, lineIndex) => (
-          <span className="code-line" key={`${lineIndex}-${line}`}>
-            <span className="line-number">{lineIndex + 1}</span>
-            <span className="line-code">
-              {highlightLine(line).map((part, partIndex) => (
-                <span className={`syntax-${part.type}`} key={`${partIndex}-${part.text}`}>
-                  {part.text}
-                </span>
-              ))}
+    return (
+      <pre className="highlighted-code" ref={ref}>
+        <code>
+          {lines.map((line, lineIndex) => (
+            <span className="code-line" key={`${lineIndex}-${line}`}>
+              <span className="line-number">{lineIndex + 1}</span>
+              <span className="line-code">
+                {highlightLine(line).map((part, partIndex) => (
+                  <span className={`syntax-${part.type}`} key={`${partIndex}-${part.text}`}>
+                    {part.text}
+                  </span>
+                ))}
+              </span>
             </span>
-          </span>
-        ))}
-      </code>
-    </pre>
-  );
-}
+          ))}
+        </code>
+      </pre>
+    );
+  },
+);
+
+export default HighlightedCode;
