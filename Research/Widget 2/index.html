@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Visual DOM Builder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true"></div>
+          <div>
+            <h1>Visual DOM Builder</h1>
+            <p>Live component canvas</p>
+          </div>
+        </div>
+        <div class="topbar-controls">
+          <label class="toggle-control">
+            <input id="gridToggle" type="checkbox" checked />
+            <span>Grid</span>
+          </label>
+          <label class="inline-field">
+            <span>Size</span>
+            <input id="gridSize" type="number" min="4" max="64" step="4" value="16" />
+          </label>
+          <button id="saveBtn" class="text-button primary" type="button">Save</button>
+          <button id="clearBtn" class="text-button" type="button">Clear</button>
+          <span id="saveStatus" class="save-status">Not saved</span>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="panel palette-panel" aria-label="Component palette and properties">
+          <section class="panel-section">
+            <h2>Components</h2>
+            <button class="palette-item" type="button" draggable="true" data-component="div">
+              <span class="component-icon" aria-hidden="true"></span>
+              <span>Div</span>
+            </button>
+          </section>
+
+          <section class="panel-section inspector-section">
+            <h2>Properties</h2>
+            <p id="emptyInspector" class="empty-state">No element selected</p>
+            <form id="inspector" class="inspector" hidden>
+              <label class="name-field">
+                <span>Name</span>
+                <input id="propName" type="text" maxlength="40" />
+              </label>
+              <div class="field-grid">
+                <label>
+                  <span>X</span>
+                  <input id="propX" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>Y</span>
+                  <input id="propY" type="number" min="0" step="1" />
+                </label>
+                <label>
+                  <span>W</span>
+                  <input id="propWidth" type="number" min="32" step="1" />
+                </label>
+                <label>
+                  <span>H</span>
+                  <input id="propHeight" type="number" min="32" step="1" />
+                </label>
+              </div>
+              <label class="color-field">
+                <span>Color</span>
+                <input id="propColor" type="color" value="#2563eb" />
+              </label>
+            </form>
+          </section>
+
+          <section class="panel-section layers-section">
+            <div class="layer-manager" aria-label="Layer manager">
+              <div class="layer-tabs">
+                <button class="layer-tab is-active" type="button">Layers</button>
+                <button class="layer-tab" type="button">Channels</button>
+                <button class="layer-tab" type="button">Paths</button>
+                <button class="layer-menu-button" type="button" aria-label="Layer menu"></button>
+              </div>
+
+              <div class="layer-filter-strip">
+                <label class="layer-kind-filter">
+                  <span class="filter-search-icon" aria-hidden="true"></span>
+                  <input type="text" value="Kind" readonly />
+                  <span class="filter-chevron" aria-hidden="true"></span>
+                </label>
+                <div class="filter-icons" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+
+              <div class="layer-blend-strip">
+                <select aria-label="Blend mode" disabled>
+                  <option>Normal</option>
+                </select>
+                <label>
+                  <span>Opacity:</span>
+                  <input type="text" value="100%" readonly />
+                </label>
+              </div>
+
+              <div class="layer-lock-strip">
+                <span>Lock:</span>
+                <div class="lock-icons" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <label>
+                  <span>Fill:</span>
+                  <input type="text" value="100%" readonly />
+                </label>
+              </div>
+
+              <div class="layer-actions stack-actions">
+                <button id="bringFrontBtn" class="text-button small" type="button">Top</button>
+                <button id="moveUpBtn" class="text-button small" type="button">Up</button>
+                <button id="moveDownBtn" class="text-button small" type="button">Down</button>
+                <button id="sendBackBtn" class="text-button small" type="button">Bottom</button>
+              </div>
+              <div class="layer-actions hierarchy-actions">
+                <button id="nestBtn" class="text-button small" type="button">Nest</button>
+                <button id="unnestBtn" class="text-button small" type="button">Unnest</button>
+                <span id="selectionCount" class="selection-count">0 selected</span>
+              </div>
+
+              <div id="layersTree" class="layers-tree" aria-label="Layers"></div>
+            </div>
+          </section>
+        </aside>
+
+        <section class="canvas-region" aria-label="Live DOM canvas">
+          <div class="canvas-bar">
+            <h2>Canvas</h2>
+            <span id="nodeCount">0 nodes</span>
+          </div>
+          <div class="canvas-shell">
+            <div id="editorCanvas" class="editor-canvas grid-on" tabindex="0">
+              <div id="dropHint" class="drop-hint">Drop Div</div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel code-panel" aria-label="Generated code">
+          <section class="panel-section code-section">
+            <div class="section-header">
+              <h2>HTML</h2>
+              <button id="copyHtml" class="text-button small" type="button">Copy</button>
+            </div>
+            <pre><code id="htmlCode"></code></pre>
+          </section>
+          <section class="panel-section code-section">
+            <div class="section-header">
+              <h2>CSS</h2>
+              <button id="copyCss" class="text-button small" type="button">Copy</button>
+            </div>
+            <pre><code id="cssCode"></code></pre>
+          </section>
+        </aside>
+      </main>
+    </div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

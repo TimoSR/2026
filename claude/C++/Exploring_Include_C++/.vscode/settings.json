@@ -1,0 +1,26 @@
+{
+    "workbench.iconTheme": "office-material-icon-theme",
+    "editor.inlineSuggest.enabled": false,
+    "editor.semanticHighlighting.enabled": true,
+    "editor.suggestSelection": "first",
+    "editor.acceptSuggestionOnCommitCharacter": true,
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": false
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "workbench.editorAssociations": {
+        "*.md": "vscode.markdown.preview.editor"
+    },
+    "markdown.preview.breaks": true,
+    "markdown.preview.linkify": true,
+    "markdown.preview.typographer": true,
+    "markdown.preview.scrollPreviewWithEditor": true,
+    "markdown.preview.scrollEditorWithPreview": true,
+    // Additional helpful settings for modules
+    "editor.tabSize": 4,
+    "editor.insertSpaces": true,
+    "files.trimTrailingWhitespace": true
+}
