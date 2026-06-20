@@ -3,7 +3,7 @@ $ErrorActionPreference = "Stop"
 $BuildDir = "build"
 New-Item -ItemType Directory -Force $BuildDir | Out-Null
 
-$AudioPcm = "$BuildDir\Audio-$PID.pcm"
+$AudioPcm = "$BuildDir\Audio.pcm"
 
 clang++ -std=c++23 -Wall -Wextra -Wpedantic --precompile Audio\Audio.cppm -o $AudioPcm
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

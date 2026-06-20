@@ -1,0 +1,29 @@
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub class Article
+{
+    #[doc = "Article headline displayed to users."]
+    pub headline: String;
+
+    #[doc = "Article location label."]
+    pub location: String;
+
+    #[doc = "Article author or artist name."]
+    pub artist: String;
+
+    #[inline]
+    pub fn new(headline: &str, location: &str, artist: &str) -> Self
+    {
+        return Self
+        {
+            headline: headline.to_string(),
+            location: location.to_string(),
+            artist: artist.to_string(),
+        };
+    }
+}
+
+fn main()
+{
+    let article = Article::Stack("My own new!", "Lol!", "stuff");
+    println!("{article:?}");
+}

@@ -1,0 +1,68 @@
+{
+  "Rust Plus interface": {
+    "prefix": "interface",
+    "body": [
+      "pub interface ${1:IName}",
+      "{",
+      "    fn ${2:method}(&self);",
+      "}"
+    ],
+    "description": "Create a Rust Plus interface, lowered to a Rust trait."
+  },
+  "Rust Plus class": {
+    "prefix": "class",
+    "body": [
+      "pub class ${1:Name}",
+      "{",
+      "    ${2:field}: ${3:String};",
+      "",
+      "    pub fn new(${2:field}: ${3:String}) -> Self",
+      "    {",
+      "        return Self",
+      "        {",
+      "            ${2:field},",
+      "        };",
+      "    }",
+      "}"
+    ],
+    "description": "Create a Rust Plus class, lowered to struct + impl."
+  },
+  "Rust Plus class implements": {
+    "prefix": "classimpl",
+    "body": [
+      "pub class ${1:Name} : ${2:IName}",
+      "{",
+      "    ${3:field}: ${4:String};",
+      "",
+      "    pub fn new(${3:field}: ${4:String}) -> Self",
+      "    {",
+      "        return Self",
+      "        {",
+      "            ${3:field},",
+      "        };",
+      "    }",
+      "",
+      "    pub fn ${5:method}(&self)",
+      "    {",
+      "        ${6:todo!();}",
+      "    }",
+      "}"
+    ],
+    "description": "Create a Rust Plus class implementing an interface."
+  },
+  "Rust Plus abstract class": {
+    "prefix": "abstract",
+    "body": [
+      "pub abstract class ${1:BaseName}",
+      "{",
+      "    fn ${2:required}(&self);",
+      "",
+      "    fn ${3:default_method}(&self)",
+      "    {",
+      "        ${4:todo!();}",
+      "    }",
+      "}"
+    ],
+    "description": "Create a Rust Plus abstract class, lowered to a Rust trait with default methods."
+  }
+}

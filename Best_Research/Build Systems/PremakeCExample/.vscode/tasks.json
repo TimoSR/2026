@@ -1,0 +1,34 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Premake: Generate VS2022",
+      "type": "shell",
+      "command": "premake5 vs2022",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Premake: Build Debug (MSBuild)",
+      "type": "shell",
+      "command": "$msbuild = vswhere -latest -products * -requires Microsoft.Component.MSBuild -find MSBuild\\**\\Bin\\MSBuild.exe | Select-Object -First 1; if (-not $msbuild) { throw 'MSBuild.exe not found via vswhere' }; & $msbuild .\\assembly_subroutines_c_premake.sln /p:Configuration=Debug",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "Premake: Generate VS2022",
+      "problemMatcher": "$msCompile"
+    },
+    {
+      "label": "Premake: Run Debug",
+      "type": "shell",
+      "command": ".\\build\\bin\\Debug\\assembly_subroutines_c_premake.exe",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "Premake: Build Debug (MSBuild)",
+      "problemMatcher": []
+    }
+  ]
+}

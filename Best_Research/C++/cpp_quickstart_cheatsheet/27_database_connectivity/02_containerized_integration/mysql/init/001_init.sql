@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE
+);
+
+INSERT IGNORE INTO users (email) VALUES ('seed@example.com');

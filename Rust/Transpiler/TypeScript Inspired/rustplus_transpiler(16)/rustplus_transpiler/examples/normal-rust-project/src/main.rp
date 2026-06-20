@@ -1,0 +1,22 @@
+mod account;
+
+use account::{Account, IAccount};
+
+fn main()
+{
+    let mut stack_account: Account = Account::Stack("account-stack");
+    stack_account.deposit(100);
+
+    let mut heap_account: IAccount = Account::Heap("hello-world");
+
+    println!("{}", stack_account.id());
+    println!("stack balance = {}", stack_account.balance());
+
+    let mut account: IAccount = Account::Heap("account-1");
+
+    account.deposit(250);
+    account.deposit(125);
+
+    println!("{}", account.id());
+    println!("balance = {}", account.balance());
+}

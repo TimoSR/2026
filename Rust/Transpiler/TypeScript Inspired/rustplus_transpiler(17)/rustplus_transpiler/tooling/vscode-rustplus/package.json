@@ -1,0 +1,64 @@
+{
+  "name": "rustplus-syntax",
+  "displayName": "Rust Plus Syntax",
+  "description": "Syntax highlighting and snippets for Rust Plus .rp files.",
+  "version": "0.1.2",
+  "publisher": "rustplus",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "rust",
+    "rustplus",
+    "rp",
+    "syntax"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "rustplus",
+        "aliases": [
+          "Rust Plus",
+          "rustplus",
+          "rp"
+        ],
+        "extensions": [
+          ".rp"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/rustplus-file-icon-64.png",
+          "dark": "./images/rustplus-file-icon-64.png"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "rustplus",
+        "scopeName": "source.rustplus",
+        "path": "./syntaxes/rustplus.tmLanguage.json",
+        "embeddedLanguages": {
+          "source.rust": "rust"
+        }
+      }
+    ],
+    "snippets": [
+      {
+        "language": "rustplus",
+        "path": "./snippets/rustplus.code-snippets"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "rustplus-file-icons",
+        "label": "Rust Plus File Icons",
+        "path": "./icons/rustplus-icon-theme.json"
+      }
+    ]
+  },
+  "icon": "icons/rustplus-logo.png"
+}

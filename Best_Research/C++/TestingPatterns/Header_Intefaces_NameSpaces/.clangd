@@ -1,0 +1,5 @@
+CompileFlags:
+  Add:
+    - -std=c++20
+    - -Iexamples/header_first/include
+    - -Iexamples/source_divided/src

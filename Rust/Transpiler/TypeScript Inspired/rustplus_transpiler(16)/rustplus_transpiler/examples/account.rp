@@ -1,0 +1,98 @@
+interface AccountRepository
+{
+    fn get_by_id(&self, id: &str) -> Option<Account>;
+    fn save(&mut self, account: Account);
+}
+
+abstract class Entity
+{
+    fn id(&self) -> &str;
+
+    fn print_id(&self)
+    {
+        println!("{}", self.id());
+    }
+}
+
+class Account : Entity
+{
+    id: String;
+    balance: i64;
+
+    pub fn new(id: String) -> Self
+    {
+        return Self
+        {
+            id,
+            balance: 0,
+        };
+    }
+
+    fn deposit(&mut self, amount: i64)
+    {
+        self.balance += amount;
+    }
+
+    fn withdraw(&mut self, amount: i64)
+    {
+        self.balance -= amount;
+    }
+
+    fn id(&self) -> &str
+    {
+        return &self.id;
+    }
+}
+
+class InMemoryAccountRepository : AccountRepository
+{
+    accounts: Vec<Account>;
+
+    pub fn new() -> Self
+    {
+        return Self
+        {
+            accounts: Vec::new(),
+        };
+    }
+
+    fn get_by_id(&self, id: &str) -> Option<Account>
+    {
+        for account in &self.accounts
+        {
+            if account.id == id
+            {
+                return Some(Account
+                {
+                    id: account.id.clone(),
+                    balance: account.balance,
+                });
+            }
+        }
+
+        return None;
+    }
+
+    fn save(&mut self, account: Account)
+    {
+        self.accounts.push(account);
+    }
+}
+
+fn main()
+{
+    let mut account = Account::Stack("account-1");
+    account.deposit(500);
+    account.withdraw(125);
+    account.print_id();
+
+    let mut repository = InMemoryAccountRepository::new();
+    repository.save(account);
+
+    let loaded = repository.get_by_id("account-1");
+    match loaded
+    {
+        Some(account) => println!("balance = {}", account.balance),
+        None => println!("not found"),
+    }
+}

@@ -1,0 +1,86 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "Rust Plus",
+  "scopeName": "source.rustplus",
+  "patterns": [
+    {
+      "include": "#rustplus-declarations"
+    },
+    {
+      "include": "#rustplus-keywords"
+    },
+    {
+      "include": "source.rust"
+    }
+  ],
+  "repository": {
+    "rustplus-declarations": {
+      "patterns": [
+        {
+          "name": "meta.interface.rustplus",
+          "match": "\\b(pub\\s+)?(interface)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "storage.modifier.visibility.rust"
+            },
+            "2": {
+              "name": "storage.type.interface.rustplus"
+            },
+            "3": {
+              "name": "entity.name.type.interface.rustplus"
+            }
+          }
+        },
+        {
+          "name": "meta.abstract-class.rustplus",
+          "match": "\\b(pub\\s+)?(abstract)\\s+(class)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "storage.modifier.visibility.rust"
+            },
+            "2": {
+              "name": "storage.modifier.abstract.rustplus"
+            },
+            "3": {
+              "name": "storage.type.class.rustplus"
+            },
+            "4": {
+              "name": "entity.name.type.class.rustplus"
+            }
+          }
+        },
+        {
+          "name": "meta.class.rustplus",
+          "match": "\\b(pub\\s+)?(class)\\s+([A-Za-z_][A-Za-z0-9_]*)",
+          "captures": {
+            "1": {
+              "name": "storage.modifier.visibility.rust"
+            },
+            "2": {
+              "name": "storage.type.class.rustplus"
+            },
+            "3": {
+              "name": "entity.name.type.class.rustplus"
+            }
+          }
+        }
+      ]
+    },
+    "rustplus-keywords": {
+      "patterns": [
+        {
+          "name": "storage.modifier.visibility.rustplus",
+          "match": "\\b(private|public)\\b"
+        },
+        {
+          "name": "keyword.other.rustplus",
+          "match": "\\b(abstract|interface|class)\\b"
+        },
+        {
+          "name": "variable.language.this.rustplus",
+          "match": "\\bthis\\b"
+        }
+      ]
+    }
+  }
+}

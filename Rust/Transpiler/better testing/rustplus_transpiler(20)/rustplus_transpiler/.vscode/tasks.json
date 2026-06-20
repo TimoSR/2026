@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Rust Plus: Package VS Code Extension",
+            "type": "shell",
+            "command": "cd \"${workspaceFolder}/tooling/vscode-rustplus\" && npx --yes @vscode/vsce package --allow-missing-repository",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "Rust Plus: Install VS Code Extension",
+            "type": "shell",
+            "command": "cd \"${workspaceFolder}/tooling/vscode-rustplus\" && npx --yes @vscode/vsce package --allow-missing-repository && code --install-extension rustplus-syntax-0.1.2.vsix --force",
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Rust Plus: Open Extension Development Host",
+            "type": "shell",
+            "command": "code --extensionDevelopmentPath=\"${workspaceFolder}/tooling/vscode-rustplus\" \"${workspaceFolder}\"",
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}

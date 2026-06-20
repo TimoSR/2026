@@ -1,0 +1,37 @@
+pub interface IAccount
+{
+    fn id(&self) -> &str;
+    fn deposit(&mut self, amount: i64);
+    fn balance(&self) -> i64;
+}
+
+#[cfg(target_os = "linux")]
+pub class Account : IAccount
+{
+    id: String;
+    balance: i64;
+
+    pub fn new(id: String) -> Self
+    {
+        return Self
+        {
+            id,
+            balance: 0,
+        };
+    }
+
+    pub fn id(&self) -> &str
+    {
+        return &self.id;
+    }
+
+    pub fn deposit(&mut self, amount: i64)
+    {
+        self.balance += amount;
+    }
+
+    pub fn balance(&self) -> i64
+    {
+        return self.balance;
+    }
+}

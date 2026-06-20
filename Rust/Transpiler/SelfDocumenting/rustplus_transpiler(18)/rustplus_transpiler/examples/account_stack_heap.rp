@@ -1,0 +1,33 @@
+interface IAccount
+{
+    fn id(&self) -> &str;
+}
+
+class Account : IAccount
+{
+    id: String;
+
+    pub fn new(id: String) -> Self
+    {
+        return Self
+        {
+            id,
+        };
+    }
+
+    pub fn id(&self) -> &str
+    {
+        return &self.id;
+    }
+}
+
+fn main()
+{
+    let stack_account: Account = Account::Stack("account-stack");
+    let heap_account: Box<Account> = Account::Heap("account-heap");
+    let interface_account: IAccount = Account::Heap("account-interface");
+
+    println!("{}", stack_account.id());
+    println!("{}", heap_account.id());
+    println!("{}", interface_account.id());
+}

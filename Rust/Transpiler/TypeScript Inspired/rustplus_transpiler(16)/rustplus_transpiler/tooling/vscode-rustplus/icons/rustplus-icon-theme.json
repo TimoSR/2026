@@ -1,0 +1,17 @@
+{
+  "iconDefinitions": {
+    "_rustplus_file": {
+      "iconPath": "./rustplus-file.png"
+    }
+  },
+  "fileExtensions": {
+    "rp": "_rustplus_file"
+  },
+  "fileNames": {
+    "rustplus.toml": "_rustplus_file"
+  },
+  "languageIds": {
+    "rustplus": "_rustplus_file"
+  },
+  "hidesExplorerArrows": false
+}

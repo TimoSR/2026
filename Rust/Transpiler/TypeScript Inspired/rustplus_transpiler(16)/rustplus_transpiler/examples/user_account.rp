@@ -1,0 +1,65 @@
+interface IAccount
+{
+    fn balance(self) -> Money;
+}
+
+interface IPayable
+{
+    fn deposit(mut self, amount: Money);
+}
+
+class Money
+{
+    value: i64;
+
+    pub fn zero() -> Self
+    {
+        return Self { value: 0 };
+    }
+
+    pub fn add(self, amount: Money) -> Self
+    {
+        return Self { value: self.value + amount.value };
+    }
+}
+
+class AccountId
+{
+    value: String;
+}
+
+class User
+{
+    name: String;
+}
+
+class UserAccount : IAccount, IPayable, User
+{
+    id: AccountId;
+    balance: Money;
+
+    pub fn new(id: AccountId, user: User) -> Self
+    {
+        return Self
+        {
+            id,
+            balance: Money::zero(),
+            user,
+        };
+    }
+
+    pub fn deposit(mut this, amount: Money)
+    {
+        this.balance = this.balance.add(amount);
+    }
+
+    pub fn balance(this) -> Money
+    {
+        return this.balance;
+    }
+}
+
+fn main()
+{
+    println!("rustplus user account example");
+}

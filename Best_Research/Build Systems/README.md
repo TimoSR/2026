@@ -1,0 +1,2 @@
+If you're OK with your build times and development ergonomics, you don't need Bazel yet. 
+Introducing Bazel is a significant investment for the entire team; you'll likely give up and have a sour aftertaste if you don't have a strong motivation for the migration.

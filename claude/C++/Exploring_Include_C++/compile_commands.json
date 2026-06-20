@@ -1,0 +1,33 @@
+[
+    {
+        "directory": "C:/Users/timot/code/2026/claude/C++/Exploring_Include_C++",
+        "file": "Audio/Audio.cppm",
+        "arguments": [
+            "clang++",
+            "-std=c++23",
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic",
+            "--precompile",
+            "Audio/Audio.cppm",
+            "-o",
+            "build/Audio.pcm"
+        ]
+    },
+    {
+        "directory": "C:/Users/timot/code/2026/claude/C++/Exploring_Include_C++",
+        "file": "Main.cpp",
+        "arguments": [
+            "clang++",
+            "-std=c++23",
+            "-Wall",
+            "-Wextra",
+            "-Wpedantic",
+            "-fmodule-file=Audio=build/Audio.pcm",
+            "-c",
+            "Main.cpp",
+            "-o",
+            "build/Main.obj"
+        ]
+    }
+]

@@ -1,0 +1,12 @@
+[package]
+name = "normal-rust-project"
+version = "0.1.0"
+edition = "2021"
+build = "build.rs"
+
+[build-dependencies]
+rustplus = { path = "../.." }
+
+[[bin]]
+name = "normal-rust-project"
+path = "src/main.rs"

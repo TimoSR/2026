@@ -1,0 +1,31 @@
+{
+    "folders": [
+        {
+            "name": "rustplus-transpiler",
+            "path": "."
+        },
+        {
+            "name": "vscode-rustplus-extension",
+            "path": "tooling/vscode-rustplus"
+        }
+    ],
+    "settings": {
+        "files.associations": {
+            "*.rp": "rustplus"
+        },
+        "[rustplus]": {
+            "editor.tabSize": 4,
+            "editor.insertSpaces": true,
+            "editor.detectIndentation": false,
+            "editor.formatOnSave": false,
+            "editor.semanticHighlighting.enabled": false
+        },
+        "workbench.iconTheme": "rustplus-file-icons"
+    },
+    "extensions": {
+        "recommendations": [
+            "rust-lang.rust-analyzer",
+            "rustplus.rustplus-syntax"
+        ]
+    }
+}

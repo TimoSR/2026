@@ -1,0 +1,4 @@
+CompileFlags:
+  Add:
+    - -std=c++20
+    - -fmodule-file=bank_account_module=C:/Users/timot/code/2026/Codex-Test/LearningCPP/cpp_quickstart_cheatsheet/.build/modules/bank_account_module.pcm

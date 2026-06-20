@@ -1,0 +1,7 @@
+edition = "2024"
+max_width = 120
+hard_tabs = false
+tab_spaces = 4
+newline_style = "Unix"
+brace_style = "AlwaysNextLine"
+control_brace_style = "AlwaysNextLine"

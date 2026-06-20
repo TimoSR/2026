@@ -1,0 +1,26 @@
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub class Article
+{
+    pub headline: String;
+    pub location: String;
+    pub artist: String;
+
+    pub fn new(headline: &str, location: &str, artist: &str) -> Self
+    {
+        return Self
+        {
+            headline: headline.to_string(),
+            location: location.to_string(),
+            artist: artist.to_string(),
+        };
+    }
+}
+
+fn main()
+{
+    let article = Article::Stack("My own new!", "Lol!", "stuff");
+    let boxed_article = Article::Heap("My own new!", "Lol!", "stuff");
+
+    println!("{article:?}");
+    println!("{boxed_article:?}");
+}

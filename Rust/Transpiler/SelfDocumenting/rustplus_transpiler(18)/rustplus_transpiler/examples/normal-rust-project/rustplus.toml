@@ -1,0 +1,16 @@
+[features]
+classes = true
+interfaces = true
+abstract_classes = true
+multiple_bases = true
+visibility_modifiers = true
+this_receiver = true
+composition_bases = true
+generics = true
+csharp_variable_declarations = false
+new_expressions = false
+interface_object_sugar = true
+
+stack_heap_initializers = true
+preserve_stack_heap_methods = false
+attribute_passthrough = true

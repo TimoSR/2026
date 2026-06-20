@@ -1,0 +1,28 @@
+[package]
+name = "rust_memory_constructors"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Constructor naming pattern for owned, heap, local shared, thread shared, and clone-on-write Rust values."
+license = "MIT OR Apache-2.0"
+publish = false
+
+[lib]
+name = "rust_memory_constructors"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rust-memory-constructors"
+path = "src/main.rs"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+[lints.clippy]
+all = "warn"
+pedantic = "warn"
+nursery = "warn"
+cargo = "warn"
+multiple_crate_versions = "allow"
+module_name_repetitions = "allow"

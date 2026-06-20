@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Windows Clang",
+            "compilerPath": "clang++",
+            "intelliSenseMode": "windows-clang-x64",
+            "cppStandard": "c++23",
+            "cStandard": "c17",
+            "compileCommands": "${workspaceFolder}/compile_commands.json",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            }
+        }
+    ],
+    "version": 4
+}

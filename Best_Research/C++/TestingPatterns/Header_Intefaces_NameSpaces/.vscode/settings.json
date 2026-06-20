@@ -1,0 +1,14 @@
+{
+  "cmake.sourceDirectory": "C:/Users/timot/code/2026/Codex-Test/LearningCPP/CSharp/Header_Intefaces_NameSpaces/examples/header_first",
+  "editor.formatOnSave": false,
+  "editor.formatOnSaveMode": "file",
+  "clangd.path": "C:/Program Files/LLVM/bin/clangd.exe",
+  "[cpp]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+    "editor.formatOnSave": false
+  },
+  "[c]": {
+    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+    "editor.formatOnSave": false
+  }
+}

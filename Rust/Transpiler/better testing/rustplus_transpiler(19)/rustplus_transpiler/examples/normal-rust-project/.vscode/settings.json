@@ -1,0 +1,15 @@
+{
+    "files.associations": {
+        "*.rp": "rustplus"
+    },
+    "[rustplus]": {
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true,
+        "editor.detectIndentation": false,
+        "editor.formatOnSave": false,
+        "editor.semanticHighlighting.enabled": false
+    },
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "workbench.iconTheme": "rustplus-file-icons"
+}
