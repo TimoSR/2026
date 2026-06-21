@@ -80,7 +80,6 @@ target("xmake_cmake_consumer")
 
 if has_config("with_vulkan_demo") then
     local vulkan_source_dir = path.join(os.projectdir(), "vulkan_demo")
-    local vulkan_build_root = path.join(os.projectdir(), "build", "vulkan_demo")
     local vulkan_install_dir = path.join(os.projectdir(), "build", "vulkan_install")
 
     target("vulkan_demo")

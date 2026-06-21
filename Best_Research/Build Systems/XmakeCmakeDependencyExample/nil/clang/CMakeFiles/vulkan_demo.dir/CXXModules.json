@@ -1,0 +1,19 @@
+{
+	"modules" : 
+	{
+		"vulkan_demo.context" : 
+		{
+			"bmi" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/vulkan_demo.dir/vulkan_demo.context.pcm",
+			"is-private" : true
+		}
+	},
+	"references" : 
+	{
+		"vulkan_demo.context" : 
+		{
+			"lookup-method" : "by-name",
+			"path" : "CMakeFiles/vulkan_demo.dir/vulkan_demo.context.pcm"
+		}
+	},
+	"usages" : {}
+}

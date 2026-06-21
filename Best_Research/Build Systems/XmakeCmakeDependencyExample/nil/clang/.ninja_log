@@ -1,0 +1,15 @@
+# ninja log v6
+2013	2107	8037561519616595	vulkan_demo.lib	28f17e0d1e8289a
+207	240	8037561501839670	CMakeFiles/vulkan_demo.dir/src/vulkan_context.cppm.obj.modmap	bb2f5c18639f4d49
+207	240	8037561501839670	CMakeFiles/vulkan_demo.dir/CXXModules.json	bb2f5c18639f4d49
+4	191	8037561499524212	CMakeFiles/vulkan_demo.dir/src/vulkan_demo.cpp.obj.ddi	2f671da4a3575d58
+13	207	8037561499614216	CMakeFiles/vulkan_demo.dir/src/vulkan_context.cppm.obj.ddi	a8ee969a09e8419a
+207	240	8037561501839670	CMakeFiles/vulkan_demo.dir/CXX.dd	bb2f5c18639f4d49
+207	240	8037561501839670	CMakeFiles/vulkan_demo.dir/src/vulkan_demo.cpp.obj.modmap	bb2f5c18639f4d49
+240	885	8037561508236009	CMakeFiles/vulkan_demo.dir/src/vulkan_context.cppm.obj	ff0c5265cec1b44f
+240	885	8037561508236009	CMakeFiles/vulkan_demo.dir/vulkan_demo.context.pcm	ff0c5265cec1b44f
+890	2011	8037561508386010	CMakeFiles/vulkan_demo.dir/src/vulkan_demo.cpp.obj	5c5836416c73fd12
+6	39	8037561585611607	CMakeFiles/vulkan_demo.dir/CXX.dd	bb2f5c18639f4d49
+6	39	8037561585611607	CMakeFiles/vulkan_demo.dir/CXXModules.json	bb2f5c18639f4d49
+6	39	8037561585611607	CMakeFiles/vulkan_demo.dir/src/vulkan_demo.cpp.obj.modmap	bb2f5c18639f4d49
+6	39	8037561585611607	CMakeFiles/vulkan_demo.dir/src/vulkan_context.cppm.obj.modmap	bb2f5c18639f4d49

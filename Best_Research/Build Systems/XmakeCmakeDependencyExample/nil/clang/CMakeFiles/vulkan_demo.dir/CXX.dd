@@ -1,0 +1,6 @@
+ninja_dyndep_version = 1.0
+build CMakeFiles/vulkan_demo.dir/src/vulkan_demo.cpp.obj: dyndep | CMakeFiles/vulkan_demo.dir/vulkan_demo.context.pcm
+
+build CMakeFiles/vulkan_demo.dir/src/vulkan_context.cppm.obj | CMakeFiles/vulkan_demo.dir/vulkan_demo.context.pcm: dyndep
+  restat = 1
+

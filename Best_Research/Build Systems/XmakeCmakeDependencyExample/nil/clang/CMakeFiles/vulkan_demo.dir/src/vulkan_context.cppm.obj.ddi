@@ -1,0 +1,16 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "CMakeFiles\\vulkan_demo.dir\\src\\vulkan_context.cppm.obj",
+      "provides": [
+        {
+          "is-interface": true,
+          "logical-name": "vulkan_demo.context",
+          "source-path": "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/vulkan_demo/src/vulkan_context.cppm"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

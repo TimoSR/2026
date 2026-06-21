@@ -1,0 +1,7 @@
+C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/vulkan_demo.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/edit_cache.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/rebuild_cache.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/list_install_components.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/install.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/install/local.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/install/strip.dir

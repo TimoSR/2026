@@ -2,17 +2,18 @@
   "version": 4,
   "configurations": [
     {
-      "name": "Win32-Clang",
+      "name": "xmake-clang",
       "compilerPath": "C:/Program Files/LLVM/bin/clang.exe",
       "intelliSenseMode": "windows-clang-x64",
-      "cppStandard": "c++20",
+      "cppStandard": "c++23",
+      "compileCommands": "${workspaceFolder}/.vscode/compile_commands.json",
       "includePath": [
         "${workspaceFolder}/cmake_math/include",
         "${workspaceFolder}/build/cmake_install/include",
         "${workspaceFolder}/vulkan_demo/include",
-        "${workspaceFolder}/build/vulkan_install/include"
-      ],
-      "compileCommands": "${workspaceFolder}/compile_commands.json"
+        "${workspaceFolder}/build/vulkan_install/include",
+        "${env:LOCALAPPDATA}/.xmake/packages/v/vulkan-headers/**"
+      ]
     }
   ]
 }

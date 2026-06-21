@@ -49,21 +49,16 @@ built and linked.
 For another CMake project, replace `cmake_math`, then update the include path,
 library name, and any required CMake configuration options in `xmake.lua`.
 
-## VS Code and Clang
+## VS Code
 
-The `.vscode` folder configures Clang for both the Microsoft C/C++ extension
-and clangd. Run the **xmake: build debug (Clang)** task to configure xmake,
-generate `compile_commands.json`, and build the CMake dependency with the same
-Clang compiler.
+Install the recommended extensions when VS Code prompts. Xmake handles builds
+and debugging; Microsoft C/C++ provides navigation, diagnostics, and the
+Windows debugger. Select **Debug: CMake consumer** or **Debug: Vulkan demo**
+in Run and Debug, then press `F5`.
 
-For breakpoint debugging, install the Microsoft C/C++ extension, select
-**Debug: xmake CMake consumer (Clang)** from the Run and Debug panel, and press
-`F5`. The launch profile first runs the matching xmake build task, launches in
-the integrated terminal, and uses the Windows debugger with symbols enabled.
-
-Use **Debug: xmake Vulkan demo (Clang)** to build and debug the optional Vulkan
-target. The debug target settings explicitly retain symbols and disable
-optimization for reliable stepping and local-variable inspection.
+No tasks or scripts need to be run manually. The Xmake extension rebuilds when
+you run or debug, then automatically generates `.vscode/compile_commands.json`
+for IntelliSense.
 
 ## Optional Vulkan and C++ module project
 

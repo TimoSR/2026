@@ -1,0 +1,14 @@
+{
+  "revision": 0,
+  "rules": [
+    {
+      "primary-output": "CMakeFiles\\vulkan_demo.dir\\src\\vulkan_demo.cpp.obj",
+      "requires": [
+        {
+          "logical-name": "vulkan_demo.context"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}

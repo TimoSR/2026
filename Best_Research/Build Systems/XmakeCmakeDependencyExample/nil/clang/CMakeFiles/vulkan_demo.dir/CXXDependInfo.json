@@ -1,0 +1,59 @@
+{
+	"bmi-installation" : null,
+	"compiler-frontend-variant" : "GNU",
+	"compiler-id" : "Clang",
+	"compiler-simulate-id" : "MSVC",
+	"config" : "Debug",
+	"cxx-modules" : 
+	{
+		"CMakeFiles/vulkan_demo.dir/src/vulkan_context.cppm.obj" : 
+		{
+			"bmi-only" : false,
+			"compile-features" : [],
+			"compile-options" : 
+			[
+				"-Wall",
+				"-Wextra",
+				"-Wpedantic",
+				"-Wconversion",
+				"-Wshadow",
+				"-Werror"
+			],
+			"definitions" : [],
+			"destination" : null,
+			"include-directories" : 
+			[
+				"C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/vulkan_demo/include",
+				"C:/Users/timot/AppData/Local/.xmake/packages/v/vulkan-headers/1.4.335+0/9a6e360bbd30447880dba7b3b100d7dc/include"
+			],
+			"name" : "CXX_MODULES",
+			"relative-directory" : "src",
+			"source" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/vulkan_demo/src/vulkan_context.cppm",
+			"type" : "CXX_MODULES",
+			"visibility" : "PRIVATE"
+		}
+	},
+	"database-info" : null,
+	"dir-cur-bld" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang",
+	"dir-cur-src" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/vulkan_demo",
+	"dir-top-bld" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang",
+	"dir-top-src" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/vulkan_demo",
+	"exports" : [],
+	"forward-modules-from-target-dirs" : [],
+	"include-dirs" : 
+	[
+		"C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\XmakeCmakeDependencyExample\\vulkan_demo\\include",
+		"C:\\Users\\timot\\AppData\\Local\\.xmake\\packages\\v\\vulkan-headers\\1.4.335+0\\9a6e360bbd30447880dba7b3b100d7dc\\include"
+	],
+	"language" : "CXX",
+	"linked-target-dirs" : [],
+	"module-dir" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/nil/clang/CMakeFiles/vulkan_demo.dir",
+	"sources" : 
+	{
+		"CMakeFiles/vulkan_demo.dir/src/vulkan_demo.cpp.obj" : 
+		{
+			"language" : "CXX",
+			"source" : "C:/Users/timot/code/2026/Best_Research/Build Systems/XmakeCmakeDependencyExample/vulkan_demo/src/vulkan_demo.cpp"
+		}
+	}
+}
