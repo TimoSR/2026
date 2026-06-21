@@ -1,0 +1,96 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "xmake: configure debug (Clang)",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "f",
+        "-y",
+        "-m",
+        "debug",
+        "--toolchain=clang"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "xmake: generate compile commands",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "project",
+        "-k",
+        "compile_commands",
+        "--lsp=cpptools"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "xmake: build debug (Clang)",
+      "type": "shell",
+      "command": "xmake",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "xmake: configure debug (Clang)",
+        "xmake: generate compile commands"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "xmake: run debug (Clang)",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "run",
+        "xmake_cmake_consumer"
+      ],
+      "dependsOn": "xmake: build debug (Clang)",
+      "problemMatcher": []
+    },
+    {
+      "label": "xmake: configure Vulkan demo (Clang)",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "f",
+        "-y",
+        "-m",
+        "debug",
+        "--toolchain=clang",
+        "--with_vulkan_demo=y"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "xmake: build Vulkan demo (Clang)",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "-r",
+        "xmake_vulkan_consumer"
+      ],
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "xmake: configure Vulkan demo (Clang)",
+        "xmake: generate compile commands"
+      ],
+      "problemMatcher": "$gcc"
+    },
+    {
+      "label": "xmake: run Vulkan demo (Clang)",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "run",
+        "xmake_vulkan_consumer"
+      ],
+      "dependsOn": "xmake: build Vulkan demo (Clang)",
+      "problemMatcher": []
+    }
+  ]
+}

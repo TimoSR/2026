@@ -1,0 +1,17 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\asm",
+    "\\asm\\aarch64",
+    "\\asm\\x86_64",
+    "\\asm\\x86_64_windows",
+    "\\build\\.deps",
+    "\\build\\.deps\\assembly_subroutines_c_xmake",
+    "\\build\\.deps\\assembly_subroutines_c_xmake\\windows",
+    "\\build\\.deps\\assembly_subroutines_c_xmake\\windows\\x64",
+    "\\build\\.deps\\assembly_subroutines_c_xmake\\windows\\x64\\debug",
+    "\\src"
+  ],
+  "SelectedNode": "\\src\\main.c",
+  "PreviewInSolutionExplorer": false
+}

@@ -1,0 +1,4 @@
+# ninja log v6
+27	64	8036745793889791	CMakeFiles/assembly_subroutines_c.dir/asm/x86_64/add.s.obj	44369f3e3ef9f55b
+19	95	8036745793804659	CMakeFiles/assembly_subroutines_c.dir/src/main.c.obj	d2c7342f024bc6ee
+96	270	8036745794579797	assembly_subroutines_c.exe	4bb21cb904274e5e

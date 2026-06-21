@@ -2,6 +2,10 @@
     cmdlines = {
         "xmake global --clean",
         "xmake ",
-        "xmake run assembly_subroutines_c_xmake"
+        "xmake run assembly_subroutines_c_xmake",
+        "xmake run",
+        [[xmake lua "C:\\Program Files\\xmake\\modules\\private\\utils\\statistics.lua"]],
+        "xmake build",
+        "xmake run"
     }
 }

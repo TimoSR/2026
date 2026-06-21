@@ -1,0 +1,10 @@
+^C:\USERS\TIMOT\CODE\2026\BEST_RESEARCH\BUILD SYSTEMS\CMAKECEXAMPLE\BUILD-VS-CLEAN\CMAKEFILES\BAE2F6424C5BDC12AC2C2170909D0ACB\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample" "-BC:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample/build-vs-clean" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample/build-vs-clean/assembly_subroutines_c.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

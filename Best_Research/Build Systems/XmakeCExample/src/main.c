@@ -4,9 +4,9 @@
 extern int64_t asm_add(int64_t a, int64_t b);
 
 int main(void) {
-    int64_t a = 7;
-    int64_t b = 35;
-    int64_t result = asm_add(a, b);
+    int64_t const a = 7;
+    int64_t const b = 35;
+    int64_t const result = asm_add(a, b);
 
     printf("%lld + %lld = %lld\n",
            (long long)a,

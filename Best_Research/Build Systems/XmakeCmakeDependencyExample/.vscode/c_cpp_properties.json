@@ -1,0 +1,18 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "Win32-Clang",
+      "compilerPath": "C:/Program Files/LLVM/bin/clang.exe",
+      "intelliSenseMode": "windows-clang-x64",
+      "cppStandard": "c++20",
+      "includePath": [
+        "${workspaceFolder}/cmake_math/include",
+        "${workspaceFolder}/build/cmake_install/include",
+        "${workspaceFolder}/vulkan_demo/include",
+        "${workspaceFolder}/build/vulkan_install/include"
+      ],
+      "compileCommands": "${workspaceFolder}/compile_commands.json"
+    }
+  ]
+}

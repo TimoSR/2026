@@ -1,0 +1,10 @@
+^C:\USERS\TIMOT\CODE\2026\BEST_RESEARCH\BUILD SYSTEMS\CMAKECEXAMPLE\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample" "-BC:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample/build-vs-clean" --check-stamp-file "C:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample/build-vs-clean/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

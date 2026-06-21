@@ -1,0 +1,3 @@
+C:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample/build-vs-clean/CMakeFiles/assembly_subroutines_c.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample/build-vs-clean/CMakeFiles/ALL_BUILD.dir
+C:/Users/timot/code/2026/Best_Research/Build Systems/CmakeCExample/build-vs-clean/CMakeFiles/ZERO_CHECK.dir

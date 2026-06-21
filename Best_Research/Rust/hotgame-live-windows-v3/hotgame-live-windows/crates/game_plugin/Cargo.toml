@@ -1,0 +1,15 @@
+[package]
+name = "game_plugin"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[dependencies]
+hot_api = { path = "../hot_api" }
+
+[lints]
+workspace = true

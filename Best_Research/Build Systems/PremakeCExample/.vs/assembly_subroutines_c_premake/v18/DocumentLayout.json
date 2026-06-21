@@ -1,0 +1,54 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\PremakeCExample\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{0DA6AB93-F9CB-75FA-E211-FBC5CED69AC6}|assembly_subroutines_c_premake.vcxproj|C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\PremakeCExample\\src\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{0DA6AB93-F9CB-75FA-E211-FBC5CED69AC6}|assembly_subroutines_c_premake.vcxproj|solutionrelative:src\\main.c||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0DA6AB93-F9CB-75FA-E211-FBC5CED69AC6}|assembly_subroutines_c_premake.vcxproj|C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\PremakeCExample\\asm\\x86_64_windows\\add.asm||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{0DA6AB93-F9CB-75FA-E211-FBC5CED69AC6}|assembly_subroutines_c_premake.vcxproj|solutionrelative:asm\\x86_64_windows\\add.asm||{8B382828-6202-11D1-8870-0000F87579D2}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "add.asm",
+              "DocumentMoniker": "C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\PremakeCExample\\asm\\x86_64_windows\\add.asm",
+              "RelativeDocumentMoniker": "asm\\x86_64_windows\\add.asm",
+              "ToolTip": "C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\PremakeCExample\\asm\\x86_64_windows\\add.asm",
+              "RelativeToolTip": "asm\\x86_64_windows\\add.asm",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2026-06-21T09:19:13.493Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "main.c",
+              "DocumentMoniker": "C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\PremakeCExample\\src\\main.c",
+              "RelativeDocumentMoniker": "src\\main.c",
+              "ToolTip": "C:\\Users\\timot\\code\\2026\\Best_Research\\Build Systems\\PremakeCExample\\src\\main.c",
+              "RelativeToolTip": "src\\main.c",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000423|",
+              "WhenOpened": "2026-06-21T09:18:47.625Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

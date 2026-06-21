@@ -449,3 +449,6 @@ fabric.properties
 .idea/
 
 *.sln.DotSettings.user
+
+# Bazel local state; can contain downloaded toolchains and server binaries.
+**/.bazel-user-root/
