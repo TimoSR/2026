@@ -2,6 +2,7 @@
   "recommendations": [
     "rust-lang.rust-analyzer",
     "ms-vscode.cpptools",
+    "cweijan.vscode-database-client2",
     "vadimcn.vscode-lldb"
   ]
 }
