@@ -16,11 +16,22 @@ cargo run
 
 ## Debug in VS Code (Windows, macOS, Linux)
 
-Install the **CodeLLDB** extension, open the folder that contains `Cargo.toml`,
-then choose **Debug Rust (CodeLLDB — Windows, macOS, Linux)** in Run and Debug
-and press F5. The launch configuration asks Cargo for the executable, so it
-uses the correct platform-specific path automatically (`.exe` on Windows and
-no extension on macOS/Linux).
+Before opening the project for the first time, install the required user-level
+tools and VS Code extensions:
+
+```sh
+python3 scripts/bootstrap.py  # macOS/Linux
+py scripts/bootstrap.py       # Windows
+```
+
+The script installs Rustup when needed and reads `.vscode/extensions.json` to
+install the listed extensions.
+
+Then open the folder that contains `Cargo.toml`, choose **Debug Rust (CodeLLDB
+— Windows, macOS, Linux)** in Run and Debug, and press F5. The launch
+configuration asks Cargo for the executable, so it uses the correct
+platform-specific path automatically (`.exe` on Windows and no extension on
+macOS/Linux).
 
 `Debug Rust (MSVC)` remains available as an optional Windows-only profile for
 the Microsoft C++ debugger.
