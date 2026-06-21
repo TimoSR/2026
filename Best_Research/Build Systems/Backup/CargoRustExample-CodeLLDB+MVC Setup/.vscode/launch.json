@@ -2,7 +2,25 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Rust (MSVC)",
+      "name": "Debug Rust (CodeLLDB — Windows, macOS, Linux)",
+      "type": "lldb",
+      "request": "launch",
+      "cargo": {
+        "args": [
+          "build",
+          "--bin=assembly_subroutines"
+        ],
+        "filter": {
+          "name": "assembly_subroutines",
+          "kind": "bin"
+        }
+      },
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "terminal": "integrated"
+    },
+    {
+      "name": "Debug Rust (MSVC — Windows only)",
       "type": "cppvsdbg",
       "request": "launch",
       "program": "${workspaceFolder}/target/debug/assembly_subroutines.exe",
@@ -10,16 +28,6 @@
       "cwd": "${workspaceFolder}",
       "console": "integratedTerminal",
       "stopAtEntry": false,
-      "preLaunchTask": "cargo build (debug)"
-    },
-    {
-      "name": "Debug Rust (CodeLLDB)",
-      "type": "lldb",
-      "request": "launch",
-      "program": "${workspaceFolder}/target/debug/assembly_subroutines.exe",
-      "args": [],
-      "cwd": "${workspaceFolder}",
-      "terminal": "integrated",
       "preLaunchTask": "cargo build (debug)"
     }
   ]
