@@ -7,4 +7,7 @@
     "markdown.preview.typographer": true,
     "markdown.preview.scrollPreviewWithEditor": true,
     "markdown.preview.scrollEditorWithPreview": true,
+    "[rust]": {
+        "editor.inlayHints.enabled": "off"
+    },
 }

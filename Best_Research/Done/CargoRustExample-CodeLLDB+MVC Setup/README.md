@@ -69,6 +69,39 @@ cargo build --release  # optimized
 cargo build --target aarch64-unknown-linux-gnu
 ```
 
+## Runtime tracing
+
+The example uses the maintained [`tracing`](https://github.com/tokio-rs/tracing)
+ecosystem for structured application diagnostics. Normal runs emit `info`-level
+events to standard error:
+
+```sh
+cargo run
+```
+
+Console logging defaults to `warn`, configured once in the project `.env` file.
+The program loads that file before initializing tracing, overriding any
+`RUST_LOG` inherited from a shell or debugger. The flamegraph still records
+spans at that level because its layer has a separate filter.
+
+### Flamegraphs
+
+The `tracing-flame` layer records entered spans to `target/tracing.folded`.
+Install the renderer once, run the application, then use Python to create an
+SVG flamegraph:
+
+```sh
+cargo install inferno
+cargo run
+python scripts/render_flamegraph.py
+```
+
+To preserve span order in a flamechart instead of aggregating identical stacks:
+
+```sh
+python scripts/render_flamechart.py
+```
+
 ## Adding a New Subroutine
 
 1. Add an assembly file for each target in `asm/<arch>/`

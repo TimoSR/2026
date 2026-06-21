@@ -1,0 +1,18 @@
+# Load ENV
+set dotenv-load
+# Default: use pwsh (PowerShell 7+) for most recipes
+set shell := ["pwsh.exe", "-NoLogo", "-Command"]
+# So we don't print the command
+set quiet
+
+_default:
+    just --list
+# Getting data from env variables
+GetEnvName:
+    Write-Output "Hello, ${env:NAME}"
+flamegraph:
+    python scripts/render_flamegraph.py
+flamechart:
+    python scripts/render_flamechart.py
+samply:
+    samply record .\target\release\assembly_subroutines.exe
