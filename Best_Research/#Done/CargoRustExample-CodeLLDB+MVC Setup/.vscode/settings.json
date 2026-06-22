@@ -1,13 +1,23 @@
 {
+    // Workbench
     "workbench.editorAssociations": {
         "*.md": "vscode.markdown.preview.editor"
     },
+    // Markdown Preview
     "markdown.preview.breaks": true,
     "markdown.preview.linkify": true,
     "markdown.preview.typographer": true,
     "markdown.preview.scrollPreviewWithEditor": true,
     "markdown.preview.scrollEditorWithPreview": true,
+    // Editor
+    "editor.inlineSuggest.enabled": false,
+    // Rust
     "[rust]": {
-        "editor.inlayHints.enabled": "off"
+        "editor.inlayHints.enabled": "off",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "rust-lang.rust-analyzer"
     },
+    "rust-analyzer.rustfmt.extraArgs": [
+        "+nightly"
+    ]
 }
