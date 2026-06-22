@@ -1,0 +1,53 @@
+# Convenience commands for the xmake workflow.
+set dotenv-load
+set shell := ["pwsh.exe", "-NoLogo", "-Command"]
+set quiet
+
+xmake_debug_config := "xmake f -m debug"
+clangd_compile_database := "xmake project -k compile_commands --lsp=clangd ."
+
+_default:
+    just --list --unsorted
+    #just --summary
+    #just --list
+
+alias f1 := setup
+# Install just completions for PowerShell.
+# Configure the debug target and generate clangd's project-root compilation database.
+[doc]
+setup:
+    just --completions powershell | Out-String | Set-Content -Encoding UTF8 $PROFILE
+    {{ xmake_debug_config }}
+    {{ clangd_compile_database }}
+
+# Dependency example: `just all` runs step1, then step2, then step3.
+[doc]
+all: step1 step2 step3
+
+step1:
+    {{ xmake_debug_config }}
+
+step2:
+    {{ clangd_compile_database }}
+
+step3:
+    xmake build assembly_subroutines
+
+build: all
+
+run: all
+    xmake run assembly_subroutines
+
+release:
+    xmake f -m release
+    xmake project -k compile_commands --lsp=clangd .
+    xmake build assembly_subroutines
+
+flamegraph: run
+    python scripts/render_flamegraph.py
+
+flamechart: run
+    python scripts/render_flamechart.py
+
+samply: release
+    samply record build/windows/x64/release/assembly_subroutines.exe

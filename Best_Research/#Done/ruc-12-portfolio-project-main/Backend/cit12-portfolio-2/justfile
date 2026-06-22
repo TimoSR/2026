@@ -1,0 +1,17 @@
+﻿# justfile for running the .NET WebHost project
+
+# Default: use pwsh (PowerShell 7+) for most recipes
+set shell := ["pwsh.exe", "-NoLogo", "-Command"]
+
+# So we don't print the command
+set quiet := true
+
+default:
+	just --list
+
+# Run the WebHost project
+dotnet-run:
+    dotnet run --project program/program.csproj
+
+dotnet-test:
+    dotnet test
