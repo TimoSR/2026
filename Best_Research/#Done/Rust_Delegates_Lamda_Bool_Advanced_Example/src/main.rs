@@ -1,5 +1,7 @@
 mod grading_students
 {
+    use std::vec;
+
     // data structures
     pub struct GradingStudents;
     // data structures
@@ -69,7 +71,7 @@ mod grading_students
 
         fn grading_students_method_with_closure_consts_internal(grades: &Grades) -> RoundedGrades
         {
-            let mut rounded_grades = Vec::with_capacity(grades.len());
+            let mut rounded_grades = Vec::new();
 
             for grade in grades
             {
@@ -89,7 +91,7 @@ mod grading_students
                 rounded_grades.push(result);
             }
 
-            rounded_grades
+            return rounded_grades;
         }
 
         fn grading_students_method_with_lambdas_internal(grades: &Grades) -> RoundedGrades
@@ -112,7 +114,7 @@ mod grading_students
 
             let _ = is_failing_delegate_example;
 
-            let mut rounded_grades = Vec::with_capacity(grades.len());
+            let mut rounded_grades = Vec::new();
 
             for grade in grades
             {
@@ -132,7 +134,7 @@ mod grading_students
                 rounded_grades.push(result);
             }
 
-            rounded_grades
+            return rounded_grades;
         }
 
         fn add_for_internal_use(a: Grade, b: Grade) -> Grade
