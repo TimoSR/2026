@@ -1,0 +1,6 @@
+[package]
+name = "Rust_Delegates_Lamda_Bool_Advanced_Example"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]

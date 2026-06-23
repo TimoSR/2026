@@ -28,9 +28,9 @@ namespace
 int main()
 {
     const auto config = EnvConfig::load_file(".env");
-    const Logger logger{parse_log_level(config.get("APP_LOG", "warn"))};
-    FlameProfiler profiler{config.get("TRACE_OUTPUT", "build/tracing.folded")};
-    TraceSpan span{"main"};
+    const Logger logger {parse_log_level(config.get("APP_LOG", "warn"))};
+    FlameProfiler profiler {config.get("TRACE_OUTPUT", "build/tracing.folded")};
+    TraceSpan span {"main"};
 
     return run(logger);
 }
