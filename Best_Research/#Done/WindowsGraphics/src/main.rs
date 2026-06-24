@@ -3,12 +3,13 @@
 mod cube;
 mod graphics;
 mod gpu_timing;
+mod gltf;
 mod metrics_overlay;
 mod performance_metrics;
 mod temporal_antialiasing;
 mod window;
 
-use std::time::Instant;
+use std::{path::Path, time::Instant};
 use windows::{
     core::Result,
     Win32::UI::WindowsAndMessaging::MSG,
@@ -19,8 +20,13 @@ fn main() -> Result<()>
     // application constants
     const WINDOW_WIDTH: i32 = 1920;
     const WINDOW_HEIGHT: i32 = 1080;
-    const MULTISAMPLE_ANTIALIASING_ENABLED: bool = true;
-    const TEMPORAL_ANTIALIASING_ENABLED: bool = false;
+    const MULTISAMPLE_ANTIALIASING_ENABLED: bool = false;
+    const TEMPORAL_ANTIALIASING_ENABLED: bool = true;
+    const EXAMPLE_GLTF_PATH: &str = "assets/example_cube.gltf";
+    const EXAMPLE_GLTF_FIRST_OBJECT_IDENTIFIER: u64 = 1000;
+    const EXAMPLE_GLB_FIRST_OBJECT_IDENTIFIER: u64 = 2000;
+    const EXAMPLE_GLTF_ROTATION_RADIANS_PER_SECOND: [f32; 3] = [0.7, -1.0, 0.3];
+    const EXAMPLE_GLB_ROTATION_RADIANS_PER_SECOND: [f32; 3] = [-0.5, 0.9, -0.2];
     const FIRST_CUBE_IDENTIFIER: u64 = 1;
     const SECOND_CUBE_IDENTIFIER: u64 = 2;
     const FIRST_CUBE_POSITION: [f32; 3] = [-1.3, 0.0, 5.0];
@@ -42,6 +48,16 @@ fn main() -> Result<()>
         SECOND_CUBE_POSITION,
         SECOND_CUBE_ROTATION_RADIANS_PER_SECOND,
     );
+    let example_gltf_path = Path::new(env!("CARGO_MANIFEST_DIR")).join(EXAMPLE_GLTF_PATH);
+    let example_gltf_objects = gltf::load_objects(
+        &example_gltf_path,
+        EXAMPLE_GLTF_FIRST_OBJECT_IDENTIFIER,
+    )?;
+    let example_glb_path = Path::new(env!("OUT_DIR")).join("example_triangle.glb");
+    let example_glb_objects = gltf::load_objects(
+        &example_glb_path,
+        EXAMPLE_GLB_FIRST_OBJECT_IDENTIFIER,
+    )?;
 
     let mut graphics = graphics::create_direct3d_graphics(
         window.handle(),
@@ -62,6 +78,22 @@ fn main() -> Result<()>
 
     graphics.add_object(first_cube)?;
     graphics.add_object(second_cube)?;
+
+    for mut example_gltf_object in example_gltf_objects
+    {
+        example_gltf_object.set_rotation_radians_per_second(
+            EXAMPLE_GLTF_ROTATION_RADIANS_PER_SECOND,
+        );
+        graphics.add_object(example_gltf_object)?;
+    }
+
+    for mut example_glb_object in example_glb_objects
+    {
+        example_glb_object.set_rotation_radians_per_second(
+            EXAMPLE_GLB_ROTATION_RADIANS_PER_SECOND,
+        );
+        graphics.add_object(example_glb_object)?;
+    }
 
     let started_at = Instant::now();
     let mut message = MSG::default();

@@ -14,15 +14,17 @@ use windows::{
             Direct3D11::{
                 D3D11CreateDeviceAndSwapChain, D3D11_BIND_CONSTANT_BUFFER,
                 D3D11_BIND_DEPTH_STENCIL, D3D11_BIND_FLAG, D3D11_BIND_INDEX_BUFFER,
-                D3D11_BIND_RENDER_TARGET, D3D11_BIND_VERTEX_BUFFER, D3D11_BUFFER_DESC,
-                D3D11_CLEAR_DEPTH,
+                D3D11_BIND_RENDER_TARGET, D3D11_BIND_SHADER_RESOURCE, D3D11_BIND_VERTEX_BUFFER,
+                D3D11_BUFFER_DESC,
+                D3D11_CLEAR_DEPTH, D3D11_FILTER_MIN_MAG_MIP_POINT,
                 D3D11_CULL_BACK, D3D11_FILL_SOLID, D3D11_INPUT_ELEMENT_DESC,
                 D3D11_INPUT_PER_VERTEX_DATA, D3D11_RASTERIZER_DESC, D3D11_SDK_VERSION,
-                D3D11_SUBRESOURCE_DATA, D3D11_TEXTURE2D_DESC, D3D11_USAGE_DEFAULT,
+                D3D11_SAMPLER_DESC, D3D11_SUBRESOURCE_DATA, D3D11_TEXTURE2D_DESC,
+                D3D11_TEXTURE_ADDRESS_CLAMP, D3D11_USAGE_DEFAULT,
                 D3D11_VIEWPORT, ID3D11Buffer, ID3D11ClassLinkage, ID3D11DepthStencilView,
                 ID3D11Device, ID3D11DeviceContext, ID3D11InputLayout, ID3D11PixelShader,
                 ID3D11RasterizerState, ID3D11RenderTargetView, ID3D11Texture2D,
-                ID3D11ShaderResourceView, ID3D11VertexShader,
+                ID3D11SamplerState, ID3D11ShaderResourceView, ID3D11VertexShader,
             },
             Dxgi::{
                 Common::{
@@ -79,6 +81,7 @@ pub struct Direct3DGraphics
     is_temporal_antialiasing_enabled: bool,
     metrics_overlay: MetricsOverlay,
     gpu_timing: GpuTiming,
+    texture_sampler_state: ID3D11SamplerState,
     loaded_objects: Vec<LoadedGraphicsObject>,
 }
 
@@ -100,6 +103,7 @@ struct LoadedGraphicsObject
     input_layout: ID3D11InputLayout,
     vertex_shader: ID3D11VertexShader,
     pixel_shader: ID3D11PixelShader,
+    texture_shader_resource_view: Option<ID3D11ShaderResourceView>,
 }
 
 struct CreatedDirect3DDevice
@@ -138,6 +142,14 @@ pub trait GraphicsObject
     fn position(&self) -> [f32; 3];
     fn rotation_radians(&self, elapsed_seconds: f32) -> [f32; 3];
     fn bounding_radius(&self) -> f32;
+    fn texture_size(&self) -> Option<[u32; 2]>
+    {
+        return None;
+    }
+    fn texture_pixels(&self) -> Option<&[u8]>
+    {
+        return None;
+    }
 }
 // graphics object contract
 
@@ -307,6 +319,7 @@ impl Direct3DGraphics
             viewport_height,
         )?;
         let gpu_timing = GpuTiming::create(&created_device.device)?;
+        let texture_sampler_state = Self::create_texture_sampler_state(&created_device.device)?;
         let transform_buffer = Self::create_buffer(
             &created_device.device,
             &[TransformBuffer { world_view_projection: identity_matrix() }],
@@ -337,6 +350,7 @@ impl Direct3DGraphics
             is_temporal_antialiasing_enabled: false,
             metrics_overlay,
             gpu_timing,
+            texture_sampler_state,
             loaded_objects: Vec::new(),
         });
     }
@@ -386,6 +400,7 @@ impl Direct3DGraphics
                 input_layout: resource_source.input_layout.clone(),
                 vertex_shader: resource_source.vertex_shader.clone(),
                 pixel_shader: resource_source.pixel_shader.clone(),
+                texture_shader_resource_view: resource_source.texture_shader_resource_view.clone(),
             };
 
             self.loaded_objects.push(loaded_object);
@@ -415,10 +430,15 @@ impl Direct3DGraphics
         let input_layout = Self::create_input_layout(&self.device, &vertex_shader_bytecode)?;
         let vertex_shader = Self::create_vertex_shader(&self.device, &vertex_shader_bytecode)?;
         let pixel_shader = Self::create_pixel_shader(&self.device, &pixel_shader_bytecode)?;
+        let texture_shader_resource_view = Self::create_texture_shader_resource_view(
+            &self.device,
+            object.texture_size(),
+            object.texture_pixels(),
+        )?;
 
         self.loaded_objects.push(LoadedGraphicsObject {
             object_identifier: object.identifier(), mesh_identifier, material_identifier, object: Box::new(object), vertex_buffer, index_buffer, index_count,
-            input_layout, vertex_shader, pixel_shader,
+            input_layout, vertex_shader, pixel_shader, texture_shader_resource_view,
         });
 
         return Ok(());
@@ -455,6 +475,8 @@ impl Direct3DGraphics
             }
 
             let vertex_buffers = [Some(loaded_object.vertex_buffer.clone())];
+            let texture_shader_resource_views = [loaded_object.texture_shader_resource_view.clone()];
+            let texture_samplers = [Some(self.texture_sampler_state.clone())];
             let transform = self.create_transform(
                 loaded_object.object.as_ref(),
                 elapsed_seconds,
@@ -468,6 +490,8 @@ impl Direct3DGraphics
             self.device_context.IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
             self.device_context.VSSetShader(&loaded_object.vertex_shader, None);
             self.device_context.PSSetShader(&loaded_object.pixel_shader, None);
+            self.device_context.PSSetShaderResources(0, Some(&texture_shader_resource_views));
+            self.device_context.PSSetSamplers(0, Some(&texture_samplers));
             self.device_context.VSSetConstantBuffers(0, Some(&transform_buffers));
             self.device_context.UpdateSubresource(&self.transform_buffer, 0, None, (&transform as *const TransformBuffer).cast::<c_void>(), 0, 0);
             self.device_context.DrawIndexed(loaded_object.index_count, 0, 0);
@@ -654,6 +678,66 @@ impl Direct3DGraphics
         return required_resource(shader_resource_view, "Direct3D returned no shader-resource view.");
     }
 
+    unsafe fn create_texture_shader_resource_view(
+        device: &ID3D11Device,
+        texture_size: Option<[u32; 2]>,
+        texture_pixels: Option<&[u8]>,
+    ) -> Result<Option<ID3D11ShaderResourceView>>
+    {
+        let texture_size = match texture_size
+        {
+            Some(texture_size) => texture_size,
+            None =>
+            {
+                if texture_pixels.is_some()
+                {
+                    return Err(Error::new(E_FAIL, "A graphics texture supplies pixels but no size."));
+                }
+
+                return Ok(None);
+            }
+        };
+        let texture_pixels = match texture_pixels
+        {
+            Some(texture_pixels) => texture_pixels,
+            None => return Err(Error::new(E_FAIL, "A graphics texture supplies a size but no pixels.")),
+        };
+        let expected_byte_count = texture_size[0] as usize * texture_size[1] as usize * 4;
+
+        if texture_pixels.len() != expected_byte_count
+        {
+            return Err(Error::new(E_FAIL, "The graphics texture pixel count does not match its size."));
+        }
+
+        let description = D3D11_TEXTURE2D_DESC {
+            Width: texture_size[0],
+            Height: texture_size[1],
+            MipLevels: 1,
+            ArraySize: 1,
+            Format: DISPLAY_COLOR_FORMAT,
+            SampleDesc: DXGI_SAMPLE_DESC { Count: 1, Quality: 0 },
+            Usage: D3D11_USAGE_DEFAULT,
+            BindFlags: D3D11_BIND_SHADER_RESOURCE.0 as u32,
+            CPUAccessFlags: 0,
+            MiscFlags: 0,
+        };
+        let initial_data = D3D11_SUBRESOURCE_DATA {
+            pSysMem: texture_pixels.as_ptr().cast::<c_void>(),
+            SysMemPitch: texture_size[0] * 4,
+            SysMemSlicePitch: 0,
+        };
+        let mut texture = None;
+        let mut shader_resource_view = None;
+        device.CreateTexture2D(&description, Some(&initial_data), Some(&mut texture))?;
+        let texture = required_resource(texture, "Direct3D returned no graphics texture.")?;
+        device.CreateShaderResourceView(&texture, None, Some(&mut shader_resource_view))?;
+
+        return Ok(Some(required_resource(
+            shader_resource_view,
+            "Direct3D returned no graphics texture shader-resource view.",
+        )?));
+    }
+
     unsafe fn create_render_targets(
         device: &ID3D11Device,
         back_buffer: &ID3D11Texture2D,
@@ -783,6 +867,23 @@ impl Direct3DGraphics
         let mut rasterizer_state = None;
         device.CreateRasterizerState(&desc, Some(&mut rasterizer_state))?;
         return required_resource(rasterizer_state, "Direct3D returned no rasterizer state.");
+    }
+
+    unsafe fn create_texture_sampler_state(device: &ID3D11Device) -> Result<ID3D11SamplerState>
+    {
+        let description = D3D11_SAMPLER_DESC {
+            Filter: D3D11_FILTER_MIN_MAG_MIP_POINT,
+            AddressU: D3D11_TEXTURE_ADDRESS_CLAMP,
+            AddressV: D3D11_TEXTURE_ADDRESS_CLAMP,
+            AddressW: D3D11_TEXTURE_ADDRESS_CLAMP,
+            MinLOD: 0.0,
+            MaxLOD: f32::MAX,
+            MaxAnisotropy: 1,
+            ..Default::default()
+        };
+        let mut sampler_state = None;
+        device.CreateSamplerState(&description, Some(&mut sampler_state))?;
+        return required_resource(sampler_state, "Direct3D returned no texture sampler state.");
     }
 
     unsafe fn create_buffer<BufferElement>(device: &ID3D11Device, elements: &[BufferElement], bind_flags: D3D11_BIND_FLAG) -> Result<ID3D11Buffer>
