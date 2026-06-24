@@ -2,6 +2,7 @@
 
 mod cube;
 mod graphics;
+mod gpu_timing;
 mod metrics_overlay;
 mod performance_metrics;
 mod temporal_antialiasing;
@@ -127,12 +128,22 @@ fn create_metrics_text(
         ),
         None => String::from("GPU memory: unavailable"),
     };
+    let gpu_usage_text = match graphics.gpu_frame_time_in_milliseconds()
+    {
+        Some(gpu_frame_time_in_milliseconds) => format!(
+            "GPU: {:.2} MS {:.0}% FRAME",
+            gpu_frame_time_in_milliseconds,
+            gpu_frame_time_in_milliseconds / performance_sample.frame_time_in_milliseconds * 100.0,
+        ),
+        None => String::from("GPU: collecting timing"),
+    };
 
     return format!(
-        "FPS: {:.1}\nFrame time: {:.2} ms\nProcess CPU: {:.1}%\n{}\n{}\nObjects: {}\nPress Tab to hide metrics",
+        "FPS: {:.1}\nFrame time: {:.2} ms\nProcess CPU: {:.1}%\n{}\n{}\n{}\nObjects: {}\nPress Tab to hide metrics",
         performance_sample.frames_per_second,
         performance_sample.frame_time_in_milliseconds,
         performance_sample.process_cpu_usage_percentage,
+        gpu_usage_text,
         graphics_memory_text,
         antialiasing_text,
         graphics.loaded_object_count(),

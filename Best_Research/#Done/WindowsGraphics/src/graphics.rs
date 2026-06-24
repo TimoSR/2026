@@ -1,4 +1,5 @@
 use std::{ffi::c_void, mem::{size_of, size_of_val}, slice};
+use crate::gpu_timing::GpuTiming;
 use crate::metrics_overlay::MetricsOverlay;
 use crate::temporal_antialiasing::TemporalAntialiasing;
 use windows::{
@@ -77,6 +78,7 @@ pub struct Direct3DGraphics
     temporal_antialiasing: TemporalAntialiasing,
     is_temporal_antialiasing_enabled: bool,
     metrics_overlay: MetricsOverlay,
+    gpu_timing: GpuTiming,
     loaded_objects: Vec<LoadedGraphicsObject>,
 }
 
@@ -171,6 +173,11 @@ pub fn create_direct3d_graphics(
 
 impl Direct3DGraphics
 {
+    pub fn gpu_frame_time_in_milliseconds(&self) -> Option<f32>
+    {
+        return self.gpu_timing.last_frame_time_in_milliseconds();
+    }
+
     pub fn set_metrics_visible(&mut self, is_visible: bool)
     {
         self.metrics_overlay.set_visible(is_visible);
@@ -299,6 +306,7 @@ impl Direct3DGraphics
             viewport_width,
             viewport_height,
         )?;
+        let gpu_timing = GpuTiming::create(&created_device.device)?;
         let transform_buffer = Self::create_buffer(
             &created_device.device,
             &[TransformBuffer { world_view_projection: identity_matrix() }],
@@ -328,6 +336,7 @@ impl Direct3DGraphics
             temporal_antialiasing,
             is_temporal_antialiasing_enabled: false,
             metrics_overlay,
+            gpu_timing,
             loaded_objects: Vec::new(),
         });
     }
@@ -417,6 +426,7 @@ impl Direct3DGraphics
 
     unsafe fn render_internal(&mut self, elapsed_seconds: f32) -> Result<()>
     {
+        self.gpu_timing.begin_frame(&self.device_context);
         let render_targets = [Some(self.render_target_view.clone())];
         let transform_buffers = [Some(self.transform_buffer.clone())];
         let temporal_jitter = if self.is_temporal_antialiasing_enabled
@@ -490,6 +500,7 @@ impl Direct3DGraphics
             &self.device_context,
             &self.back_buffer_render_target_view,
         );
+        self.gpu_timing.end_frame(&self.device_context);
 
         self.swap_chain.Present(1, DXGI_PRESENT(0)).ok()?;
 

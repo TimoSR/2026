@@ -79,8 +79,7 @@ const MAXIMUM_VERTEX_COUNT: usize = 65_536;
 const VERTEX_STRIDE: u32 = size_of::<MetricsVertex>() as u32;
 const OVERLAY_LEFT: f32 = 16.0;
 const OVERLAY_TOP: f32 = 16.0;
-const OVERLAY_WIDTH: f32 = 470.0;
-const OVERLAY_HEIGHT: f32 = 190.0;
+const OVERLAY_PADDING: f32 = 12.0;
 const GLYPH_SCALE: f32 = 3.0;
 const GLYPH_WIDTH: f32 = 5.0;
 const GLYPH_HEIGHT: f32 = 7.0;
@@ -254,15 +253,16 @@ impl MetricsOverlay
     fn create_text_vertices(&self, text: &str) -> Vec<MetricsVertex>
     {
         let mut vertices = Vec::with_capacity(16_384);
-        let mut character_left = OVERLAY_LEFT + 12.0;
-        let mut character_top = OVERLAY_TOP + 12.0;
+        let (overlay_width, overlay_height) = metrics_text_size(text);
+        let mut character_left = OVERLAY_LEFT + OVERLAY_PADDING;
+        let mut character_top = OVERLAY_TOP + OVERLAY_PADDING;
 
         self.add_rectangle(
             &mut vertices,
             OVERLAY_LEFT,
             OVERLAY_TOP,
-            OVERLAY_WIDTH,
-            OVERLAY_HEIGHT,
+            overlay_width,
+            overlay_height,
             BACKGROUND_COLOUR,
         );
 
@@ -270,7 +270,7 @@ impl MetricsOverlay
         {
             if character == '\n'
             {
-                character_left = OVERLAY_LEFT + 12.0;
+                character_left = OVERLAY_LEFT + OVERLAY_PADDING;
                 character_top += LINE_ADVANCE;
                 continue;
             }
@@ -348,6 +348,42 @@ impl MetricsOverlay
     }
 }
 
+fn metrics_text_size(text: &str) -> (f32, f32)
+{
+    let mut character_count_in_line = 0;
+    let mut maximum_character_count = 0;
+    let mut line_count = 1;
+
+    for character in text.chars()
+    {
+        if character == '\n'
+        {
+            if character_count_in_line > maximum_character_count
+            {
+                maximum_character_count = character_count_in_line;
+            }
+
+            character_count_in_line = 0;
+            line_count += 1;
+            continue;
+        }
+
+        character_count_in_line += 1;
+    }
+
+    if character_count_in_line > maximum_character_count
+    {
+        maximum_character_count = character_count_in_line;
+    }
+
+    return (
+        OVERLAY_PADDING * 2.0 + maximum_character_count as f32 * CHARACTER_ADVANCE,
+        OVERLAY_PADDING * 2.0
+            + (line_count - 1) as f32 * LINE_ADVANCE
+            + GLYPH_HEIGHT * GLYPH_SCALE,
+    );
+}
+
 fn glyph_rows(character: char) -> [u8; 7]
 {
     match character
@@ -422,4 +458,19 @@ unsafe fn create_pixel_shader(device: &ID3D11Device, bytecode: &[u8]) -> Result<
 fn required_resource<Resource>(resource: Option<Resource>, message: &'static str) -> Result<Resource>
 {
     return resource.ok_or_else(|| Error::new(E_FAIL, message));
+}
+
+#[cfg(test)]
+mod tests
+{
+    use super::*;
+
+    #[test]
+    fn metrics_background_encloses_the_longest_line()
+    {
+        let (width, height) = metrics_text_size("AB\nC");
+
+        assert_eq!(width, OVERLAY_PADDING * 2.0 + CHARACTER_ADVANCE * 2.0);
+        assert_eq!(height, OVERLAY_PADDING * 2.0 + LINE_ADVANCE + GLYPH_HEIGHT * GLYPH_SCALE);
+    }
 }
