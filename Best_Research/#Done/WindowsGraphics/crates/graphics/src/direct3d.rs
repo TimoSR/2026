@@ -2,6 +2,7 @@ use std::{ffi::c_void, mem::{size_of, size_of_val}, slice};
 use crate::{
     contract::{GraphicsObject, GraphicsVertex},
     gpu_timing::GpuTiming,
+    settings::GraphicsSettings,
     temporal_antialiasing::TemporalAntialiasing,
     user_interface_renderer::UserInterfaceRenderer,
 };
@@ -115,7 +116,7 @@ struct LoadedGraphicsObject
     object_identifier: u64,
     mesh_identifier: u64,
     material_identifier: u64,
-    object: Box<dyn GraphicsObject>,
+    object: OwnedGraphicsObject,
     vertex_buffer: ID3D11Buffer,
     index_buffer: ID3D11Buffer,
     index_count: u32,
@@ -151,6 +152,7 @@ struct TransformBuffer
 type Color = [f32; 4];
 type Matrix4x4 = [[f32; 4]; 4];
 type ShaderBytecode = Vec<u8>;
+type OwnedGraphicsObject = Box<dyn GraphicsObject>;
 // private types
 
 // domain constants
@@ -231,14 +233,46 @@ impl Direct3DGraphics
         }
     }
 
-    /// Returns renderer state required to display graphics performance metrics.
-    pub fn performance_metrics(&self) -> GraphicsPerformanceMetrics
+    /// Returns the settings currently applied to the renderer.
+    pub fn settings(&self) -> GraphicsSettings
+    {
+        return GraphicsSettings {
+            is_multisample_antialiasing_enabled: self.is_multisample_antialiasing_enabled,
+            is_temporal_antialiasing_enabled: self.is_temporal_antialiasing_enabled,
+        };
+    }
+
+    /// Applies requested graphics settings as one coordinated renderer update.
+    pub fn apply_settings(&mut self, settings: &GraphicsSettings) -> Result<()>
+    {
+        if self.is_multisample_antialiasing_enabled != settings.is_multisample_antialiasing_enabled
+        {
+            unsafe
+            {
+                self.set_multisample_antialiasing_enabled_internal(
+                    settings.is_multisample_antialiasing_enabled,
+                )?;
+            }
+        }
+
+        if self.is_temporal_antialiasing_enabled != settings.is_temporal_antialiasing_enabled
+        {
+            self.set_temporal_antialiasing_enabled_internal(
+                settings.is_temporal_antialiasing_enabled,
+            );
+        }
+
+        return Ok(());
+    }
+
+    /// Captures renderer state required to display graphics performance metrics.
+    pub fn capture_performance_metrics(&self) -> GraphicsPerformanceMetrics
     {
         return GraphicsPerformanceMetrics {
             gpu_frame_time_in_milliseconds: self.gpu_frame_time_in_milliseconds(),
             graphics_memory: self.graphics_memory_metrics(),
-            is_multisample_antialiasing_enabled: self.is_multisample_antialiasing_enabled(),
-            is_temporal_antialiasing_enabled: self.is_temporal_antialiasing_enabled(),
+            is_multisample_antialiasing_enabled: self.is_multisample_antialiasing_enabled,
+            is_temporal_antialiasing_enabled: self.is_temporal_antialiasing_enabled,
             loaded_object_count: self.loaded_object_count(),
         };
     }
@@ -279,14 +313,7 @@ impl Direct3DGraphics
         return self.loaded_objects.len();
     }
 
-    /// Returns whether temporal antialiasing is enabled.
-    pub fn is_temporal_antialiasing_enabled(&self) -> bool
-    {
-        return self.is_temporal_antialiasing_enabled;
-    }
-
-    /// Enables or disables temporal antialiasing and resets its history when changed.
-    pub fn set_temporal_antialiasing_enabled(&mut self, is_enabled: bool)
+    fn set_temporal_antialiasing_enabled_internal(&mut self, is_enabled: bool)
     {
         if self.is_temporal_antialiasing_enabled == is_enabled
         {
@@ -295,26 +322,6 @@ impl Direct3DGraphics
 
         self.is_temporal_antialiasing_enabled = is_enabled;
         self.temporal_antialiasing.reset_history();
-    }
-
-    /// Returns whether multisample antialiasing is enabled.
-    pub fn is_multisample_antialiasing_enabled(&self) -> bool
-    {
-        return self.is_multisample_antialiasing_enabled;
-    }
-
-    /// Enables or disables multisample antialiasing by recreating the render targets.
-    pub fn set_multisample_antialiasing_enabled(&mut self, is_enabled: bool) -> Result<()>
-    {
-        if self.is_multisample_antialiasing_enabled == is_enabled
-        {
-            return Ok(());
-        }
-
-        unsafe
-        {
-            return self.set_multisample_antialiasing_enabled_internal(is_enabled);
-        }
     }
 
     /// Validates and loads an object, transferring it to the renderer's ownership.

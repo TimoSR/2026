@@ -6,6 +6,7 @@
 mod contract;
 mod direct3d;
 mod gpu_timing;
+mod settings;
 mod temporal_antialiasing;
 mod user_interface_renderer;
 
@@ -21,3 +22,4 @@ pub use direct3d::{
     GraphicsMemoryMetrics,
     GraphicsPerformanceMetrics,
 };
+pub use settings::GraphicsSettings;

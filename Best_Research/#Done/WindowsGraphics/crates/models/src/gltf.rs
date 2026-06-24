@@ -965,7 +965,7 @@ mod tests
     use super::*;
 
     #[test]
-    fn glb_loader_reads_a_triangle_mesh_and_node_translation()
+    fn glb_loader_reads_a_triangle_mesh_and_node_translation() -> std::result::Result<(), Box<dyn std::error::Error>>
     {
         let json = r#"{
             "asset":{"version":"2.0"},
@@ -984,9 +984,9 @@ mod tests
 
         let glb_file = create_glb_file(json.as_bytes(), &binary_data);
         let file_path = std::env::temp_dir().join("windows_graphics_gltf_loader_test.glb");
-        std::fs::write(&file_path, glb_file).expect("The test .glb file should be written.");
-        let objects = load_objects(&file_path, 100).expect("The test .glb file should load.");
-        std::fs::remove_file(&file_path).expect("The test .glb file should be removed.");
+        std::fs::write(&file_path, glb_file)?;
+        let objects = load_objects(&file_path, 100)?;
+        std::fs::remove_file(&file_path)?;
 
         assert_eq!(objects.len(), 1);
         assert_eq!(objects[0].identifier(), 100);
@@ -994,19 +994,23 @@ mod tests
         assert_eq!(objects[0].indices(), [0, 1, 2]);
         assert_eq!(objects[0].vertices()[0].position, [0.0, 0.0, 0.0]);
         assert_eq!(objects[0].position(), [0.0, 0.0, 5.0]);
+
+        return Ok(());
     }
 
     #[test]
-    fn checked_in_gltf_example_loads()
+    fn checked_in_gltf_example_loads() -> std::result::Result<(), Box<dyn std::error::Error>>
     {
         let file_path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/example_cube.gltf");
-        let objects = load_objects(&file_path, 1000).expect("The checked-in glTF example should load.");
+        let objects = load_objects(&file_path, 1000)?;
 
         assert_eq!(objects.len(), 1);
         assert_eq!(objects[0].identifier(), 1000);
         assert_eq!(objects[0].vertices().len(), 8);
         assert_eq!(objects[0].indices().len(), 36);
         assert_eq!(objects[0].position(), [0.0, 1.6, 5.0]);
+
+        return Ok(());
     }
 
     fn create_glb_file(json: &[u8], binary_data: &[u8]) -> Vec<u8>

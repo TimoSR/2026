@@ -177,10 +177,10 @@ unsafe fn create_window_internal(
     )?;
     let _ = ShowWindow(window_handle, SW_SHOW);
 
-        return Ok(ApplicationWindow {
-            window_handle,
-            message: MSG::default(),
-        });
+    return Ok(ApplicationWindow {
+        window_handle,
+        message: MSG::default(),
+    });
 }
 
 unsafe extern "system" fn window_procedure(

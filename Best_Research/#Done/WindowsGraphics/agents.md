@@ -27,6 +27,7 @@ Do not optimize for minimal examples, academic style, cleverness, or overly idio
 8. Keep abstractions inspectable, composable, and justified by product needs.
 9. Let the compiler do its job before adding unnecessary annotations, lifetimes, wrappers, or complexity.
 10. Tests belong close to the feature module and should cover both public behavior and important internal behavior.
+11. Before changing code in a module, read the Markdown documentation that belongs to that module. If no module-specific Markdown file exists, read the nearest parent-level documentation before making the change.
 
 ---
 

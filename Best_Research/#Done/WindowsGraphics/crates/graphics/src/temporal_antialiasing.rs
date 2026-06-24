@@ -327,7 +327,10 @@ unsafe fn create_pixel_shader(device: &ID3D11Device, bytecode: &[u8]) -> Result<
     return required_resource(pixel_shader, "Direct3D returned no temporal antialiasing pixel shader.");
 }
 
-fn required_resource<Resource>(resource: Option<Resource>, message: &'static str) -> Result<Resource>
+fn required_resource<TemporalResource>(
+    resource: Option<TemporalResource>,
+    message: &'static str,
+) -> Result<TemporalResource>
 {
     return resource.ok_or_else(|| Error::new(E_FAIL, message));
 }

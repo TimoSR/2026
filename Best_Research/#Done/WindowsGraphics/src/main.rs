@@ -1,10 +1,11 @@
 #![allow(clippy::needless_return)]
 
+mod ui;
+
 use std::{path::Path, time::Instant};
 use diagnostics::performance_metrics;
 use gui::ImmediateModeGui;
 use models::{cube, gltf};
-use platform::window;
 use windows::core::Result;
 
 fn main() -> Result<()>
@@ -12,8 +13,6 @@ fn main() -> Result<()>
     // application constants
     const WINDOW_WIDTH: i32 = 1920;
     const WINDOW_HEIGHT: i32 = 1080;
-    const MULTISAMPLE_ANTIALIASING_ENABLED: bool = false;
-    const TEMPORAL_ANTIALIASING_ENABLED: bool = true;
     const EXAMPLE_GLTF_PATH: &str = "assets/example_cube.gltf";
     const EXAMPLE_GLTF_FIRST_OBJECT_IDENTIFIER: u64 = 1000;
     const EXAMPLE_GLB_FIRST_OBJECT_IDENTIFIER: u64 = 2000;
@@ -57,17 +56,13 @@ fn main() -> Result<()>
         WINDOW_HEIGHT as u32,
     )?;
     let mut user_interface = ImmediateModeGui::new(WINDOW_WIDTH as u32, WINDOW_HEIGHT as u32);
+    let graphics_settings = graphics::GraphicsSettings {
+        is_multisample_antialiasing_enabled: false,
+        is_temporal_antialiasing_enabled: true,
+    };
 
-    graphics.set_multisample_antialiasing_enabled(MULTISAMPLE_ANTIALIASING_ENABLED)?;
-    graphics.set_temporal_antialiasing_enabled(TEMPORAL_ANTIALIASING_ENABLED);
-    debug_assert_eq!(
-        graphics.is_multisample_antialiasing_enabled(),
-        MULTISAMPLE_ANTIALIASING_ENABLED,
-    );
-    debug_assert_eq!(
-        graphics.is_temporal_antialiasing_enabled(),
-        TEMPORAL_ANTIALIASING_ENABLED,
-    );
+    graphics.apply_settings(&graphics_settings)?;
+    debug_assert_eq!(graphics.settings(), graphics_settings);
 
     graphics.add_object(first_cube)?;
     graphics.add_object(second_cube)?;
@@ -89,7 +84,7 @@ fn main() -> Result<()>
     }
 
     let started_at = Instant::now();
-    let mut performance_metrics = performance_metrics::PerformanceMetrics::create()?;
+    let mut performance_metrics = performance_metrics::PerformanceMetrics::new()?;
     let mut are_metrics_visible = false;
 
     loop
@@ -127,11 +122,11 @@ fn main() -> Result<()>
             if are_metrics_visible
             {
                 user_interface.begin_frame();
-                user_interface.add_performance_metrics_panel(
-                    [16.0, 16.0],
+                let performance_metrics_panel = ui::metrics::PerformanceMetricsPanel::new(
                     &performance_sample,
-                    &graphics.performance_metrics(),
+                    &graphics.capture_performance_metrics(),
                 );
+                performance_metrics_panel.draw(&mut user_interface);
                 graphics.submit_user_interface(&user_interface)?;
             }
         }

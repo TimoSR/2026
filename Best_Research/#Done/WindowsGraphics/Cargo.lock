@@ -17,7 +17,7 @@ dependencies = [
  "graphics",
  "gui",
  "models",
- "platform",
+ "window",
  "windows",
 ]
 
@@ -32,7 +32,6 @@ dependencies = [
 name = "gui"
 version = "0.1.0"
 dependencies = [
- "diagnostics",
  "graphics",
 ]
 
@@ -41,13 +40,6 @@ name = "models"
 version = "0.1.0"
 dependencies = [
  "graphics",
- "windows",
-]
-
-[[package]]
-name = "platform"
-version = "0.1.0"
-dependencies = [
  "windows",
 ]
 
@@ -85,6 +77,13 @@ name = "unicode-ident"
 version = "1.0.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e6e4313cd5fcd3dad5cafa179702e2b244f760991f45397d14d4ebf38247da75"
+
+[[package]]
+name = "window"
+version = "0.1.0"
+dependencies = [
+ "windows",
+]
 
 [[package]]
 name = "windows"

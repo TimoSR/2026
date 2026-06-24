@@ -12,7 +12,7 @@ use windows::{
 pub struct PerformanceMetrics
 {
     sampled_at: Instant,
-    sampled_process_cpu_time_in_100_nanoseconds: u64,
+    sampled_process_cpu_time_in_100_nanoseconds: ProcessTimeIn100Nanoseconds,
     rendered_frame_count: u32,
 }
 
@@ -33,12 +33,17 @@ pub struct PerformanceSample
 // domain constants
 const METRICS_SAMPLE_INTERVAL: Duration = Duration::from_millis(250);
 const ONE_HUNDRED_NANOSECONDS_PER_SECOND: f32 = 10_000_000.0;
+const MINIMUM_FRAMES_PER_SECOND: f32 = 0.001;
 // domain constants
+
+// semantic type aliases
+type ProcessTimeIn100Nanoseconds = u64;
+// semantic type aliases
 
 impl PerformanceMetrics
 {
     /// Creates a performance sampler using the current process CPU time as its baseline.
-    pub fn create() -> Result<Self>
+    pub fn new() -> Result<Self>
     {
         return Ok(Self {
             sampled_at: Instant::now(),
@@ -79,13 +84,13 @@ impl PerformanceMetrics
 
         return Ok(Some(PerformanceSample {
             frames_per_second,
-            frame_time_in_milliseconds: 1000.0 / frames_per_second.max(0.001),
+            frame_time_in_milliseconds: 1000.0 / frames_per_second.max(MINIMUM_FRAMES_PER_SECOND),
             process_cpu_usage_percentage,
         }));
     }
 }
 
-fn process_cpu_time_in_100_nanoseconds() -> Result<u64>
+fn process_cpu_time_in_100_nanoseconds() -> Result<ProcessTimeIn100Nanoseconds>
 {
     unsafe
     {
@@ -101,11 +106,32 @@ fn process_cpu_time_in_100_nanoseconds() -> Result<u64>
             &mut user_time,
         )?;
 
-        return Ok(file_time_as_u64(kernel_time) + file_time_as_u64(user_time));
+        return Ok(
+            file_time_as_process_time_in_100_nanoseconds(kernel_time)
+                + file_time_as_process_time_in_100_nanoseconds(user_time),
+        );
     }
 }
 
-fn file_time_as_u64(file_time: FILETIME) -> u64
+fn file_time_as_process_time_in_100_nanoseconds(file_time: FILETIME) -> ProcessTimeIn100Nanoseconds
 {
     return (u64::from(file_time.dwHighDateTime) << 32) | u64::from(file_time.dwLowDateTime);
+}
+
+#[cfg(test)]
+mod tests
+{
+    use super::*;
+
+    #[test]
+    fn file_time_conversion_preserves_high_and_low_components()
+    {
+        let file_time = FILETIME {
+            dwLowDateTime: 0x89AB_CDEF,
+            dwHighDateTime: 0x0123_4567,
+        };
+        let process_time = file_time_as_process_time_in_100_nanoseconds(file_time);
+
+        assert_eq!(process_time, 0x0123_4567_89AB_CDEF);
+    }
 }

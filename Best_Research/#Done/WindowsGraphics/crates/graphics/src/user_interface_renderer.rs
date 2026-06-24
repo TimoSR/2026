@@ -268,7 +268,10 @@ unsafe fn create_input_layout(device: &ID3D11Device, bytecode: &[u8]) -> Result<
     return required_resource(input_layout, "Direct3D returned no user-interface input layout.");
 }
 
-fn required_resource<Resource>(resource: Option<Resource>, message: &'static str) -> Result<Resource>
+fn required_resource<GraphicsResource>(
+    resource: Option<GraphicsResource>,
+    message: &'static str,
+) -> Result<GraphicsResource>
 {
     return resource.ok_or_else(|| Error::new(E_FAIL, message));
 }

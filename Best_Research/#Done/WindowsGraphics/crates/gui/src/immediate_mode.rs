@@ -1,13 +1,12 @@
-use diagnostics::performance_metrics::PerformanceSample;
 use graphics::{
-    GraphicsPerformanceMetrics,
     GraphicsUserInterface,
     GraphicsUserInterfaceShader,
     GraphicsUserInterfaceVertex,
 };
+use crate::{ScreenRelativePosition, UserInterfaceLayout};
 
 // data structures
-/// A minimal immediate-mode UI that emits text panels as coloured triangles.
+/// A minimal immediate-mode renderer that emits user-interface triangles.
 pub struct ImmediateModeGui
 {
     viewport_width: f32,
@@ -15,6 +14,12 @@ pub struct ImmediateModeGui
     vertices: Vec<GraphicsUserInterfaceVertex>,
 }
 // data structures
+
+// semantic type aliases
+type UserInterfaceColor = [f32; 4];
+type GlyphRows = [u8; 7];
+type PixelPosition = [f32; 2];
+// semantic type aliases
 
 // domain constants
 const IMMEDIATE_MODE_SHADER_SOURCE: &[u8] = include_bytes!("../shaders/immediate_mode_gui.hlsl");
@@ -25,8 +30,8 @@ const GLYPH_WIDTH: f32 = 5.0;
 const GLYPH_HEIGHT: f32 = 7.0;
 const CHARACTER_ADVANCE: f32 = 18.0;
 const LINE_ADVANCE: f32 = 27.0;
-const PANEL_BACKGROUND_COLOR: [f32; 4] = [0.02, 0.03, 0.05, 1.0];
-const TEXT_COLOR: [f32; 4] = [0.85, 0.95, 1.0, 1.0];
+const PANEL_BACKGROUND_COLOR: UserInterfaceColor = [0.02, 0.03, 0.05, 1.0];
+const TEXT_COLOR: UserInterfaceColor = [0.85, 0.95, 1.0, 1.0];
 // domain constants
 
 impl ImmediateModeGui
@@ -49,9 +54,35 @@ impl ImmediateModeGui
         self.vertices.clear();
     }
 
-    /// Adds a dark text panel at the supplied pixel position.
-    pub fn add_text_panel(&mut self, panel_position: [f32; 2], text: &str)
+    /// Resolves and draws all visible boxes from a retained screen layout.
+    ///
+    /// Box positions are screen-relative in the layout. This method supplies
+    /// the current viewport dimensions only when converting them to draw data.
+    pub fn add_layout(&mut self, user_interface_layout: &UserInterfaceLayout)
     {
+        let viewport_pixel_size = [self.viewport_width as u32, self.viewport_height as u32];
+        let resolved_boxes = user_interface_layout.resolve(viewport_pixel_size);
+
+        for resolved_box in resolved_boxes
+        {
+            let rectangle = resolved_box.pixel_rectangle;
+            self.add_rectangle(
+                rectangle.left,
+                rectangle.top,
+                rectangle.width,
+                rectangle.height,
+                resolved_box.background_color,
+            );
+        }
+    }
+
+    /// Adds a dark text panel at the supplied screen-relative position.
+    ///
+    /// A value of `[0.0, 0.0]` places the panel at the top-left viewport corner.
+    /// Pixel coordinates are calculated only while the panel is rendered.
+    pub fn add_text_panel(&mut self, screen_position: ScreenRelativePosition, text: &str)
+    {
+        let panel_position = self.pixel_position_from_screen_position(screen_position);
         let panel_size = text_panel_size(text);
         let mut character_left = panel_position[0] + PANEL_PADDING;
         let mut character_top = panel_position[1] + PANEL_PADDING;
@@ -82,16 +113,15 @@ impl ImmediateModeGui
         }
     }
 
-    /// Adds the built-in performance-metrics panel at the supplied pixel position.
-    pub fn add_performance_metrics_panel(
-        &mut self,
-        panel_position: [f32; 2],
-        performance_sample: &PerformanceSample,
-        graphics_performance_metrics: &GraphicsPerformanceMetrics,
-    )
+    fn pixel_position_from_screen_position(
+        &self,
+        screen_position: ScreenRelativePosition,
+    ) -> PixelPosition
     {
-        let metrics_text = performance_metrics_text(performance_sample, graphics_performance_metrics);
-        self.add_text_panel(panel_position, &metrics_text);
+        return [
+            screen_position[0] * self.viewport_width,
+            screen_position[1] * self.viewport_height,
+        ];
     }
 
     fn add_glyph(&mut self, character: char, glyph_left: f32, glyph_top: f32)
@@ -131,7 +161,7 @@ impl ImmediateModeGui
         top: f32,
         width: f32,
         height: f32,
-        color: [f32; 4],
+        color: UserInterfaceColor,
     )
     {
         let left = left / self.viewport_width * 2.0 - 1.0;
@@ -180,7 +210,7 @@ impl GraphicsUserInterface for ImmediateModeGui
     }
 }
 
-fn text_panel_size(text: &str) -> [f32; 2]
+fn text_panel_size(text: &str) -> PixelPosition
 {
     let mut character_count_in_line = 0;
     let mut maximum_character_count = 0;
@@ -216,48 +246,7 @@ fn text_panel_size(text: &str) -> [f32; 2]
     ];
 }
 
-fn performance_metrics_text(
-    performance_sample: &PerformanceSample,
-    graphics_performance_metrics: &GraphicsPerformanceMetrics,
-) -> String
-{
-    let antialiasing_text = format!(
-        "MSAA: {} | TAA: {}",
-        if graphics_performance_metrics.is_multisample_antialiasing_enabled { "On" } else { "Off" },
-        if graphics_performance_metrics.is_temporal_antialiasing_enabled { "On" } else { "Off" },
-    );
-    let graphics_memory_text = match &graphics_performance_metrics.graphics_memory
-    {
-        Some(graphics_memory) => format!(
-            "GPU memory: {:.0} / {:.0} MiB",
-            graphics_memory.used_bytes as f64 / 1_048_576.0,
-            graphics_memory.budget_bytes as f64 / 1_048_576.0,
-        ),
-        None => String::from("GPU memory: unavailable"),
-    };
-    let gpu_usage_text = match graphics_performance_metrics.gpu_frame_time_in_milliseconds
-    {
-        Some(gpu_frame_time_in_milliseconds) => format!(
-            "GPU: {:.2} MS {:.0}% FRAME",
-            gpu_frame_time_in_milliseconds,
-            gpu_frame_time_in_milliseconds / performance_sample.frame_time_in_milliseconds * 100.0,
-        ),
-        None => String::from("GPU: collecting timing"),
-    };
-
-    return format!(
-        "FPS: {:.1}\nFrame time: {:.2} ms\nProcess CPU: {:.1}%\n{}\n{}\n{}\nObjects: {}\nPress Tab to hide metrics",
-        performance_sample.frames_per_second,
-        performance_sample.frame_time_in_milliseconds,
-        performance_sample.process_cpu_usage_percentage,
-        gpu_usage_text,
-        graphics_memory_text,
-        antialiasing_text,
-        graphics_performance_metrics.loaded_object_count,
-    );
-}
-
-fn glyph_rows(character: char) -> [u8; 7]
+fn glyph_rows(character: char) -> GlyphRows
 {
     match character
     {
@@ -310,6 +299,7 @@ fn glyph_rows(character: char) -> [u8; 7]
 mod tests
 {
     use super::*;
+    use crate::{UserInterfaceBox, UserInterfaceBoxLayout};
 
     #[test]
     fn text_panel_encloses_the_longest_line()
@@ -324,7 +314,7 @@ mod tests
     fn begin_frame_clears_previous_draw_data()
     {
         let mut gui = ImmediateModeGui::new(1920, 1080);
-        gui.add_text_panel([16.0, 16.0], "METRICS");
+        gui.add_text_panel([0.0, 0.0], "METRICS");
 
         assert!(!gui.vertices().is_empty());
 
@@ -334,31 +324,27 @@ mod tests
     }
 
     #[test]
-    fn performance_metrics_panel_formats_graphics_and_process_data()
+    fn retained_layout_emits_one_rectangle_per_visible_box()
     {
-        let performance_sample = PerformanceSample {
-            frames_per_second: 120.0,
-            frame_time_in_milliseconds: 8.0,
-            process_cpu_usage_percentage: 15.0,
-        };
-        let graphics_performance_metrics = GraphicsPerformanceMetrics {
-            gpu_frame_time_in_milliseconds: Some(4.0),
-            graphics_memory: Some(graphics::GraphicsMemoryMetrics {
-                used_bytes: 128 * 1_048_576,
-                budget_bytes: 1024 * 1_048_576,
-            }),
-            is_multisample_antialiasing_enabled: true,
-            is_temporal_antialiasing_enabled: false,
-            loaded_object_count: 4,
-        };
-        let metrics_text = performance_metrics_text(
-            &performance_sample,
-            &graphics_performance_metrics,
-        );
+        let mut layout = UserInterfaceLayout::new();
+        layout.add_box(UserInterfaceBox::new(UserInterfaceBoxLayout::default()));
+        let mut gui = ImmediateModeGui::new(1_920, 1_080);
 
-        assert!(metrics_text.contains("FPS: 120.0"));
-        assert!(metrics_text.contains("GPU: 4.00 MS 50% FRAME"));
-        assert!(metrics_text.contains("GPU memory: 128 / 1024 MiB"));
-        assert!(metrics_text.contains("MSAA: On | TAA: Off"));
+        gui.add_layout(&layout);
+
+        assert_eq!(gui.vertices().len(), 6);
     }
+
+    #[test]
+    fn text_panel_position_resolves_from_screen_relative_units()
+    {
+        let mut gui = ImmediateModeGui::new(200, 100);
+
+        gui.add_text_panel([0.25, 0.5], "A");
+
+        let vertices = gui.vertices();
+
+        assert_eq!(vertices[0].position, [-0.5, 0.0]);
+    }
+
 }

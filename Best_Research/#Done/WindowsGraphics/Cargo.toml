@@ -4,7 +4,7 @@ members = [
     "crates/graphics",
     "crates/gui",
     "crates/models",
-    "crates/platform",
+    "crates/window",
 ]
 resolver = "2"
 
@@ -18,6 +18,6 @@ diagnostics = { path = "crates/diagnostics" }
 graphics = { path = "crates/graphics" }
 gui = { path = "crates/gui" }
 models = { path = "crates/models" }
-platform = { path = "crates/platform" }
+window = { path = "crates/window" }
 
 windows = "0.62"

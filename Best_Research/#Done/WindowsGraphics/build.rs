@@ -1,19 +1,21 @@
 #![allow(clippy::needless_return)]
 
-use std::{env, fs, path::PathBuf};
+use std::{env, error::Error, fs, path::PathBuf};
 
 const GLB_MAGIC: u32 = 0x4654_6C67;
 const GLB_VERSION_2: u32 = 2;
 const GLB_JSON_CHUNK_TYPE: u32 = 0x4E4F_534A;
 const GLB_BINARY_CHUNK_TYPE: u32 = 0x004E_4942;
 
-fn main()
+fn main() -> Result<(), Box<dyn Error>>
 {
-    let output_directory = PathBuf::from(env::var("OUT_DIR").expect("Cargo should provide OUT_DIR."));
+    let output_directory = PathBuf::from(env::var("OUT_DIR")?);
     let output_path = output_directory.join("example_cube.glb");
     let glb_file = create_example_glb();
 
-    fs::write(output_path, glb_file).expect("The example .glb file should be written.");
+    fs::write(output_path, glb_file)?;
+
+    return Ok(());
 }
 
 fn create_example_glb() -> Vec<u8>
