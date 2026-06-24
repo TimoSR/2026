@@ -8,6 +8,7 @@ use windows::{
 };
 
 // data structures
+/// Aggregates rendered frames and process CPU time between performance samples.
 pub struct PerformanceMetrics
 {
     sampled_at: Instant,
@@ -15,10 +16,16 @@ pub struct PerformanceMetrics
     rendered_frame_count: u32,
 }
 
+/// A calculated frame-rate, frame-time, and process CPU-usage sample.
 pub struct PerformanceSample
 {
+    /// Rendered frames per second during the sampling interval.
     pub frames_per_second: f32,
+
+    /// Average duration of one rendered frame during the sampling interval.
     pub frame_time_in_milliseconds: f32,
+
+    /// CPU time used by this process, expressed as a percentage of one logical processor.
     pub process_cpu_usage_percentage: f32,
 }
 // data structures
@@ -30,6 +37,7 @@ const ONE_HUNDRED_NANOSECONDS_PER_SECOND: f32 = 10_000_000.0;
 
 impl PerformanceMetrics
 {
+    /// Creates a performance sampler using the current process CPU time as its baseline.
     pub fn create() -> Result<Self>
     {
         return Ok(Self {
@@ -39,11 +47,15 @@ impl PerformanceMetrics
         });
     }
 
+    /// Records one completed rendered frame.
     pub fn record_rendered_frame(&mut self)
     {
         self.rendered_frame_count += 1;
     }
 
+    /// Returns a new sample after the configured sampling interval has elapsed.
+    ///
+    /// Returns `Ok(None)` while the current interval is still collecting data.
     pub fn sample(&mut self) -> Result<Option<PerformanceSample>>
     {
         let current_time = Instant::now();

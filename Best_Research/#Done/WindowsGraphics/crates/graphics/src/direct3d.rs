@@ -1,7 +1,10 @@
 use std::{ffi::c_void, mem::{size_of, size_of_val}, slice};
-use crate::gpu_timing::GpuTiming;
-use crate::metrics_overlay::MetricsOverlay;
-use crate::temporal_antialiasing::TemporalAntialiasing;
+use crate::{
+    contract::{GraphicsObject, GraphicsVertex},
+    gpu_timing::GpuTiming,
+    metrics_overlay::MetricsOverlay,
+    temporal_antialiasing::TemporalAntialiasing,
+};
 use windows::{
     core::{Error, Interface, PCSTR, Result},
     Win32::{
@@ -42,16 +45,8 @@ use windows::{
 };
 
 // data structures
-#[repr(C)]
 #[derive(Clone, Copy)]
-pub struct GraphicsVertex
-{
-    pub position: [f32; 3],
-    pub color: [f32; 3],
-}
-
-#[derive(Clone, Copy)]
-pub struct GraphicsShaderProgram
+struct Direct3DShaderProgram
 {
     pub source: &'static [u8],
     pub source_name: PCSTR,
@@ -61,6 +56,7 @@ pub struct GraphicsShaderProgram
     pub pixel_profile: PCSTR,
 }
 
+/// A Direct3D 11 renderer that owns loaded objects and their GPU resources.
 pub struct Direct3DGraphics
 {
     device: ID3D11Device,
@@ -85,9 +81,13 @@ pub struct Direct3DGraphics
     loaded_objects: Vec<LoadedGraphicsObject>,
 }
 
+/// Local graphics-memory usage reported by the active Direct3D adapter.
 pub struct GraphicsMemoryMetrics
 {
+    /// Bytes currently allocated from the adapter's local-memory segment.
     pub used_bytes: u64,
+
+    /// Current local-memory budget in bytes.
     pub budget_bytes: u64,
 }
 
@@ -128,31 +128,6 @@ struct TransformBuffer
 }
 // data structures
 
-// graphics object contract
-// Mesh indices must wind clockwise when viewed from the object's exterior.
-// This is the Direct3D front-face convention used by this renderer.
-pub trait GraphicsObject
-{
-    fn identifier(&self) -> u64;
-    fn mesh_identifier(&self) -> u64;
-    fn material_identifier(&self) -> u64;
-    fn vertices(&self) -> &[GraphicsVertex];
-    fn indices(&self) -> &[u16];
-    fn shader_program(&self) -> GraphicsShaderProgram;
-    fn position(&self) -> [f32; 3];
-    fn rotation_radians(&self, elapsed_seconds: f32) -> [f32; 3];
-    fn bounding_radius(&self) -> f32;
-    fn texture_size(&self) -> Option<[u32; 2]>
-    {
-        return None;
-    }
-    fn texture_pixels(&self) -> Option<&[u8]>
-    {
-        return None;
-    }
-}
-// graphics object contract
-
 // private types
 type Color = [f32; 4];
 type Matrix4x4 = [[f32; 4]; 4];
@@ -169,8 +144,39 @@ const NEAR_PLANE: f32 = 0.1;
 const FAR_PLANE: f32 = 100.0;
 const POSITION_SEMANTIC: PCSTR = PCSTR(c"POSITION".as_ptr().cast());
 const COLOR_SEMANTIC: PCSTR = PCSTR(c"COLOR".as_ptr().cast());
+const VERTEX_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"vertex_main".as_ptr().cast());
+const PIXEL_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"pixel_main".as_ptr().cast());
+const VERTEX_SHADER_PROFILE: PCSTR = PCSTR(c"vs_5_0".as_ptr().cast());
+const PIXEL_SHADER_PROFILE: PCSTR = PCSTR(c"ps_5_0".as_ptr().cast());
+const VERTEX_COLOR_SHADER_NAME: PCSTR = PCSTR(c"vertex_color.hlsl".as_ptr().cast());
+const TEXTURED_SHADER_NAME: PCSTR = PCSTR(c"textured_object.hlsl".as_ptr().cast());
 // domain constants
 
+// private domain language
+// Shader files are embedded at compile time so distribution does not require adjacent source files.
+const VERTEX_COLOR_SHADER_SOURCE: &[u8] = include_bytes!("../shaders/vertex_color.hlsl");
+const TEXTURED_SHADER_SOURCE: &[u8] = include_bytes!("../shaders/textured_object.hlsl");
+
+const VERTEX_COLOR_SHADER_PROGRAM: Direct3DShaderProgram = Direct3DShaderProgram {
+    source: VERTEX_COLOR_SHADER_SOURCE,
+    source_name: VERTEX_COLOR_SHADER_NAME,
+    vertex_entry_point: VERTEX_SHADER_ENTRY_POINT,
+    vertex_profile: VERTEX_SHADER_PROFILE,
+    pixel_entry_point: PIXEL_SHADER_ENTRY_POINT,
+    pixel_profile: PIXEL_SHADER_PROFILE,
+};
+
+const TEXTURED_SHADER_PROGRAM: Direct3DShaderProgram = Direct3DShaderProgram {
+    source: TEXTURED_SHADER_SOURCE,
+    source_name: TEXTURED_SHADER_NAME,
+    vertex_entry_point: VERTEX_SHADER_ENTRY_POINT,
+    vertex_profile: VERTEX_SHADER_PROFILE,
+    pixel_entry_point: PIXEL_SHADER_ENTRY_POINT,
+    pixel_profile: PIXEL_SHADER_PROFILE,
+};
+// private domain language
+
+/// Creates a Direct3D 11 renderer for the supplied Win32 window and viewport size.
 pub fn create_direct3d_graphics(
     window_handle: HWND,
     viewport_width: u32,
@@ -185,16 +191,19 @@ pub fn create_direct3d_graphics(
 
 impl Direct3DGraphics
 {
+    /// Returns the most recently measured GPU frame time, once timestamp queries are ready.
     pub fn gpu_frame_time_in_milliseconds(&self) -> Option<f32>
     {
         return self.gpu_timing.last_frame_time_in_milliseconds();
     }
 
+    /// Shows or hides the renderer-owned metrics overlay.
     pub fn set_metrics_visible(&mut self, is_visible: bool)
     {
         self.metrics_overlay.set_visible(is_visible);
     }
 
+    /// Replaces the text displayed by the metrics overlay.
     pub fn set_metrics_text(&mut self, text: &str) -> Result<()>
     {
         unsafe
@@ -203,6 +212,7 @@ impl Direct3DGraphics
         }
     }
 
+    /// Returns local graphics-memory usage when the adapter exposes it.
     pub fn graphics_memory_metrics(&self) -> Option<GraphicsMemoryMetrics>
     {
         let graphics_adapter = match &self.graphics_adapter
@@ -232,16 +242,19 @@ impl Direct3DGraphics
         }
     }
 
+    /// Returns how many object instances are currently loaded by the renderer.
     pub fn loaded_object_count(&self) -> usize
     {
         return self.loaded_objects.len();
     }
 
+    /// Returns whether temporal antialiasing is enabled.
     pub fn is_temporal_antialiasing_enabled(&self) -> bool
     {
         return self.is_temporal_antialiasing_enabled;
     }
 
+    /// Enables or disables temporal antialiasing and resets its history when changed.
     pub fn set_temporal_antialiasing_enabled(&mut self, is_enabled: bool)
     {
         if self.is_temporal_antialiasing_enabled == is_enabled
@@ -253,11 +266,13 @@ impl Direct3DGraphics
         self.temporal_antialiasing.reset_history();
     }
 
+    /// Returns whether multisample antialiasing is enabled.
     pub fn is_multisample_antialiasing_enabled(&self) -> bool
     {
         return self.is_multisample_antialiasing_enabled;
     }
 
+    /// Enables or disables multisample antialiasing by recreating the render targets.
     pub fn set_multisample_antialiasing_enabled(&mut self, is_enabled: bool) -> Result<()>
     {
         if self.is_multisample_antialiasing_enabled == is_enabled
@@ -271,6 +286,7 @@ impl Direct3DGraphics
         }
     }
 
+    /// Validates and loads an object, transferring it to the renderer's ownership.
     pub fn add_object<GameObject>(&mut self, object: GameObject) -> Result<()>
     where
         GameObject: GraphicsObject + 'static,
@@ -281,6 +297,7 @@ impl Direct3DGraphics
         }
     }
 
+    /// Draws all visible loaded objects for the supplied elapsed time in seconds.
     pub fn render(&mut self, elapsed_seconds: f32) -> Result<()>
     {
         unsafe
@@ -408,7 +425,13 @@ impl Direct3DGraphics
             return Ok(());
         }
 
-        let shader_program = object.shader_program();
+        let texture_size = object.texture_size();
+        let texture_pixels = object.texture_pixels();
+        let shader_program = match texture_size
+        {
+            Some(_) => TEXTURED_SHADER_PROGRAM,
+            None => VERTEX_COLOR_SHADER_PROGRAM,
+        };
         let index_count_as_usize = object.indices().len();
 
         if index_count_as_usize > u32::MAX as usize
@@ -432,8 +455,8 @@ impl Direct3DGraphics
         let pixel_shader = Self::create_pixel_shader(&self.device, &pixel_shader_bytecode)?;
         let texture_shader_resource_view = Self::create_texture_shader_resource_view(
             &self.device,
-            object.texture_size(),
-            object.texture_pixels(),
+            texture_size,
+            texture_pixels,
         )?;
 
         self.loaded_objects.push(LoadedGraphicsObject {

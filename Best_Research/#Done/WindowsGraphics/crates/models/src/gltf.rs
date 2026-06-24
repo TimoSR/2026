@@ -1,13 +1,14 @@
 use std::{fs, path::Path};
 use windows::{
-    core::{Error, HSTRING, PCSTR, Result},
+    core::{Error, HSTRING, Result},
     Data::Json::{JsonArray, JsonObject},
     Win32::Foundation::E_FAIL,
 };
 
-use crate::graphics::{GraphicsObject, GraphicsShaderProgram, GraphicsVertex};
+use graphics::{GraphicsObject, GraphicsVertex};
 
 // data structures
+/// A static mesh instance loaded from a glTF or GLB container.
 pub struct GltfObject
 {
     object_identifier: u64,
@@ -67,70 +68,11 @@ const CUBE_TEXTURE_PIXELS: [u8; 24] = [
     80, 210, 90, 255,
     180, 70, 210, 255,
 ];
-const VERTEX_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"vertex_main".as_ptr().cast());
-const PIXEL_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"pixel_main".as_ptr().cast());
-const VERTEX_SHADER_PROFILE: PCSTR = PCSTR(c"vs_5_0".as_ptr().cast());
-const PIXEL_SHADER_PROFILE: PCSTR = PCSTR(c"ps_5_0".as_ptr().cast());
-const GLTF_SHADER_NAME: PCSTR = PCSTR(c"gltf_object.hlsl".as_ptr().cast());
 // domain constants
 
-// private domain language
-const GLTF_SHADER_SOURCE: &[u8] = br#"
-cbuffer Transform : register(b0)
-{
-    row_major float4x4 world_view_projection;
-};
-
-Texture2D base_color_texture : register(t0);
-SamplerState base_color_sampler : register(s0);
-
-struct VertexInput
-{
-    float3 position : POSITION;
-    float3 color : COLOR;
-};
-
-struct PixelInput
-{
-    float4 position : SV_POSITION;
-    float3 color : COLOR;
-    float3 object_position : TEXCOORD0;
-};
-
-PixelInput vertex_main(VertexInput input)
-{
-    PixelInput output;
-    output.position = mul(float4(input.position, 1.0f), world_view_projection);
-    output.color = input.color;
-    output.object_position = input.position;
-    return output;
-}
-
-float2 cube_face_texture_coordinate(float3 object_position)
-{
-    float3 absolute_position = abs(object_position);
-
-    if (absolute_position.z >= absolute_position.x && absolute_position.z >= absolute_position.y)
-    {
-        return object_position.z < 0.0f ? float2(1.0f / 6.0f, 0.25f) : float2(0.5f, 0.25f);
-    }
-
-    if (absolute_position.x >= absolute_position.y)
-    {
-        return object_position.x < 0.0f ? float2(5.0f / 6.0f, 0.25f) : float2(1.0f / 6.0f, 0.75f);
-    }
-
-    return object_position.y > 0.0f ? float2(0.5f, 0.75f) : float2(5.0f / 6.0f, 0.75f);
-}
-
-float4 pixel_main(PixelInput input) : SV_TARGET
-{
-    float3 texture_color = base_color_texture.Sample(base_color_sampler, cube_face_texture_coordinate(input.object_position)).rgb;
-    return float4(input.color * texture_color, 1.0f);
-}
-"#;
-// private domain language
-
+/// Loads every mesh-bearing node from a `.gltf` or `.glb` file.
+///
+/// Object identifiers begin at `first_object_identifier` and increase by one per loaded object.
 pub fn load_objects(file_path: &Path, first_object_identifier: u64) -> Result<Vec<GltfObject>>
 {
     let (json_text, glb_binary_buffer) = read_gltf_container(file_path)?;
@@ -233,18 +175,6 @@ impl GraphicsObject for GltfObject
         return &self.indices;
     }
 
-    fn shader_program(&self) -> GraphicsShaderProgram
-    {
-        return GraphicsShaderProgram {
-            source: GLTF_SHADER_SOURCE,
-            source_name: GLTF_SHADER_NAME,
-            vertex_entry_point: VERTEX_SHADER_ENTRY_POINT,
-            vertex_profile: VERTEX_SHADER_PROFILE,
-            pixel_entry_point: PIXEL_SHADER_ENTRY_POINT,
-            pixel_profile: PIXEL_SHADER_PROFILE,
-        };
-    }
-
     fn position(&self) -> [f32; 3]
     {
         return self.position;
@@ -277,6 +207,7 @@ impl GraphicsObject for GltfObject
 
 impl GltfObject
 {
+    /// Sets the object's Euler rotation rate in radians per second.
     pub fn set_rotation_radians_per_second(&mut self, rotation_radians_per_second: [f32; 3])
     {
         self.rotation_radians_per_second = rotation_radians_per_second;
@@ -1068,8 +999,8 @@ mod tests
     #[test]
     fn checked_in_gltf_example_loads()
     {
-        let file_path = Path::new("assets/example_cube.gltf");
-        let objects = load_objects(file_path, 1000).expect("The checked-in glTF example should load.");
+        let file_path = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../assets/example_cube.gltf");
+        let objects = load_objects(&file_path, 1000).expect("The checked-in glTF example should load.");
 
         assert_eq!(objects.len(), 1);
         assert_eq!(objects[0].identifier(), 1000);

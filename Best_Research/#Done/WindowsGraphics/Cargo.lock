@@ -3,7 +3,40 @@
 version = 4
 
 [[package]]
+name = "diagnostics"
+version = "0.1.0"
+dependencies = [
+ "windows",
+]
+
+[[package]]
 name = "dx11_demo"
+version = "0.1.0"
+dependencies = [
+ "diagnostics",
+ "graphics",
+ "models",
+ "platform",
+ "windows",
+]
+
+[[package]]
+name = "graphics"
+version = "0.1.0"
+dependencies = [
+ "windows",
+]
+
+[[package]]
+name = "models"
+version = "0.1.0"
+dependencies = [
+ "graphics",
+ "windows",
+]
+
+[[package]]
+name = "platform"
 version = "0.1.0"
 dependencies = [
  "windows",

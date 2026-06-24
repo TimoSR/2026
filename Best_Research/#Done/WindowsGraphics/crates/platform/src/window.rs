@@ -19,16 +19,21 @@ use windows::{
 };
 
 // data structures
+/// A Win32 application window and its pending message state.
 pub struct ApplicationWindow
 {
     window_handle: HWND,
-    are_metrics_visible: bool,
+    message: MSG,
 }
 
-pub struct WindowMessages
+/// Events collected from the Win32 message queue since the last poll.
+pub struct WindowEvents
 {
+    /// True when the application should terminate.
     pub should_close: bool,
-    pub should_toggle_metrics: bool,
+
+    /// True when the user released the Tab key during this poll.
+    pub was_tab_released: bool,
 }
 // data structures
 
@@ -38,6 +43,7 @@ const WINDOW_TITLE: PCWSTR = w!("Windows-rs Direct3D 11 Spinning Cube");
 const MINIMUM_WINDOW_DIMENSION: i32 = 1;
 // domain constants
 
+/// Configures the process to use per-monitor DPI awareness.
 pub fn enable_per_monitor_dpi_awareness() -> Result<()>
 {
     unsafe
@@ -46,6 +52,7 @@ pub fn enable_per_monitor_dpi_awareness() -> Result<()>
     }
 }
 
+/// Creates and displays the demo's Win32 application window.
 pub fn create_window(window_width: i32, window_height: i32) -> Result<ApplicationWindow>
 {
     if window_width < MINIMUM_WINDOW_DIMENSION
@@ -70,42 +77,45 @@ pub fn create_window(window_width: i32, window_height: i32) -> Result<Applicatio
     }
 }
 
-pub fn process_pending_messages(message: &mut MSG) -> WindowMessages
-{
-    let mut window_messages = WindowMessages {
-        should_close: false,
-        should_toggle_metrics: false,
-    };
-
-    unsafe
-    {
-        while PeekMessageW(message, None, 0, 0, PM_REMOVE).as_bool()
-        {
-            if message.message == WM_QUIT
-            {
-                window_messages.should_close = true;
-            }
-
-            if message.message == WM_KEYUP && message.wParam.0 == VK_TAB.0 as usize
-            {
-                window_messages.should_toggle_metrics = true;
-            }
-
-            let _ = TranslateMessage(message);
-            DispatchMessageW(message);
-        }
-    }
-
-    return window_messages;
-}
-
 impl ApplicationWindow
 {
+    /// Removes and translates all currently pending Win32 messages.
+    pub fn process_pending_messages(&mut self) -> WindowEvents
+    {
+        let mut window_events = WindowEvents {
+            should_close: false,
+            was_tab_released: false,
+        };
+
+        unsafe
+        {
+            while PeekMessageW(&mut self.message, None, 0, 0, PM_REMOVE).as_bool()
+            {
+                if self.message.message == WM_QUIT
+                {
+                    window_events.should_close = true;
+                }
+
+                if self.message.message == WM_KEYUP && self.message.wParam.0 == VK_TAB.0 as usize
+                {
+                    window_events.was_tab_released = true;
+                }
+
+                let _ = TranslateMessage(&self.message);
+                DispatchMessageW(&self.message);
+            }
+        }
+
+        return window_events;
+    }
+
+    /// Returns the native Win32 handle used to create graphics resources.
     pub fn handle(&self) -> HWND
     {
         return self.window_handle;
     }
 
+    /// Returns whether Windows reports that this window is minimized.
     pub fn is_minimized(&self) -> bool
     {
         unsafe
@@ -114,16 +124,7 @@ impl ApplicationWindow
         }
     }
 
-    pub fn toggle_metrics_visibility(&mut self)
-    {
-        self.are_metrics_visible = !self.are_metrics_visible;
-    }
-
-    pub fn are_metrics_visible(&self) -> bool
-    {
-        return self.are_metrics_visible;
-    }
-
+    /// Blocks until Windows places another message in the queue.
     pub fn wait_for_message(&self) -> Result<()>
     {
         unsafe
@@ -176,10 +177,10 @@ unsafe fn create_window_internal(
     )?;
     let _ = ShowWindow(window_handle, SW_SHOW);
 
-    return Ok(ApplicationWindow {
-        window_handle,
-        are_metrics_visible: false,
-    });
+        return Ok(ApplicationWindow {
+            window_handle,
+            message: MSG::default(),
+        });
 }
 
 unsafe extern "system" fn window_procedure(

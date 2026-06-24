@@ -1,19 +1,10 @@
 #![allow(clippy::needless_return)]
 
-mod cube;
-mod graphics;
-mod gpu_timing;
-mod gltf;
-mod metrics_overlay;
-mod performance_metrics;
-mod temporal_antialiasing;
-mod window;
-
 use std::{path::Path, time::Instant};
-use windows::{
-    core::Result,
-    Win32::UI::WindowsAndMessaging::MSG,
-};
+use diagnostics::performance_metrics;
+use models::{cube, gltf};
+use platform::window;
+use windows::core::Result;
 
 fn main() -> Result<()>
 {
@@ -53,7 +44,7 @@ fn main() -> Result<()>
         &example_gltf_path,
         EXAMPLE_GLTF_FIRST_OBJECT_IDENTIFIER,
     )?;
-    let example_glb_path = Path::new(env!("OUT_DIR")).join("example_triangle.glb");
+    let example_glb_path = Path::new(env!("OUT_DIR")).join("example_cube.glb");
     let example_glb_objects = gltf::load_objects(
         &example_glb_path,
         EXAMPLE_GLB_FIRST_OBJECT_IDENTIFIER,
@@ -96,22 +87,22 @@ fn main() -> Result<()>
     }
 
     let started_at = Instant::now();
-    let mut message = MSG::default();
     let mut performance_metrics = performance_metrics::PerformanceMetrics::create()?;
+    let mut are_metrics_visible = false;
 
     loop
     {
-        let window_messages = window::process_pending_messages(&mut message);
+        let window_events = window.process_pending_messages();
 
-        if window_messages.should_close
+        if window_events.should_close
         {
             return Ok(());
         }
 
-        if window_messages.should_toggle_metrics
+        if window_events.was_tab_released
         {
-            window.toggle_metrics_visibility();
-            graphics.set_metrics_visible(window.are_metrics_visible());
+            are_metrics_visible = !are_metrics_visible;
+            graphics.set_metrics_visible(are_metrics_visible);
         }
 
         if window.is_minimized()
@@ -126,7 +117,7 @@ fn main() -> Result<()>
 
         if let Some(performance_sample) = performance_metrics.sample()?
         {
-            if window.are_metrics_visible()
+            if are_metrics_visible
             {
                 let graphics_memory_metrics = graphics.graphics_memory_metrics();
                 let metrics_text = create_metrics_text(

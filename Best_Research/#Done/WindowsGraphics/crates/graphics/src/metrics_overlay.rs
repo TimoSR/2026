@@ -42,32 +42,7 @@ struct MetricsVertex
 // data structures
 
 // domain constants
-const METRICS_OVERLAY_SHADER_SOURCE: &[u8] = br#"
-struct VertexInput
-{
-    float2 position : POSITION;
-    float4 colour : COLOR;
-};
-
-struct PixelInput
-{
-    float4 position : SV_POSITION;
-    float4 colour : COLOR;
-};
-
-PixelInput vertex_main(VertexInput input)
-{
-    PixelInput output;
-    output.position = float4(input.position, 0.0f, 1.0f);
-    output.colour = input.colour;
-    return output;
-}
-
-float4 pixel_main(PixelInput input) : SV_TARGET
-{
-    return input.colour;
-}
-"#;
+const METRICS_OVERLAY_SHADER_SOURCE: &[u8] = include_bytes!("../shaders/metrics_overlay.hlsl");
 const METRICS_OVERLAY_SHADER_NAME: PCSTR = PCSTR(c"metrics_overlay.hlsl".as_ptr().cast());
 const VERTEX_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"vertex_main".as_ptr().cast());
 const PIXEL_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"pixel_main".as_ptr().cast());

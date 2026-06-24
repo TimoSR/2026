@@ -1,10 +1,7 @@
-use windows::core::PCSTR;
-
-use crate::graphics::{
-    GraphicsObject, GraphicsShaderProgram, GraphicsVertex,
-};
+use graphics::{GraphicsObject, GraphicsVertex};
 
 // data structures
+/// A coloured cube that rotates at a fixed rate.
 pub struct SpinningCube
 {
     object_identifier: u64,
@@ -18,48 +15,9 @@ const CUBE_INDEX_COUNT: usize = 36;
 const CUBE_MESH_IDENTIFIER: u64 = 1;
 const CUBE_MATERIAL_IDENTIFIER: u64 = 1;
 const CUBE_BOUNDING_RADIUS: f32 = 1.3;
-const VERTEX_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"vertex_main".as_ptr().cast());
-const PIXEL_SHADER_ENTRY_POINT: PCSTR = PCSTR(c"pixel_main".as_ptr().cast());
-const VERTEX_SHADER_PROFILE: PCSTR = PCSTR(c"vs_5_0".as_ptr().cast());
-const PIXEL_SHADER_PROFILE: PCSTR = PCSTR(c"ps_5_0".as_ptr().cast());
-const CUBE_SHADER_NAME: PCSTR = PCSTR(c"spinning_cube.hlsl".as_ptr().cast());
 // domain constants
 
 // private domain language
-const CUBE_SHADER_SOURCE: &[u8] = br#"
-cbuffer Transform : register(b0)
-{
-    row_major float4x4 world_view_projection;
-};
-
-static const float cube_scale = 0.75f;
-
-struct VertexInput
-{
-    float3 position : POSITION;
-    float3 color : COLOR;
-};
-
-struct PixelInput
-{
-    float4 position : SV_POSITION;
-    float3 color : COLOR;
-};
-
-PixelInput vertex_main(VertexInput input)
-{
-    PixelInput output;
-    output.position = mul(float4(input.position * cube_scale, 1.0f), world_view_projection);
-    output.color = input.color;
-    return output;
-}
-
-float4 pixel_main(PixelInput input) : SV_TARGET
-{
-    return float4(input.color, 1.0f);
-}
-"#;
-
 const CUBE_VERTICES: [GraphicsVertex; 24] = [
     GraphicsVertex { position: [-1.0, -1.0, -1.0], color: [0.85, 0.15, 0.15] },
     GraphicsVertex { position: [-1.0, 1.0, -1.0], color: [0.85, 0.15, 0.15] },
@@ -95,6 +53,7 @@ const CUBE_INDICES: [u16; CUBE_INDEX_COUNT] = [
 
 impl SpinningCube
 {
+    /// Creates a spinning cube with a unique identifier, world position, and rotation rate.
     pub fn new(
         object_identifier: u64,
         position: [f32; 3],
@@ -134,18 +93,6 @@ impl GraphicsObject for SpinningCube
     fn indices(&self) -> &[u16]
     {
         return &CUBE_INDICES;
-    }
-
-    fn shader_program(&self) -> GraphicsShaderProgram
-    {
-        return GraphicsShaderProgram {
-            source: CUBE_SHADER_SOURCE,
-            source_name: CUBE_SHADER_NAME,
-            vertex_entry_point: VERTEX_SHADER_ENTRY_POINT,
-            vertex_profile: VERTEX_SHADER_PROFILE,
-            pixel_entry_point: PIXEL_SHADER_ENTRY_POINT,
-            pixel_profile: PIXEL_SHADER_PROFILE,
-        };
     }
 
     fn position(&self) -> [f32; 3]
