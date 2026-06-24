@@ -66,13 +66,28 @@ impl ImmediateModeGui
         for resolved_box in resolved_boxes
         {
             let rectangle = resolved_box.pixel_rectangle;
-            self.add_rectangle(
-                rectangle.left,
-                rectangle.top,
-                rectangle.width,
-                rectangle.height,
-                resolved_box.background_color,
-            );
+
+            if resolved_box.is_background_visible
+            {
+                self.add_rectangle(
+                    rectangle.left,
+                    rectangle.top,
+                    rectangle.width,
+                    rectangle.height,
+                    resolved_box.background_color,
+                );
+            }
+
+            if let Some(text) = resolved_box.text
+            {
+                let content_rectangle = resolved_box.content_pixel_rectangle;
+                let text_position = [
+                    content_rectangle.left,
+                    content_rectangle.top,
+                ];
+
+                self.add_text(text_position, &text);
+            }
         }
     }
 
@@ -84,8 +99,6 @@ impl ImmediateModeGui
     {
         let panel_position = self.pixel_position_from_screen_position(screen_position);
         let panel_size = text_panel_size(text);
-        let mut character_left = panel_position[0] + PANEL_PADDING;
-        let mut character_top = panel_position[1] + PANEL_PADDING;
 
         self.add_rectangle(
             panel_position[0],
@@ -95,11 +108,24 @@ impl ImmediateModeGui
             PANEL_BACKGROUND_COLOR,
         );
 
+        let text_position = [
+            panel_position[0] + PANEL_PADDING,
+            panel_position[1] + PANEL_PADDING,
+        ];
+
+        self.add_text(text_position, text);
+    }
+
+    fn add_text(&mut self, text_position: PixelPosition, text: &str)
+    {
+        let mut character_left = text_position[0];
+        let mut character_top = text_position[1];
+
         for character in text.chars()
         {
             if character == '\n'
             {
-                character_left = panel_position[0] + PANEL_PADDING;
+                character_left = text_position[0];
                 character_top += LINE_ADVANCE;
                 continue;
             }
@@ -333,6 +359,24 @@ mod tests
         gui.add_layout(&layout);
 
         assert_eq!(gui.vertices().len(), 6);
+    }
+
+    #[test]
+    fn retained_text_box_emits_glyphs_without_a_background()
+    {
+        let mut layout = UserInterfaceLayout::new();
+        layout.add_box(UserInterfaceBox::new_text(
+            UserInterfaceBoxLayout::default(),
+            "A",
+        ));
+        let mut gui = ImmediateModeGui::new(1_920, 1_080);
+
+        gui.add_layout(&layout);
+
+        let vertices = gui.vertices();
+
+        assert!(!vertices.is_empty());
+        assert_eq!(vertices[0].color, TEXT_COLOR);
     }
 
     #[test]

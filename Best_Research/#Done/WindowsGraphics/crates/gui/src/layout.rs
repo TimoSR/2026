@@ -5,6 +5,32 @@ pub type ScreenRelativePosition = [f32; 2];
 /// A colour expressed as red, green, blue, and alpha components.
 pub type UserInterfaceColor = [f32; 4];
 
+/// Space around or inside a user-interface box, expressed in pixels.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct UserInterfaceInsets
+{
+    /// Space along the left edge.
+    pub left: f32,
+    /// Space along the top edge.
+    pub top: f32,
+    /// Space along the right edge.
+    pub right: f32,
+    /// Space along the bottom edge.
+    pub bottom: f32,
+}
+
+/// An explicit length used to override a box dimension.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum UserInterfaceLength
+{
+    /// Uses the size allocated by the parent layout.
+    Fill,
+    /// Uses a fixed number of pixels, clamped to the available size.
+    Pixels(f32),
+    /// Uses a fraction of the parent content size.
+    Relative(f32),
+}
+
 /// A rectangle whose values are fractions of its parent rectangle.
 ///
 /// Root boxes use the screen as their parent. Child boxes use their immediate
@@ -72,6 +98,14 @@ pub struct UserInterfaceBoxLayout
     pub children_layout: UserInterfaceChildrenLayout,
     /// Share of available space when this box belongs to a glued layout.
     pub layout_weight: f32,
+    /// Optional width override applied after the parent allocates the box.
+    pub width: UserInterfaceLength,
+    /// Optional height override applied after the parent allocates the box.
+    pub height: UserInterfaceLength,
+    /// Space outside this box.
+    pub margin: UserInterfaceInsets,
+    /// Space inside this box before its children are arranged.
+    pub padding: UserInterfaceInsets,
 }
 
 /// The visual properties of one user-interface box.
@@ -80,6 +114,8 @@ pub struct UserInterfaceBoxAppearance
 {
     /// Fill colour used to draw the box.
     pub background_color: UserInterfaceColor,
+    /// Whether the box background should be drawn.
+    pub is_background_visible: bool,
     /// Whether this box and all its children should be drawn.
     pub is_visible: bool,
 }
@@ -90,19 +126,26 @@ pub struct UserInterfaceBox
     layout: UserInterfaceBoxLayout,
     appearance: UserInterfaceBoxAppearance,
     layer: UserInterfaceLayer,
+    text: Option<String>,
     children: Vec<UserInterfaceBox>,
 }
 
 /// A resolved, drawable box produced from a [`UserInterfaceLayout`].
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq)]
 pub struct ResolvedUserInterfaceBox
 {
     /// The box bounds in the current viewport.
     pub pixel_rectangle: UserInterfacePixelRectangle,
+    /// The area available for this box's text and children after padding.
+    pub content_pixel_rectangle: UserInterfacePixelRectangle,
     /// The box fill colour.
     pub background_color: UserInterfaceColor,
+    /// Whether the box fill should be emitted as draw data.
+    pub is_background_visible: bool,
     /// The layer used to order drawing.
     pub layer: UserInterfaceLayer,
+    /// Optional text drawn inside the box.
+    pub text: Option<String>,
 }
 
 /// A complete retained layout for one screen.
@@ -116,6 +159,11 @@ pub struct UserInterfaceLayout
 
 // domain constants
 const DEFAULT_BACKGROUND_COLOR: UserInterfaceColor = [0.12, 0.14, 0.18, 1.0];
+const DEFAULT_BUTTON_BACKGROUND_COLOR: UserInterfaceColor = [0.16, 0.28, 0.42, 1.0];
+const DEFAULT_LIST_BACKGROUND_COLOR: UserInterfaceColor = [0.08, 0.10, 0.14, 1.0];
+const DEFAULT_PANEL_PADDING: f32 = 12.0;
+const DEFAULT_BUTTON_VERTICAL_PADDING: f32 = 8.0;
+const DEFAULT_BUTTON_HORIZONTAL_PADDING: f32 = 12.0;
 const MINIMUM_ZOOM_FACTOR: f32 = 0.01;
 const DEFAULT_ZOOM_CENTRE: ScreenRelativePosition = [0.5, 0.5];
 // domain constants
@@ -139,6 +187,63 @@ impl UserInterfaceRelativeRectangle
             width,
             height,
         };
+    }
+}
+
+impl UserInterfaceInsets
+{
+    /// Creates equal spacing on every edge.
+    pub const fn all(value: f32) -> Self
+    {
+        return Self {
+            left: value,
+            top: value,
+            right: value,
+            bottom: value,
+        };
+    }
+
+    /// Creates independent spacing for every edge.
+    pub const fn new(left: f32, top: f32, right: f32, bottom: f32) -> Self
+    {
+        return Self {
+            left,
+            top,
+            right,
+            bottom,
+        };
+    }
+}
+
+impl From<f32> for UserInterfaceInsets
+{
+    fn from(value: f32) -> Self
+    {
+        return Self::all(value);
+    }
+}
+
+impl From<i32> for UserInterfaceInsets
+{
+    fn from(value: i32) -> Self
+    {
+        return Self::all(value as f32);
+    }
+}
+
+impl From<f32> for UserInterfaceLength
+{
+    fn from(value: f32) -> Self
+    {
+        return Self::Pixels(value);
+    }
+}
+
+impl From<i32> for UserInterfaceLength
+{
+    fn from(value: i32) -> Self
+    {
+        return Self::Pixels(value as f32);
     }
 }
 
@@ -174,6 +279,10 @@ impl Default for UserInterfaceBoxLayout
             relative_bounds: UserInterfaceRelativeRectangle::FULL,
             children_layout: UserInterfaceChildrenLayout::Freeform,
             layout_weight: 1.0,
+            width: UserInterfaceLength::Fill,
+            height: UserInterfaceLength::Fill,
+            margin: UserInterfaceInsets::default(),
+            padding: UserInterfaceInsets::default(),
         };
     }
 }
@@ -184,6 +293,7 @@ impl Default for UserInterfaceBoxAppearance
     {
         return Self {
             background_color: DEFAULT_BACKGROUND_COLOR,
+            is_background_visible: true,
             is_visible: true,
         };
     }
@@ -191,6 +301,38 @@ impl Default for UserInterfaceBoxAppearance
 
 impl UserInterfaceBox
 {
+    /// Creates an invisible container that arranges its direct children vertically.
+    pub fn new_container(mut layout: UserInterfaceBoxLayout) -> Self
+    {
+        layout.children_layout = UserInterfaceChildrenLayout::Vertical;
+
+        let mut container = Self::new(layout);
+        let appearance = UserInterfaceBoxAppearance {
+            is_background_visible: false,
+            ..Default::default()
+        };
+
+        container.set_appearance(appearance);
+
+        return container;
+    }
+
+    /// Creates an invisible container that arranges its direct children horizontally.
+    pub fn new_row(mut layout: UserInterfaceBoxLayout) -> Self
+    {
+        layout.children_layout = UserInterfaceChildrenLayout::Horizontal;
+
+        let mut row = Self::new(layout);
+        let appearance = UserInterfaceBoxAppearance {
+            is_background_visible: false,
+            ..Default::default()
+        };
+
+        row.set_appearance(appearance);
+
+        return row;
+    }
+
     /// Creates a visible box with default appearance on the content layer.
     pub fn new(layout: UserInterfaceBoxLayout) -> Self
     {
@@ -198,8 +340,96 @@ impl UserInterfaceBox
             layout,
             appearance: UserInterfaceBoxAppearance::default(),
             layer: UserInterfaceLayer::CONTENT,
+            text: None,
             children: Vec::new(),
         };
+    }
+
+    /// Creates a panel that arranges its direct children vertically.
+    pub fn new_panel(mut layout: UserInterfaceBoxLayout) -> Self
+    {
+        layout.children_layout = UserInterfaceChildrenLayout::Vertical;
+
+        if layout.padding == UserInterfaceInsets::default()
+        {
+            layout.padding = UserInterfaceInsets::all(DEFAULT_PANEL_PADDING);
+        }
+
+        return Self::new(layout);
+    }
+
+    /// Creates a box with the default visual treatment for a button.
+    ///
+    /// The button becomes interactive when the caller supplies an input
+    /// snapshot through the widget layer. Until then it remains a retained,
+    /// visible control in the layout tree.
+    pub fn new_button(layout: UserInterfaceBoxLayout) -> Self
+    {
+        let mut button_layout = layout;
+
+        if button_layout.padding == UserInterfaceInsets::default()
+        {
+            button_layout.padding = UserInterfaceInsets::new(
+                DEFAULT_BUTTON_HORIZONTAL_PADDING,
+                DEFAULT_BUTTON_VERTICAL_PADDING,
+                DEFAULT_BUTTON_HORIZONTAL_PADDING,
+                DEFAULT_BUTTON_VERTICAL_PADDING,
+            );
+        }
+
+        let mut button = Self::new(button_layout);
+        let appearance = UserInterfaceBoxAppearance {
+            background_color: DEFAULT_BUTTON_BACKGROUND_COLOR,
+            ..Default::default()
+        };
+
+        button.set_appearance(appearance);
+
+        return button;
+    }
+
+    /// Creates a button with visible text.
+    pub fn new_button_with_text(
+        layout: UserInterfaceBoxLayout,
+        text: impl Into<String>,
+    ) -> Self
+    {
+        let mut button = Self::new_button(layout);
+
+        button.set_text(text);
+
+        return button;
+    }
+
+    /// Creates a vertically arranged box with the default visual treatment for a list.
+    pub fn new_list(mut layout: UserInterfaceBoxLayout) -> Self
+    {
+        layout.children_layout = UserInterfaceChildrenLayout::Vertical;
+
+        let mut list = Self::new(layout);
+        let appearance = UserInterfaceBoxAppearance {
+            background_color: DEFAULT_LIST_BACKGROUND_COLOR,
+            ..Default::default()
+        };
+
+        list.set_appearance(appearance);
+
+        return list;
+    }
+
+    /// Creates a text-only box that fills its layout bounds without a background.
+    pub fn new_text(layout: UserInterfaceBoxLayout, text: impl Into<String>) -> Self
+    {
+        let mut text_box = Self::new(layout);
+        let appearance = UserInterfaceBoxAppearance {
+            is_background_visible: false,
+            ..Default::default()
+        };
+
+        text_box.set_appearance(appearance);
+        text_box.set_text(text);
+
+        return text_box;
     }
 
     /// Returns this box's placement and child-arrangement settings.
@@ -236,6 +466,24 @@ impl UserInterfaceBox
     pub fn set_layer(&mut self, layer: UserInterfaceLayer)
     {
         self.layer = layer;
+    }
+
+    /// Returns the text drawn inside this box, when text has been assigned.
+    pub fn text(&self) -> Option<&str>
+    {
+        return self.text.as_deref();
+    }
+
+    /// Replaces the text drawn inside this box.
+    pub fn set_text(&mut self, text: impl Into<String>)
+    {
+        self.text = Some(text.into());
+    }
+
+    /// Removes the text drawn inside this box.
+    pub fn clear_text(&mut self)
+    {
+        self.text = None;
     }
 
     /// Adds a child that will follow this box when layout is resolved.
@@ -326,8 +574,13 @@ impl UserInterfaceLayout
 
         for user_interface_box in &self.root_boxes
         {
-            let box_rectangle = rectangle_relative_to_parent(
+            let allocated_rectangle = rectangle_relative_to_parent(
                 user_interface_box.layout.relative_bounds,
+                root_rectangle,
+            );
+            let box_rectangle = apply_box_layout(
+                user_interface_box.layout,
+                allocated_rectangle,
                 root_rectangle,
             );
             resolve_box(
@@ -368,16 +621,26 @@ fn resolve_box(
         return;
     }
 
+    let content_rectangle = inset_rectangle(box_rectangle, user_interface_box.layout.padding);
     let zoomed_rectangle = apply_zoom(
         box_rectangle,
         viewport_rectangle,
         zoom_factor,
         zoom_centre,
     );
+    let zoomed_content_rectangle = apply_zoom(
+        content_rectangle,
+        viewport_rectangle,
+        zoom_factor,
+        zoom_centre,
+    );
     resolved_boxes.push(ResolvedUserInterfaceBox {
         pixel_rectangle: zoomed_rectangle,
+        content_pixel_rectangle: zoomed_content_rectangle,
         background_color: user_interface_box.appearance.background_color,
+        is_background_visible: user_interface_box.appearance.is_background_visible,
         layer: user_interface_box.layer,
+        text: user_interface_box.text.clone(),
     });
 
     match user_interface_box.layout.children_layout
@@ -386,9 +649,14 @@ fn resolve_box(
         {
             for child_box in &user_interface_box.children
             {
-                let child_rectangle = rectangle_relative_to_parent(
+                let allocated_rectangle = rectangle_relative_to_parent(
                     child_box.layout.relative_bounds,
-                    box_rectangle,
+                    content_rectangle,
+                );
+                let child_rectangle = apply_box_layout(
+                    child_box.layout,
+                    allocated_rectangle,
+                    content_rectangle,
                 );
                 resolve_box(
                     child_box,
@@ -404,7 +672,7 @@ fn resolve_box(
         {
             resolve_glued_children(
                 user_interface_box,
-                box_rectangle,
+                content_rectangle,
                 viewport_rectangle,
                 zoom_factor,
                 zoom_centre,
@@ -416,7 +684,7 @@ fn resolve_box(
         {
             resolve_glued_children(
                 user_interface_box,
-                box_rectangle,
+                content_rectangle,
                 viewport_rectangle,
                 zoom_factor,
                 zoom_centre,
@@ -478,6 +746,12 @@ fn resolve_glued_children(
             current_offset += child_rectangle.height;
         }
 
+        let child_rectangle = apply_box_layout(
+            child_box.layout,
+            child_rectangle,
+            parent_rectangle,
+        );
+
         resolve_box(
             child_box,
             child_rectangle,
@@ -511,6 +785,72 @@ fn rectangle_relative_to_parent(
         top: parent_rectangle.top + valid_coordinate(relative_rectangle.top) * parent_rectangle.height,
         width: valid_extent(relative_rectangle.width) * parent_rectangle.width,
         height: valid_extent(relative_rectangle.height) * parent_rectangle.height,
+    };
+}
+
+fn apply_box_layout(
+    layout: UserInterfaceBoxLayout,
+    allocated_rectangle: UserInterfacePixelRectangle,
+    parent_content_rectangle: UserInterfacePixelRectangle,
+) -> UserInterfacePixelRectangle
+{
+    let width = resolved_length(
+        layout.width,
+        allocated_rectangle.width,
+        parent_content_rectangle.width,
+    );
+    let height = resolved_length(
+        layout.height,
+        allocated_rectangle.height,
+        parent_content_rectangle.height,
+    );
+    let constrained_rectangle = UserInterfacePixelRectangle {
+        left: allocated_rectangle.left,
+        top: allocated_rectangle.top,
+        width,
+        height,
+    };
+
+    return inset_rectangle(constrained_rectangle, layout.margin);
+}
+
+fn resolved_length(
+    length: UserInterfaceLength,
+    allocated_extent: f32,
+    parent_content_extent: f32,
+) -> f32
+{
+    match length
+    {
+        UserInterfaceLength::Fill => return allocated_extent,
+        UserInterfaceLength::Pixels(pixel_extent) =>
+        {
+            return valid_extent(pixel_extent).min(allocated_extent);
+        }
+        UserInterfaceLength::Relative(relative_extent) =>
+        {
+            let requested_extent = valid_extent(relative_extent) * parent_content_extent;
+
+            return requested_extent.min(allocated_extent);
+        }
+    }
+}
+
+fn inset_rectangle(
+    rectangle: UserInterfacePixelRectangle,
+    insets: UserInterfaceInsets,
+) -> UserInterfacePixelRectangle
+{
+    let left_inset = valid_extent(insets.left);
+    let top_inset = valid_extent(insets.top);
+    let right_inset = valid_extent(insets.right);
+    let bottom_inset = valid_extent(insets.bottom);
+
+    return UserInterfacePixelRectangle {
+        left: rectangle.left + left_inset,
+        top: rectangle.top + top_inset,
+        width: (rectangle.width - left_inset - right_inset).max(0.0),
+        height: (rectangle.height - top_inset - bottom_inset).max(0.0),
     };
 }
 
@@ -718,5 +1058,47 @@ mod tests
         layout.set_zoom_factor(0.0);
 
         assert_eq!(layout.zoom_factor(), MINIMUM_ZOOM_FACTOR);
+    }
+
+    #[test]
+    fn list_constructor_uses_vertical_child_layout()
+    {
+        let list = UserInterfaceBox::new_list(UserInterfaceBoxLayout::default());
+
+        assert_eq!(
+            list.layout().children_layout,
+            UserInterfaceChildrenLayout::Vertical,
+        );
+    }
+
+    #[test]
+    fn text_constructor_creates_a_transparent_text_box()
+    {
+        let text_box = UserInterfaceBox::new_text(UserInterfaceBoxLayout::default(), "Metrics");
+        let mut layout = UserInterfaceLayout::new();
+        layout.add_box(text_box);
+
+        let resolved_boxes = layout.resolve([1_000, 1_000]);
+
+        assert_eq!(resolved_boxes[0].text.as_deref(), Some("Metrics"));
+        assert!(!resolved_boxes[0].is_background_visible);
+    }
+
+    #[test]
+    fn container_and_panel_constructors_arrange_children_vertically()
+    {
+        let container = UserInterfaceBox::new_container(UserInterfaceBoxLayout::default());
+        let panel = UserInterfaceBox::new_panel(UserInterfaceBoxLayout::default());
+
+        assert_eq!(
+            container.layout().children_layout,
+            UserInterfaceChildrenLayout::Vertical,
+        );
+        assert!(!container.appearance().is_background_visible);
+        assert_eq!(
+            panel.layout().children_layout,
+            UserInterfaceChildrenLayout::Vertical,
+        );
+        assert!(panel.appearance().is_background_visible);
     }
 }

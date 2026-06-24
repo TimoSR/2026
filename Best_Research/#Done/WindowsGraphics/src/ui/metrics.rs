@@ -1,6 +1,6 @@
 use diagnostics::performance_metrics::PerformanceSample;
 use graphics::GraphicsPerformanceMetrics;
-use gui::{ImmediateModeGui, ScreenRelativePosition};
+use gui::{ui, ImmediateModeGui, ScreenRelativePosition};
 
 // public types
 /// The demo's performance-metrics panel.
@@ -11,10 +11,12 @@ pub struct PerformanceMetricsPanel
 // public types
 
 // domain constants
-const METRICS_PANEL_SCREEN_POSITION: ScreenRelativePosition = [
+const METRICS_PANEL_POSITION: ScreenRelativePosition = [
     16.0 / 1_920.0,
     16.0 / 1_080.0,
 ];
+const METRICS_PANEL_WIDTH: f32 = 0.36;
+const METRICS_PANEL_HEIGHT: f32 = 0.24;
 const BYTES_PER_MEBIBYTE: f64 = 1_048_576.0;
 const MINIMUM_FRAME_TIME_IN_MILLISECONDS: f32 = 0.001;
 // domain constants
@@ -47,7 +49,16 @@ impl PerformanceMetricsPanel
     /// Emits this panel into the current immediate-mode UI frame.
     pub fn draw(&self, user_interface: &mut ImmediateModeGui)
     {
-        user_interface.add_text_panel(METRICS_PANEL_SCREEN_POSITION, &self.text);
+        let metrics_layout = gui::new(
+            METRICS_PANEL_POSITION,
+            METRICS_PANEL_WIDTH,
+            METRICS_PANEL_HEIGHT,
+            ui::panel! {
+                ui::text! { &self.text }
+            },
+        );
+
+        user_interface.add_layout(&metrics_layout);
     }
 }
 

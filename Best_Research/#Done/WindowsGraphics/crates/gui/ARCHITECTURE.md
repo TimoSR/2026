@@ -56,6 +56,53 @@ The retained tree is intentionally not a CSS parser, DOM implementation, or
 general-purpose scene framework. It provides only the concrete capabilities
 required for planning and switching game UI layouts.
 
+## Declarative Construction
+
+`gui::new(...)` constructs a retained layout from a screen-relative root
+placement and one UI node. The `ui` module exposes nested element macros.
+
+```rust
+use gui::ui;
+
+let layout_root = gui::new(
+    [0.1, 0.1],
+    0.3,
+    0.4,
+    ui::panel! {
+        ui::text! { "Save slots" }
+        ui::list! {
+            ui::button! { "Save 1" }
+            ui::button! { "Save 2" }
+        }
+    },
+);
+```
+
+The root position, width, and height are screen-relative. The root, panels,
+and lists arrange direct children vertically. `button` currently creates the
+retained visual control only. Pointer input, hit testing, and interaction state
+will be added together when native pointer input is available from the window
+layer.
+
+## Discoverable UI Factories
+
+`gui::ui` is the public vocabulary for constructing nodes outside the macro.
+Typing `ui::` exposes `panel`, `text`, `button`, `list`, `row`,
+`column`, `width`, `height`, `margin`, `padding`, `Insets`, and `Length`.
+
+```rust
+use gui::ui;
+
+let settings_panel = ui::padding(
+    24,
+    ui::width(320, ui::panel()),
+);
+```
+
+The element macros and ordinary functions share this vocabulary. Import
+`gui::ui` in product code, then use `ui::panel!`, `ui::text!`, and the other
+element macros inside nested UI trees.
+
 ```rust
 let mut toolbar = UserInterfaceBox::new(UserInterfaceBoxLayout {
     relative_bounds: UserInterfaceRelativeRectangle::new(0.05, 0.05, 0.90, 0.10),
