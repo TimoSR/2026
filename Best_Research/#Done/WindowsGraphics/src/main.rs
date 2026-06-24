@@ -2,6 +2,7 @@
 
 use std::{path::Path, time::Instant};
 use diagnostics::performance_metrics;
+use gui::ImmediateModeGui;
 use models::{cube, gltf};
 use platform::window;
 use windows::core::Result;
@@ -55,6 +56,7 @@ fn main() -> Result<()>
         WINDOW_WIDTH as u32,
         WINDOW_HEIGHT as u32,
     )?;
+    let mut user_interface = ImmediateModeGui::new(WINDOW_WIDTH as u32, WINDOW_HEIGHT as u32);
 
     graphics.set_multisample_antialiasing_enabled(MULTISAMPLE_ANTIALIASING_ENABLED)?;
     graphics.set_temporal_antialiasing_enabled(TEMPORAL_ANTIALIASING_ENABLED);
@@ -102,7 +104,12 @@ fn main() -> Result<()>
         if window_events.was_tab_released
         {
             are_metrics_visible = !are_metrics_visible;
-            graphics.set_metrics_visible(are_metrics_visible);
+
+            if !are_metrics_visible
+            {
+                user_interface.begin_frame();
+                graphics.submit_user_interface(&user_interface)?;
+            }
         }
 
         if window.is_minimized()
@@ -119,56 +126,14 @@ fn main() -> Result<()>
         {
             if are_metrics_visible
             {
-                let graphics_memory_metrics = graphics.graphics_memory_metrics();
-                let metrics_text = create_metrics_text(
+                user_interface.begin_frame();
+                user_interface.add_performance_metrics_panel(
+                    [16.0, 16.0],
                     &performance_sample,
-                    graphics_memory_metrics,
-                    &graphics,
+                    &graphics.performance_metrics(),
                 );
-                graphics.set_metrics_text(&metrics_text)?;
+                graphics.submit_user_interface(&user_interface)?;
             }
         }
     }
-}
-
-fn create_metrics_text(
-    performance_sample: &performance_metrics::PerformanceSample,
-    graphics_memory_metrics: Option<graphics::GraphicsMemoryMetrics>,
-    graphics: &graphics::Direct3DGraphics,
-) -> String
-{
-    let antialiasing_text = format!(
-        "MSAA: {} | TAA: {}",
-        if graphics.is_multisample_antialiasing_enabled() { "On" } else { "Off" },
-        if graphics.is_temporal_antialiasing_enabled() { "On" } else { "Off" },
-    );
-    let graphics_memory_text = match graphics_memory_metrics
-    {
-        Some(graphics_memory_metrics) => format!(
-            "GPU memory: {:.0} / {:.0} MiB",
-            graphics_memory_metrics.used_bytes as f64 / 1_048_576.0,
-            graphics_memory_metrics.budget_bytes as f64 / 1_048_576.0,
-        ),
-        None => String::from("GPU memory: unavailable"),
-    };
-    let gpu_usage_text = match graphics.gpu_frame_time_in_milliseconds()
-    {
-        Some(gpu_frame_time_in_milliseconds) => format!(
-            "GPU: {:.2} MS {:.0}% FRAME",
-            gpu_frame_time_in_milliseconds,
-            gpu_frame_time_in_milliseconds / performance_sample.frame_time_in_milliseconds * 100.0,
-        ),
-        None => String::from("GPU: collecting timing"),
-    };
-
-    return format!(
-        "FPS: {:.1}\nFrame time: {:.2} ms\nProcess CPU: {:.1}%\n{}\n{}\n{}\nObjects: {}\nPress Tab to hide metrics",
-        performance_sample.frames_per_second,
-        performance_sample.frame_time_in_milliseconds,
-        performance_sample.process_cpu_usage_percentage,
-        gpu_usage_text,
-        graphics_memory_text,
-        antialiasing_text,
-        graphics.loaded_object_count(),
-    );
 }

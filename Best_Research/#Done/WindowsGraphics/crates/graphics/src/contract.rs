@@ -12,6 +12,29 @@ pub struct GraphicsVertex
 }
 // data structures
 
+/// A vertex emitted by a user-interface library for the graphics renderer.
+#[repr(C)]
+#[derive(Clone, Copy)]
+pub struct GraphicsUserInterfaceVertex
+{
+    /// Normalized device coordinates in the range `[-1.0, 1.0]`.
+    pub position: [f32; 2],
+
+    /// The linear RGBA colour for this vertex.
+    pub color: [f32; 4],
+}
+
+/// External shader source supplied by a user-interface library.
+#[derive(Clone, Copy)]
+pub struct GraphicsUserInterfaceShader
+{
+    /// HLSL source embedded from an external shader file by the UI library.
+    pub source: &'static [u8],
+
+    /// Stable shader identity; this must change whenever the shader source changes.
+    pub identifier: &'static str,
+}
+
 // graphics object contract
 // Mesh indices must wind clockwise when viewed from the object's exterior.
 // This is the Direct3D front-face convention used by this renderer.
@@ -58,3 +81,13 @@ pub trait GraphicsObject
     }
 }
 // graphics object contract
+
+/// Supplies immediate-mode user-interface geometry and its pixel shader to the renderer.
+pub trait GraphicsUserInterface
+{
+    /// Returns the shader used to render the emitted UI vertices.
+    fn shader(&self) -> GraphicsUserInterfaceShader;
+
+    /// Returns non-indexed triangles in normalized device coordinates.
+    fn vertices(&self) -> &[GraphicsUserInterfaceVertex];
+}

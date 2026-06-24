@@ -2,8 +2,8 @@ use std::{ffi::c_void, mem::{size_of, size_of_val}, slice};
 use crate::{
     contract::{GraphicsObject, GraphicsVertex},
     gpu_timing::GpuTiming,
-    metrics_overlay::MetricsOverlay,
     temporal_antialiasing::TemporalAntialiasing,
+    user_interface_renderer::UserInterfaceRenderer,
 };
 use windows::{
     core::{Error, Interface, PCSTR, Result},
@@ -75,7 +75,7 @@ pub struct Direct3DGraphics
     is_multisample_antialiasing_enabled: bool,
     temporal_antialiasing: TemporalAntialiasing,
     is_temporal_antialiasing_enabled: bool,
-    metrics_overlay: MetricsOverlay,
+    user_interface_renderer: UserInterfaceRenderer,
     gpu_timing: GpuTiming,
     texture_sampler_state: ID3D11SamplerState,
     loaded_objects: Vec<LoadedGraphicsObject>,
@@ -89,6 +89,25 @@ pub struct GraphicsMemoryMetrics
 
     /// Current local-memory budget in bytes.
     pub budget_bytes: u64,
+}
+
+/// Renderer state used by a user interface to display graphics performance metrics.
+pub struct GraphicsPerformanceMetrics
+{
+    /// Most recently completed GPU frame duration, when timestamp data is available.
+    pub gpu_frame_time_in_milliseconds: Option<f32>,
+
+    /// Current local graphics-memory usage, when the adapter reports it.
+    pub graphics_memory: Option<GraphicsMemoryMetrics>,
+
+    /// Whether multisample antialiasing is enabled.
+    pub is_multisample_antialiasing_enabled: bool,
+
+    /// Whether temporal antialiasing is enabled.
+    pub is_temporal_antialiasing_enabled: bool,
+
+    /// Number of object instances currently loaded by the renderer.
+    pub loaded_object_count: usize,
 }
 
 struct LoadedGraphicsObject
@@ -197,19 +216,31 @@ impl Direct3DGraphics
         return self.gpu_timing.last_frame_time_in_milliseconds();
     }
 
-    /// Shows or hides the renderer-owned metrics overlay.
-    pub fn set_metrics_visible(&mut self, is_visible: bool)
-    {
-        self.metrics_overlay.set_visible(is_visible);
-    }
-
-    /// Replaces the text displayed by the metrics overlay.
-    pub fn set_metrics_text(&mut self, text: &str) -> Result<()>
+    /// Uploads the current draw data emitted by a user-interface library.
+    pub fn submit_user_interface<UserInterface>(&mut self, user_interface: &UserInterface) -> Result<()>
+    where
+        UserInterface: crate::GraphicsUserInterface,
     {
         unsafe
         {
-            return self.metrics_overlay.set_text(&self.device_context, text);
+            return self.user_interface_renderer.submit(
+                &self.device,
+                &self.device_context,
+                user_interface,
+            );
         }
+    }
+
+    /// Returns renderer state required to display graphics performance metrics.
+    pub fn performance_metrics(&self) -> GraphicsPerformanceMetrics
+    {
+        return GraphicsPerformanceMetrics {
+            gpu_frame_time_in_milliseconds: self.gpu_frame_time_in_milliseconds(),
+            graphics_memory: self.graphics_memory_metrics(),
+            is_multisample_antialiasing_enabled: self.is_multisample_antialiasing_enabled(),
+            is_temporal_antialiasing_enabled: self.is_temporal_antialiasing_enabled(),
+            loaded_object_count: self.loaded_object_count(),
+        };
     }
 
     /// Returns local graphics-memory usage when the adapter exposes it.
@@ -330,11 +361,7 @@ impl Direct3DGraphics
             viewport_width,
             viewport_height,
         )?;
-        let metrics_overlay = MetricsOverlay::create(
-            &created_device.device,
-            viewport_width,
-            viewport_height,
-        )?;
+        let user_interface_renderer = UserInterfaceRenderer::create(&created_device.device)?;
         let gpu_timing = GpuTiming::create(&created_device.device)?;
         let texture_sampler_state = Self::create_texture_sampler_state(&created_device.device)?;
         let transform_buffer = Self::create_buffer(
@@ -365,7 +392,7 @@ impl Direct3DGraphics
             is_multisample_antialiasing_enabled: false,
             temporal_antialiasing,
             is_temporal_antialiasing_enabled: false,
-            metrics_overlay,
+            user_interface_renderer,
             gpu_timing,
             texture_sampler_state,
             loaded_objects: Vec::new(),
@@ -543,7 +570,7 @@ impl Direct3DGraphics
             );
         }
 
-        self.metrics_overlay.render(
+        self.user_interface_renderer.render(
             &self.device_context,
             &self.back_buffer_render_target_view,
         );

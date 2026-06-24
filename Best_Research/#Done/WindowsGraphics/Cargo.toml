@@ -2,6 +2,7 @@
 members = [
     "crates/diagnostics",
     "crates/graphics",
+    "crates/gui",
     "crates/models",
     "crates/platform",
 ]
@@ -15,6 +16,7 @@ edition = "2021"
 [dependencies]
 diagnostics = { path = "crates/diagnostics" }
 graphics = { path = "crates/graphics" }
+gui = { path = "crates/gui" }
 models = { path = "crates/models" }
 platform = { path = "crates/platform" }
 
