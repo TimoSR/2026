@@ -1,6 +1,8 @@
 use std::{ffi::c_void, mem::{size_of, size_of_val}, slice};
+use crate::metrics_overlay::MetricsOverlay;
+use crate::temporal_antialiasing::TemporalAntialiasing;
 use windows::{
-    core::{Error, PCSTR, Result},
+    core::{Error, Interface, PCSTR, Result},
     Win32::{
         Foundation::{E_FAIL, HWND},
         Graphics::{
@@ -11,23 +13,26 @@ use windows::{
             Direct3D11::{
                 D3D11CreateDeviceAndSwapChain, D3D11_BIND_CONSTANT_BUFFER,
                 D3D11_BIND_DEPTH_STENCIL, D3D11_BIND_FLAG, D3D11_BIND_INDEX_BUFFER,
-                D3D11_BIND_VERTEX_BUFFER, D3D11_BUFFER_DESC, D3D11_CLEAR_DEPTH,
-                D3D11_CULL_NONE, D3D11_FILL_SOLID, D3D11_INPUT_ELEMENT_DESC,
+                D3D11_BIND_RENDER_TARGET, D3D11_BIND_VERTEX_BUFFER, D3D11_BUFFER_DESC,
+                D3D11_CLEAR_DEPTH,
+                D3D11_CULL_BACK, D3D11_FILL_SOLID, D3D11_INPUT_ELEMENT_DESC,
                 D3D11_INPUT_PER_VERTEX_DATA, D3D11_RASTERIZER_DESC, D3D11_SDK_VERSION,
                 D3D11_SUBRESOURCE_DATA, D3D11_TEXTURE2D_DESC, D3D11_USAGE_DEFAULT,
                 D3D11_VIEWPORT, ID3D11Buffer, ID3D11ClassLinkage, ID3D11DepthStencilView,
                 ID3D11Device, ID3D11DeviceContext, ID3D11InputLayout, ID3D11PixelShader,
                 ID3D11RasterizerState, ID3D11RenderTargetView, ID3D11Texture2D,
-                ID3D11VertexShader,
+                ID3D11ShaderResourceView, ID3D11VertexShader,
             },
             Dxgi::{
                 Common::{
-                    DXGI_FORMAT_D24_UNORM_S8_UINT, DXGI_FORMAT_R16_UINT,
+                    DXGI_FORMAT, DXGI_FORMAT_D24_UNORM_S8_UINT, DXGI_FORMAT_R16_UINT,
                     DXGI_FORMAT_R32G32B32_FLOAT, DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_MODE_DESC,
                     DXGI_RATIONAL, DXGI_SAMPLE_DESC,
                 },
                 DXGI_PRESENT, DXGI_SWAP_CHAIN_DESC, DXGI_SWAP_EFFECT_DISCARD,
-                DXGI_USAGE_RENDER_TARGET_OUTPUT, IDXGIAdapter, IDXGISwapChain,
+                DXGI_MEMORY_SEGMENT_GROUP_LOCAL, DXGI_QUERY_VIDEO_MEMORY_INFO,
+                DXGI_USAGE_RENDER_TARGET_OUTPUT, DXGI_USAGE_SHADER_INPUT, IDXGIAdapter, IDXGIAdapter3,
+                IDXGIDevice, IDXGISwapChain,
             },
         },
     },
@@ -58,17 +63,34 @@ pub struct Direct3DGraphics
     device: ID3D11Device,
     swap_chain: IDXGISwapChain,
     device_context: ID3D11DeviceContext,
+    graphics_adapter: Option<IDXGIAdapter3>,
+    back_buffer: ID3D11Texture2D,
+    back_buffer_shader_resource_view: ID3D11ShaderResourceView,
+    back_buffer_render_target_view: ID3D11RenderTargetView,
     render_target_view: ID3D11RenderTargetView,
     depth_stencil_view: ID3D11DepthStencilView,
+    multisample_color_target: Option<ID3D11Texture2D>,
     rasterizer_state: ID3D11RasterizerState,
     transform_buffer: ID3D11Buffer,
     viewport: D3D11_VIEWPORT,
+    is_multisample_antialiasing_enabled: bool,
+    temporal_antialiasing: TemporalAntialiasing,
+    is_temporal_antialiasing_enabled: bool,
+    metrics_overlay: MetricsOverlay,
     loaded_objects: Vec<LoadedGraphicsObject>,
+}
+
+pub struct GraphicsMemoryMetrics
+{
+    pub used_bytes: u64,
+    pub budget_bytes: u64,
 }
 
 struct LoadedGraphicsObject
 {
     object_identifier: u64,
+    mesh_identifier: u64,
+    material_identifier: u64,
     object: Box<dyn GraphicsObject>,
     vertex_buffer: ID3D11Buffer,
     index_buffer: ID3D11Buffer,
@@ -85,6 +107,13 @@ struct CreatedDirect3DDevice
     device_context: ID3D11DeviceContext,
 }
 
+struct RenderTargets
+{
+    render_target_view: ID3D11RenderTargetView,
+    depth_stencil_view: ID3D11DepthStencilView,
+    multisample_color_target: Option<ID3D11Texture2D>,
+}
+
 #[repr(C)]
 #[derive(Clone, Copy)]
 struct TransformBuffer
@@ -94,14 +123,19 @@ struct TransformBuffer
 // data structures
 
 // graphics object contract
+// Mesh indices must wind clockwise when viewed from the object's exterior.
+// This is the Direct3D front-face convention used by this renderer.
 pub trait GraphicsObject
 {
     fn identifier(&self) -> u64;
+    fn mesh_identifier(&self) -> u64;
+    fn material_identifier(&self) -> u64;
     fn vertices(&self) -> &[GraphicsVertex];
     fn indices(&self) -> &[u16];
     fn shader_program(&self) -> GraphicsShaderProgram;
     fn position(&self) -> [f32; 3];
     fn rotation_radians(&self, elapsed_seconds: f32) -> [f32; 3];
+    fn bounding_radius(&self) -> f32;
 }
 // graphics object contract
 
@@ -114,6 +148,8 @@ type ShaderBytecode = Vec<u8>;
 // domain constants
 const CLEAR_COLOR: Color = [0.05, 0.08, 0.12, 1.0];
 const VERTEX_STRIDE: u32 = size_of::<GraphicsVertex>() as u32;
+const DISPLAY_COLOR_FORMAT: DXGI_FORMAT = DXGI_FORMAT_R8G8B8A8_UNORM;
+const PREFERRED_MULTISAMPLE_SAMPLE_COUNTS: [u32; 2] = [8, 4];
 const VERTICAL_FIELD_OF_VIEW_DEGREES: f32 = 60.0;
 const NEAR_PLANE: f32 = 0.1;
 const FAR_PLANE: f32 = 100.0;
@@ -135,6 +171,87 @@ pub fn create_direct3d_graphics(
 
 impl Direct3DGraphics
 {
+    pub fn set_metrics_visible(&mut self, is_visible: bool)
+    {
+        self.metrics_overlay.set_visible(is_visible);
+    }
+
+    pub fn set_metrics_text(&mut self, text: &str) -> Result<()>
+    {
+        unsafe
+        {
+            return self.metrics_overlay.set_text(&self.device_context, text);
+        }
+    }
+
+    pub fn graphics_memory_metrics(&self) -> Option<GraphicsMemoryMetrics>
+    {
+        let graphics_adapter = match &self.graphics_adapter
+        {
+            Some(graphics_adapter) => graphics_adapter,
+            None => return None,
+        };
+
+        unsafe
+        {
+            let mut video_memory_info = DXGI_QUERY_VIDEO_MEMORY_INFO::default();
+            let query_result = graphics_adapter.QueryVideoMemoryInfo(
+                0,
+                DXGI_MEMORY_SEGMENT_GROUP_LOCAL,
+                &mut video_memory_info,
+            );
+
+            if query_result.is_err()
+            {
+                return None;
+            }
+
+            return Some(GraphicsMemoryMetrics {
+                used_bytes: video_memory_info.CurrentUsage,
+                budget_bytes: video_memory_info.Budget,
+            });
+        }
+    }
+
+    pub fn loaded_object_count(&self) -> usize
+    {
+        return self.loaded_objects.len();
+    }
+
+    pub fn is_temporal_antialiasing_enabled(&self) -> bool
+    {
+        return self.is_temporal_antialiasing_enabled;
+    }
+
+    pub fn set_temporal_antialiasing_enabled(&mut self, is_enabled: bool)
+    {
+        if self.is_temporal_antialiasing_enabled == is_enabled
+        {
+            return;
+        }
+
+        self.is_temporal_antialiasing_enabled = is_enabled;
+        self.temporal_antialiasing.reset_history();
+    }
+
+    pub fn is_multisample_antialiasing_enabled(&self) -> bool
+    {
+        return self.is_multisample_antialiasing_enabled;
+    }
+
+    pub fn set_multisample_antialiasing_enabled(&mut self, is_enabled: bool) -> Result<()>
+    {
+        if self.is_multisample_antialiasing_enabled == is_enabled
+        {
+            return Ok(());
+        }
+
+        unsafe
+        {
+            return self.set_multisample_antialiasing_enabled_internal(is_enabled);
+        }
+    }
+
     pub fn add_object<GameObject>(&mut self, object: GameObject) -> Result<()>
     where
         GameObject: GraphicsObject + 'static,
@@ -145,7 +262,7 @@ impl Direct3DGraphics
         }
     }
 
-    pub fn render(&self, elapsed_seconds: f32) -> Result<()>
+    pub fn render(&mut self, elapsed_seconds: f32) -> Result<()>
     {
         unsafe
         {
@@ -160,10 +277,28 @@ impl Direct3DGraphics
     ) -> Result<Self>
     {
         let created_device = Self::create_device_and_swap_chain(window_handle, viewport_width, viewport_height)?;
+        let graphics_adapter = Self::find_graphics_adapter(&created_device.device);
         let back_buffer = created_device.swap_chain.GetBuffer::<ID3D11Texture2D>(0)?;
-        let render_target_view = Self::create_render_target_view(&created_device.device, &back_buffer)?;
-        let depth_stencil_view = Self::create_depth_stencil_view(&created_device.device, viewport_width, viewport_height)?;
+        let back_buffer_render_target_view = Self::create_render_target_view(&created_device.device, &back_buffer)?;
+        let back_buffer_shader_resource_view = Self::create_shader_resource_view(&created_device.device, &back_buffer)?;
+        let render_targets = Self::create_render_targets(
+            &created_device.device,
+            &back_buffer,
+            viewport_width,
+            viewport_height,
+            false,
+        )?;
         let rasterizer_state = Self::create_rasterizer_state(&created_device.device)?;
+        let temporal_antialiasing = TemporalAntialiasing::create(
+            &created_device.device,
+            viewport_width,
+            viewport_height,
+        )?;
+        let metrics_overlay = MetricsOverlay::create(
+            &created_device.device,
+            viewport_width,
+            viewport_height,
+        )?;
         let transform_buffer = Self::create_buffer(
             &created_device.device,
             &[TransformBuffer { world_view_projection: identity_matrix() }],
@@ -179,13 +314,42 @@ impl Direct3DGraphics
             device: created_device.device,
             swap_chain: created_device.swap_chain,
             device_context: created_device.device_context,
-            render_target_view,
-            depth_stencil_view,
+            graphics_adapter,
+            back_buffer,
+            back_buffer_shader_resource_view,
+            back_buffer_render_target_view,
+            render_target_view: render_targets.render_target_view,
+            depth_stencil_view: render_targets.depth_stencil_view,
+            multisample_color_target: render_targets.multisample_color_target,
             rasterizer_state,
             transform_buffer,
             viewport,
+            is_multisample_antialiasing_enabled: false,
+            temporal_antialiasing,
+            is_temporal_antialiasing_enabled: false,
+            metrics_overlay,
             loaded_objects: Vec::new(),
         });
+    }
+
+    unsafe fn set_multisample_antialiasing_enabled_internal(&mut self, is_enabled: bool) -> Result<()>
+    {
+        let render_targets = Self::create_render_targets(
+            &self.device,
+            &self.back_buffer,
+            self.viewport.Width as u32,
+            self.viewport.Height as u32,
+            is_enabled,
+        )?;
+
+        self.device_context.OMSetRenderTargets(None, None);
+        self.render_target_view = render_targets.render_target_view;
+        self.depth_stencil_view = render_targets.depth_stencil_view;
+        self.multisample_color_target = render_targets.multisample_color_target;
+        self.is_multisample_antialiasing_enabled = is_enabled;
+        self.temporal_antialiasing.reset_history();
+
+        return Ok(());
     }
 
     unsafe fn load_object_internal<GameObject>(&mut self, object: GameObject) -> Result<()>
@@ -195,6 +359,29 @@ impl Direct3DGraphics
         if self.find_loaded_object(object.identifier()).is_ok()
         {
             return Err(Error::new(E_FAIL, "Graphics object identifier is already loaded."));
+        }
+
+        let mesh_identifier = object.mesh_identifier();
+        let material_identifier = object.material_identifier();
+
+        if let Some(resource_source) = self.find_resource_source(mesh_identifier, material_identifier)
+        {
+            let loaded_object = LoadedGraphicsObject {
+                object_identifier: object.identifier(),
+                mesh_identifier,
+                material_identifier,
+                object: Box::new(object),
+                vertex_buffer: resource_source.vertex_buffer.clone(),
+                index_buffer: resource_source.index_buffer.clone(),
+                index_count: resource_source.index_count,
+                input_layout: resource_source.input_layout.clone(),
+                vertex_shader: resource_source.vertex_shader.clone(),
+                pixel_shader: resource_source.pixel_shader.clone(),
+            };
+
+            self.loaded_objects.push(loaded_object);
+
+            return Ok(());
         }
 
         let shader_program = object.shader_program();
@@ -221,17 +408,28 @@ impl Direct3DGraphics
         let pixel_shader = Self::create_pixel_shader(&self.device, &pixel_shader_bytecode)?;
 
         self.loaded_objects.push(LoadedGraphicsObject {
-            object_identifier: object.identifier(), object: Box::new(object), vertex_buffer, index_buffer, index_count,
+            object_identifier: object.identifier(), mesh_identifier, material_identifier, object: Box::new(object), vertex_buffer, index_buffer, index_count,
             input_layout, vertex_shader, pixel_shader,
         });
 
         return Ok(());
     }
 
-    unsafe fn render_internal(&self, elapsed_seconds: f32) -> Result<()>
+    unsafe fn render_internal(&mut self, elapsed_seconds: f32) -> Result<()>
     {
         let render_targets = [Some(self.render_target_view.clone())];
         let transform_buffers = [Some(self.transform_buffer.clone())];
+        let temporal_jitter = if self.is_temporal_antialiasing_enabled
+        {
+            self.temporal_antialiasing.jitter_in_normalized_device_coordinates(
+                self.viewport.Width,
+                self.viewport.Height,
+            )
+        }
+        else
+        {
+            [0.0, 0.0]
+        };
 
         self.device_context.OMSetRenderTargets(Some(&render_targets), Some(&self.depth_stencil_view));
         self.device_context.ClearRenderTargetView(&self.render_target_view, &CLEAR_COLOR);
@@ -241,8 +439,17 @@ impl Direct3DGraphics
 
         for loaded_object in &self.loaded_objects
         {
+            if !self.is_visible(loaded_object.object.as_ref())
+            {
+                continue;
+            }
+
             let vertex_buffers = [Some(loaded_object.vertex_buffer.clone())];
-            let transform = self.create_transform(loaded_object.object.as_ref(), elapsed_seconds);
+            let transform = self.create_transform(
+                loaded_object.object.as_ref(),
+                elapsed_seconds,
+                temporal_jitter,
+            );
             let vertex_offset = 0;
 
             self.device_context.IASetInputLayout(&loaded_object.input_layout);
@@ -255,6 +462,34 @@ impl Direct3DGraphics
             self.device_context.UpdateSubresource(&self.transform_buffer, 0, None, (&transform as *const TransformBuffer).cast::<c_void>(), 0, 0);
             self.device_context.DrawIndexed(loaded_object.index_count, 0, 0);
         }
+
+        if let Some(multisample_color_target) = &self.multisample_color_target
+        {
+            self.device_context.ResolveSubresource(
+                &self.back_buffer,
+                0,
+                multisample_color_target,
+                0,
+                DISPLAY_COLOR_FORMAT,
+            );
+        }
+
+        if self.is_temporal_antialiasing_enabled
+        {
+            self.device_context.OMSetRenderTargets(None, None);
+            self.temporal_antialiasing.resolve(
+                &self.device_context,
+                &self.back_buffer_shader_resource_view,
+                &self.back_buffer,
+                self.viewport.Width,
+                self.viewport.Height,
+            );
+        }
+
+        self.metrics_overlay.render(
+            &self.device_context,
+            &self.back_buffer_render_target_view,
+        );
 
         self.swap_chain.Present(1, DXGI_PRESENT(0)).ok()?;
 
@@ -274,7 +509,58 @@ impl Direct3DGraphics
         return Err(Error::new(E_FAIL, "Graphics object has not been loaded."));
     }
 
-    fn create_transform(&self, object: &dyn GraphicsObject, elapsed_seconds: f32) -> TransformBuffer
+    #[allow(clippy::manual_find)]
+    fn find_resource_source(
+        &self,
+        mesh_identifier: u64,
+        material_identifier: u64,
+    ) -> Option<&LoadedGraphicsObject>
+    {
+        for loaded_object in &self.loaded_objects
+        {
+            if loaded_object.mesh_identifier == mesh_identifier
+                && loaded_object.material_identifier == material_identifier
+            {
+                return Some(loaded_object);
+            }
+        }
+
+        return None;
+    }
+
+    fn is_visible(&self, object: &dyn GraphicsObject) -> bool
+    {
+        let position = object.position();
+        let radius = object.bounding_radius();
+        let depth = position[2];
+
+        if depth + radius < NEAR_PLANE || depth - radius > FAR_PLANE
+        {
+            return false;
+        }
+
+        let half_vertical_view = (VERTICAL_FIELD_OF_VIEW_DEGREES.to_radians() * 0.5).tan() * depth;
+        let half_horizontal_view = half_vertical_view * self.viewport.Width / self.viewport.Height;
+
+        if position[0].abs() - radius > half_horizontal_view
+        {
+            return false;
+        }
+
+        if position[1].abs() - radius > half_vertical_view
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    fn create_transform(
+        &self,
+        object: &dyn GraphicsObject,
+        elapsed_seconds: f32,
+        temporal_jitter: [f32; 2],
+    ) -> TransformBuffer
     {
         let rotation = object.rotation_radians(elapsed_seconds);
         let position = object.position();
@@ -287,7 +573,12 @@ impl Direct3DGraphics
         let translation = [[1.0, 0.0, 0.0, 0.0], [0.0, 1.0, 0.0, 0.0], [0.0, 0.0, 1.0, 0.0], [position[0], position[1], position[2], 1.0]];
         let focal_length = 1.0 / ((VERTICAL_FIELD_OF_VIEW_DEGREES.to_radians() * 0.5).tan());
         let aspect_ratio = self.viewport.Width / self.viewport.Height;
-        let perspective = [[focal_length / aspect_ratio, 0.0, 0.0, 0.0], [0.0, focal_length, 0.0, 0.0], [0.0, 0.0, FAR_PLANE / (FAR_PLANE - NEAR_PLANE), 1.0], [0.0, 0.0, -NEAR_PLANE * FAR_PLANE / (FAR_PLANE - NEAR_PLANE), 0.0]];
+        let perspective = [
+            [focal_length / aspect_ratio, 0.0, 0.0, 0.0],
+            [0.0, focal_length, 0.0, 0.0],
+            [temporal_jitter[0], temporal_jitter[1], FAR_PLANE / (FAR_PLANE - NEAR_PLANE), 1.0],
+            [0.0, 0.0, -NEAR_PLANE * FAR_PLANE / (FAR_PLANE - NEAR_PLANE), 0.0],
+        ];
         let rotation_xy = multiply_matrices(rotation_x, rotation_y);
         let rotation_xyz = multiply_matrices(rotation_xy, rotation_z);
         let world = multiply_matrices(rotation_xyz, translation);
@@ -298,9 +589,11 @@ impl Direct3DGraphics
     unsafe fn create_device_and_swap_chain(window_handle: HWND, width: u32, height: u32) -> Result<CreatedDirect3DDevice>
     {
         let swap_chain_desc = DXGI_SWAP_CHAIN_DESC {
-            BufferDesc: DXGI_MODE_DESC { Width: width, Height: height, RefreshRate: DXGI_RATIONAL { Numerator: 60, Denominator: 1 }, Format: DXGI_FORMAT_R8G8B8A8_UNORM, ScanlineOrdering: Default::default(), Scaling: Default::default() },
+            BufferDesc: DXGI_MODE_DESC { Width: width, Height: height, RefreshRate: DXGI_RATIONAL { Numerator: 60, Denominator: 1 }, Format: DISPLAY_COLOR_FORMAT, ScanlineOrdering: Default::default(), Scaling: Default::default() },
             SampleDesc: DXGI_SAMPLE_DESC { Count: 1, Quality: 0 },
-            BufferUsage: DXGI_USAGE_RENDER_TARGET_OUTPUT, BufferCount: 1, OutputWindow: window_handle,
+            BufferUsage: DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT,
+            BufferCount: 1,
+            OutputWindow: window_handle,
             Windowed: true.into(), SwapEffect: DXGI_SWAP_EFFECT_DISCARD, Flags: 0,
         };
         let feature_levels = [D3D_FEATURE_LEVEL_11_0];
@@ -317,6 +610,22 @@ impl Direct3DGraphics
         });
     }
 
+    fn find_graphics_adapter(device: &ID3D11Device) -> Option<IDXGIAdapter3>
+    {
+        let dxgi_device = match device.cast::<IDXGIDevice>()
+        {
+            Ok(dxgi_device) => dxgi_device,
+            Err(_) => return None,
+        };
+        let adapter = match unsafe { dxgi_device.GetAdapter() }
+        {
+            Ok(adapter) => adapter,
+            Err(_) => return None,
+        };
+
+        return adapter.cast::<IDXGIAdapter3>().ok();
+    }
+
     unsafe fn create_render_target_view(device: &ID3D11Device, back_buffer: &ID3D11Texture2D) -> Result<ID3D11RenderTargetView>
     {
         let mut render_target_view = None;
@@ -324,9 +633,124 @@ impl Direct3DGraphics
         return required_resource(render_target_view, "Direct3D returned no render-target view.");
     }
 
-    unsafe fn create_depth_stencil_view(device: &ID3D11Device, width: u32, height: u32) -> Result<ID3D11DepthStencilView>
+    unsafe fn create_shader_resource_view(
+        device: &ID3D11Device,
+        texture: &ID3D11Texture2D,
+    ) -> Result<ID3D11ShaderResourceView>
     {
-        let desc = D3D11_TEXTURE2D_DESC { Width: width, Height: height, MipLevels: 1, ArraySize: 1, Format: DXGI_FORMAT_D24_UNORM_S8_UINT, SampleDesc: DXGI_SAMPLE_DESC { Count: 1, Quality: 0 }, Usage: D3D11_USAGE_DEFAULT, BindFlags: D3D11_BIND_DEPTH_STENCIL.0 as u32, CPUAccessFlags: 0, MiscFlags: 0 };
+        let mut shader_resource_view = None;
+        device.CreateShaderResourceView(texture, None, Some(&mut shader_resource_view))?;
+        return required_resource(shader_resource_view, "Direct3D returned no shader-resource view.");
+    }
+
+    unsafe fn create_render_targets(
+        device: &ID3D11Device,
+        back_buffer: &ID3D11Texture2D,
+        width: u32,
+        height: u32,
+        is_multisample_antialiasing_enabled: bool,
+    ) -> Result<RenderTargets>
+    {
+        if !is_multisample_antialiasing_enabled
+        {
+            return Ok(RenderTargets {
+                render_target_view: Self::create_render_target_view(device, back_buffer)?,
+                depth_stencil_view: Self::create_depth_stencil_view(
+                    device,
+                    width,
+                    height,
+                    DXGI_SAMPLE_DESC { Count: 1, Quality: 0 },
+                )?,
+                multisample_color_target: None,
+            });
+        }
+
+        let multisample_description = Self::create_multisample_description(device)?;
+        let multisample_color_target = Self::create_multisample_color_target(
+            device,
+            width,
+            height,
+            multisample_description,
+        )?;
+
+        return Ok(RenderTargets {
+            render_target_view: Self::create_render_target_view(device, &multisample_color_target)?,
+            depth_stencil_view: Self::create_depth_stencil_view(
+                device,
+                width,
+                height,
+                multisample_description,
+            )?,
+            multisample_color_target: Some(multisample_color_target),
+        });
+    }
+
+    unsafe fn create_multisample_description(device: &ID3D11Device) -> Result<DXGI_SAMPLE_DESC>
+    {
+        let mut sample_count_index = 0;
+
+        while sample_count_index < PREFERRED_MULTISAMPLE_SAMPLE_COUNTS.len()
+        {
+            let sample_count = PREFERRED_MULTISAMPLE_SAMPLE_COUNTS[sample_count_index];
+            let quality_level_count = device.CheckMultisampleQualityLevels(
+                DISPLAY_COLOR_FORMAT,
+                sample_count,
+            )?;
+
+            if quality_level_count > 0
+            {
+                return Ok(DXGI_SAMPLE_DESC { Count: sample_count, Quality: 0 });
+            }
+
+            sample_count_index += 1;
+        }
+
+        return Err(Error::new(E_FAIL, "This Direct3D device does not support 4x or 8x multisample antialiasing."));
+    }
+
+    unsafe fn create_multisample_color_target(
+        device: &ID3D11Device,
+        width: u32,
+        height: u32,
+        multisample_description: DXGI_SAMPLE_DESC,
+    ) -> Result<ID3D11Texture2D>
+    {
+        let desc = D3D11_TEXTURE2D_DESC {
+            Width: width,
+            Height: height,
+            MipLevels: 1,
+            ArraySize: 1,
+            Format: DISPLAY_COLOR_FORMAT,
+            SampleDesc: multisample_description,
+            Usage: D3D11_USAGE_DEFAULT,
+            BindFlags: D3D11_BIND_RENDER_TARGET.0 as u32,
+            CPUAccessFlags: 0,
+            MiscFlags: 0,
+        };
+        let mut multisample_color_target = None;
+        device.CreateTexture2D(&desc, None, Some(&mut multisample_color_target))?;
+        return required_resource(multisample_color_target, "Direct3D returned no multisample colour target.");
+    }
+
+    unsafe fn create_depth_stencil_view(
+        device: &ID3D11Device,
+        width: u32,
+        height: u32,
+        multisample_description: DXGI_SAMPLE_DESC,
+    ) -> Result<ID3D11DepthStencilView>
+    {
+        let desc = D3D11_TEXTURE2D_DESC {
+            Width: width,
+            Height: height,
+            MipLevels: 1,
+            ArraySize: 1,
+            Format: DXGI_FORMAT_D24_UNORM_S8_UINT,
+            SampleDesc: multisample_description,
+            Usage: D3D11_USAGE_DEFAULT,
+            BindFlags: D3D11_BIND_DEPTH_STENCIL.0 as u32,
+            CPUAccessFlags: 0,
+            MiscFlags: 0,
+        };
         let mut depth_buffer = None;
         let mut depth_stencil_view = None;
         device.CreateTexture2D(&desc, None, Some(&mut depth_buffer))?;
@@ -337,7 +761,14 @@ impl Direct3DGraphics
 
     unsafe fn create_rasterizer_state(device: &ID3D11Device) -> Result<ID3D11RasterizerState>
     {
-        let desc = D3D11_RASTERIZER_DESC { FillMode: D3D11_FILL_SOLID, CullMode: D3D11_CULL_NONE, DepthClipEnable: true.into(), ..Default::default() };
+        let desc = D3D11_RASTERIZER_DESC {
+            FillMode: D3D11_FILL_SOLID,
+            CullMode: D3D11_CULL_BACK,
+            FrontCounterClockwise: false.into(),
+            MultisampleEnable: true.into(),
+            DepthClipEnable: true.into(),
+            ..Default::default()
+        };
         let mut rasterizer_state = None;
         device.CreateRasterizerState(&desc, Some(&mut rasterizer_state))?;
         return required_resource(rasterizer_state, "Direct3D returned no rasterizer state.");
