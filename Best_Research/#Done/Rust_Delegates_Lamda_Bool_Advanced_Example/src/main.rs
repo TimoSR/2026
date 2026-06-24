@@ -1,7 +1,5 @@
 mod grading_students
 {
-    use std::vec;
-
     // data structures
     pub struct GradingStudents;
     // data structures

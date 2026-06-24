@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "event-lite",
+    "event-lite-macros",
+    "app",
+]
+resolver = "2"

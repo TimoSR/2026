@@ -1,0 +1,9 @@
+[package]
+name = "event-lite"
+version = "0.1.0"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Minimal typed event primitive with #[event] payload macro."
+
+[dependencies]
+event-lite-macros = { path = "../event-lite-macros" }
