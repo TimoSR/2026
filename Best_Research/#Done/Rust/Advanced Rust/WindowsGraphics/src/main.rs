@@ -3,6 +3,7 @@
 mod ui;
 
 use std::{path::Path, time::Instant};
+
 use diagnostics::performance_metrics;
 use gui::ImmediateModeGui;
 use models::{cube, gltf};
@@ -29,33 +30,16 @@ fn main() -> Result<()>
     window::enable_per_monitor_dpi_awareness()?;
     let mut window = window::create_window(WINDOW_WIDTH, WINDOW_HEIGHT)?;
 
-    let first_cube = cube::SpinningCube::new(
-        FIRST_CUBE_IDENTIFIER,
-        FIRST_CUBE_POSITION,
-        FIRST_CUBE_ROTATION_RADIANS_PER_SECOND,
-    );
-    let second_cube = cube::SpinningCube::new(
-        SECOND_CUBE_IDENTIFIER,
-        SECOND_CUBE_POSITION,
-        SECOND_CUBE_ROTATION_RADIANS_PER_SECOND,
-    );
+    let first_cube = cube::SpinningCube::new(FIRST_CUBE_IDENTIFIER, FIRST_CUBE_POSITION, FIRST_CUBE_ROTATION_RADIANS_PER_SECOND);
+    let second_cube = cube::SpinningCube::new(SECOND_CUBE_IDENTIFIER, SECOND_CUBE_POSITION, SECOND_CUBE_ROTATION_RADIANS_PER_SECOND);
     let example_gltf_path = Path::new(env!("CARGO_MANIFEST_DIR")).join(EXAMPLE_GLTF_PATH);
-    let example_gltf_objects = gltf::load_objects(
-        &example_gltf_path,
-        EXAMPLE_GLTF_FIRST_OBJECT_IDENTIFIER,
-    )?;
+    let example_gltf_objects = gltf::load_objects(&example_gltf_path, EXAMPLE_GLTF_FIRST_OBJECT_IDENTIFIER)?;
     let example_glb_path = Path::new(env!("OUT_DIR")).join("example_cube.glb");
-    let example_glb_objects = gltf::load_objects(
-        &example_glb_path,
-        EXAMPLE_GLB_FIRST_OBJECT_IDENTIFIER,
-    )?;
+    let example_glb_objects = gltf::load_objects(&example_glb_path, EXAMPLE_GLB_FIRST_OBJECT_IDENTIFIER)?;
 
-    let mut graphics = graphics::create_direct3d_graphics(
-        window.handle(),
-        WINDOW_WIDTH as u32,
-        WINDOW_HEIGHT as u32,
-    )?;
+    let mut graphics = graphics::create_direct3d_graphics(window.handle(), WINDOW_WIDTH as u32, WINDOW_HEIGHT as u32)?;
     let mut user_interface = ImmediateModeGui::new(WINDOW_WIDTH as u32, WINDOW_HEIGHT as u32);
+
     let graphics_settings = graphics::GraphicsSettings {
         is_multisample_antialiasing_enabled: false,
         is_temporal_antialiasing_enabled: true,
@@ -69,17 +53,13 @@ fn main() -> Result<()>
 
     for mut example_gltf_object in example_gltf_objects
     {
-        example_gltf_object.set_rotation_radians_per_second(
-            EXAMPLE_GLTF_ROTATION_RADIANS_PER_SECOND,
-        );
+        example_gltf_object.set_rotation_radians_per_second(EXAMPLE_GLTF_ROTATION_RADIANS_PER_SECOND);
         graphics.add_object(example_gltf_object)?;
     }
 
     for mut example_glb_object in example_glb_objects
     {
-        example_glb_object.set_rotation_radians_per_second(
-            EXAMPLE_GLB_ROTATION_RADIANS_PER_SECOND,
-        );
+        example_glb_object.set_rotation_radians_per_second(EXAMPLE_GLB_ROTATION_RADIANS_PER_SECOND);
         graphics.add_object(example_glb_object)?;
     }
 
@@ -122,11 +102,12 @@ fn main() -> Result<()>
             if are_metrics_visible
             {
                 user_interface.begin_frame();
-                let performance_metrics_panel = ui::metrics::PerformanceMetricsPanel::new(
-                    &performance_sample,
-                    &graphics.capture_performance_metrics(),
-                );
+
+                let performance_metrics_panel =
+                    ui::metrics::PerformanceMetricsPanel::new(&performance_sample, &graphics.capture_performance_metrics());
+
                 performance_metrics_panel.draw(&mut user_interface);
+
                 graphics.submit_user_interface(&user_interface)?;
             }
         }

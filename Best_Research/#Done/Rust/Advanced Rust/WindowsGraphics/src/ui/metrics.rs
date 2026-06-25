@@ -11,10 +11,7 @@ pub struct PerformanceMetricsPanel
 // public types
 
 // domain constants
-const METRICS_PANEL_POSITION: ScreenRelativePosition = [
-    16.0 / 1_920.0,
-    16.0 / 1_080.0,
-];
+const METRICS_PANEL_POSITION: ScreenRelativePosition = [16.0 / 1_920.0, 16.0 / 1_080.0];
 const METRICS_PANEL_WIDTH: f32 = 0.36;
 const METRICS_PANEL_HEIGHT: f32 = 0.24;
 const BYTES_PER_MEBIBYTE: f64 = 1_048_576.0;
@@ -24,10 +21,7 @@ const MINIMUM_FRAME_TIME_IN_MILLISECONDS: f32 = 0.001;
 impl PerformanceMetricsPanel
 {
     /// Creates a panel from the latest process and renderer performance data.
-    pub fn new(
-        performance_sample: &PerformanceSample,
-        graphics_performance_metrics: &GraphicsPerformanceMetrics,
-    ) -> Self
+    pub fn new(performance_sample: &PerformanceSample, graphics_performance_metrics: &GraphicsPerformanceMetrics) -> Self
     {
         let gpu_usage_text = gpu_usage_text(performance_sample, graphics_performance_metrics);
         let graphics_memory_text = graphics_memory_text(graphics_performance_metrics);
@@ -62,26 +56,19 @@ impl PerformanceMetricsPanel
     }
 }
 
-fn gpu_usage_text(
-    performance_sample: &PerformanceSample,
-    graphics_performance_metrics: &GraphicsPerformanceMetrics,
-) -> String
+fn gpu_usage_text(performance_sample: &PerformanceSample, graphics_performance_metrics: &GraphicsPerformanceMetrics) -> String
 {
     let gpu_frame_time_in_milliseconds = match graphics_performance_metrics.gpu_frame_time_in_milliseconds
     {
         Some(gpu_frame_time_in_milliseconds) => gpu_frame_time_in_milliseconds,
         None => return String::from("GPU: collecting timing"),
     };
-    let frame_time_in_milliseconds = performance_sample
-        .frame_time_in_milliseconds
-        .max(MINIMUM_FRAME_TIME_IN_MILLISECONDS);
+
+    let frame_time_in_milliseconds = performance_sample.frame_time_in_milliseconds.max(MINIMUM_FRAME_TIME_IN_MILLISECONDS);
+
     let gpu_frame_percentage = gpu_frame_time_in_milliseconds / frame_time_in_milliseconds * 100.0;
 
-    return format!(
-        "GPU: {:.2} MS {:.0}% FRAME",
-        gpu_frame_time_in_milliseconds,
-        gpu_frame_percentage,
-    );
+    return format!("GPU: {:.2} MS {:.0}% FRAME", gpu_frame_time_in_milliseconds, gpu_frame_percentage,);
 }
 
 fn graphics_memory_text(graphics_performance_metrics: &GraphicsPerformanceMetrics) -> String
@@ -91,14 +78,12 @@ fn graphics_memory_text(graphics_performance_metrics: &GraphicsPerformanceMetric
         Some(graphics_memory) => graphics_memory,
         None => return String::from("GPU memory: unavailable"),
     };
+
     let used_memory_in_mebibytes = graphics_memory.used_bytes as f64 / BYTES_PER_MEBIBYTE;
+
     let budget_memory_in_mebibytes = graphics_memory.budget_bytes as f64 / BYTES_PER_MEBIBYTE;
 
-    return format!(
-        "GPU memory: {:.0} / {:.0} MiB",
-        used_memory_in_mebibytes,
-        budget_memory_in_mebibytes,
-    );
+    return format!("GPU memory: {:.0} / {:.0} MiB", used_memory_in_mebibytes, budget_memory_in_mebibytes,);
 }
 
 fn antialiasing_text(graphics_performance_metrics: &GraphicsPerformanceMetrics) -> String
@@ -111,6 +96,7 @@ fn antialiasing_text(graphics_performance_metrics: &GraphicsPerformanceMetrics) 
     {
         "Off"
     };
+
     let temporal_antialiasing_text = if graphics_performance_metrics.is_temporal_antialiasing_enabled
     {
         "On"
@@ -120,18 +106,15 @@ fn antialiasing_text(graphics_performance_metrics: &GraphicsPerformanceMetrics) 
         "Off"
     };
 
-    return format!(
-        "MSAA: {} | TAA: {}",
-        multisample_antialiasing_text,
-        temporal_antialiasing_text,
-    );
+    return format!("MSAA: {} | TAA: {}", multisample_antialiasing_text, temporal_antialiasing_text,);
 }
 
 #[cfg(test)]
 mod tests
 {
-    use super::*;
     use graphics::{GraphicsMemoryMetrics, GraphicsUserInterface};
+
+    use super::*;
 
     #[test]
     fn performance_metrics_panel_formats_available_graphics_and_process_data()
@@ -141,20 +124,21 @@ mod tests
             frame_time_in_milliseconds: 8.0,
             process_cpu_usage_percentage: 15.0,
         };
+
+        let graphics_memory_metrics = GraphicsMemoryMetrics {
+            used_bytes: 128 * 1_048_576,
+            budget_bytes: 1024 * 1_048_576,
+        };
+
         let graphics_performance_metrics = GraphicsPerformanceMetrics {
             gpu_frame_time_in_milliseconds: Some(4.0),
-            graphics_memory: Some(GraphicsMemoryMetrics {
-                used_bytes: 128 * 1_048_576,
-                budget_bytes: 1024 * 1_048_576,
-            }),
+            graphics_memory: Some(graphics_memory_metrics),
             is_multisample_antialiasing_enabled: true,
             is_temporal_antialiasing_enabled: false,
             loaded_object_count: 4,
         };
-        let performance_metrics_panel = PerformanceMetricsPanel::new(
-            &performance_sample,
-            &graphics_performance_metrics,
-        );
+
+        let performance_metrics_panel = PerformanceMetricsPanel::new(&performance_sample, &graphics_performance_metrics);
 
         assert!(performance_metrics_panel.text.contains("FPS: 120.0"));
         assert!(performance_metrics_panel.text.contains("GPU: 4.00 MS 50% FRAME"));
@@ -177,10 +161,7 @@ mod tests
             is_temporal_antialiasing_enabled: false,
             loaded_object_count: 0,
         };
-        let performance_metrics_panel = PerformanceMetricsPanel::new(
-            &performance_sample,
-            &graphics_performance_metrics,
-        );
+        let performance_metrics_panel = PerformanceMetricsPanel::new(&performance_sample, &graphics_performance_metrics);
 
         assert!(performance_metrics_panel.text.contains("GPU: collecting timing"));
         assert!(performance_metrics_panel.text.contains("GPU memory: unavailable"));
@@ -202,10 +183,7 @@ mod tests
             is_temporal_antialiasing_enabled: false,
             loaded_object_count: 0,
         };
-        let performance_metrics_panel = PerformanceMetricsPanel::new(
-            &performance_sample,
-            &graphics_performance_metrics,
-        );
+        let performance_metrics_panel = PerformanceMetricsPanel::new(&performance_sample, &graphics_performance_metrics);
         let mut user_interface = ImmediateModeGui::new(1_920, 1_080);
 
         performance_metrics_panel.draw(&mut user_interface);
