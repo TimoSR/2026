@@ -1,0 +1,6 @@
+cargo run --release -- --benchmark
+
+cargo build --release
+.\target\release\guided_api_object_advanced_derived_physics.exe --benchmark
+
+cargo run -- --benchmark

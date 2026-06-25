@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Button from Rust</title>
+</head>
+<body>
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', (event) => {
+                const btn = document.createElement('button');
+                btn.id = 'my_button';
+                btn.innerText = 'Click me';
+                btn.style.backgroundColor = 'blue';
+                document.body.appendChild(btn);
+
+                let count = 0;
+                btn.addEventListener('click', () => {
+                    count += 1;
+                    btn.innerText = 'Clicked ' + count + ' times';
+                });
+            });
+    </script>
+</body>
+</html>

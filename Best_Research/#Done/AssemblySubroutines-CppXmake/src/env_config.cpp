@@ -8,11 +8,9 @@ namespace
 {
 std::string trim(std::string value)
 {
-    const auto first = std::find_if_not(value.begin(), value.end(),
-                                        [](const unsigned char character) { return std::isspace(character) != 0; });
-    const auto last = std::find_if_not(value.rbegin(), value.rend(),
-                                       [](const unsigned char character) { return std::isspace(character) != 0; })
-                          .base();
+    const auto first = std::find_if_not(value.begin(), value.end(), [](const unsigned char character) { return std::isspace(character) != 0; });
+    const auto last = std::find_if_not(value.rbegin(), value.rend(), [](const unsigned char character) { return std::isspace(character) != 0; }).base();
+    const auto some = std::find_if_not(value.rbegin(), value.rend(), [](const unsigned char character) { return std::isspace(character) != 0; }).base();
 
     if (first >= last)
     {
