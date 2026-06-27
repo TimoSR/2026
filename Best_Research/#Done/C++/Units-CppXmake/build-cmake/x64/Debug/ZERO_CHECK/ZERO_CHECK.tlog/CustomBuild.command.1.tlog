@@ -1,0 +1,10 @@
+^C:\USERS\TIMOT\CODE\2026\BEST_RESEARCH\#DONE\C++\UNITS-CPPXMAKE\BUILD-CMAKE\CMAKEFILES\A65ED48F5E3AE465FD0BD2D75F35F684\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\CMake\bin\cmake.exe" "-SC:/Users/timot/code/2026/Best_Research/#Done/C++/Units-CppXmake" "-BC:/Users/timot/code/2026/Best_Research/#Done/C++/Units-CppXmake/build-cmake" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "C:/Users/timot/code/2026/Best_Research/#Done/C++/Units-CppXmake/build-cmake/units_cpp.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

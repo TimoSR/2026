@@ -1,0 +1,15 @@
+{
+  "workbench.editorAssociations": {
+    "*.md": "vscode.markdown.preview.editor"
+  },
+  "editor.formatOnSave": true,
+  "C_Cpp.default.configurationProvider": "tboox.xmake-vscode",
+  "files.associations": {
+    "*.S": "asm"
+  },
+  "[cpp]": {
+    "editor.inlayHints.enabled": "off",
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  }
+}
