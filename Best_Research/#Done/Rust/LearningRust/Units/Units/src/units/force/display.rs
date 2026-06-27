@@ -6,7 +6,7 @@ use super::quantity::{Force, ForceUnit};
 
 impl Force {
     #[must_use]
-    pub const fn display_as(self, unit: ForceUnit) -> ForceDisplay {
+    pub(crate) const fn display_as(self, unit: ForceUnit) -> ForceDisplay {
         ForceDisplay {
             value: self,
             unit,
@@ -15,12 +15,42 @@ impl Force {
     }
 
     #[must_use]
-    pub const fn display_as_precision(self, unit: ForceUnit, precision: usize) -> ForceDisplay {
+    pub(crate) const fn display_as_precision(self, unit: ForceUnit, precision: usize) -> ForceDisplay {
         ForceDisplay {
             value: self,
             unit,
             precision: Some(precision),
         }
+    }
+
+    #[must_use]
+    pub const fn display_newtons(self) -> ForceDisplay {
+        self.display_as(ForceUnit::Newtons)
+    }
+
+    #[must_use]
+    pub const fn display_millinewtons(self) -> ForceDisplay {
+        self.display_as(ForceUnit::Millinewtons)
+    }
+
+    #[must_use]
+    pub const fn display_kilonewtons(self) -> ForceDisplay {
+        self.display_as(ForceUnit::Kilonewtons)
+    }
+
+    #[must_use]
+    pub const fn display_newtons_precision(self, precision: usize) -> ForceDisplay {
+        self.display_as_precision(ForceUnit::Newtons, precision)
+    }
+
+    #[must_use]
+    pub const fn display_millinewtons_precision(self, precision: usize) -> ForceDisplay {
+        self.display_as_precision(ForceUnit::Millinewtons, precision)
+    }
+
+    #[must_use]
+    pub const fn display_kilonewtons_precision(self, precision: usize) -> ForceDisplay {
+        self.display_as_precision(ForceUnit::Kilonewtons, precision)
     }
 }
 
@@ -34,9 +64,9 @@ pub struct ForceDisplay {
 impl fmt::Display for ForceDisplay {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         let value = match self.unit {
-            ForceUnit::Newtons => self.value.as_newtons(),
-            ForceUnit::Millinewtons => self.value.as_millinewtons(),
-            ForceUnit::Kilonewtons => self.value.as_kilonewtons(),
+            ForceUnit::Newtons => self.value.to_newtons(),
+            ForceUnit::Millinewtons => self.value.to_millinewtons(),
+            ForceUnit::Kilonewtons => self.value.to_kilonewtons(),
         };
 
         format_unit_value(formatter, value, self.unit.symbol(), self.precision)
@@ -45,6 +75,6 @@ impl fmt::Display for ForceDisplay {
 
 impl fmt::Display for Force {
     fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        self.display_as(ForceUnit::Newtons).fmt(formatter)
+        self.display_newtons().fmt(formatter)
     }
 }

@@ -40,32 +40,32 @@ impl Time {
     }
 
     #[must_use]
-    pub const fn as_seconds(self) -> f64 {
+    pub const fn to_seconds(self) -> f64 {
         self.0
     }
 
     #[must_use]
-    pub const fn as_milliseconds(self) -> f64 {
+    pub const fn to_milliseconds(self) -> f64 {
         self.0 * 1_000.0
     }
 
     #[must_use]
-    pub const fn as_microseconds(self) -> f64 {
+    pub const fn to_microseconds(self) -> f64 {
         self.0 * 1_000_000.0
     }
 
     #[must_use]
-    pub const fn as_nanoseconds(self) -> f64 {
+    pub const fn to_nanoseconds(self) -> f64 {
         self.0 * 1_000_000_000.0
     }
 
     #[must_use]
-    pub const fn as_minutes(self) -> f64 {
+    pub const fn to_minutes(self) -> f64 {
         self.0 / 60.0
     }
 
     #[must_use]
-    pub const fn as_hours(self) -> f64 {
+    pub const fn to_hours(self) -> f64 {
         self.0 / 3_600.0
     }
 }

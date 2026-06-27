@@ -12,9 +12,7 @@ fn display_can_format_standard_gravity_with_precision() {
     let acceleration = standard_gravity(1.0);
 
     assert_eq!(
-        acceleration
-            .display_as_precision(AccelerationUnit::StandardGravity, 2)
-            .to_string(),
+        acceleration.display_standard_gravity_precision(2).to_string(),
         "1.00 g0"
     );
 }

@@ -12,9 +12,7 @@ fn display_can_format_kilometers_per_hour_with_precision() {
     let velocity = meters_per_second(10.0);
 
     assert_eq!(
-        velocity
-            .display_as_precision(VelocityUnit::KilometersPerHour, 2)
-            .to_string(),
+        velocity.display_kilometers_per_hour_precision(2).to_string(),
         "36.00 km/h"
     );
 }

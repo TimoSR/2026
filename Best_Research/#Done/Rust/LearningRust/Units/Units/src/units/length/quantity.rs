@@ -44,32 +44,32 @@ impl Length {
     }
 
     #[must_use]
-    pub const fn as_meters(self) -> f64 {
+    pub const fn to_meters(self) -> f64 {
         self.0
     }
 
     #[must_use]
-    pub const fn as_kilometers(self) -> f64 {
+    pub const fn to_kilometers(self) -> f64 {
         self.0 / 1_000.0
     }
 
     #[must_use]
-    pub const fn as_centimeters(self) -> f64 {
+    pub const fn to_centimeters(self) -> f64 {
         self.0 * 100.0
     }
 
     #[must_use]
-    pub const fn as_millimeters(self) -> f64 {
+    pub const fn to_millimeters(self) -> f64 {
         self.0 * 1_000.0
     }
 
     #[must_use]
-    pub const fn as_micrometers(self) -> f64 {
+    pub const fn to_micrometers(self) -> f64 {
         self.0 * 1_000_000.0
     }
 
     #[must_use]
-    pub const fn as_nanometers(self) -> f64 {
+    pub const fn to_nanometers(self) -> f64 {
         self.0 * 1_000_000_000.0
     }
 }

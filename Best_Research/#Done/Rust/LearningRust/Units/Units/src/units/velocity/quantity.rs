@@ -14,12 +14,12 @@ impl Velocity {
     }
 
     #[must_use]
-    pub const fn as_meters_per_second(self) -> f64 {
+    pub const fn to_meters_per_second(self) -> f64 {
         self.0
     }
 
     #[must_use]
-    pub const fn as_kilometers_per_hour(self) -> f64 {
+    pub const fn to_kilometers_per_hour(self) -> f64 {
         self.0 * 3.6
     }
 }

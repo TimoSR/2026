@@ -4,12 +4,12 @@ brace_style = "AlwaysNextLine"
 control_brace_style = "AlwaysNextLine"
 
 edition = "2024"
-max_width = 150
+max_width = 200
 tab_spaces = 4
 hard_tabs = false
 
-imports_granularity = "Crate"
-group_imports = "StdExternalCrate"
+imports_granularity = "Preserve"
+group_imports = "Preserve"
 
 reorder_imports = true
 reorder_modules = true

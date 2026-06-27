@@ -2,9 +2,9 @@ use super::super::*;
 
 #[test]
 fn constructors_convert_to_newtons() {
-    assert_eq!(newtons(12.0).as_newtons(), 12.0);
-    assert_eq!(millinewtons(1_200.0).as_newtons(), 1.2);
-    assert_eq!(kilonewtons(2.5).as_newtons(), 2_500.0);
+    assert_eq!(newtons(12.0).to_newtons(), 12.0);
+    assert_eq!(millinewtons(1_200.0).to_newtons(), 1.2);
+    assert_eq!(kilonewtons(2.5).to_newtons(), 2_500.0);
 }
 
 #[test]

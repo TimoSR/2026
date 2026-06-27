@@ -6,21 +6,21 @@ use super::super::*;
 fn acceleration_multiplied_by_time_returns_velocity() {
     let velocity = meters_per_second_squared(3.0) * Time::seconds(4.0);
 
-    super::assert_close(velocity.as_meters_per_second(), 12.0);
+    super::assert_close(velocity.to_meters_per_second(), 12.0);
 }
 
 #[test]
 fn calculate_returns_velocity_divided_by_time() {
     let acceleration = calculate(Velocity::meters_per_second(12.0), Time::seconds(4.0));
 
-    super::assert_close(acceleration.as_meters_per_second_squared(), 3.0);
+    super::assert_close(acceleration.to_meters_per_second_squared(), 3.0);
 }
 
 #[test]
 fn acceleration_multiplied_by_mass_returns_force() {
     let force = meters_per_second_squared(3.0) * Mass::kilograms(4.0);
 
-    super::assert_close(force.as_newtons(), 12.0);
+    super::assert_close(force.to_newtons(), 12.0);
 }
 
 #[test]

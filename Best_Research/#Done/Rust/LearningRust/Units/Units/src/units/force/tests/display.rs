@@ -12,9 +12,7 @@ fn display_can_format_kilonewtons_with_precision() {
     let force = newtons(1_250.0);
 
     assert_eq!(
-        force
-            .display_as_precision(ForceUnit::Kilonewtons, 2)
-            .to_string(),
+        force.display_kilonewtons_precision(2).to_string(),
         "1.25 kN"
     );
 }

@@ -6,7 +6,7 @@ use super::super::*;
 fn mass_multiplied_by_acceleration_returns_force() {
     let force = kilograms(4.0) * Acceleration::meters_per_second_squared(3.0);
 
-    super::assert_close(force.as_newtons(), 12.0);
+    super::assert_close(force.to_newtons(), 12.0);
 }
 
 #[test]

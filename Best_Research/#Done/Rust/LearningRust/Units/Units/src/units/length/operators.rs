@@ -9,7 +9,7 @@ implement_quantity_arithmetic!(Length);
 
 impl Length {
     pub fn checked_div_time(self, time: Time) -> Result<Velocity, QuantityError> {
-        check_nonzero(time.as_seconds(), "Length / Time")?;
+        check_nonzero(time.to_seconds(), "Length / Time")?;
         Ok(self / time)
     }
 }
@@ -18,7 +18,7 @@ impl Div<Time> for Length {
     type Output = Velocity;
 
     fn div(self, time: Time) -> Self::Output {
-        Velocity::meters_per_second(self.as_meters() / time.as_seconds())
+        Velocity::meters_per_second(self.to_meters() / time.to_seconds())
     }
 }
 
@@ -26,6 +26,6 @@ impl Div<Velocity> for Length {
     type Output = Time;
 
     fn div(self, velocity: Velocity) -> Self::Output {
-        Time::seconds(self.as_meters() / velocity.as_meters_per_second())
+        Time::seconds(self.to_meters() / velocity.to_meters_per_second())
     }
 }

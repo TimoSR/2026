@@ -11,7 +11,7 @@ impl Mul<Time> for Acceleration {
     type Output = Velocity;
 
     fn mul(self, time: Time) -> Self::Output {
-        Velocity::meters_per_second(self.as_meters_per_second_squared() * time.as_seconds())
+        Velocity::meters_per_second(self.to_meters_per_second_squared() * time.to_seconds())
     }
 }
 
@@ -19,6 +19,6 @@ impl Mul<Mass> for Acceleration {
     type Output = Force;
 
     fn mul(self, mass: Mass) -> Self::Output {
-        Force::newtons(self.as_meters_per_second_squared() * mass.as_kilograms())
+        Force::newtons(self.to_meters_per_second_squared() * mass.to_kilograms())
     }
 }

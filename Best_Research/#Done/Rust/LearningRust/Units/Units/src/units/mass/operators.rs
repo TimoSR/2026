@@ -11,6 +11,6 @@ impl Mul<Acceleration> for Mass {
     type Output = Force;
 
     fn mul(self, acceleration: Acceleration) -> Self::Output {
-        Force::newtons(self.as_kilograms() * acceleration.as_meters_per_second_squared())
+        Force::newtons(self.to_kilograms() * acceleration.to_meters_per_second_squared())
     }
 }

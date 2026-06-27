@@ -2,10 +2,10 @@ use super::super::*;
 
 #[test]
 fn constructors_convert_to_seconds() {
-    assert_eq!(seconds(12.0).as_seconds(), 12.0);
-    assert_eq!(milliseconds(1_200.0).as_seconds(), 1.2);
-    assert_eq!(minutes(2.0).as_seconds(), 120.0);
-    assert_eq!(hours(2.0).as_seconds(), 7_200.0);
+    assert_eq!(seconds(12.0).to_seconds(), 12.0);
+    assert_eq!(milliseconds(1_200.0).to_seconds(), 1.2);
+    assert_eq!(minutes(2.0).to_seconds(), 120.0);
+    assert_eq!(hours(2.0).to_seconds(), 7_200.0);
 }
 
 #[test]

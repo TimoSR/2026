@@ -16,12 +16,12 @@ impl Acceleration {
     }
 
     #[must_use]
-    pub const fn as_meters_per_second_squared(self) -> f64 {
+    pub const fn to_meters_per_second_squared(self) -> f64 {
         self.0
     }
 
     #[must_use]
-    pub const fn as_standard_gravity(self) -> f64 {
+    pub const fn to_standard_gravity(self) -> f64 {
         self.0 / Self::STANDARD_GRAVITY_METERS_PER_SECOND_SQUARED
     }
 }

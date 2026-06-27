@@ -19,17 +19,17 @@ impl Force {
     }
 
     #[must_use]
-    pub const fn as_newtons(self) -> f64 {
+    pub const fn to_newtons(self) -> f64 {
         self.0
     }
 
     #[must_use]
-    pub const fn as_millinewtons(self) -> f64 {
+    pub const fn to_millinewtons(self) -> f64 {
         self.0 * 1_000.0
     }
 
     #[must_use]
-    pub const fn as_kilonewtons(self) -> f64 {
+    pub const fn to_kilonewtons(self) -> f64 {
         self.0 / 1_000.0
     }
 }

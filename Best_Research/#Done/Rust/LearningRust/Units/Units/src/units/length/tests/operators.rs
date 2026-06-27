@@ -6,14 +6,14 @@ use super::super::*;
 fn length_divided_by_time_returns_velocity() {
     let velocity = meters(100.0) / Time::seconds(10.0);
 
-    super::assert_close(velocity.as_meters_per_second(), 10.0);
+    super::assert_close(velocity.to_meters_per_second(), 10.0);
 }
 
 #[test]
 fn length_divided_by_velocity_returns_time() {
     let time = meters(100.0) / Velocity::meters_per_second(10.0);
 
-    super::assert_close(time.as_seconds(), 10.0);
+    super::assert_close(time.to_seconds(), 10.0);
 }
 
 #[test]

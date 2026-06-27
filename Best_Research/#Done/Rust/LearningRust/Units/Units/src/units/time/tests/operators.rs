@@ -6,14 +6,14 @@ use super::super::*;
 fn time_multiplied_by_velocity_returns_length() {
     let length = seconds(4.0) * Velocity::meters_per_second(3.0);
 
-    super::assert_close(length.as_meters(), 12.0);
+    super::assert_close(length.to_meters(), 12.0);
 }
 
 #[test]
 fn time_multiplied_by_acceleration_returns_velocity() {
     let velocity = seconds(4.0) * Acceleration::meters_per_second_squared(3.0);
 
-    super::assert_close(velocity.as_meters_per_second(), 12.0);
+    super::assert_close(velocity.to_meters_per_second(), 12.0);
 }
 
 #[test]

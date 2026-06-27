@@ -2,10 +2,10 @@ use super::super::*;
 
 #[test]
 fn constructors_convert_to_kilograms() {
-    assert_eq!(kilograms(12.0).as_kilograms(), 12.0);
-    assert_eq!(kilogram(12.0).as_kilograms(), 12.0);
-    assert_eq!(grams(1_200.0).as_kilograms(), 1.2);
-    assert_eq!(tons(2.5).as_kilograms(), 2_500.0);
+    assert_eq!(kilograms(12.0).to_kilograms(), 12.0);
+    assert_eq!(kilogram(12.0).to_kilograms(), 12.0);
+    assert_eq!(grams(1_200.0).to_kilograms(), 1.2);
+    assert_eq!(tons(2.5).to_kilograms(), 2_500.0);
 }
 
 #[test]

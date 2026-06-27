@@ -2,10 +2,10 @@ use super::super::*;
 
 #[test]
 fn constructors_convert_to_meters() {
-    assert_eq!(meters(12.0).as_meters(), 12.0);
-    assert_eq!(kilometers(1.5).as_meters(), 1_500.0);
-    assert_eq!(centimeters(250.0).as_meters(), 2.5);
-    assert_eq!(millimeters(1_200.0).as_meters(), 1.2);
+    assert_eq!(meters(12.0).to_meters(), 12.0);
+    assert_eq!(kilometers(1.5).to_meters(), 1_500.0);
+    assert_eq!(centimeters(250.0).to_meters(), 2.5);
+    assert_eq!(millimeters(1_200.0).to_meters(), 1.2);
 }
 
 #[test]

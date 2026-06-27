@@ -4,8 +4,8 @@ use super::super::*;
 fn standard_gravity_converts_to_meters_per_second_squared() {
     let acceleration = standard_gravity(1.0);
 
-    super::assert_close(acceleration.as_meters_per_second_squared(), 9.80665);
-    super::assert_close(acceleration.as_standard_gravity(), 1.0);
+    super::assert_close(acceleration.to_meters_per_second_squared(), 9.80665);
+    super::assert_close(acceleration.to_standard_gravity(), 1.0);
 }
 
 #[test]

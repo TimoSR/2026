@@ -40,27 +40,27 @@ impl Mass {
     }
 
     #[must_use]
-    pub const fn as_kilograms(self) -> f64 {
+    pub const fn to_kilograms(self) -> f64 {
         self.0
     }
 
     #[must_use]
-    pub const fn as_grams(self) -> f64 {
+    pub const fn to_grams(self) -> f64 {
         self.0 * 1_000.0
     }
 
     #[must_use]
-    pub const fn as_milligrams(self) -> f64 {
+    pub const fn to_milligrams(self) -> f64 {
         self.0 * 1_000_000.0
     }
 
     #[must_use]
-    pub const fn as_micrograms(self) -> f64 {
+    pub const fn to_micrograms(self) -> f64 {
         self.0 * 1_000_000_000.0
     }
 
     #[must_use]
-    pub const fn as_tons(self) -> f64 {
+    pub const fn to_tons(self) -> f64 {
         self.0 / 1_000.0
     }
 }

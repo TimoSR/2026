@@ -12,7 +12,7 @@ fn display_can_format_minutes_with_precision() {
     let time = seconds(90.0);
 
     assert_eq!(
-        time.display_as_precision(TimeUnit::Minutes, 2).to_string(),
+        time.display_minutes_precision(2).to_string(),
         "1.50 min"
     );
 }
