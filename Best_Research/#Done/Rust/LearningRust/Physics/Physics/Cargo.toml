@@ -3,6 +3,9 @@ name = "Physics"
 version = "0.1.0"
 edition = "2024"
 
+[lints.rust]
+ambiguous_glob_reexports = "allow"
+
 [lib]
 name = "physics"
 
