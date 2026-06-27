@@ -1,7 +1,4 @@
-use crate::internal::{QuantityError, check_nonzero};
-use crate::{Time, Velocity};
-
-use super::quantity::Acceleration;
+use crate::{QuantityError, acceleration::Acceleration, check_nonzero, time::Time, velocity::Velocity};
 
 pub const fn calculate(velocity: Velocity, time: Time) -> Acceleration
 {

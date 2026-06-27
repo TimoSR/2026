@@ -1,9 +1,6 @@
 use std::ops::Div;
 
-use crate::internal::{QuantityError, check_nonzero, implement_quantity_arithmetic};
-use crate::{Acceleration, Mass};
-
-use super::quantity::Force;
+use crate::{QuantityError, acceleration::Acceleration, check_nonzero, force::Force, implement_quantity_arithmetic, mass::Mass};
 
 implement_quantity_arithmetic!(Force);
 

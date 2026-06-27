@@ -1,5 +1,8 @@
-use crate::internal::{QuantityError, check_nonzero};
-use crate::{Length, Time};
+use crate::{
+    internal::{QuantityError, check_nonzero},
+    length::Length,
+    time::Time,
+};
 
 use super::quantity::Velocity;
 

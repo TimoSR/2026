@@ -1,7 +1,6 @@
 use std::ops::Mul;
 
-use crate::internal::implement_quantity_arithmetic;
-use crate::{Acceleration, Length, Velocity};
+use crate::{acceleration::Acceleration, internal::implement_quantity_arithmetic, length::Length, velocity::Velocity};
 
 use super::quantity::Time;
 

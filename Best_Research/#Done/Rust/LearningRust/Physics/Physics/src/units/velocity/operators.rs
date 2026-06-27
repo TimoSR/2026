@@ -1,7 +1,11 @@
 use std::ops::{Div, Mul};
 
-use crate::internal::{QuantityError, check_nonzero, implement_quantity_arithmetic};
-use crate::{Acceleration, Length, Time};
+use crate::{
+    acceleration::Acceleration,
+    internal::{QuantityError, check_nonzero, implement_quantity_arithmetic},
+    length::Length,
+    time::Time,
+};
 
 use super::quantity::Velocity;
 
