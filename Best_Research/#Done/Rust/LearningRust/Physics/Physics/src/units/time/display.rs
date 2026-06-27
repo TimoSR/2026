@@ -91,7 +91,7 @@ pub struct TimeDisplay
 
 impl fmt::Display for TimeDisplay
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter <'formatter>) -> fmt::Result
     {
         let value = match self.unit
         {
@@ -109,7 +109,7 @@ impl fmt::Display for TimeDisplay
 
 impl fmt::Display for Time
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter <'formatter>) -> fmt::Result
     {
         self.display_seconds().fmt(formatter)
     }

@@ -51,7 +51,7 @@ pub struct AccelerationDisplay
 
 impl fmt::Display for AccelerationDisplay
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter<'formatter>) -> fmt::Result
     {
         let value = match self.unit
         {
@@ -65,7 +65,7 @@ impl fmt::Display for AccelerationDisplay
 
 impl fmt::Display for Acceleration
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter<'formatter>) -> fmt::Result
     {
         self.display_meters_per_second_squared().fmt(formatter)
     }

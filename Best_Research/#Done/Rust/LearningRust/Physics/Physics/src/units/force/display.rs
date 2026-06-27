@@ -6,13 +6,11 @@ use super::quantity::{Force, ForceUnit};
 
 impl Force
 {
-     
     pub(crate) const fn display_as(self, unit: ForceUnit) -> ForceDisplay
     {
         ForceDisplay { value: self, unit, precision: None }
     }
 
-     
     pub(crate) const fn display_as_precision(self, unit: ForceUnit, precision: usize) -> ForceDisplay
     {
         ForceDisplay {
@@ -22,37 +20,31 @@ impl Force
         }
     }
 
-     
     pub const fn display_newtons(self) -> ForceDisplay
     {
         self.display_as(ForceUnit::Newtons)
     }
 
-     
     pub const fn display_millinewtons(self) -> ForceDisplay
     {
         self.display_as(ForceUnit::Millinewtons)
     }
 
-     
     pub const fn display_kilonewtons(self) -> ForceDisplay
     {
         self.display_as(ForceUnit::Kilonewtons)
     }
 
-     
     pub const fn display_newtons_precision(self, precision: usize) -> ForceDisplay
     {
         self.display_as_precision(ForceUnit::Newtons, precision)
     }
 
-     
     pub const fn display_millinewtons_precision(self, precision: usize) -> ForceDisplay
     {
         self.display_as_precision(ForceUnit::Millinewtons, precision)
     }
 
-     
     pub const fn display_kilonewtons_precision(self, precision: usize) -> ForceDisplay
     {
         self.display_as_precision(ForceUnit::Kilonewtons, precision)
@@ -69,7 +61,7 @@ pub struct ForceDisplay
 
 impl fmt::Display for ForceDisplay
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter<'formatter>) -> fmt::Result
     {
         let value = match self.unit
         {
@@ -84,7 +76,7 @@ impl fmt::Display for ForceDisplay
 
 impl fmt::Display for Force
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter<'formatter>) -> fmt::Result
     {
         self.display_newtons().fmt(formatter)
     }

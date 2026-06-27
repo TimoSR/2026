@@ -51,7 +51,7 @@ pub struct VelocityDisplay
 
 impl fmt::Display for VelocityDisplay
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter<'formatter>) -> fmt::Result
     {
         let value = match self.unit
         {
@@ -65,7 +65,7 @@ impl fmt::Display for VelocityDisplay
 
 impl fmt::Display for Velocity
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter<'formatter>) -> fmt::Result
     {
         self.display_meters_per_second().fmt(formatter)
     }

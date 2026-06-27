@@ -9,7 +9,7 @@ struct TestFormattedValue {
 }
 
 impl fmt::Display for TestFormattedValue {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter <'formatter>) -> fmt::Result {
         format_unit_value(formatter, self.value, self.unit_symbol, self.precision)
     }
 }

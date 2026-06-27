@@ -1,6 +1,6 @@
 use std::fmt;
 
-pub(crate) fn format_unit_value(formatter: &mut fmt::Formatter<'_>, value: f64, unit_symbol: &'static str, precision: Option<usize>) -> fmt::Result
+pub(crate) fn format_unit_value<'formatter>(formatter: &mut fmt::Formatter<'formatter>, value: f64, unit_symbol: &'static str, precision: Option<usize>) -> fmt::Result
 {
     match precision
     {

@@ -15,7 +15,7 @@ pub enum QuantityError
 
 impl fmt::Display for QuantityError
 {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    fn fmt<'formatter>(&self, formatter: &mut fmt::Formatter <'formatter>) -> fmt::Result
     {
         match self
         {
