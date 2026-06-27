@@ -3,12 +3,12 @@
 version = 4
 
 [[package]]
-name = "Units"
+name = "Physics"
 version = "0.1.0"
 
 [[package]]
 name = "units"
 version = "0.1.0"
 dependencies = [
- "Units",
+ "Physics",
 ]

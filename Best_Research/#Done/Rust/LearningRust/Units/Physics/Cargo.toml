@@ -1,9 +1,9 @@
 [package]
-name = "Units"
+name = "Physics"
 version = "0.1.0"
 edition = "2024"
 
 [lib]
-name = "units"
+name = "physics"
 
 [dependencies]

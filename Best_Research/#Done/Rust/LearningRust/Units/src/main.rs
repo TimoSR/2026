@@ -1,4 +1,4 @@
-use units::{acceleration, force, length, mass, time, velocity};
+use physics::{acceleration, force, length, mass, time, velocity};
 
 fn main()
 {
@@ -6,12 +6,11 @@ fn main()
     let time = time::milliseconds(9_580.0);
     let mass = mass::grams(80_000.0);
 
-    println!("{}", distance);
-
     let velocity = velocity(distance, time);
     let acceleration = acceleration(velocity, time);
     let force = force(mass, acceleration);
 
+    println!("{}", distance);
     println!("{}", distance.display_centimeters());
     println!("distance = {}", distance.display_meters());
     println!("time = {}", time.display_seconds());
