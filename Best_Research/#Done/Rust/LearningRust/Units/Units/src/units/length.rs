@@ -1,8 +1,8 @@
 use std::fmt;
 
-use crate::display::format_unit_value;
-use crate::error::{check_nonzero, validate_finite, QuantityError};
-use crate::macros::implement_quantity_arithmetic;
+use crate::internal::{
+    QuantityError, check_nonzero, format_unit_value, implement_quantity_arithmetic, validate_finite,
+};
 use crate::{Time, Velocity};
 
 #[repr(transparent)]
@@ -100,6 +100,36 @@ impl Length {
         check_nonzero(time.as_seconds(), "Length / Time")?;
         Ok(self / time)
     }
+}
+
+#[must_use]
+pub const fn meters(value: f64) -> Length {
+    Length::meters(value)
+}
+
+#[must_use]
+pub const fn kilometers(value: f64) -> Length {
+    Length::kilometers(value)
+}
+
+#[must_use]
+pub const fn centimeters(value: f64) -> Length {
+    Length::centimeters(value)
+}
+
+#[must_use]
+pub const fn millimeters(value: f64) -> Length {
+    Length::millimeters(value)
+}
+
+#[must_use]
+pub const fn micrometers(value: f64) -> Length {
+    Length::micrometers(value)
+}
+
+#[must_use]
+pub const fn nanometers(value: f64) -> Length {
+    Length::nanometers(value)
 }
 
 implement_quantity_arithmetic!(Length);

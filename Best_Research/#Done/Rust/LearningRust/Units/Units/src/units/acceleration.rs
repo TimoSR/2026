@@ -1,7 +1,6 @@
 use std::fmt;
 
-use crate::display::format_unit_value;
-use crate::macros::implement_quantity_arithmetic;
+use crate::internal::{format_unit_value, implement_quantity_arithmetic};
 
 #[repr(transparent)]
 #[derive(Copy, Clone, PartialEq, PartialOrd, Debug, Default)]
@@ -51,6 +50,16 @@ impl Acceleration {
             precision: Some(precision),
         }
     }
+}
+
+#[must_use]
+pub const fn meters_per_second_squared(value: f64) -> Acceleration {
+    Acceleration::meters_per_second_squared(value)
+}
+
+#[must_use]
+pub const fn standard_gravity(value: f64) -> Acceleration {
+    Acceleration::standard_gravity(value)
 }
 
 implement_quantity_arithmetic!(Acceleration);

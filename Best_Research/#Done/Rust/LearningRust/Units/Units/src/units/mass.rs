@@ -1,8 +1,8 @@
 use std::fmt;
 
-use crate::display::format_unit_value;
-use crate::error::{validate_finite, QuantityError};
-use crate::macros::implement_quantity_arithmetic;
+use crate::internal::{
+    QuantityError, format_unit_value, implement_quantity_arithmetic, validate_finite,
+};
 
 #[repr(transparent)]
 #[derive(Copy, Clone, PartialEq, PartialOrd, Debug, Default)]
@@ -85,6 +85,36 @@ impl Mass {
             precision: Some(precision),
         }
     }
+}
+
+#[must_use]
+pub const fn kilograms(value: f64) -> Mass {
+    Mass::kilograms(value)
+}
+
+#[must_use]
+pub const fn kilogram(value: f64) -> Mass {
+    Mass::kilogram(value)
+}
+
+#[must_use]
+pub const fn grams(value: f64) -> Mass {
+    Mass::grams(value)
+}
+
+#[must_use]
+pub const fn milligrams(value: f64) -> Mass {
+    Mass::milligrams(value)
+}
+
+#[must_use]
+pub const fn micrograms(value: f64) -> Mass {
+    Mass::micrograms(value)
+}
+
+#[must_use]
+pub const fn tons(value: f64) -> Mass {
+    Mass::tons(value)
 }
 
 implement_quantity_arithmetic!(Mass);

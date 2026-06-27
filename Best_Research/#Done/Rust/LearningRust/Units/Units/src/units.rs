@@ -1,9 +1,9 @@
-mod acceleration;
-mod force;
-mod length;
-mod mass;
-mod time;
-mod velocity;
+pub mod acceleration;
+pub mod force;
+pub mod length;
+pub mod mass;
+pub mod time;
+pub mod velocity;
 
 pub use acceleration::{Acceleration, AccelerationUnit};
 pub use force::{Force, ForceUnit};

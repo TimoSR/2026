@@ -1,8 +1,8 @@
 use std::fmt;
 
-use crate::display::format_unit_value;
-use crate::error::{check_nonzero, QuantityError};
-use crate::macros::implement_quantity_arithmetic;
+use crate::internal::{
+    QuantityError, check_nonzero, format_unit_value, implement_quantity_arithmetic,
+};
 use crate::{Acceleration, Mass};
 
 #[repr(transparent)]
@@ -62,6 +62,21 @@ impl Force {
         check_nonzero(mass.as_kilograms(), "Force / Mass")?;
         Ok(self / mass)
     }
+}
+
+#[must_use]
+pub const fn newtons(value: f64) -> Force {
+    Force::newtons(value)
+}
+
+#[must_use]
+pub const fn millinewtons(value: f64) -> Force {
+    Force::millinewtons(value)
+}
+
+#[must_use]
+pub const fn kilonewtons(value: f64) -> Force {
+    Force::kilonewtons(value)
 }
 
 implement_quantity_arithmetic!(Force);

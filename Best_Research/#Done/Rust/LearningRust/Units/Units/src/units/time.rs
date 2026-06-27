@@ -1,8 +1,8 @@
 use std::fmt;
 
-use crate::display::format_unit_value;
-use crate::error::{validate_finite, QuantityError};
-use crate::macros::implement_quantity_arithmetic;
+use crate::internal::{
+    QuantityError, format_unit_value, implement_quantity_arithmetic, validate_finite,
+};
 
 #[repr(transparent)]
 #[derive(Copy, Clone, PartialEq, PartialOrd, Debug, Default)]
@@ -90,6 +90,36 @@ impl Time {
             precision: Some(precision),
         }
     }
+}
+
+#[must_use]
+pub const fn seconds(value: f64) -> Time {
+    Time::seconds(value)
+}
+
+#[must_use]
+pub const fn milliseconds(value: f64) -> Time {
+    Time::milliseconds(value)
+}
+
+#[must_use]
+pub const fn microseconds(value: f64) -> Time {
+    Time::microseconds(value)
+}
+
+#[must_use]
+pub const fn nanoseconds(value: f64) -> Time {
+    Time::nanoseconds(value)
+}
+
+#[must_use]
+pub const fn minutes(value: f64) -> Time {
+    Time::minutes(value)
+}
+
+#[must_use]
+pub const fn hours(value: f64) -> Time {
+    Time::hours(value)
 }
 
 implement_quantity_arithmetic!(Time);

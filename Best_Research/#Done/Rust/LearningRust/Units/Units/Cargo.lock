@@ -5,10 +5,3 @@ version = 4
 [[package]]
 name = "Units"
 version = "0.1.0"
-
-[[package]]
-name = "units"
-version = "0.1.0"
-dependencies = [
- "Units",
-]

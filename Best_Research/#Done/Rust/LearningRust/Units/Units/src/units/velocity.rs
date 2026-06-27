@@ -1,8 +1,8 @@
 use std::fmt;
 
-use crate::display::format_unit_value;
-use crate::error::{check_nonzero, QuantityError};
-use crate::macros::implement_quantity_arithmetic;
+use crate::internal::{
+    QuantityError, check_nonzero, format_unit_value, implement_quantity_arithmetic,
+};
 use crate::{Acceleration, Time};
 
 #[repr(transparent)]
@@ -56,6 +56,16 @@ impl Velocity {
         check_nonzero(time.as_seconds(), "Velocity / Time")?;
         Ok(self / time)
     }
+}
+
+#[must_use]
+pub const fn meters_per_second(value: f64) -> Velocity {
+    Velocity::meters_per_second(value)
+}
+
+#[must_use]
+pub const fn kilometers_per_hour(value: f64) -> Velocity {
+    Velocity::kilometers_per_hour(value)
 }
 
 implement_quantity_arithmetic!(Velocity);
