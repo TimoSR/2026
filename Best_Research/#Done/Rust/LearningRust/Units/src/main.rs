@@ -1,13 +1,14 @@
-use units::{length, mass, time, Acceleration, Force, Length, Mass, Time, Velocity};
+use units::{Acceleration, Force, Length, Mass, Time, Velocity, acceleration, force, length, mass, time, velocity};
 
 fn main()
 {
     let distance: Length = length::centimeters(10_000.0);
     let time: Time = time::milliseconds(9_580.0);
     let mass: Mass = mass::grams(80_000.0);
-    let velocity: Velocity = distance / time;
-    let acceleration: Acceleration = velocity / time;
-    let force: Force = mass * acceleration;
+
+    let velocity: Velocity = velocity(distance, time);
+    let acceleration: Acceleration = acceleration(velocity, time);
+    let force: Force = force(mass, acceleration);
 
     println!("distance = {} m", distance.as_meters());
     println!("time = {} s", time.as_seconds());

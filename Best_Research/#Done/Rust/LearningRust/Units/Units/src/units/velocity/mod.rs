@@ -1,3 +1,4 @@
+mod calculations;
 mod display;
 mod operators;
 mod quantity;
@@ -5,5 +6,6 @@ mod quantity;
 #[cfg(test)]
 mod tests;
 
-pub use display::VelocityDisplay;
-pub use quantity::{Velocity, VelocityUnit, kilometers_per_hour, meters_per_second};
+pub use calculations::*;
+pub use display::*;
+pub use quantity::*;

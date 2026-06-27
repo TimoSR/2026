@@ -6,5 +6,5 @@ mod macros;
 mod tests;
 
 pub(crate) use display::*;
-pub(crate) use error::*;
+pub use error::*;
 pub(crate) use macros::*;
