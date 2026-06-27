@@ -1,7 +1,4 @@
-use units::{
-    acceleration, force, length, mass, time, velocity, Acceleration, Force, Length, Mass, Time,
-    Velocity,
-};
+use units::{length, mass, time, Acceleration, Force, Length, Mass, Time, Velocity};
 
 fn main() {
     let distance: Length = length::centimeters(10_000.0);
@@ -17,25 +14,16 @@ fn main() {
     let acceleration: Acceleration = velocity / time;
     let force: Force = mass * acceleration;
 
+    println!("distance = {} m", distance.as_meters());
+    println!("time = {} s", time.as_seconds());
+    println!("mass = {} kg", mass.as_kilograms());
+    println!("velocity = {:.2} km/h", velocity.as_kilometers_per_hour());
     println!(
-        "distance = {}",
-        distance.display_as(length::LengthUnit::Meters)
-    );
-    println!("time = {}", time.display_as(time::TimeUnit::Seconds));
-    println!("mass = {}", mass.display_as(mass::MassUnit::Kilograms));
-    println!(
-        "velocity = {}",
-        velocity.display_as_precision(velocity::VelocityUnit::KilometersPerHour, 2)
-    );
-    println!(
-        "acceleration = {}",
-        acceleration.display_as_precision(acceleration::AccelerationUnit::StandardGravity, 4)
+        "acceleration = {:.4} g0",
+        acceleration.as_standard_gravity()
     );
 
     println!("acceleration = {}", acceleration);
 
-    println!(
-        "force = {}",
-        force.display_as_precision(force::ForceUnit::Kilonewtons, 4)
-    );
+    println!("force = {:.4} kN", force.as_kilonewtons());
 }
