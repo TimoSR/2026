@@ -4,22 +4,17 @@ use crate::internal::format_unit_value;
 
 use super::quantity::{Acceleration, AccelerationUnit};
 
-impl Acceleration {
+impl Acceleration
+{
     #[must_use]
-    pub(crate) const fn display_as(self, unit: AccelerationUnit) -> AccelerationDisplay {
-        AccelerationDisplay {
-            value: self,
-            unit,
-            precision: None,
-        }
+    pub(crate) const fn display_as(self, unit: AccelerationUnit) -> AccelerationDisplay
+    {
+        AccelerationDisplay { value: self, unit, precision: None }
     }
 
     #[must_use]
-    pub(crate) const fn display_as_precision(
-        self,
-        unit: AccelerationUnit,
-        precision: usize,
-    ) -> AccelerationDisplay {
+    pub(crate) const fn display_as_precision(self, unit: AccelerationUnit, precision: usize) -> AccelerationDisplay
+    {
         AccelerationDisplay {
             value: self,
             unit,
@@ -28,36 +23,44 @@ impl Acceleration {
     }
 
     #[must_use]
-    pub const fn display_meters_per_second_squared(self) -> AccelerationDisplay {
+    pub const fn display_meters_per_second_squared(self) -> AccelerationDisplay
+    {
         self.display_as(AccelerationUnit::MetersPerSecondSquared)
     }
 
     #[must_use]
-    pub const fn display_standard_gravity(self) -> AccelerationDisplay {
+    pub const fn display_standard_gravity(self) -> AccelerationDisplay
+    {
         self.display_as(AccelerationUnit::StandardGravity)
     }
 
     #[must_use]
-    pub const fn display_meters_per_second_squared_precision(self, precision: usize) -> AccelerationDisplay {
+    pub const fn display_meters_per_second_squared_precision(self, precision: usize) -> AccelerationDisplay
+    {
         self.display_as_precision(AccelerationUnit::MetersPerSecondSquared, precision)
     }
 
     #[must_use]
-    pub const fn display_standard_gravity_precision(self, precision: usize) -> AccelerationDisplay {
+    pub const fn display_standard_gravity_precision(self, precision: usize) -> AccelerationDisplay
+    {
         self.display_as_precision(AccelerationUnit::StandardGravity, precision)
     }
 }
 
 #[derive(Copy, Clone, Debug)]
-pub struct AccelerationDisplay {
+pub struct AccelerationDisplay
+{
     value: Acceleration,
     unit: AccelerationUnit,
     precision: Option<usize>,
 }
 
-impl fmt::Display for AccelerationDisplay {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let value = match self.unit {
+impl fmt::Display for AccelerationDisplay
+{
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    {
+        let value = match self.unit
+        {
             AccelerationUnit::MetersPerSecondSquared => self.value.to_meters_per_second_squared(),
             AccelerationUnit::StandardGravity => self.value.to_standard_gravity(),
         };
@@ -66,8 +69,10 @@ impl fmt::Display for AccelerationDisplay {
     }
 }
 
-impl fmt::Display for Acceleration {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl fmt::Display for Acceleration
+{
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    {
         self.display_meters_per_second_squared().fmt(formatter)
     }
 }

@@ -3,14 +3,16 @@ use crate::Acceleration;
 use super::super::*;
 
 #[test]
-fn mass_multiplied_by_acceleration_returns_force() {
+fn mass_multiplied_by_acceleration_returns_force()
+{
     let force = kilograms(4.0) * Acceleration::meters_per_second_squared(3.0);
 
     super::assert_close(force.to_newtons(), 12.0);
 }
 
 #[test]
-fn same_dimension_arithmetic_is_available() {
+fn same_dimension_arithmetic_is_available()
+{
     let mass = kilograms(2.0) + kilograms(3.0);
 
     assert_eq!(mass, kilograms(5.0));

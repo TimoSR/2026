@@ -4,18 +4,17 @@ use crate::internal::format_unit_value;
 
 use super::quantity::{Time, TimeUnit};
 
-impl Time {
+impl Time
+{
     #[must_use]
-    pub(crate) const fn display_as(self, unit: TimeUnit) -> TimeDisplay {
-        TimeDisplay {
-            value: self,
-            unit,
-            precision: None,
-        }
+    pub(crate) const fn display_as(self, unit: TimeUnit) -> TimeDisplay
+    {
+        TimeDisplay { value: self, unit, precision: None }
     }
 
     #[must_use]
-    pub(crate) const fn display_as_precision(self, unit: TimeUnit, precision: usize) -> TimeDisplay {
+    pub(crate) const fn display_as_precision(self, unit: TimeUnit, precision: usize) -> TimeDisplay
+    {
         TimeDisplay {
             value: self,
             unit,
@@ -24,76 +23,92 @@ impl Time {
     }
 
     #[must_use]
-    pub const fn display_seconds(self) -> TimeDisplay {
+    pub const fn display_seconds(self) -> TimeDisplay
+    {
         self.display_as(TimeUnit::Seconds)
     }
 
     #[must_use]
-    pub const fn display_milliseconds(self) -> TimeDisplay {
+    pub const fn display_milliseconds(self) -> TimeDisplay
+    {
         self.display_as(TimeUnit::Milliseconds)
     }
 
     #[must_use]
-    pub const fn display_microseconds(self) -> TimeDisplay {
+    pub const fn display_microseconds(self) -> TimeDisplay
+    {
         self.display_as(TimeUnit::Microseconds)
     }
 
     #[must_use]
-    pub const fn display_nanoseconds(self) -> TimeDisplay {
+    pub const fn display_nanoseconds(self) -> TimeDisplay
+    {
         self.display_as(TimeUnit::Nanoseconds)
     }
 
     #[must_use]
-    pub const fn display_minutes(self) -> TimeDisplay {
+    pub const fn display_minutes(self) -> TimeDisplay
+    {
         self.display_as(TimeUnit::Minutes)
     }
 
     #[must_use]
-    pub const fn display_hours(self) -> TimeDisplay {
+    pub const fn display_hours(self) -> TimeDisplay
+    {
         self.display_as(TimeUnit::Hours)
     }
 
     #[must_use]
-    pub const fn display_seconds_precision(self, precision: usize) -> TimeDisplay {
+    pub const fn display_seconds_precision(self, precision: usize) -> TimeDisplay
+    {
         self.display_as_precision(TimeUnit::Seconds, precision)
     }
 
     #[must_use]
-    pub const fn display_milliseconds_precision(self, precision: usize) -> TimeDisplay {
+    pub const fn display_milliseconds_precision(self, precision: usize) -> TimeDisplay
+    {
         self.display_as_precision(TimeUnit::Milliseconds, precision)
     }
 
     #[must_use]
-    pub const fn display_microseconds_precision(self, precision: usize) -> TimeDisplay {
+    pub const fn display_microseconds_precision(self, precision: usize) -> TimeDisplay
+    {
         self.display_as_precision(TimeUnit::Microseconds, precision)
     }
 
     #[must_use]
-    pub const fn display_nanoseconds_precision(self, precision: usize) -> TimeDisplay {
+    pub const fn display_nanoseconds_precision(self, precision: usize) -> TimeDisplay
+    {
         self.display_as_precision(TimeUnit::Nanoseconds, precision)
     }
 
     #[must_use]
-    pub const fn display_minutes_precision(self, precision: usize) -> TimeDisplay {
+    pub const fn display_minutes_precision(self, precision: usize) -> TimeDisplay
+    {
         self.display_as_precision(TimeUnit::Minutes, precision)
     }
 
     #[must_use]
-    pub const fn display_hours_precision(self, precision: usize) -> TimeDisplay {
+    pub const fn display_hours_precision(self, precision: usize) -> TimeDisplay
+    {
         self.display_as_precision(TimeUnit::Hours, precision)
     }
 }
 
 #[derive(Copy, Clone, Debug)]
-pub struct TimeDisplay {
+pub struct TimeDisplay
+{
     value: Time,
     unit: TimeUnit,
     precision: Option<usize>,
 }
 
-impl fmt::Display for TimeDisplay {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let value = match self.unit {
+impl fmt::Display for TimeDisplay
+{
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    {
+        let value = match self.unit
+        {
             TimeUnit::Seconds => self.value.to_seconds(),
             TimeUnit::Milliseconds => self.value.to_milliseconds(),
             TimeUnit::Microseconds => self.value.to_microseconds(),
@@ -106,8 +121,10 @@ impl fmt::Display for TimeDisplay {
     }
 }
 
-impl fmt::Display for Time {
-    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+impl fmt::Display for Time
+{
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result
+    {
         self.display_seconds().fmt(formatter)
     }
 }
