@@ -3,7 +3,6 @@ use crate::{Time, Velocity};
 
 use super::quantity::Acceleration;
 
-#[must_use]
 pub const fn calculate(velocity: Velocity, time: Time) -> Acceleration
 {
     Acceleration::meters_per_second_squared(velocity.to_meters_per_second() / time.to_seconds())

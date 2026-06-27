@@ -6,13 +6,13 @@ use super::quantity::{Length, LengthUnit};
 
 impl Length
 {
-    #[must_use]
+     
     pub(crate) const fn display_as(self, unit: LengthUnit) -> LengthDisplay
     {
         LengthDisplay { value: self, unit, precision: None }
     }
 
-    #[must_use]
+     
     pub(crate) const fn display_as_precision(self, unit: LengthUnit, precision: usize) -> LengthDisplay
     {
         LengthDisplay {
@@ -22,73 +22,73 @@ impl Length
         }
     }
 
-    #[must_use]
+     
     pub const fn display_meters(self) -> LengthDisplay
     {
         self.display_as(LengthUnit::Meters)
     }
 
-    #[must_use]
+     
     pub const fn display_kilometers(self) -> LengthDisplay
     {
         self.display_as(LengthUnit::Kilometers)
     }
 
-    #[must_use]
+     
     pub const fn display_centimeters(self) -> LengthDisplay
     {
         self.display_as(LengthUnit::Centimeters)
     }
 
-    #[must_use]
+     
     pub const fn display_millimeters(self) -> LengthDisplay
     {
         self.display_as(LengthUnit::Millimeters)
     }
 
-    #[must_use]
+     
     pub const fn display_micrometers(self) -> LengthDisplay
     {
         self.display_as(LengthUnit::Micrometers)
     }
 
-    #[must_use]
+     
     pub const fn display_nanometers(self) -> LengthDisplay
     {
         self.display_as(LengthUnit::Nanometers)
     }
 
-    #[must_use]
+     
     pub const fn display_meters_precision(self, precision: usize) -> LengthDisplay
     {
         self.display_as_precision(LengthUnit::Meters, precision)
     }
 
-    #[must_use]
+     
     pub const fn display_kilometers_precision(self, precision: usize) -> LengthDisplay
     {
         self.display_as_precision(LengthUnit::Kilometers, precision)
     }
 
-    #[must_use]
+     
     pub const fn display_centimeters_precision(self, precision: usize) -> LengthDisplay
     {
         self.display_as_precision(LengthUnit::Centimeters, precision)
     }
 
-    #[must_use]
+     
     pub const fn display_millimeters_precision(self, precision: usize) -> LengthDisplay
     {
         self.display_as_precision(LengthUnit::Millimeters, precision)
     }
 
-    #[must_use]
+     
     pub const fn display_micrometers_precision(self, precision: usize) -> LengthDisplay
     {
         self.display_as_precision(LengthUnit::Micrometers, precision)
     }
 
-    #[must_use]
+     
     pub const fn display_nanometers_precision(self, precision: usize) -> LengthDisplay
     {
         self.display_as_precision(LengthUnit::Nanometers, precision)

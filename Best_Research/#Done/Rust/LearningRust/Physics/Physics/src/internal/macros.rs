@@ -6,13 +6,13 @@ macro_rules! implement_quantity_arithmetic {
         {
             pub const ZERO: Self = Self(0.0);
 
-            #[must_use]
+             
             pub const fn raw_si(self) -> f64
             {
                 self.0
             }
 
-            #[must_use]
+             
             pub fn approximately_equals(self, other: Self, epsilon: f64) -> bool
             {
                 (self.0 - other.0).abs() <= epsilon

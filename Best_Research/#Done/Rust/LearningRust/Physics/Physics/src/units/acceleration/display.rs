@@ -6,13 +6,11 @@ use super::quantity::{Acceleration, AccelerationUnit};
 
 impl Acceleration
 {
-    #[must_use]
     pub(crate) const fn display_as(self, unit: AccelerationUnit) -> AccelerationDisplay
     {
         AccelerationDisplay { value: self, unit, precision: None }
     }
 
-    #[must_use]
     pub(crate) const fn display_as_precision(self, unit: AccelerationUnit, precision: usize) -> AccelerationDisplay
     {
         AccelerationDisplay {
@@ -22,25 +20,21 @@ impl Acceleration
         }
     }
 
-    #[must_use]
     pub const fn display_meters_per_second_squared(self) -> AccelerationDisplay
     {
         self.display_as(AccelerationUnit::MetersPerSecondSquared)
     }
 
-    #[must_use]
     pub const fn display_standard_gravity(self) -> AccelerationDisplay
     {
         self.display_as(AccelerationUnit::StandardGravity)
     }
 
-    #[must_use]
     pub const fn display_meters_per_second_squared_precision(self, precision: usize) -> AccelerationDisplay
     {
         self.display_as_precision(AccelerationUnit::MetersPerSecondSquared, precision)
     }
 
-    #[must_use]
     pub const fn display_standard_gravity_precision(self, precision: usize) -> AccelerationDisplay
     {
         self.display_as_precision(AccelerationUnit::StandardGravity, precision)

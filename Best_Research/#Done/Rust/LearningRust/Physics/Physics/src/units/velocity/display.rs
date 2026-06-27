@@ -6,13 +6,11 @@ use super::quantity::{Velocity, VelocityUnit};
 
 impl Velocity
 {
-    #[must_use]
     pub(crate) const fn display_as(self, unit: VelocityUnit) -> VelocityDisplay
     {
         VelocityDisplay { value: self, unit, precision: None }
     }
 
-    #[must_use]
     pub(crate) const fn display_as_precision(self, unit: VelocityUnit, precision: usize) -> VelocityDisplay
     {
         VelocityDisplay {
@@ -22,25 +20,21 @@ impl Velocity
         }
     }
 
-    #[must_use]
     pub const fn display_meters_per_second(self) -> VelocityDisplay
     {
         self.display_as(VelocityUnit::MetersPerSecond)
     }
 
-    #[must_use]
     pub const fn display_kilometers_per_hour(self) -> VelocityDisplay
     {
         self.display_as(VelocityUnit::KilometersPerHour)
     }
 
-    #[must_use]
     pub const fn display_meters_per_second_precision(self, precision: usize) -> VelocityDisplay
     {
         self.display_as_precision(VelocityUnit::MetersPerSecond, precision)
     }
 
-    #[must_use]
     pub const fn display_kilometers_per_hour_precision(self, precision: usize) -> VelocityDisplay
     {
         self.display_as_precision(VelocityUnit::KilometersPerHour, precision)

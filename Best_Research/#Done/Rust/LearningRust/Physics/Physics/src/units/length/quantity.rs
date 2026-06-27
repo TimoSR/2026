@@ -6,37 +6,37 @@ pub struct Length(pub(crate) f64);
 
 impl Length
 {
-    #[must_use]
+     
     pub const fn meters(value: f64) -> Self
     {
         Self(value)
     }
 
-    #[must_use]
+     
     pub const fn kilometers(value: f64) -> Self
     {
         Self(value * 1_000.0)
     }
 
-    #[must_use]
+     
     pub const fn centimeters(value: f64) -> Self
     {
         Self(value / 100.0)
     }
 
-    #[must_use]
+     
     pub const fn millimeters(value: f64) -> Self
     {
         Self(value / 1_000.0)
     }
 
-    #[must_use]
+     
     pub const fn micrometers(value: f64) -> Self
     {
         Self(value / 1_000_000.0)
     }
 
-    #[must_use]
+     
     pub const fn nanometers(value: f64) -> Self
     {
         Self(value / 1_000_000_000.0)
@@ -52,74 +52,74 @@ impl Length
         Ok(Self(validate_finite("Length", "cm", value)? / 100.0))
     }
 
-    #[must_use]
+     
     pub const fn to_meters(self) -> f64
     {
         self.0
     }
 
-    #[must_use]
+     
     pub const fn to_kilometers(self) -> f64
     {
         self.0 / 1_000.0
     }
 
-    #[must_use]
+     
     pub const fn to_centimeters(self) -> f64
     {
         self.0 * 100.0
     }
 
-    #[must_use]
+     
     pub const fn to_millimeters(self) -> f64
     {
         self.0 * 1_000.0
     }
 
-    #[must_use]
+     
     pub const fn to_micrometers(self) -> f64
     {
         self.0 * 1_000_000.0
     }
 
-    #[must_use]
+     
     pub const fn to_nanometers(self) -> f64
     {
         self.0 * 1_000_000_000.0
     }
 }
 
-#[must_use]
+ 
 pub const fn meters(value: f64) -> Length
 {
     Length::meters(value)
 }
 
-#[must_use]
+ 
 pub const fn kilometers(value: f64) -> Length
 {
     Length::kilometers(value)
 }
 
-#[must_use]
+ 
 pub const fn centimeters(value: f64) -> Length
 {
     Length::centimeters(value)
 }
 
-#[must_use]
+ 
 pub const fn millimeters(value: f64) -> Length
 {
     Length::millimeters(value)
 }
 
-#[must_use]
+ 
 pub const fn micrometers(value: f64) -> Length
 {
     Length::micrometers(value)
 }
 
-#[must_use]
+ 
 pub const fn nanometers(value: f64) -> Length
 {
     Length::nanometers(value)
@@ -138,7 +138,7 @@ pub enum LengthUnit
 
 impl LengthUnit
 {
-    #[must_use]
+     
     pub const fn symbol(self) -> &'static str
     {
         match self

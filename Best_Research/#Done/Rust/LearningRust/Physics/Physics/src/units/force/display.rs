@@ -6,13 +6,13 @@ use super::quantity::{Force, ForceUnit};
 
 impl Force
 {
-    #[must_use]
+     
     pub(crate) const fn display_as(self, unit: ForceUnit) -> ForceDisplay
     {
         ForceDisplay { value: self, unit, precision: None }
     }
 
-    #[must_use]
+     
     pub(crate) const fn display_as_precision(self, unit: ForceUnit, precision: usize) -> ForceDisplay
     {
         ForceDisplay {
@@ -22,37 +22,37 @@ impl Force
         }
     }
 
-    #[must_use]
+     
     pub const fn display_newtons(self) -> ForceDisplay
     {
         self.display_as(ForceUnit::Newtons)
     }
 
-    #[must_use]
+     
     pub const fn display_millinewtons(self) -> ForceDisplay
     {
         self.display_as(ForceUnit::Millinewtons)
     }
 
-    #[must_use]
+     
     pub const fn display_kilonewtons(self) -> ForceDisplay
     {
         self.display_as(ForceUnit::Kilonewtons)
     }
 
-    #[must_use]
+     
     pub const fn display_newtons_precision(self, precision: usize) -> ForceDisplay
     {
         self.display_as_precision(ForceUnit::Newtons, precision)
     }
 
-    #[must_use]
+     
     pub const fn display_millinewtons_precision(self, precision: usize) -> ForceDisplay
     {
         self.display_as_precision(ForceUnit::Millinewtons, precision)
     }
 
-    #[must_use]
+     
     pub const fn display_kilonewtons_precision(self, precision: usize) -> ForceDisplay
     {
         self.display_as_precision(ForceUnit::Kilonewtons, precision)
