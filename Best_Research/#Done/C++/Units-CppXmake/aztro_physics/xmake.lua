@@ -22,7 +22,7 @@ target("aztro_physics")
     remove_files(path.join(aztro_physics_dir, "**/tests.cpp"))
     warning_flags()
 
-target("aztro_physicsSmoke")
+target("AZTROPhysicsSmoke")
     set_kind("binary")
     set_default(false)
     set_rundir(os.projectdir())
