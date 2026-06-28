@@ -1,9 +1,11 @@
-set_project("Physics")
+set_project("PhysicsDemo")
 set_version("0.1.0")
 
 set_languages("c++23")
 
 add_rules("mode.debug", "mode.release")
+
+includes("Physics")
 
 local warning_flags = function()
     add_cxxflags("/W4", "/permissive-", {tools = "cl"})
@@ -15,24 +17,6 @@ target("PhysicsDemo")
     set_default(true)
     set_rundir(os.projectdir())
     add_files("src/main.cpp")
-    add_includedirs(".")
-    add_deps("Physics")
-    warning_flags()
-
-target("Physics")
-    set_kind("static")
-    add_files("Physics/**.cpp")
-    remove_files("Physics/tests/**.cpp")
-    remove_files("Physics/**/tests.cpp")
-    add_includedirs(".", {public = true})
-    warning_flags()
-
-target("PhysicsTests")
-    set_kind("binary")
-    set_default(false)
-    set_rundir(os.projectdir())
-    add_files("Physics/tests/main.cpp")
-    add_files("Physics/**/tests.cpp")
     add_includedirs(".")
     add_deps("Physics")
     warning_flags()

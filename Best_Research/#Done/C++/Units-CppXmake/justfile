@@ -39,7 +39,7 @@ run: all
     xmake run PhysicsDemo
 
 test: all
-    xmake run PhysicsTests
+    xmake
 
 format:
     Get-ChildItem -Path Physics,src -Recurse -Include *.hpp,*.cpp | ForEach-Object { clang-format -i $_.FullName }
