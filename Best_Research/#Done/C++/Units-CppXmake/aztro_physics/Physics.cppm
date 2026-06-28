@@ -4,7 +4,7 @@ module;
 #include <iosfwd>
 #include <optional>
 
-export module aztro.physics;
+export module aztro_physics;
 
 export {
 

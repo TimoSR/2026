@@ -6,7 +6,7 @@ module;
 #include <optional>
 #include <ostream>
 
-module aztro.physics;
+module aztro_physics;
 
 namespace aztro::physics::time
 {

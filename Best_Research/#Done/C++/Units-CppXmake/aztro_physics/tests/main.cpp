@@ -2,7 +2,7 @@
 #include <format>
 #include <string>
 
-import aztro.physics;
+import aztro_physics;
 
 int main()
 {

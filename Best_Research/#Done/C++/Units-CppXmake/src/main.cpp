@@ -2,7 +2,7 @@
 #include <iostream>
 #include <print>
 
-import aztro.physics;
+import aztro_physics;
 
 void run_physics_example()
 {
