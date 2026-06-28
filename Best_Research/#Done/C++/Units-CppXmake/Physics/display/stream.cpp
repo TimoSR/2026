@@ -9,7 +9,7 @@ namespace Physics
     namespace detail
     {
 
-        template <typename Quantity, typename Unit> std::ostream& writeDisplay(std::ostream& stream, QuantityDisplay<Quantity, Unit> display)
+        template <typename Quantity, typename Unit> std::ostream& write_display(std::ostream& stream, QuantityDisplay<Quantity, Unit> display)
         {
             auto flags = stream.flags();
             auto precision = stream.precision();
@@ -19,7 +19,7 @@ namespace Physics
                 stream << std::fixed << std::setprecision(*display.precision());
             }
 
-            stream << valueInUnit(display.value(), display.unit()) << ' ' << symbol(display.unit());
+            stream << value_in_unit(display.value(), display.unit()) << ' ' << symbol(display.unit());
 
             stream.flags(flags);
             stream.precision(precision);
@@ -30,32 +30,32 @@ namespace Physics
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<length::Length, length::LengthUnit> display)
     {
-        return detail::writeDisplay(stream, display);
+        return detail::write_display(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<time::Time, time::TimeUnit> display)
     {
-        return detail::writeDisplay(stream, display);
+        return detail::write_display(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<mass::Mass, mass::MassUnit> display)
     {
-        return detail::writeDisplay(stream, display);
+        return detail::write_display(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<velocity::Velocity, velocity::VelocityUnit> display)
     {
-        return detail::writeDisplay(stream, display);
+        return detail::write_display(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<acceleration::Acceleration, acceleration::AccelerationUnit> display)
     {
-        return detail::writeDisplay(stream, display);
+        return detail::write_display(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<force::Force, force::ForceUnit> display)
     {
-        return detail::writeDisplay(stream, display);
+        return detail::write_display(stream, display);
     }
 
 } // namespace Physics

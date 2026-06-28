@@ -24,28 +24,78 @@ namespace Physics::mass
         return "";
     }
 
-    double valueInUnit(Mass value, MassUnit unit)
+    double value_in_unit(Mass value, MassUnit unit)
     {
         switch (unit)
         {
         case MassUnit::Kilograms:
-            return value.asKilograms();
+            return value.to_kilograms();
         case MassUnit::Grams:
-            return value.asGrams();
+            return value.to_grams();
         case MassUnit::Milligrams:
-            return value.asMilligrams();
+            return value.to_milligrams();
         case MassUnit::Micrograms:
-            return value.asMicrograms();
+            return value.to_micrograms();
         case MassUnit::Tons:
-            return value.asTons();
+            return value.to_tons();
         }
 
-        return value.asKilograms();
+        return value.to_kilograms();
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_kilograms()
+    {
+        return display_as(MassUnit::Kilograms);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_grams()
+    {
+        return display_as(MassUnit::Grams);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_milligrams()
+    {
+        return display_as(MassUnit::Milligrams);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_micrograms()
+    {
+        return display_as(MassUnit::Micrograms);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_tons()
+    {
+        return display_as(MassUnit::Tons);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_kilograms_precision(int precision)
+    {
+        return display_as_precision(MassUnit::Kilograms, precision);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_grams_precision(int precision)
+    {
+        return display_as_precision(MassUnit::Grams, precision);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_milligrams_precision(int precision)
+    {
+        return display_as_precision(MassUnit::Milligrams, precision);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_micrograms_precision(int precision)
+    {
+        return display_as_precision(MassUnit::Micrograms, precision);
+    }
+
+    QuantityDisplay<Mass, MassUnit> Mass::display_tons_precision(int precision)
+    {
+        return display_as_precision(MassUnit::Tons, precision);
     }
 
     std::ostream& operator<<(std::ostream& stream, Mass value)
     {
-        return stream << value.displayAs(MassUnit::Kilograms);
+        return stream << value.display_as(MassUnit::Kilograms);
     }
 
 } // namespace Physics::mass

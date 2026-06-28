@@ -14,7 +14,7 @@ namespace Physics::length
 {
 
     const char* symbol(LengthUnit unit);
-    double valueInUnit(Length value, LengthUnit unit);
+    double value_in_unit(Length value, LengthUnit unit);
     std::ostream& operator<<(std::ostream& stream, Length value);
 
 } // namespace Physics::length
@@ -23,7 +23,7 @@ namespace Physics::time
 {
 
     const char* symbol(TimeUnit unit);
-    double valueInUnit(Time value, TimeUnit unit);
+    double value_in_unit(Time value, TimeUnit unit);
     std::ostream& operator<<(std::ostream& stream, Time value);
 
 } // namespace Physics::time
@@ -32,7 +32,7 @@ namespace Physics::mass
 {
 
     const char* symbol(MassUnit unit);
-    double valueInUnit(Mass value, MassUnit unit);
+    double value_in_unit(Mass value, MassUnit unit);
     std::ostream& operator<<(std::ostream& stream, Mass value);
 
 } // namespace Physics::mass
@@ -41,7 +41,7 @@ namespace Physics::velocity
 {
 
     const char* symbol(VelocityUnit unit);
-    double valueInUnit(Velocity value, VelocityUnit unit);
+    double value_in_unit(Velocity value, VelocityUnit unit);
     std::ostream& operator<<(std::ostream& stream, Velocity value);
 
 } // namespace Physics::velocity
@@ -50,7 +50,7 @@ namespace Physics::acceleration
 {
 
     const char* symbol(AccelerationUnit unit);
-    double valueInUnit(Acceleration value, AccelerationUnit unit);
+    double value_in_unit(Acceleration value, AccelerationUnit unit);
     std::ostream& operator<<(std::ostream& stream, Acceleration value);
 
 } // namespace Physics::acceleration
@@ -59,7 +59,7 @@ namespace Physics::force
 {
 
     const char* symbol(ForceUnit unit);
-    double valueInUnit(Force value, ForceUnit unit);
+    double value_in_unit(Force value, ForceUnit unit);
     std::ostream& operator<<(std::ostream& stream, Force value);
 
 } // namespace Physics::force

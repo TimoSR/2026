@@ -5,37 +5,37 @@ namespace Physics::time
 
     Time operator+(Time left, Time right)
     {
-        return Time::fromRawSi(left.rawSi() + right.rawSi());
+        return Time::from_raw_si(left.raw_si() + right.raw_si());
     }
 
     Time operator-(Time left, Time right)
     {
-        return Time::fromRawSi(left.rawSi() - right.rawSi());
+        return Time::from_raw_si(left.raw_si() - right.raw_si());
     }
 
     Time operator-(Time value)
     {
-        return Time::fromRawSi(-value.rawSi());
+        return Time::from_raw_si(-value.raw_si());
     }
 
     Time operator*(Time value, double scalar)
     {
-        return Time::fromRawSi(value.rawSi() * scalar);
+        return Time::from_raw_si(value.raw_si() * scalar);
     }
 
     Time operator*(double scalar, Time value)
     {
-        return Time::fromRawSi(scalar * value.rawSi());
+        return Time::from_raw_si(scalar * value.raw_si());
     }
 
     Time operator/(Time value, double scalar)
     {
-        return Time::fromRawSi(value.rawSi() / scalar);
+        return Time::from_raw_si(value.raw_si() / scalar);
     }
 
     double operator/(Time left, Time right)
     {
-        return left.rawSi() / right.rawSi();
+        return left.raw_si() / right.raw_si();
     }
 
 } // namespace Physics::time

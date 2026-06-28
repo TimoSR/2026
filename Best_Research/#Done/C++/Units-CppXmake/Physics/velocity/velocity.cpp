@@ -5,58 +5,58 @@
 namespace Physics::velocity
 {
 
-    Velocity::Velocity(double metersPerSecond) : _metersPerSecond(metersPerSecond)
+    Velocity::Velocity(double meters_per_second) : _meters_per_second(meters_per_second)
     {
     }
 
-    Velocity Velocity::fromRawSi(double metersPerSecond)
+    Velocity Velocity::from_raw_si(double meters_per_second)
     {
-        return Velocity(metersPerSecond);
+        return Velocity(meters_per_second);
     }
 
-    Velocity Velocity::metersPerSecond(double value)
+    Velocity Velocity::meters_per_second(double value)
     {
         return Velocity(value);
     }
 
-    Velocity Velocity::kilometersPerHour(double value)
+    Velocity Velocity::kilometers_per_hour(double value)
     {
         return Velocity(value / 3.6);
     }
 
-    double Velocity::rawSi()
+    double Velocity::raw_si()
     {
-        return _metersPerSecond;
+        return _meters_per_second;
     }
 
-    double Velocity::asMetersPerSecond()
+    double Velocity::to_meters_per_second()
     {
-        return _metersPerSecond;
+        return _meters_per_second;
     }
 
-    double Velocity::asKilometersPerHour()
+    double Velocity::to_kilometers_per_hour()
     {
-        return _metersPerSecond * 3.6;
+        return _meters_per_second * 3.6;
     }
 
-    bool Velocity::approximatelyEquals(Velocity other, double epsilon)
+    bool Velocity::approximately_equals(Velocity other, double epsilon)
     {
-        return detail::absolute(_metersPerSecond - other._metersPerSecond) <= epsilon;
+        return detail::absolute(_meters_per_second - other._meters_per_second) <= epsilon;
     }
 
-    QuantityDisplay<Velocity, VelocityUnit> Velocity::displayAs(VelocityUnit unit)
+    QuantityDisplay<Velocity, VelocityUnit> Velocity::display_as(VelocityUnit unit)
     {
         return QuantityDisplay<Velocity, VelocityUnit>(*this, unit);
     }
 
-    QuantityDisplay<Velocity, VelocityUnit> Velocity::displayAsPrecision(VelocityUnit unit, int precision)
+    QuantityDisplay<Velocity, VelocityUnit> Velocity::display_as_precision(VelocityUnit unit, int precision)
     {
         return QuantityDisplay<Velocity, VelocityUnit>(*this, unit, precision);
     }
 
     bool operator==(Velocity left, Velocity right)
     {
-        return left._metersPerSecond == right._metersPerSecond;
+        return left._meters_per_second == right._meters_per_second;
     }
 
 } // namespace Physics::velocity

@@ -18,22 +18,42 @@ namespace Physics::velocity
         return "";
     }
 
-    double valueInUnit(Velocity value, VelocityUnit unit)
+    double value_in_unit(Velocity value, VelocityUnit unit)
     {
         switch (unit)
         {
         case VelocityUnit::MetersPerSecond:
-            return value.asMetersPerSecond();
+            return value.to_meters_per_second();
         case VelocityUnit::KilometersPerHour:
-            return value.asKilometersPerHour();
+            return value.to_kilometers_per_hour();
         }
 
-        return value.asMetersPerSecond();
+        return value.to_meters_per_second();
+    }
+
+    QuantityDisplay<Velocity, VelocityUnit> Velocity::display_meters_per_second()
+    {
+        return display_as(VelocityUnit::MetersPerSecond);
+    }
+
+    QuantityDisplay<Velocity, VelocityUnit> Velocity::display_kilometers_per_hour()
+    {
+        return display_as(VelocityUnit::KilometersPerHour);
+    }
+
+    QuantityDisplay<Velocity, VelocityUnit> Velocity::display_meters_per_second_precision(int precision)
+    {
+        return display_as_precision(VelocityUnit::MetersPerSecond, precision);
+    }
+
+    QuantityDisplay<Velocity, VelocityUnit> Velocity::display_kilometers_per_hour_precision(int precision)
+    {
+        return display_as_precision(VelocityUnit::KilometersPerHour, precision);
     }
 
     std::ostream& operator<<(std::ostream& stream, Velocity value)
     {
-        return stream << value.displayAs(VelocityUnit::MetersPerSecond);
+        return stream << value.display_as(VelocityUnit::MetersPerSecond);
     }
 
 } // namespace Physics::velocity

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Physics/acceleration/acceleration.hpp"
 #include "Physics/force/force.hpp"
 #include "Physics/length/length.hpp"
@@ -65,6 +67,9 @@ namespace Physics::velocity
     Velocity operator/(Velocity value, double scalar);
     double operator/(Velocity left, Velocity right);
 
+    Velocity calculate(length::Length distance, time::Time time);
+    std::optional<Velocity> checked_calculate(length::Length distance, time::Time time);
+
     length::Length operator*(Velocity velocity, time::Time time);
     acceleration::Acceleration operator/(Velocity velocity, time::Time time);
     time::Time operator/(Velocity velocity, acceleration::Acceleration acceleration);
@@ -82,6 +87,9 @@ namespace Physics::acceleration
     Acceleration operator/(Acceleration value, double scalar);
     double operator/(Acceleration left, Acceleration right);
 
+    Acceleration calculate(velocity::Velocity velocity, time::Time time);
+    std::optional<Acceleration> checked_calculate(velocity::Velocity velocity, time::Time time);
+
     velocity::Velocity operator*(Acceleration acceleration, time::Time time);
     force::Force operator*(Acceleration acceleration, mass::Mass mass);
 
@@ -97,6 +105,8 @@ namespace Physics::force
     Force operator*(double scalar, Force value);
     Force operator/(Force value, double scalar);
     double operator/(Force left, Force right);
+
+    Force calculate(mass::Mass mass, acceleration::Acceleration acceleration);
 
     acceleration::Acceleration operator/(Force force, mass::Mass mass);
     mass::Mass operator/(Force force, acceleration::Acceleration acceleration);

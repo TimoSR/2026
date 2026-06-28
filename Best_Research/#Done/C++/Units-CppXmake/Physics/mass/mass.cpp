@@ -9,7 +9,7 @@ namespace Physics::mass
     {
     }
 
-    Mass Mass::fromRawSi(double kilograms)
+    Mass Mass::from_raw_si(double kilograms)
     {
         return Mass(kilograms);
     }
@@ -44,47 +44,47 @@ namespace Physics::mass
         return Mass(value * 1'000.0);
     }
 
-    double Mass::rawSi()
+    double Mass::raw_si()
     {
         return _kilograms;
     }
 
-    double Mass::asKilograms()
+    double Mass::to_kilograms()
     {
         return _kilograms;
     }
 
-    double Mass::asGrams()
+    double Mass::to_grams()
     {
         return _kilograms * 1'000.0;
     }
 
-    double Mass::asMilligrams()
+    double Mass::to_milligrams()
     {
         return _kilograms * 1'000'000.0;
     }
 
-    double Mass::asMicrograms()
+    double Mass::to_micrograms()
     {
         return _kilograms * 1'000'000'000.0;
     }
 
-    double Mass::asTons()
+    double Mass::to_tons()
     {
         return _kilograms / 1'000.0;
     }
 
-    bool Mass::approximatelyEquals(Mass other, double epsilon)
+    bool Mass::approximately_equals(Mass other, double epsilon)
     {
         return detail::absolute(_kilograms - other._kilograms) <= epsilon;
     }
 
-    QuantityDisplay<Mass, MassUnit> Mass::displayAs(MassUnit unit)
+    QuantityDisplay<Mass, MassUnit> Mass::display_as(MassUnit unit)
     {
         return QuantityDisplay<Mass, MassUnit>(*this, unit);
     }
 
-    QuantityDisplay<Mass, MassUnit> Mass::displayAsPrecision(MassUnit unit, int precision)
+    QuantityDisplay<Mass, MassUnit> Mass::display_as_precision(MassUnit unit, int precision)
     {
         return QuantityDisplay<Mass, MassUnit>(*this, unit, precision);
     }

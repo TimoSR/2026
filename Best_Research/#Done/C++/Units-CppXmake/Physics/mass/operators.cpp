@@ -5,37 +5,37 @@ namespace Physics::mass
 
     Mass operator+(Mass left, Mass right)
     {
-        return Mass::fromRawSi(left.rawSi() + right.rawSi());
+        return Mass::from_raw_si(left.raw_si() + right.raw_si());
     }
 
     Mass operator-(Mass left, Mass right)
     {
-        return Mass::fromRawSi(left.rawSi() - right.rawSi());
+        return Mass::from_raw_si(left.raw_si() - right.raw_si());
     }
 
     Mass operator-(Mass value)
     {
-        return Mass::fromRawSi(-value.rawSi());
+        return Mass::from_raw_si(-value.raw_si());
     }
 
     Mass operator*(Mass value, double scalar)
     {
-        return Mass::fromRawSi(value.rawSi() * scalar);
+        return Mass::from_raw_si(value.raw_si() * scalar);
     }
 
     Mass operator*(double scalar, Mass value)
     {
-        return Mass::fromRawSi(scalar * value.rawSi());
+        return Mass::from_raw_si(scalar * value.raw_si());
     }
 
     Mass operator/(Mass value, double scalar)
     {
-        return Mass::fromRawSi(value.rawSi() / scalar);
+        return Mass::from_raw_si(value.raw_si() / scalar);
     }
 
     double operator/(Mass left, Mass right)
     {
-        return left.rawSi() / right.rawSi();
+        return left.raw_si() / right.raw_si();
     }
 
 } // namespace Physics::mass

@@ -5,37 +5,37 @@ namespace Physics::force
 
     Force operator+(Force left, Force right)
     {
-        return Force::fromRawSi(left.rawSi() + right.rawSi());
+        return Force::from_raw_si(left.raw_si() + right.raw_si());
     }
 
     Force operator-(Force left, Force right)
     {
-        return Force::fromRawSi(left.rawSi() - right.rawSi());
+        return Force::from_raw_si(left.raw_si() - right.raw_si());
     }
 
     Force operator-(Force value)
     {
-        return Force::fromRawSi(-value.rawSi());
+        return Force::from_raw_si(-value.raw_si());
     }
 
     Force operator*(Force value, double scalar)
     {
-        return Force::fromRawSi(value.rawSi() * scalar);
+        return Force::from_raw_si(value.raw_si() * scalar);
     }
 
     Force operator*(double scalar, Force value)
     {
-        return Force::fromRawSi(scalar * value.rawSi());
+        return Force::from_raw_si(scalar * value.raw_si());
     }
 
     Force operator/(Force value, double scalar)
     {
-        return Force::fromRawSi(value.rawSi() / scalar);
+        return Force::from_raw_si(value.raw_si() / scalar);
     }
 
     double operator/(Force left, Force right)
     {
-        return left.rawSi() / right.rawSi();
+        return left.raw_si() / right.raw_si();
     }
 
 } // namespace Physics::force

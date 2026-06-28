@@ -5,63 +5,63 @@
 namespace Physics::acceleration
 {
 
-    double Acceleration::standardGravityMetersPerSecondSquared()
+    double Acceleration::standard_gravity_meters_per_second_squared()
     {
         return 9.80665;
     }
 
-    Acceleration::Acceleration(double metersPerSecondSquared) : _metersPerSecondSquared(metersPerSecondSquared)
+    Acceleration::Acceleration(double meters_per_second_squared) : _meters_per_second_squared(meters_per_second_squared)
     {
     }
 
-    Acceleration Acceleration::fromRawSi(double metersPerSecondSquared)
+    Acceleration Acceleration::from_raw_si(double meters_per_second_squared)
     {
-        return Acceleration(metersPerSecondSquared);
+        return Acceleration(meters_per_second_squared);
     }
 
-    Acceleration Acceleration::metersPerSecondSquared(double value)
+    Acceleration Acceleration::meters_per_second_squared(double value)
     {
         return Acceleration(value);
     }
 
-    Acceleration Acceleration::standardGravity(double value)
+    Acceleration Acceleration::standard_gravity(double value)
     {
-        return Acceleration(value * standardGravityMetersPerSecondSquared());
+        return Acceleration(value * standard_gravity_meters_per_second_squared());
     }
 
-    double Acceleration::rawSi()
+    double Acceleration::raw_si()
     {
-        return _metersPerSecondSquared;
+        return _meters_per_second_squared;
     }
 
-    double Acceleration::asMetersPerSecondSquared()
+    double Acceleration::to_meters_per_second_squared()
     {
-        return _metersPerSecondSquared;
+        return _meters_per_second_squared;
     }
 
-    double Acceleration::asStandardGravity()
+    double Acceleration::to_standard_gravity()
     {
-        return _metersPerSecondSquared / standardGravityMetersPerSecondSquared();
+        return _meters_per_second_squared / standard_gravity_meters_per_second_squared();
     }
 
-    bool Acceleration::approximatelyEquals(Acceleration other, double epsilon)
+    bool Acceleration::approximately_equals(Acceleration other, double epsilon)
     {
-        return detail::absolute(_metersPerSecondSquared - other._metersPerSecondSquared) <= epsilon;
+        return detail::absolute(_meters_per_second_squared - other._meters_per_second_squared) <= epsilon;
     }
 
-    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::displayAs(AccelerationUnit unit)
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_as(AccelerationUnit unit)
     {
         return QuantityDisplay<Acceleration, AccelerationUnit>(*this, unit);
     }
 
-    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::displayAsPrecision(AccelerationUnit unit, int precision)
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_as_precision(AccelerationUnit unit, int precision)
     {
         return QuantityDisplay<Acceleration, AccelerationUnit>(*this, unit, precision);
     }
 
     bool operator==(Acceleration left, Acceleration right)
     {
-        return left._metersPerSecondSquared == right._metersPerSecondSquared;
+        return left._meters_per_second_squared == right._meters_per_second_squared;
     }
 
 } // namespace Physics::acceleration

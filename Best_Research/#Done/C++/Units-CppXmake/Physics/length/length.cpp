@@ -9,7 +9,7 @@ namespace Physics::length
     {
     }
 
-    Length Length::fromRawSi(double meters)
+    Length Length::from_raw_si(double meters)
     {
         return Length(meters);
     }
@@ -44,52 +44,52 @@ namespace Physics::length
         return Length(value / 1'000'000'000.0);
     }
 
-    double Length::rawSi()
+    double Length::raw_si()
     {
         return _meters;
     }
 
-    double Length::asMeters()
+    double Length::to_meters()
     {
         return _meters;
     }
 
-    double Length::asKilometers()
+    double Length::to_kilometers()
     {
         return _meters / 1'000.0;
     }
 
-    double Length::asCentimeters()
+    double Length::to_centimeters()
     {
         return _meters * 100.0;
     }
 
-    double Length::asMillimeters()
+    double Length::to_millimeters()
     {
         return _meters * 1'000.0;
     }
 
-    double Length::asMicrometers()
+    double Length::to_micrometers()
     {
         return _meters * 1'000'000.0;
     }
 
-    double Length::asNanometers()
+    double Length::to_nanometers()
     {
         return _meters * 1'000'000'000.0;
     }
 
-    bool Length::approximatelyEquals(Length other, double epsilon)
+    bool Length::approximately_equals(Length other, double epsilon)
     {
         return detail::absolute(_meters - other._meters) <= epsilon;
     }
 
-    QuantityDisplay<Length, LengthUnit> Length::displayAs(LengthUnit unit)
+    QuantityDisplay<Length, LengthUnit> Length::display_as(LengthUnit unit)
     {
         return QuantityDisplay<Length, LengthUnit>(*this, unit);
     }
 
-    QuantityDisplay<Length, LengthUnit> Length::displayAsPrecision(LengthUnit unit, int precision)
+    QuantityDisplay<Length, LengthUnit> Length::display_as_precision(LengthUnit unit, int precision)
     {
         return QuantityDisplay<Length, LengthUnit>(*this, unit, precision);
     }

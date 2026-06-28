@@ -9,7 +9,7 @@ namespace Physics::force
     {
     }
 
-    Force Force::fromRawSi(double newtons)
+    Force Force::from_raw_si(double newtons)
     {
         return Force(newtons);
     }
@@ -29,37 +29,37 @@ namespace Physics::force
         return Force(value * 1'000.0);
     }
 
-    double Force::rawSi()
+    double Force::raw_si()
     {
         return _newtons;
     }
 
-    double Force::asNewtons()
+    double Force::to_newtons()
     {
         return _newtons;
     }
 
-    double Force::asMillinewtons()
+    double Force::to_millinewtons()
     {
         return _newtons * 1'000.0;
     }
 
-    double Force::asKilonewtons()
+    double Force::to_kilonewtons()
     {
         return _newtons / 1'000.0;
     }
 
-    bool Force::approximatelyEquals(Force other, double epsilon)
+    bool Force::approximately_equals(Force other, double epsilon)
     {
         return detail::absolute(_newtons - other._newtons) <= epsilon;
     }
 
-    QuantityDisplay<Force, ForceUnit> Force::displayAs(ForceUnit unit)
+    QuantityDisplay<Force, ForceUnit> Force::display_as(ForceUnit unit)
     {
         return QuantityDisplay<Force, ForceUnit>(*this, unit);
     }
 
-    QuantityDisplay<Force, ForceUnit> Force::displayAsPrecision(ForceUnit unit, int precision)
+    QuantityDisplay<Force, ForceUnit> Force::display_as_precision(ForceUnit unit, int precision)
     {
         return QuantityDisplay<Force, ForceUnit>(*this, unit, precision);
     }

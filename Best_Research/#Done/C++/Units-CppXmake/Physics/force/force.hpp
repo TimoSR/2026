@@ -21,30 +21,44 @@ namespace Physics::force
             double _newtons;
 
         public:
-            static Force fromRawSi(double newtons);
+            static Force from_raw_si(double newtons);
 
             static Force newtons(double value);
 
+            static std::optional<Force> try_newtons(double value);
+
             static Force millinewtons(double value);
+
+            static std::optional<Force> try_millinewtons(double value);
 
             static Force kilonewtons(double value);
 
-            double rawSi();
+            static std::optional<Force> try_kilonewtons(double value);
 
-            double asNewtons();
+            double raw_si();
 
-            double asMillinewtons();
+            double to_newtons();
 
-            double asKilonewtons();
+            double to_millinewtons();
 
-            bool approximatelyEquals(Force other, double epsilon);
+            double to_kilonewtons();
 
-            QuantityDisplay<Force, ForceUnit> displayAs(ForceUnit unit);
+            bool approximately_equals(Force other, double epsilon);
 
-            QuantityDisplay<Force, ForceUnit> displayAsPrecision(ForceUnit unit, int precision);
+            QuantityDisplay<Force, ForceUnit> display_as(ForceUnit unit);
 
-            std::optional<acceleration::Acceleration> checkedDivMass(mass::Mass mass);
-            std::optional<mass::Mass> checkedDivAcceleration(acceleration::Acceleration acceleration);
+            QuantityDisplay<Force, ForceUnit> display_as_precision(ForceUnit unit, int precision);
+
+            QuantityDisplay<Force, ForceUnit> display_newtons();
+            QuantityDisplay<Force, ForceUnit> display_millinewtons();
+            QuantityDisplay<Force, ForceUnit> display_kilonewtons();
+
+            QuantityDisplay<Force, ForceUnit> display_newtons_precision(int precision);
+            QuantityDisplay<Force, ForceUnit> display_millinewtons_precision(int precision);
+            QuantityDisplay<Force, ForceUnit> display_kilonewtons_precision(int precision);
+
+            std::optional<acceleration::Acceleration> checked_div_mass(mass::Mass mass);
+            std::optional<mass::Mass> checked_div_acceleration(acceleration::Acceleration acceleration);
 
             friend bool operator==(Force left, Force right);
 
@@ -53,8 +67,11 @@ namespace Physics::force
     };
 
     Force newtons(double value);
+    std::optional<Force> try_newtons(double value);
     Force force(double value);
     Force millinewtons(double value);
+    std::optional<Force> try_millinewtons(double value);
     Force kilonewtons(double value);
+    std::optional<Force> try_kilonewtons(double value);
 
 } // namespace Physics::force

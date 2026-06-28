@@ -5,9 +5,9 @@
 namespace Physics::length
 {
 
-    std::optional<velocity::Velocity> Length::checkedDivTime(time::Time time)
+    std::optional<velocity::Velocity> Length::checked_div_time(time::Time time)
     {
-        if (time.asSeconds() == 0.0)
+        if (time.to_seconds() == 0.0)
         {
             return std::nullopt;
         }
@@ -15,9 +15,9 @@ namespace Physics::length
         return *this / time;
     }
 
-    std::optional<time::Time> Length::checkedDivVelocity(velocity::Velocity velocity)
+    std::optional<time::Time> Length::checked_div_velocity(velocity::Velocity velocity)
     {
-        if (velocity.asMetersPerSecond() == 0.0)
+        if (velocity.to_meters_per_second() == 0.0)
         {
             return std::nullopt;
         }
@@ -30,9 +30,19 @@ namespace Physics::length
 namespace Physics::velocity
 {
 
-    std::optional<acceleration::Acceleration> Velocity::checkedDivTime(time::Time time)
+    std::optional<Velocity> checked_calculate(length::Length distance, time::Time time)
     {
-        if (time.asSeconds() == 0.0)
+        if (time.to_seconds() == 0.0)
+        {
+            return std::nullopt;
+        }
+
+        return calculate(distance, time);
+    }
+
+    std::optional<acceleration::Acceleration> Velocity::checked_div_time(time::Time time)
+    {
+        if (time.to_seconds() == 0.0)
         {
             return std::nullopt;
         }
@@ -40,9 +50,9 @@ namespace Physics::velocity
         return *this / time;
     }
 
-    std::optional<time::Time> Velocity::checkedDivAcceleration(acceleration::Acceleration acceleration)
+    std::optional<time::Time> Velocity::checked_div_acceleration(acceleration::Acceleration acceleration)
     {
-        if (acceleration.asMetersPerSecondSquared() == 0.0)
+        if (acceleration.to_meters_per_second_squared() == 0.0)
         {
             return std::nullopt;
         }
@@ -55,9 +65,9 @@ namespace Physics::velocity
 namespace Physics::force
 {
 
-    std::optional<acceleration::Acceleration> Force::checkedDivMass(mass::Mass mass)
+    std::optional<acceleration::Acceleration> Force::checked_div_mass(mass::Mass mass)
     {
-        if (mass.asKilograms() == 0.0)
+        if (mass.to_kilograms() == 0.0)
         {
             return std::nullopt;
         }
@@ -65,9 +75,9 @@ namespace Physics::force
         return *this / mass;
     }
 
-    std::optional<mass::Mass> Force::checkedDivAcceleration(acceleration::Acceleration acceleration)
+    std::optional<mass::Mass> Force::checked_div_acceleration(acceleration::Acceleration acceleration)
     {
-        if (acceleration.asMetersPerSecondSquared() == 0.0)
+        if (acceleration.to_meters_per_second_squared() == 0.0)
         {
             return std::nullopt;
         }
@@ -76,3 +86,18 @@ namespace Physics::force
     }
 
 } // namespace Physics::force
+
+namespace Physics::acceleration
+{
+
+    std::optional<Acceleration> checked_calculate(velocity::Velocity velocity, time::Time time)
+    {
+        if (time.to_seconds() == 0.0)
+        {
+            return std::nullopt;
+        }
+
+        return calculate(velocity, time);
+    }
+
+} // namespace Physics::acceleration

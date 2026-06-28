@@ -1,5 +1,7 @@
 #pragma once
 
+#include <optional>
+
 #include "Physics/detail/quantity_display.hpp"
 
 namespace Physics::acceleration
@@ -14,37 +16,49 @@ namespace Physics::acceleration
     class Acceleration
     {
 
-            double _metersPerSecondSquared;
+            double _meters_per_second_squared;
 
         public:
-            static double standardGravityMetersPerSecondSquared();
+            static double standard_gravity_meters_per_second_squared();
 
-            static Acceleration fromRawSi(double metersPerSecondSquared);
+            static Acceleration from_raw_si(double meters_per_second_squared);
 
-            static Acceleration metersPerSecondSquared(double value);
+            static Acceleration meters_per_second_squared(double value);
 
-            static Acceleration standardGravity(double value);
+            static std::optional<Acceleration> try_meters_per_second_squared(double value);
 
-            double rawSi();
+            static Acceleration standard_gravity(double value);
 
-            double asMetersPerSecondSquared();
+            static std::optional<Acceleration> try_standard_gravity(double value);
 
-            double asStandardGravity();
+            double raw_si();
 
-            bool approximatelyEquals(Acceleration other, double epsilon);
+            double to_meters_per_second_squared();
 
-            QuantityDisplay<Acceleration, AccelerationUnit> displayAs(AccelerationUnit unit);
+            double to_standard_gravity();
 
-            QuantityDisplay<Acceleration, AccelerationUnit> displayAsPrecision(AccelerationUnit unit, int precision);
+            bool approximately_equals(Acceleration other, double epsilon);
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_as(AccelerationUnit unit);
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_as_precision(AccelerationUnit unit, int precision);
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_meters_per_second_squared();
+            QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity();
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_meters_per_second_squared_precision(int precision);
+            QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity_precision(int precision);
 
             friend bool operator==(Acceleration left, Acceleration right);
 
         private:
-            explicit Acceleration(double metersPerSecondSquared);
+            explicit Acceleration(double meters_per_second_squared);
     };
 
-    Acceleration metersPerSecondSquared(double value);
+    Acceleration meters_per_second_squared(double value);
+    std::optional<Acceleration> try_meters_per_second_squared(double value);
     Acceleration meters_pr_second_pr_second(double value);
-    Acceleration standardGravity(double value);
+    Acceleration standard_gravity(double value);
+    std::optional<Acceleration> try_standard_gravity(double value);
 
 } // namespace Physics::acceleration

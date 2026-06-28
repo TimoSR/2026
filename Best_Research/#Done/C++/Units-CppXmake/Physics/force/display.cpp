@@ -20,24 +20,54 @@ namespace Physics::force
         return "";
     }
 
-    double valueInUnit(Force value, ForceUnit unit)
+    double value_in_unit(Force value, ForceUnit unit)
     {
         switch (unit)
         {
         case ForceUnit::Newtons:
-            return value.asNewtons();
+            return value.to_newtons();
         case ForceUnit::Millinewtons:
-            return value.asMillinewtons();
+            return value.to_millinewtons();
         case ForceUnit::Kilonewtons:
-            return value.asKilonewtons();
+            return value.to_kilonewtons();
         }
 
-        return value.asNewtons();
+        return value.to_newtons();
+    }
+
+    QuantityDisplay<Force, ForceUnit> Force::display_newtons()
+    {
+        return display_as(ForceUnit::Newtons);
+    }
+
+    QuantityDisplay<Force, ForceUnit> Force::display_millinewtons()
+    {
+        return display_as(ForceUnit::Millinewtons);
+    }
+
+    QuantityDisplay<Force, ForceUnit> Force::display_kilonewtons()
+    {
+        return display_as(ForceUnit::Kilonewtons);
+    }
+
+    QuantityDisplay<Force, ForceUnit> Force::display_newtons_precision(int precision)
+    {
+        return display_as_precision(ForceUnit::Newtons, precision);
+    }
+
+    QuantityDisplay<Force, ForceUnit> Force::display_millinewtons_precision(int precision)
+    {
+        return display_as_precision(ForceUnit::Millinewtons, precision);
+    }
+
+    QuantityDisplay<Force, ForceUnit> Force::display_kilonewtons_precision(int precision)
+    {
+        return display_as_precision(ForceUnit::Kilonewtons, precision);
     }
 
     std::ostream& operator<<(std::ostream& stream, Force value)
     {
-        return stream << value.displayAs(ForceUnit::Newtons);
+        return stream << value.display_as(ForceUnit::Newtons);
     }
 
 } // namespace Physics::force

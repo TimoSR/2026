@@ -5,37 +5,37 @@ namespace Physics::acceleration
 
     Acceleration operator+(Acceleration left, Acceleration right)
     {
-        return Acceleration::fromRawSi(left.rawSi() + right.rawSi());
+        return Acceleration::from_raw_si(left.raw_si() + right.raw_si());
     }
 
     Acceleration operator-(Acceleration left, Acceleration right)
     {
-        return Acceleration::fromRawSi(left.rawSi() - right.rawSi());
+        return Acceleration::from_raw_si(left.raw_si() - right.raw_si());
     }
 
     Acceleration operator-(Acceleration value)
     {
-        return Acceleration::fromRawSi(-value.rawSi());
+        return Acceleration::from_raw_si(-value.raw_si());
     }
 
     Acceleration operator*(Acceleration value, double scalar)
     {
-        return Acceleration::fromRawSi(value.rawSi() * scalar);
+        return Acceleration::from_raw_si(value.raw_si() * scalar);
     }
 
     Acceleration operator*(double scalar, Acceleration value)
     {
-        return Acceleration::fromRawSi(scalar * value.rawSi());
+        return Acceleration::from_raw_si(scalar * value.raw_si());
     }
 
     Acceleration operator/(Acceleration value, double scalar)
     {
-        return Acceleration::fromRawSi(value.rawSi() / scalar);
+        return Acceleration::from_raw_si(value.raw_si() / scalar);
     }
 
     double operator/(Acceleration left, Acceleration right)
     {
-        return left.rawSi() / right.rawSi();
+        return left.raw_si() / right.raw_si();
     }
 
 } // namespace Physics::acceleration

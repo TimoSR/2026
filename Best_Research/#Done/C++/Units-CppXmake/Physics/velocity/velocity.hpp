@@ -17,38 +17,50 @@ namespace Physics::velocity
 
     class Velocity
     {
-            double _metersPerSecond;
+            double _meters_per_second;
 
         public:
-            static Velocity fromRawSi(double metersPerSecond);
+            static Velocity from_raw_si(double meters_per_second);
 
-            static Velocity metersPerSecond(double value);
+            static Velocity meters_per_second(double value);
 
-            static Velocity kilometersPerHour(double value);
+            static std::optional<Velocity> try_meters_per_second(double value);
 
-            double rawSi();
+            static Velocity kilometers_per_hour(double value);
 
-            double asMetersPerSecond();
+            static std::optional<Velocity> try_kilometers_per_hour(double value);
 
-            double asKilometersPerHour();
+            double raw_si();
 
-            bool approximatelyEquals(Velocity other, double epsilon);
+            double to_meters_per_second();
 
-            QuantityDisplay<Velocity, VelocityUnit> displayAs(VelocityUnit unit);
+            double to_kilometers_per_hour();
 
-            QuantityDisplay<Velocity, VelocityUnit> displayAsPrecision(VelocityUnit unit, int precision);
+            bool approximately_equals(Velocity other, double epsilon);
 
-            std::optional<acceleration::Acceleration> checkedDivTime(time::Time time);
-            std::optional<time::Time> checkedDivAcceleration(acceleration::Acceleration acceleration);
+            QuantityDisplay<Velocity, VelocityUnit> display_as(VelocityUnit unit);
+
+            QuantityDisplay<Velocity, VelocityUnit> display_as_precision(VelocityUnit unit, int precision);
+
+            QuantityDisplay<Velocity, VelocityUnit> display_meters_per_second();
+            QuantityDisplay<Velocity, VelocityUnit> display_kilometers_per_hour();
+
+            QuantityDisplay<Velocity, VelocityUnit> display_meters_per_second_precision(int precision);
+            QuantityDisplay<Velocity, VelocityUnit> display_kilometers_per_hour_precision(int precision);
+
+            std::optional<acceleration::Acceleration> checked_div_time(time::Time time);
+            std::optional<time::Time> checked_div_acceleration(acceleration::Acceleration acceleration);
 
             friend bool operator==(Velocity left, Velocity right);
 
         private:
-            explicit Velocity(double metersPerSecond);
+            explicit Velocity(double meters_per_second);
     };
 
-    Velocity metersPerSecond(double value);
+    Velocity meters_per_second(double value);
+    std::optional<Velocity> try_meters_per_second(double value);
     Velocity meters_pr_second(double value);
-    Velocity kilometersPerHour(double value);
+    Velocity kilometers_per_hour(double value);
+    std::optional<Velocity> try_kilometers_per_hour(double value);
 
 } // namespace Physics::velocity

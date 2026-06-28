@@ -9,7 +9,7 @@ namespace Physics::time
     {
     }
 
-    Time Time::fromRawSi(double seconds)
+    Time Time::from_raw_si(double seconds)
     {
         return Time(seconds);
     }
@@ -44,52 +44,52 @@ namespace Physics::time
         return Time(value * 3'600.0);
     }
 
-    double Time::rawSi()
+    double Time::raw_si()
     {
         return _seconds;
     }
 
-    double Time::asSeconds()
+    double Time::to_seconds()
     {
         return _seconds;
     }
 
-    double Time::asMilliseconds()
+    double Time::to_milliseconds()
     {
         return _seconds * 1'000.0;
     }
 
-    double Time::asMicroseconds()
+    double Time::to_microseconds()
     {
         return _seconds * 1'000'000.0;
     }
 
-    double Time::asNanoseconds()
+    double Time::to_nanoseconds()
     {
         return _seconds * 1'000'000'000.0;
     }
 
-    double Time::asMinutes()
+    double Time::to_minutes()
     {
         return _seconds / 60.0;
     }
 
-    double Time::asHours()
+    double Time::to_hours()
     {
         return _seconds / 3'600.0;
     }
 
-    bool Time::approximatelyEquals(Time other, double epsilon)
+    bool Time::approximately_equals(Time other, double epsilon)
     {
         return detail::absolute(_seconds - other._seconds) <= epsilon;
     }
 
-    QuantityDisplay<Time, TimeUnit> Time::displayAs(TimeUnit unit)
+    QuantityDisplay<Time, TimeUnit> Time::display_as(TimeUnit unit)
     {
         return QuantityDisplay<Time, TimeUnit>(*this, unit);
     }
 
-    QuantityDisplay<Time, TimeUnit> Time::displayAsPrecision(TimeUnit unit, int precision)
+    QuantityDisplay<Time, TimeUnit> Time::display_as_precision(TimeUnit unit, int precision)
     {
         return QuantityDisplay<Time, TimeUnit>(*this, unit, precision);
     }
