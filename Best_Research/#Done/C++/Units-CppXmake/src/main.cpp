@@ -1,8 +1,8 @@
-#include "units/units.hpp"
+#include "Physics/Physics.hpp"
 #include <iostream>
 #include <print>
 
-using namespace units;
+using namespace Physics;
 
 int main()
 {

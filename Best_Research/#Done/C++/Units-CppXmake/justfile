@@ -36,13 +36,13 @@ step3:
 build: all
 
 run: all
-    xmake run units
+    xmake run PhysicsDemo
 
 test: all
-    xmake run units_tests
+    xmake run PhysicsTests
 
 format:
-    Get-ChildItem -Path units,src,tests -Recurse -Include *.hpp,*.cpp | ForEach-Object { clang-format -i $_.FullName }
+    Get-ChildItem -Path Physics,src,tests -Recurse -Include *.hpp,*.cpp | ForEach-Object { clang-format -i $_.FullName }
 
 release:
     xmake f -m release
@@ -56,4 +56,4 @@ flamechart: run
     python scripts/render_flamechart.py
 
 samply: release
-    samply record build/windows/x64/release/units.exe
+    samply record build/windows/x64/release/PhysicsDemo.exe
