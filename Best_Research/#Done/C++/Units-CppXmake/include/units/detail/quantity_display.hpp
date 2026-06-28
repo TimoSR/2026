@@ -2,23 +2,24 @@
 
 #include <optional>
 
-namespace units {
+namespace units
+{
 
-template <typename Quantity, typename Unit>
-class QuantityDisplay {
-public:
-    QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision = std::nullopt);
+    template <typename Quantity, typename Unit> class QuantityDisplay
+    {
+        public:
+            QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision = std::nullopt);
 
-    Quantity value();
+            Quantity value();
 
-    Unit unit();
+            Unit unit();
 
-    std::optional<int> precision();
+            std::optional<int> precision();
 
-private:
-    Quantity value_;
-    Unit unit_;
-    std::optional<int> precision_;
-};
+        private:
+            Quantity value_;
+            Unit unit_;
+            std::optional<int> precision_;
+    };
 
 } // namespace units

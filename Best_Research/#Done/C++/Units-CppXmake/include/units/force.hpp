@@ -5,47 +5,50 @@
 #include "units/detail/quantity_display.hpp"
 #include "units/forward.hpp"
 
-namespace units {
+namespace units
+{
 
-enum class ForceUnit {
-    Newtons,
-    Millinewtons,
-    Kilonewtons,
-};
+    enum class ForceUnit
+    {
+        Newtons,
+        Millinewtons,
+        Kilonewtons,
+    };
 
-class Force {
-public:
-    static Force fromRawSi(double newtons);
+    class Force
+    {
+        public:
+            static Force fromRawSi(double newtons);
 
-    static Force newtons(double value);
+            static Force newtons(double value);
 
-    static Force millinewtons(double value);
+            static Force millinewtons(double value);
 
-    static Force kilonewtons(double value);
+            static Force kilonewtons(double value);
 
-    double rawSi();
+            double rawSi();
 
-    double asNewtons();
+            double asNewtons();
 
-    double asMillinewtons();
+            double asMillinewtons();
 
-    double asKilonewtons();
+            double asKilonewtons();
 
-    bool approximatelyEquals(Force other, double epsilon);
+            bool approximatelyEquals(Force other, double epsilon);
 
-    QuantityDisplay<Force, ForceUnit> displayAs(ForceUnit unit);
+            QuantityDisplay<Force, ForceUnit> displayAs(ForceUnit unit);
 
-    QuantityDisplay<Force, ForceUnit> displayAsPrecision(ForceUnit unit, int precision);
+            QuantityDisplay<Force, ForceUnit> displayAsPrecision(ForceUnit unit, int precision);
 
-    std::optional<Acceleration> checkedDivMass(Mass mass);
-    std::optional<Mass> checkedDivAcceleration(Acceleration acceleration);
+            std::optional<Acceleration> checkedDivMass(Mass mass);
+            std::optional<Mass> checkedDivAcceleration(Acceleration acceleration);
 
-    friend bool operator==(Force left, Force right);
+            friend bool operator==(Force left, Force right);
 
-private:
-    explicit Force(double newtons);
+        private:
+            explicit Force(double newtons);
 
-    double newtons_;
-};
+            double newtons_;
+    };
 
 } // namespace units

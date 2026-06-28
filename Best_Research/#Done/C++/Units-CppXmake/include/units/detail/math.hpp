@@ -1,7 +1,8 @@
 #pragma once
 
-namespace units::detail {
+namespace units::detail
+{
 
-double absolute(double value);
+    double absolute(double value);
 
 } // namespace units::detail
