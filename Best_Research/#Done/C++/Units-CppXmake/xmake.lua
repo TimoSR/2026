@@ -5,6 +5,7 @@ set_languages("c++23")
 
 add_rules("mode.debug", "mode.release")
 
+includes("Testing")
 includes("Physics")
 
 local warning_flags = function()
@@ -19,4 +20,14 @@ target("PhysicsDemo")
     add_files("src/main.cpp")
     add_includedirs(".")
     add_deps("Physics")
+    warning_flags()
+
+target("PhysicsTests")
+    set_kind("binary")
+    set_default(false)
+    set_rundir(os.projectdir())
+    add_files("Physics/tests/main.cpp")
+    add_files("Physics/**/tests.cpp")
+    add_includedirs(".")
+    add_deps("Physics", "Testing")
     warning_flags()

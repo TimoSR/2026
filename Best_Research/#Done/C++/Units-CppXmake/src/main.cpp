@@ -42,8 +42,6 @@ int main()
 
     println("{}", text);
 
-    return 0;
-
     std::println("velocity = {}", velocity.display_as_precision(velocity::VelocityUnit::KilometersPerHour, 2));
 
     std::println("acceleration = {}", acceleration);
