@@ -35,47 +35,51 @@ Length Length::nanometers(double value) {
     return Length(value / 1'000'000'000.0);
 }
 
-double Length::rawSi() const {
+double Length::rawSi() {
     return meters_;
 }
 
-double Length::asMeters() const {
+double Length::asMeters() {
     return meters_;
 }
 
-double Length::asKilometers() const {
+double Length::asKilometers() {
     return meters_ / 1'000.0;
 }
 
-double Length::asCentimeters() const {
+double Length::asCentimeters() {
     return meters_ * 100.0;
 }
 
-double Length::asMillimeters() const {
+double Length::asMillimeters() {
     return meters_ * 1'000.0;
 }
 
-double Length::asMicrometers() const {
+double Length::asMicrometers() {
     return meters_ * 1'000'000.0;
 }
 
-double Length::asNanometers() const {
+double Length::asNanometers() {
     return meters_ * 1'000'000'000.0;
 }
 
-bool Length::approximatelyEquals(Length other, double epsilon) const {
+bool Length::approximatelyEquals(Length other, double epsilon) {
     return detail::absolute(meters_ - other.meters_) <= epsilon;
 }
 
-QuantityDisplay<Length, LengthUnit> Length::displayAs(LengthUnit unit) const {
+QuantityDisplay<Length, LengthUnit> Length::displayAs(LengthUnit unit) {
     return QuantityDisplay<Length, LengthUnit>(*this, unit);
 }
 
 QuantityDisplay<Length, LengthUnit> Length::displayAsPrecision(
     LengthUnit unit,
     int precision
-) const {
+) {
     return QuantityDisplay<Length, LengthUnit>(*this, unit, precision);
+}
+
+bool operator==(Length left, Length right) {
+    return left.meters_ == right.meters_;
 }
 
 } // namespace units

@@ -28,25 +28,25 @@ public:
 
     static Mass tons(double value);
 
-    [[nodiscard]] double rawSi() const;
+    double rawSi();
 
-    [[nodiscard]] double asKilograms() const;
+    double asKilograms();
 
-    [[nodiscard]] double asGrams() const;
+    double asGrams();
 
-    [[nodiscard]] double asMilligrams() const;
+    double asMilligrams();
 
-    [[nodiscard]] double asMicrograms() const;
+    double asMicrograms();
 
-    [[nodiscard]] double asTons() const;
+    double asTons();
 
-    [[nodiscard]] bool approximatelyEquals(Mass other, double epsilon) const;
+    bool approximatelyEquals(Mass other, double epsilon);
 
-    [[nodiscard]] QuantityDisplay<Mass, MassUnit> displayAs(MassUnit unit) const;
+    QuantityDisplay<Mass, MassUnit> displayAs(MassUnit unit);
 
-    [[nodiscard]] QuantityDisplay<Mass, MassUnit> displayAsPrecision(MassUnit unit, int precision) const;
+    QuantityDisplay<Mass, MassUnit> displayAsPrecision(MassUnit unit, int precision);
 
-    friend bool operator==(Mass left, Mass right) = default;
+    friend bool operator==(Mass left, Mass right);
 
 private:
     explicit Mass(double kilograms);

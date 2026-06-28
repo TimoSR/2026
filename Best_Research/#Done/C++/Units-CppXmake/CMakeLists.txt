@@ -12,13 +12,14 @@ set(CURRENT_COMPILER_ID ${CMAKE_CXX_COMPILER_ID})
 add_executable(units "")
 set_target_properties(units PROPERTIES OUTPUT_NAME "units")
 set_target_properties(units PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+add_dependencies(units units_core)
 target_include_directories(units PRIVATE
     include
 )
 target_compile_options(units PRIVATE
     $<$<COMPILE_LANGUAGE:CUDA>:-G>
 )
-if(CURRENT_COMPILER_ID STREQUAL "Clang")
+if(CURRENT_COMPILER_ID STREQUAL "GNU")
 target_compile_options(units PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:-Wall>
     $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
@@ -31,7 +32,7 @@ target_compile_options(units PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:/permissive->
 )
 endif()
-if(CURRENT_COMPILER_ID STREQUAL "GNU")
+if(CURRENT_COMPILER_ID STREQUAL "Clang")
 target_compile_options(units PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:-Wall>
     $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
@@ -47,7 +48,7 @@ elseif(CURRENT_COMPILER_ID STREQUAL "GNU")
     target_compile_options(units PRIVATE -fexceptions)
 endif()
 set_target_properties(units PROPERTIES CXX_EXTENSIONS OFF)
-target_compile_features(units PRIVATE cxx_std_20)
+target_compile_features(units PRIVATE cxx_std_23)
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(units PRIVATE $<$<CONFIG:Debug>:-Od>)
 else()
@@ -62,22 +63,102 @@ if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     set_property(TARGET units PROPERTY
         MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
 endif()
+target_link_libraries(units PRIVATE
+    units_core
+)
+target_link_directories(units PRIVATE
+    build/windows/x64/debug
+)
 # private sourcefiles from sourcebatch c++.build for target units
 target_sources(units PRIVATE 
     src/main.cpp
 )
 
 # target
+add_library(units_core STATIC "")
+set_target_properties(units_core PROPERTIES OUTPUT_NAME "units_core")
+set_target_properties(units_core PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+target_include_directories(units_core PRIVATE
+    include
+)
+target_include_directories(units_core INTERFACE
+    include
+)
+target_compile_options(units_core PRIVATE
+    $<$<COMPILE_LANGUAGE:CUDA>:-G>
+)
+if(CURRENT_COMPILER_ID STREQUAL "GNU")
+target_compile_options(units_core PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:-Wall>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wpedantic>
+)
+endif()
+if(CURRENT_COMPILER_ID STREQUAL "MSVC")
+target_compile_options(units_core PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:/W4>
+    $<$<COMPILE_LANGUAGE:CXX>:/permissive->
+)
+endif()
+if(CURRENT_COMPILER_ID STREQUAL "Clang")
+target_compile_options(units_core PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:-Wall>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
+    $<$<COMPILE_LANGUAGE:CXX>:-Wpedantic>
+)
+endif()
+if(CURRENT_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(units_core PRIVATE /EHsc)
+elseif(CURRENT_COMPILER_ID STREQUAL "Clang")
+    target_compile_options(units_core PRIVATE -fexceptions)
+    target_compile_options(units_core PRIVATE -fcxx-exceptions)
+elseif(CURRENT_COMPILER_ID STREQUAL "GNU")
+    target_compile_options(units_core PRIVATE -fexceptions)
+endif()
+set_target_properties(units_core PROPERTIES CXX_EXTENSIONS OFF)
+target_compile_features(units_core PRIVATE cxx_std_23)
+if(CURRENT_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(units_core PRIVATE $<$<CONFIG:Debug>:-Od>)
+else()
+    target_compile_options(units_core PRIVATE -O0)
+endif()
+if(CURRENT_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(units_core PRIVATE -Zi)
+else()
+    target_compile_options(units_core PRIVATE -g)
+endif()
+if(CURRENT_COMPILER_ID STREQUAL "MSVC")
+    set_property(TARGET units_core PROPERTY
+        MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+endif()
+# private sourcefiles from sourcebatch c++.build for target units_core
+target_sources(units_core PRIVATE 
+    src/units/acceleration.cpp
+    src/units/constructors.cpp
+    src/units/display.cpp
+    src/units/force.cpp
+    src/units/format.cpp
+    src/units/length.cpp
+    src/units/mass.cpp
+    src/units/math.cpp
+    src/units/operations.cpp
+    src/units/quantity_display.cpp
+    src/units/time.cpp
+    src/units/velocity.cpp
+)
+
+# target
 add_executable(units_tests "")
 set_target_properties(units_tests PROPERTIES OUTPUT_NAME "units_tests")
 set_target_properties(units_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+add_dependencies(units_tests units_core)
 target_include_directories(units_tests PRIVATE
     include
 )
 target_compile_options(units_tests PRIVATE
     $<$<COMPILE_LANGUAGE:CUDA>:-G>
 )
-if(CURRENT_COMPILER_ID STREQUAL "Clang")
+if(CURRENT_COMPILER_ID STREQUAL "GNU")
 target_compile_options(units_tests PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:-Wall>
     $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
@@ -90,7 +171,7 @@ target_compile_options(units_tests PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:/permissive->
 )
 endif()
-if(CURRENT_COMPILER_ID STREQUAL "GNU")
+if(CURRENT_COMPILER_ID STREQUAL "Clang")
 target_compile_options(units_tests PRIVATE
     $<$<COMPILE_LANGUAGE:CXX>:-Wall>
     $<$<COMPILE_LANGUAGE:CXX>:-Wextra>
@@ -106,7 +187,7 @@ elseif(CURRENT_COMPILER_ID STREQUAL "GNU")
     target_compile_options(units_tests PRIVATE -fexceptions)
 endif()
 set_target_properties(units_tests PROPERTIES CXX_EXTENSIONS OFF)
-target_compile_features(units_tests PRIVATE cxx_std_20)
+target_compile_features(units_tests PRIVATE cxx_std_23)
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(units_tests PRIVATE $<$<CONFIG:Debug>:-Od>)
 else()
@@ -121,6 +202,12 @@ if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     set_property(TARGET units_tests PROPERTY
         MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
 endif()
+target_link_libraries(units_tests PRIVATE
+    units_core
+)
+target_link_directories(units_tests PRIVATE
+    build/windows/x64/debug
+)
 # private sourcefiles from sourcebatch c++.build for target units_tests
 target_sources(units_tests PRIVATE 
     tests/test_units.cpp

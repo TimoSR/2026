@@ -2,8 +2,6 @@
 
 namespace units::detail {
 
-[[nodiscard]] constexpr double absolute(double value) {
-    return value < 0.0 ? -value : value;
-}
+double absolute(double value);
 
 } // namespace units::detail

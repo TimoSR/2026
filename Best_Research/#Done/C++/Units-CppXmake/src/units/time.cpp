@@ -35,44 +35,48 @@ Time Time::hours(double value) {
     return Time(value * 3'600.0);
 }
 
-double Time::rawSi() const {
+double Time::rawSi() {
     return seconds_;
 }
 
-double Time::asSeconds() const {
+double Time::asSeconds() {
     return seconds_;
 }
 
-double Time::asMilliseconds() const {
+double Time::asMilliseconds() {
     return seconds_ * 1'000.0;
 }
 
-double Time::asMicroseconds() const {
+double Time::asMicroseconds() {
     return seconds_ * 1'000'000.0;
 }
 
-double Time::asNanoseconds() const {
+double Time::asNanoseconds() {
     return seconds_ * 1'000'000'000.0;
 }
 
-double Time::asMinutes() const {
+double Time::asMinutes() {
     return seconds_ / 60.0;
 }
 
-double Time::asHours() const {
+double Time::asHours() {
     return seconds_ / 3'600.0;
 }
 
-bool Time::approximatelyEquals(Time other, double epsilon) const {
+bool Time::approximatelyEquals(Time other, double epsilon) {
     return detail::absolute(seconds_ - other.seconds_) <= epsilon;
 }
 
-QuantityDisplay<Time, TimeUnit> Time::displayAs(TimeUnit unit) const {
+QuantityDisplay<Time, TimeUnit> Time::displayAs(TimeUnit unit) {
     return QuantityDisplay<Time, TimeUnit>(*this, unit);
 }
 
-QuantityDisplay<Time, TimeUnit> Time::displayAsPrecision(TimeUnit unit, int precision) const {
+QuantityDisplay<Time, TimeUnit> Time::displayAsPrecision(TimeUnit unit, int precision) {
     return QuantityDisplay<Time, TimeUnit>(*this, unit, precision);
+}
+
+bool operator==(Time left, Time right) {
+    return left.seconds_ == right.seconds_;
 }
 
 } // namespace units

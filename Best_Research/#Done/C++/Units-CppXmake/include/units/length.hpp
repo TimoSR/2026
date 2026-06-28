@@ -32,30 +32,30 @@ public:
 
     static Length nanometers(double value);
 
-    [[nodiscard]] double rawSi() const;
+    double rawSi();
 
-    [[nodiscard]] double asMeters() const;
+    double asMeters();
 
-    [[nodiscard]] double asKilometers() const;
+    double asKilometers();
 
-    [[nodiscard]] double asCentimeters() const;
+    double asCentimeters();
 
-    [[nodiscard]] double asMillimeters() const;
+    double asMillimeters();
 
-    [[nodiscard]] double asMicrometers() const;
+    double asMicrometers();
 
-    [[nodiscard]] double asNanometers() const;
+    double asNanometers();
 
-    [[nodiscard]] bool approximatelyEquals(Length other, double epsilon) const;
+    bool approximatelyEquals(Length other, double epsilon);
 
-    [[nodiscard]] QuantityDisplay<Length, LengthUnit> displayAs(LengthUnit unit) const;
+    QuantityDisplay<Length, LengthUnit> displayAs(LengthUnit unit);
 
-    [[nodiscard]] QuantityDisplay<Length, LengthUnit> displayAsPrecision(LengthUnit unit, int precision) const;
+    QuantityDisplay<Length, LengthUnit> displayAsPrecision(LengthUnit unit, int precision);
 
-    [[nodiscard]] std::optional<Velocity> checkedDivTime(Time time) const;
-    [[nodiscard]] std::optional<Time> checkedDivVelocity(Velocity velocity) const;
+    std::optional<Velocity> checkedDivTime(Time time);
+    std::optional<Time> checkedDivVelocity(Velocity velocity);
 
-    friend bool operator==(Length left, Length right) = default;
+    friend bool operator==(Length left, Length right);
 
 private:
     explicit Length(double meters);

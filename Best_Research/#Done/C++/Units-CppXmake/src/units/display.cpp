@@ -3,6 +3,13 @@
 #include <iomanip>
 #include <ostream>
 
+#include "units/acceleration.hpp"
+#include "units/force.hpp"
+#include "units/length.hpp"
+#include "units/mass.hpp"
+#include "units/time.hpp"
+#include "units/velocity.hpp"
+
 namespace units {
 
 const char* symbol(LengthUnit unit) {
@@ -189,8 +196,8 @@ namespace {
 
 template <typename Quantity, typename Unit>
 std::ostream& writeDisplay(std::ostream& stream, QuantityDisplay<Quantity, Unit> display) {
-    const auto flags = stream.flags();
-    const auto precision = stream.precision();
+    auto flags = stream.flags();
+    auto precision = stream.precision();
 
     if (display.precision().has_value()) {
         stream << std::fixed << std::setprecision(*display.precision());

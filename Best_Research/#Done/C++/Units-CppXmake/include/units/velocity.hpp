@@ -20,25 +20,25 @@ public:
 
     static Velocity kilometersPerHour(double value);
 
-    [[nodiscard]] double rawSi() const;
+    double rawSi();
 
-    [[nodiscard]] double asMetersPerSecond() const;
+    double asMetersPerSecond();
 
-    [[nodiscard]] double asKilometersPerHour() const;
+    double asKilometersPerHour();
 
-    [[nodiscard]] bool approximatelyEquals(Velocity other, double epsilon) const;
+    bool approximatelyEquals(Velocity other, double epsilon);
 
-    [[nodiscard]] QuantityDisplay<Velocity, VelocityUnit> displayAs(VelocityUnit unit) const;
+    QuantityDisplay<Velocity, VelocityUnit> displayAs(VelocityUnit unit);
 
-    [[nodiscard]] QuantityDisplay<Velocity, VelocityUnit> displayAsPrecision(
+    QuantityDisplay<Velocity, VelocityUnit> displayAsPrecision(
         VelocityUnit unit,
         int precision
-    ) const;
+    );
 
-    [[nodiscard]] std::optional<Acceleration> checkedDivTime(Time time) const;
-    [[nodiscard]] std::optional<Time> checkedDivAcceleration(Acceleration acceleration) const;
+    std::optional<Acceleration> checkedDivTime(Time time);
+    std::optional<Time> checkedDivAcceleration(Acceleration acceleration);
 
-    friend bool operator==(Velocity left, Velocity right) = default;
+    friend bool operator==(Velocity left, Velocity right);
 
 private:
     explicit Velocity(double metersPerSecond);

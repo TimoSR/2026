@@ -12,6 +12,7 @@ end
 
 target("units")
     set_kind("binary")
+    set_default(true)
     set_rundir(os.projectdir())
     add_files("src/main.cpp")
     add_includedirs("include")
@@ -26,6 +27,7 @@ target("units_core")
 
 target("units_tests")
     set_kind("binary")
+    set_default(false)
     set_rundir(os.projectdir())
     add_files("tests/test_units.cpp")
     add_includedirs("include")

@@ -11,7 +11,7 @@ enum class AccelerationUnit {
 
 class Acceleration {
 public:
-    static constexpr double StandardGravityMetersPerSecondSquared = 9.80665;
+    static double standardGravityMetersPerSecondSquared();
 
     static Acceleration fromRawSi(double metersPerSecondSquared);
 
@@ -19,22 +19,22 @@ public:
 
     static Acceleration standardGravity(double value);
 
-    double rawSi() const;
+    double rawSi();
 
-    double asMetersPerSecondSquared() const;
+    double asMetersPerSecondSquared();
 
-    [[nodiscard]] double asStandardGravity() const;
+    double asStandardGravity();
 
-    [[nodiscard]] bool approximatelyEquals(Acceleration other, double epsilon) const;
+    bool approximatelyEquals(Acceleration other, double epsilon);
 
-    [[nodiscard]] QuantityDisplay<Acceleration, AccelerationUnit> displayAs(AccelerationUnit unit) const;
+    QuantityDisplay<Acceleration, AccelerationUnit> displayAs(AccelerationUnit unit);
 
-    [[nodiscard]] QuantityDisplay<Acceleration, AccelerationUnit> displayAsPrecision(
+    QuantityDisplay<Acceleration, AccelerationUnit> displayAsPrecision(
         AccelerationUnit unit,
         int precision
-    ) const;
+    );
 
-    friend bool operator==(Acceleration left, Acceleration right) = default;
+    friend bool operator==(Acceleration left, Acceleration right);
 
 private:
     explicit Acceleration(double metersPerSecondSquared);

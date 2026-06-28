@@ -29,27 +29,27 @@ public:
 
     static Time hours(double value);
 
-    [[nodiscard]] double rawSi() const;
+    double rawSi();
 
-    [[nodiscard]] double asSeconds() const;
+    double asSeconds();
 
-    [[nodiscard]] double asMilliseconds() const;
+    double asMilliseconds();
 
-    [[nodiscard]] double asMicroseconds() const;
+    double asMicroseconds();
 
-    [[nodiscard]] double asNanoseconds() const;
+    double asNanoseconds();
 
-    [[nodiscard]] double asMinutes() const;
+    double asMinutes();
 
-    [[nodiscard]] double asHours() const;
+    double asHours();
 
-    [[nodiscard]] bool approximatelyEquals(Time other, double epsilon) const;
+    bool approximatelyEquals(Time other, double epsilon);
 
-    [[nodiscard]] QuantityDisplay<Time, TimeUnit> displayAs(TimeUnit unit) const;
+    QuantityDisplay<Time, TimeUnit> displayAs(TimeUnit unit);
 
-    [[nodiscard]] QuantityDisplay<Time, TimeUnit> displayAsPrecision(TimeUnit unit, int precision) const;
+    QuantityDisplay<Time, TimeUnit> displayAsPrecision(TimeUnit unit, int precision);
 
-    friend bool operator==(Time left, Time right) = default;
+    friend bool operator==(Time left, Time right);
 
 private:
     explicit Time(double seconds);

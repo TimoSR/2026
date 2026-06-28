@@ -7,21 +7,13 @@ namespace units {
 template <typename Quantity, typename Unit>
 class QuantityDisplay {
 public:
-    constexpr QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision = std::nullopt)
-        : value_(value), unit_(unit), precision_(precision) {
-    }
+    QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision = std::nullopt);
 
-    [[nodiscard]] constexpr Quantity value() const {
-        return value_;
-    }
+    Quantity value();
 
-    [[nodiscard]] constexpr Unit unit() const {
-        return unit_;
-    }
+    Unit unit();
 
-    [[nodiscard]] constexpr std::optional<int> precision() const {
-        return precision_;
-    }
+    std::optional<int> precision();
 
 private:
     Quantity value_;

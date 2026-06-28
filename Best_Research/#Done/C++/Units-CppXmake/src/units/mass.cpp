@@ -35,40 +35,44 @@ Mass Mass::tons(double value) {
     return Mass(value * 1'000.0);
 }
 
-double Mass::rawSi() const {
+double Mass::rawSi() {
     return kilograms_;
 }
 
-double Mass::asKilograms() const {
+double Mass::asKilograms() {
     return kilograms_;
 }
 
-double Mass::asGrams() const {
+double Mass::asGrams() {
     return kilograms_ * 1'000.0;
 }
 
-double Mass::asMilligrams() const {
+double Mass::asMilligrams() {
     return kilograms_ * 1'000'000.0;
 }
 
-double Mass::asMicrograms() const {
+double Mass::asMicrograms() {
     return kilograms_ * 1'000'000'000.0;
 }
 
-double Mass::asTons() const {
+double Mass::asTons() {
     return kilograms_ / 1'000.0;
 }
 
-bool Mass::approximatelyEquals(Mass other, double epsilon) const {
+bool Mass::approximatelyEquals(Mass other, double epsilon) {
     return detail::absolute(kilograms_ - other.kilograms_) <= epsilon;
 }
 
-QuantityDisplay<Mass, MassUnit> Mass::displayAs(MassUnit unit) const {
+QuantityDisplay<Mass, MassUnit> Mass::displayAs(MassUnit unit) {
     return QuantityDisplay<Mass, MassUnit>(*this, unit);
 }
 
-QuantityDisplay<Mass, MassUnit> Mass::displayAsPrecision(MassUnit unit, int precision) const {
+QuantityDisplay<Mass, MassUnit> Mass::displayAsPrecision(MassUnit unit, int precision) {
     return QuantityDisplay<Mass, MassUnit>(*this, unit, precision);
+}
+
+bool operator==(Mass left, Mass right) {
+    return left.kilograms_ == right.kilograms_;
 }
 
 } // namespace units

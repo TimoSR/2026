@@ -23,24 +23,24 @@ public:
 
     static Force kilonewtons(double value);
 
-    [[nodiscard]] double rawSi() const;
+    double rawSi();
 
-    [[nodiscard]] double asNewtons() const;
+    double asNewtons();
 
-    [[nodiscard]] double asMillinewtons() const;
+    double asMillinewtons();
 
-    [[nodiscard]] double asKilonewtons() const;
+    double asKilonewtons();
 
-    [[nodiscard]] bool approximatelyEquals(Force other, double epsilon) const;
+    bool approximatelyEquals(Force other, double epsilon);
 
-    [[nodiscard]] QuantityDisplay<Force, ForceUnit> displayAs(ForceUnit unit) const;
+    QuantityDisplay<Force, ForceUnit> displayAs(ForceUnit unit);
 
-    [[nodiscard]] QuantityDisplay<Force, ForceUnit> displayAsPrecision(ForceUnit unit, int precision) const;
+    QuantityDisplay<Force, ForceUnit> displayAsPrecision(ForceUnit unit, int precision);
 
-    [[nodiscard]] std::optional<Acceleration> checkedDivMass(Mass mass) const;
-    [[nodiscard]] std::optional<Mass> checkedDivAcceleration(Acceleration acceleration) const;
+    std::optional<Acceleration> checkedDivMass(Mass mass);
+    std::optional<Mass> checkedDivAcceleration(Acceleration acceleration);
 
-    friend bool operator==(Force left, Force right) = default;
+    friend bool operator==(Force left, Force right);
 
 private:
     explicit Force(double newtons);
