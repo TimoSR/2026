@@ -1,5 +1,3 @@
-#include <cmath>
-#include <cstdint>
 #include <iostream>
 #include <print>
 #include "units/units.hpp"
@@ -8,15 +6,13 @@ using namespace units;
 
 int main() {
 
-    std::int32_t helo = 1;
-    std::double_t he = 2.0;
+    // std::int32_t helo = 1;
+    // std::double_t he = 2.0;
 
-    int dasd = 1;
-    double sqweqe = 2;
+    // int dasd = 1;
+    // double sqweqe = 2;
 
-    auto qweiqweoiqn = 'A';
-
-
+    // auto qweiqweoiqn = 'A';
 
     auto distance = length::centimeters(10'000);
     auto elapsed = time::milliseconds(9'580);
@@ -30,11 +26,11 @@ int main() {
     std::println("time = {}", elapsed);
     std::println("mass = {}", body_mass);
 
-    char wqeqe;
+    // char greeting;
 
-    std::cout << "sada" << "\n";
-    std::cin >>  wqeqe;
-    std::cout << wqeqe << "\n";
+    std::cout << "Hello World!" << "\n";
+    // std::cin >>  greeting;
+    // std::cout << greeting << "\n";
 
     std::string text =
         "This is the first part of a very long string. "

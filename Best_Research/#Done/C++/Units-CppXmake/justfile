@@ -31,17 +31,20 @@ step2:
     {{ clangd_compile_database }}
 
 step3:
-    xmake build assembly_subroutines
+    xmake
 
 build: all
 
 run: all
-    xmake run assembly_subroutines
+    xmake run units
+
+test: all
+    xmake run units_tests
 
 release:
     xmake f -m release
     xmake project -k compile_commands --lsp=clangd .
-    xmake build assembly_subroutines
+    xmake
 
 flamegraph: run
     python scripts/render_flamegraph.py
@@ -50,4 +53,4 @@ flamechart: run
     python scripts/render_flamechart.py
 
 samply: release
-    samply record build/windows/x64/release/assembly_subroutines.exe
+    samply record build/windows/x64/release/units.exe

@@ -1,4 +1,0 @@
-C:/Users/timot/code/2026/Best_Research/#Done/C++/Units-CppXmake/build-cmake/CMakeFiles/units.dir
-C:/Users/timot/code/2026/Best_Research/#Done/C++/Units-CppXmake/build-cmake/CMakeFiles/units_tests.dir
-C:/Users/timot/code/2026/Best_Research/#Done/C++/Units-CppXmake/build-cmake/CMakeFiles/ALL_BUILD.dir
-C:/Users/timot/code/2026/Best_Research/#Done/C++/Units-CppXmake/build-cmake/CMakeFiles/ZERO_CHECK.dir

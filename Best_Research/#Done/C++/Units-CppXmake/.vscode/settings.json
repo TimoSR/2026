@@ -4,12 +4,14 @@
   },
   "editor.formatOnSave": true,
   "C_Cpp.default.configurationProvider": "tboox.xmake-vscode",
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}"
+  ],
   "files.associations": {
     "*.S": "asm"
   },
   "[cpp]": {
     "editor.inlayHints.enabled": "off",
-    "editor.formatOnSave": true,
-    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+    "editor.formatOnSave": true
   }
 }

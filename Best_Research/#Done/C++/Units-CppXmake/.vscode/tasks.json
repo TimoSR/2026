@@ -33,17 +33,48 @@
       "problemMatcher": []
     },
     {
-      "label": "xmake build (debug)",
+      "label": "xmake build all (debug)",
       "type": "shell",
       "command": "xmake",
-      "args": [
-        "build",
-        "assembly_subroutines"
-      ],
+      "args": [],
       "options": {
         "cwd": "${workspaceFolder}"
       },
       "dependsOn": "xmake compile database (clangd)",
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
+      "label": "xmake run units",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "run",
+        "units"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "xmake build all (debug)",
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
+      "label": "xmake run units_tests",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "run",
+        "units_tests"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "xmake build all (debug)",
       "problemMatcher": [
         "$msCompile",
         "$gcc"
