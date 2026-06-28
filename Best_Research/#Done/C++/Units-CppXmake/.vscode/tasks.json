@@ -47,12 +47,12 @@
       ]
     },
     {
-      "label": "xmake run units",
+      "label": "xmake run PhysicsDemo",
       "type": "shell",
       "command": "xmake",
       "args": [
         "run",
-        "units"
+        "PhysicsDemo"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -64,17 +64,30 @@
       ]
     },
     {
-      "label": "xmake run units_tests",
+      "label": "just test physics",
       "type": "shell",
-      "command": "xmake",
+      "command": "just",
       "args": [
-        "run",
-        "units_tests"
+        "test-physics"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "dependsOn": "xmake build all (debug)",
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
+      "label": "just test aztro_physics",
+      "type": "shell",
+      "command": "just",
+      "args": [
+        "test-aztro-physics"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
       "problemMatcher": [
         "$msCompile",
         "$gcc"

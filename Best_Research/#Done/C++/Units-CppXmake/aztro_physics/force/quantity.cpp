@@ -1,10 +1,7 @@
 module;
 
-#include <format>
-#include <iomanip>
-#include <limits>
+#include <cmath>
 #include <optional>
-#include <ostream>
 
 module aztro_physics;
 

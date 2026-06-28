@@ -2,7 +2,6 @@ set_project("PhysicsDemo")
 set_version("0.1.0")
 
 add_rules("mode.debug", "mode.release")
-add_rules("plugin.compile_commands.autoupdate", { outputdir = "." })
 
 set_languages("c++23")
 set_toolchains("clang")
@@ -17,10 +16,6 @@ target("PhysicsDemo")
     set_kind("binary")
     set_default(true)
     set_rundir(project_dir)
-
-    set_languages("c++23")
-    set_toolchains("clang")
-    set_policy("build.c++.modules", true)
 
     add_files("src/main.cpp")
 

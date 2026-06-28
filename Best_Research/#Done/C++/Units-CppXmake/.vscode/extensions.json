@@ -1,6 +1,5 @@
 {
   "recommendations": [
-    "ms-vscode.cpptools",
     "vadimcn.vscode-lldb",
     "tboox.xmake-vscode",
     "llvm-vs-code-extensions.vscode-clangd"

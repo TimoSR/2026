@@ -1,10 +1,6 @@
 module;
 
-#include <format>
-#include <iomanip>
-#include <limits>
 #include <optional>
-#include <ostream>
 
 module aztro_physics;
 

@@ -14,13 +14,34 @@ Completion:
 
 ---
 If:
-  PathMatch: .*\.cppm
+  PathMatch: .*Physics\.cppm
 
 CompileFlags:
   Add:
     - -x
     - c++-module
     - -std=c++23
+
+Diagnostics:
+  UnusedIncludes: None
+
+---
+If:
+  PathMatch: .*aztro_physics[\\/].*tests\.cpp|.*aztro_physics[\\/]tests[\\/]main\.cpp
+
+CompileFlags:
+  Add:
+    - -I.
+
+---
+If:
+  PathMatch: .*aztro_physics[\\/].+[\\/].*\.cppm
+
+CompileFlags:
+  Add:
+    - -std=c++23
+    - -include
+    - aztro_physics/fragment_prelude.cppm
 
 Diagnostics:
   UnusedIncludes: None
