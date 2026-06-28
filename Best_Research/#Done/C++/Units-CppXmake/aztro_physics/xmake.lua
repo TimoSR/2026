@@ -1,3 +1,6 @@
+local aztro_physics_dir = os.scriptdir()
+local workspace_dir = path.join(aztro_physics_dir, "..")
+
 target("aztro_physics")
     set_kind("static")
 
@@ -5,19 +8,26 @@ target("aztro_physics")
     set_toolchains("clang")
     set_policy("build.c++.modules", true)
 
-    add_files("Physics.cppm", { public = true })
+    add_files(path.join(aztro_physics_dir, "Physics.cppm"), { public = true })
 
-    add_files("**.cpp")
-    remove_files("tests/**.cpp")
-    remove_files("**/tests.cpp")
+    add_files(path.join(aztro_physics_dir, "**.cpp"))
+    remove_files(path.join(aztro_physics_dir, "tests/**.cpp"))
+    remove_files(path.join(aztro_physics_dir, "**/tests.cpp"))
 
-target("aztro_physicsSmoke")
-    set_kind("binary")
-    set_default(false)
-    set_rundir(os.projectdir())
+if path.absolute(os.projectdir()) == path.absolute(aztro_physics_dir) then
+    includes(path.join(workspace_dir, "Testing"))
 
-    set_languages("c++23")
-    set_toolchains("clang")
+    target("AztroPhysicsTests")
+        set_kind("binary")
+        set_default(false)
+        set_rundir(os.projectdir())
 
-    add_files("tests/main.cpp")
-    add_deps("aztro_physics")
+        set_languages("c++23")
+        set_toolchains("clang")
+        set_policy("build.c++.modules", true)
+
+        add_files(path.join(aztro_physics_dir, "tests/main.cpp"))
+        add_files(path.join(aztro_physics_dir, "**/tests.cpp"))
+        add_includedirs(workspace_dir)
+        add_deps("aztro_physics", "Testing")
+end

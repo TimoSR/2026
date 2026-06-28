@@ -26,5 +26,4 @@ if path.absolute(os.projectdir()) == path.absolute(physics_dir) then
         add_files(path.join(physics_dir, "**/tests.cpp"))
         add_includedirs(workspace_dir)
         add_deps("physics", "Testing")
-        warning_flags()
 end

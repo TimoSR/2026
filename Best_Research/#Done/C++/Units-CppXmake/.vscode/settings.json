@@ -14,9 +14,8 @@
   "C_Cpp.autocomplete": "disabled",
   "xmake.compileCommandsBackend": "clangd",
   "xmake.autoGenerateCompileCommands": "onFileChange",
-  "xmake.compileCommandsDirectory": ".vscode",
+  "xmake.compileCommandsDirectory": ".",
   "xmake.enableSyntaxCheck": false,
-  "clangd.path": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clangd.exe",
   "clangd.arguments": [
     "--experimental-modules-support"
   ],

@@ -4,14 +4,12 @@ set shell := ["pwsh.exe", "-NoLogo", "-Command"]
 set quiet
 
 xmake_debug_config := "xmake f -P . -m debug"
-clangd_compile_database := "xmake project -P . -k compile_commands --lsp=clangd ."
 
 _default:
     just --list --unsorted
 
 setup:
     {{ xmake_debug_config }}
-    {{ clangd_compile_database }}
 
 all: setup build
 

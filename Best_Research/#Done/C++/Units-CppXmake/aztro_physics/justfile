@@ -1,0 +1,20 @@
+# Convenience commands for the aztro_physics library workflow.
+set dotenv-load
+set shell := ["pwsh.exe", "-NoLogo", "-Command"]
+set quiet
+
+_default:
+    just --list --unsorted
+
+setup:
+    xmake f -P . -m debug
+
+build:
+    xmake -P . aztro_physics
+
+test:
+    xmake f -P . -m debug
+    xmake run -P . AztroPhysicsTests
+
+format:
+    Get-ChildItem -Path . -Recurse -Include *.hpp,*.cpp,*.cppm | ForEach-Object { clang-format -i $_.FullName }

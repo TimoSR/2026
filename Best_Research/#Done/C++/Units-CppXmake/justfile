@@ -38,8 +38,8 @@ test-physics:
     xmake f -P physics -m debug
     xmake run -P physics PhysicsTests
 test-aztro-physics:
-    xmake f -m debug
-    xmake run aztro_physicsSmoke
+    xmake f -P aztro_physics -m debug
+    xmake run -P aztro_physics AztroPhysicsTests
 format:
     Get-ChildItem -Path physics,aztro_physics,Testing,src -Recurse -Include *.hpp,*.cpp,*.cppm | ForEach-Object { clang-format -i $_.FullName }
 release:

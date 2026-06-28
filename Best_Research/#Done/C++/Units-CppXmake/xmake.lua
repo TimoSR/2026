@@ -2,7 +2,7 @@ set_project("PhysicsDemo")
 set_version("0.1.0")
 
 add_rules("mode.debug", "mode.release")
-add_rules("plugin.compile_commands.autoupdate", { outputdir = ".vscode" })
+add_rules("plugin.compile_commands.autoupdate", { outputdir = "." })
 
 set_languages("c++23")
 set_toolchains("clang")
