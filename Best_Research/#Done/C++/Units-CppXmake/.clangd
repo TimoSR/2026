@@ -1,21 +1,29 @@
 CompileFlags:
-  CompilationDatabase: build
-  Compiler: clang-cl
-  Remove:
-    - /std:*
-    - -std=*
-    - -std:*
-  Add:
-    - /std:c++23preview
-    - /Zc:__cplusplus
+  CompilationDatabase: .vscode
+
+Index:
+  Background: Build
+
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: None
+  Suppress:
+    # clangd false positives from MSVC STL <format> while importing C++20 modules.
+    - ovl_ambiguous_init
+    - ovl_no_viable_function_in_call
+
+Completion:
+  HeaderInsertion: Never
+
 ---
 If:
-  PathMatch: '.*\.(ixx|cppm|ccm|cxxm|c\+\+m)$'
+  PathMatch: .*\.cppm
+
 CompileFlags:
   Add:
     - -x
     - c++-module
+    - -std=c++23
 
 Diagnostics:
-  Suppress:
-    - module_not_found
+  UnusedIncludes: None

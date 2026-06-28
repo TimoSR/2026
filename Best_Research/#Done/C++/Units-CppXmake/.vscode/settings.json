@@ -1,20 +1,27 @@
 {
-  "workbench.editorAssociations": {
-    "*.md": "vscode.markdown.preview.editor"
-  },
   "editor.formatOnSave": true,
-  "C_Cpp.default.configurationProvider": "tboox.xmake-vscode",
-  "C_Cpp.formatting": "clangFormat",
-  "C_Cpp.clang_format_style": "file",
-  "clangd.arguments": [
-    "--compile-commands-dir=${workspaceFolder}",
-    "--experimental-modules-support",
-  ],
   "files.associations": {
-    "*.S": "asm"
+    "*.S": "asm",
+    "*.cppm": "cpp",
+    "*.ixx": "cpp",
+    "*.mpp": "cpp",
+    "*.mxx": "cpp"
   },
+  "C_Cpp.intelliSenseEngine": "disabled",
+  "C_Cpp.formatting": "disabled",
+  "C_Cpp.codeAnalysis.runAutomatically": false,
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.autocomplete": "disabled",
+  "xmake.compileCommandsBackend": "clangd",
+  "xmake.autoGenerateCompileCommands": "onFileChange",
+  "xmake.compileCommandsDirectory": ".vscode",
+  "xmake.enableSyntaxCheck": false,
+  "clangd.path": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\Llvm\\x64\\bin\\clangd.exe",
+  "clangd.arguments": [
+    "--experimental-modules-support"
+  ],
   "[cpp]": {
-    "editor.inlayHints.enabled": "off",
+    "editor.inlayHints.enabled": "on",
     "editor.formatOnSave": true
   }
 }

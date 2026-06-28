@@ -1,24 +1,28 @@
 set_project("PhysicsDemo")
 set_version("0.1.0")
 
-set_languages("c++23")
-
 add_rules("mode.debug", "mode.release")
+add_rules("plugin.compile_commands.autoupdate", { outputdir = ".vscode" })
+
+set_languages("c++23")
+set_toolchains("clang")
+set_policy("build.c++.modules", true)
+
+local project_dir = os.projectdir()
 
 includes("physics")
 includes("aztro_physics")
 
-local warning_flags = function()
-    add_cxxflags("/W4", "/permissive-", {tools = "cl"})
-    add_cxxflags("-Wall", "-Wextra", "-Wpedantic", {tools = {"clang", "gcc"}})
-end
-
 target("PhysicsDemo")
     set_kind("binary")
     set_default(true)
-    set_rundir(os.projectdir())
-    set_toolchains("clang-cl")
+    set_rundir(project_dir)
+
+    set_languages("c++23")
+    set_toolchains("clang")
+    set_policy("build.c++.modules", true)
+
     add_files("src/main.cpp")
-    add_includedirs(".")
-    add_deps("physics", "aztro_physics")
-    warning_flags()
+
+    add_deps("physics")
+    add_deps("aztro_physics")
