@@ -1,3 +1,21 @@
 CompileFlags:
+  CompilationDatabase: build
+  Compiler: clang-cl
+  Remove:
+    - /std:*
+    - -std=*
+    - -std:*
   Add:
-    - "/std:c++latest"
+    - /std:c++23preview
+    - /Zc:__cplusplus
+---
+If:
+  PathMatch: '.*\.(ixx|cppm|ccm|cxxm|c\+\+m)$'
+CompileFlags:
+  Add:
+    - -x
+    - c++-module
+
+Diagnostics:
+  Suppress:
+    - module_not_found

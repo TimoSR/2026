@@ -2,7 +2,45 @@
 #include <iostream>
 #include <print>
 
-using namespace Physics;
+import aztro.physics;
+
+void run_physics_example()
+{
+    auto distance = ::Physics::length::centimeters(10'000);
+    auto elapsed = ::Physics::time::milliseconds(9'580);
+    auto body_mass = ::Physics::mass::grams(80'000);
+
+    auto velocity = distance / elapsed;
+    auto acceleration = velocity / elapsed;
+    auto force = body_mass * acceleration;
+
+    std::println("[Physics]");
+    std::println("distance = {}", distance);
+    std::println("time = {}", elapsed);
+    std::println("mass = {}", body_mass);
+    std::println("velocity = {}", velocity.display_as_precision(::Physics::velocity::VelocityUnit::KilometersPerHour, 2));
+    std::println("acceleration = {}", acceleration);
+    std::println("force = {}", force.display_as_precision(::Physics::force::ForceUnit::Kilonewtons, 4));
+}
+
+void run_aztro_physics_example()
+{
+    auto distance = ::aztro::physics::length::centimeters(10'000);
+    auto elapsed = ::aztro::physics::time::milliseconds(9'580);
+    auto body_mass = ::aztro::physics::mass::grams(80'000);
+
+    auto velocity = distance / elapsed;
+    auto acceleration = velocity / elapsed;
+    auto force = body_mass * acceleration;
+
+    std::println("[aztro::physics]");
+    std::println("distance = {}", distance);
+    std::println("time = {}", elapsed);
+    std::println("mass = {}", body_mass);
+    std::println("velocity = {}", velocity.display_as_precision(::aztro::physics::velocity::VelocityUnit::KilometersPerHour, 2));
+    std::println("acceleration = {}", acceleration);
+    std::println("force = {}", force.display_as_precision(::aztro::physics::force::ForceUnit::Kilonewtons, 4));
+}
 
 int main()
 {
@@ -15,17 +53,9 @@ int main()
 
     // auto qweiqweoiqn = 'A';
 
-    auto distance = length::centimeters(10'000);
-    auto elapsed = time::milliseconds(9'580);
-    auto body_mass = mass::grams(80'000);
-
-    auto velocity = distance / elapsed;
-    auto acceleration = velocity / elapsed;
-    auto force = body_mass * acceleration;
-
-    std::println("distance = {}", distance);
-    std::println("time = {}", elapsed);
-    std::println("mass = {}", body_mass);
+    run_physics_example();
+    std::println("");
+    run_aztro_physics_example();
 
     // char greeting;
 
@@ -40,13 +70,9 @@ int main()
 
     std::cout << text << '\n';
 
-    println("{}", text);
+    std::println("{}", text);
 
-    std::println("velocity = {}", velocity.display_as_precision(velocity::VelocityUnit::KilometersPerHour, 2));
-
-    std::println("acceleration = {}", acceleration);
-
-    std::println("force = {}", force.display_as_precision(force::ForceUnit::Kilonewtons, 4));
+    std::println();
 
     std::cout << "This is a very long output printed with std::cout.\n"
               << "You can keep chaining many strings together using the << operator.\n"
@@ -72,6 +98,8 @@ int main()
               << "Line 18: The semicolon ends the whole output statement.\n"
               << "Line 19: You only need std::cout once at the beginning.\n"
               << "Line 20: Done printing a very long cout.\n";
+
+    std::println();
 
     return 0;
 }
