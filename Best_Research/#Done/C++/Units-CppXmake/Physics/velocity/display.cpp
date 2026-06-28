@@ -1,8 +1,8 @@
-#include "Physics/display/display.hpp"
+#include "physics/display/display.hpp"
 
 #include <ostream>
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     const char* symbol(VelocityUnit unit)
@@ -56,4 +56,4 @@ namespace Physics::velocity
         return stream << value.display_as(VelocityUnit::MetersPerSecond);
     }
 
-} // namespace Physics::velocity
+} // namespace physics::velocity

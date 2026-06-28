@@ -2,9 +2,9 @@
 
 #include <optional>
 
-#include "Physics/detail/quantity_display.hpp"
+#include "physics/detail/quantity_display.hpp"
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     enum class AccelerationUnit
@@ -61,4 +61,4 @@ namespace Physics::acceleration
     Acceleration standard_gravity(double value);
     std::optional<Acceleration> try_standard_gravity(double value);
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration

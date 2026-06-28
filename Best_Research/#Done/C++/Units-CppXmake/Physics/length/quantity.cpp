@@ -1,9 +1,9 @@
-#include "Physics/length/length.hpp"
+#include "physics/length/length.hpp"
 
 #include <cmath>
 #include <optional>
 
-namespace Physics::length
+namespace physics::length
 {
 
     std::optional<Length> Length::try_meters(double value)
@@ -126,4 +126,4 @@ namespace Physics::length
         return Length::try_nanometers(value);
     }
 
-} // namespace Physics::length
+} // namespace physics::length

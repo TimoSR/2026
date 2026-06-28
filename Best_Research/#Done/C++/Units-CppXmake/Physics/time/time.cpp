@@ -1,8 +1,8 @@
-#include "Physics/time/time.hpp"
+#include "physics/time/time.hpp"
 
-#include "Physics/detail/math.hpp"
+#include "physics/detail/math.hpp"
 
-namespace Physics::time
+namespace physics::time
 {
 
     Time::Time(double seconds) : _seconds(seconds)
@@ -99,4 +99,4 @@ namespace Physics::time
         return left._seconds == right._seconds;
     }
 
-} // namespace Physics::time
+} // namespace physics::time

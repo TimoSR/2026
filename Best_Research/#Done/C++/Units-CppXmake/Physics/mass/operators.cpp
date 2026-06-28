@@ -1,6 +1,6 @@
-#include "Physics/operations/operations.hpp"
+#include "physics/operations/operations.hpp"
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     Mass operator+(Mass left, Mass right)
@@ -38,4 +38,4 @@ namespace Physics::mass
         return left.raw_si() / right.raw_si();
     }
 
-} // namespace Physics::mass
+} // namespace physics::mass

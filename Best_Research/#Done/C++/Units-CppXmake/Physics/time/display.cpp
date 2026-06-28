@@ -1,8 +1,8 @@
-#include "Physics/display/display.hpp"
+#include "physics/display/display.hpp"
 
 #include <ostream>
 
-namespace Physics::time
+namespace physics::time
 {
 
     const char* symbol(TimeUnit unit)
@@ -112,4 +112,4 @@ namespace Physics::time
         return stream << value.display_as(TimeUnit::Seconds);
     }
 
-} // namespace Physics::time
+} // namespace physics::time

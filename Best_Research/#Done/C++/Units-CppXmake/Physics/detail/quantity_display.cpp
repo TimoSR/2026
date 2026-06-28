@@ -1,13 +1,13 @@
-#include "Physics/detail/quantity_display.hpp"
+#include "physics/detail/quantity_display.hpp"
 
-#include "Physics/acceleration/acceleration.hpp"
-#include "Physics/force/force.hpp"
-#include "Physics/length/length.hpp"
-#include "Physics/mass/mass.hpp"
-#include "Physics/time/time.hpp"
-#include "Physics/velocity/velocity.hpp"
+#include "physics/acceleration/acceleration.hpp"
+#include "physics/force/force.hpp"
+#include "physics/length/length.hpp"
+#include "physics/mass/mass.hpp"
+#include "physics/time/time.hpp"
+#include "physics/velocity/velocity.hpp"
 
-namespace Physics
+namespace physics
 {
 
     template <typename Quantity, typename Unit>
@@ -37,4 +37,4 @@ namespace Physics
     template class QuantityDisplay<acceleration::Acceleration, acceleration::AccelerationUnit>;
     template class QuantityDisplay<force::Force, force::ForceUnit>;
 
-} // namespace Physics
+} // namespace physics

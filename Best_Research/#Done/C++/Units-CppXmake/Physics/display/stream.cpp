@@ -1,9 +1,9 @@
-#include "Physics/display/display.hpp"
+#include "physics/display/display.hpp"
 
 #include <iomanip>
 #include <ostream>
 
-namespace Physics
+namespace physics
 {
 
     namespace detail
@@ -58,4 +58,4 @@ namespace Physics
         return detail::write_display(stream, display);
     }
 
-} // namespace Physics
+} // namespace physics

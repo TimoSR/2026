@@ -1,9 +1,9 @@
-#include "Physics/mass/mass.hpp"
+#include "physics/mass/mass.hpp"
 
 #include <cmath>
 #include <optional>
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     std::optional<Mass> Mass::try_kilograms(double value)
@@ -121,4 +121,4 @@ namespace Physics::mass
         return Mass::try_tons(value);
     }
 
-} // namespace Physics::mass
+} // namespace physics::mass

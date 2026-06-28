@@ -2,11 +2,11 @@
 
 #include <optional>
 
-#include "Physics/detail/quantity_display.hpp"
-#include "Physics/time/time.hpp"
-#include "Physics/velocity/velocity.hpp"
+#include "physics/detail/quantity_display.hpp"
+#include "physics/time/time.hpp"
+#include "physics/velocity/velocity.hpp"
 
-namespace Physics::length
+namespace physics::length
 {
 
     enum class LengthUnit
@@ -106,4 +106,4 @@ namespace Physics::length
     Length nanometers(double value);
     std::optional<Length> try_nanometers(double value);
 
-} // namespace Physics::length
+} // namespace physics::length

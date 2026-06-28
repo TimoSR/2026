@@ -1,20 +1,20 @@
 #include "Testing/Testing.hpp"
 
-#include "Physics/Physics.hpp"
+#include "physics/physics.hpp"
 
 template <typename Left, typename Right>
 concept CanDivide = requires(Left left, Right right) { left / right; };
 
 TEST("equation rules ignore input scale")
 {
-    using Physics::acceleration::Acceleration;
-    using Physics::force::Force;
-    using Physics::mass::Mass;
-    using Physics::velocity::Velocity;
+    using physics::acceleration::Acceleration;
+    using physics::force::Force;
+    using physics::mass::Mass;
+    using physics::velocity::Velocity;
 
-    auto distance = Physics::length::centimeters(10'000);
-    auto time = Physics::time::milliseconds(9'580);
-    Mass mass = Physics::mass::grams(80'000);
+    auto distance = physics::length::centimeters(10'000);
+    auto time = physics::time::milliseconds(9'580);
+    Mass mass = physics::mass::grams(80'000);
 
     Velocity velocity = distance / time;
     Acceleration acceleration = velocity / time;
@@ -27,5 +27,5 @@ TEST("equation rules ignore input scale")
 
 TEST("unsupported operations are omitted")
 {
-    static_assert(!CanDivide<Physics::velocity::Velocity, Physics::mass::Mass>);
+    static_assert(!CanDivide<physics::velocity::Velocity, physics::mass::Mass>);
 }

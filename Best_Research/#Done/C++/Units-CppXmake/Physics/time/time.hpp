@@ -2,9 +2,9 @@
 
 #include <optional>
 
-#include "Physics/detail/quantity_display.hpp"
+#include "physics/detail/quantity_display.hpp"
 
-namespace Physics::time
+namespace physics::time
 {
 
     enum class TimeUnit
@@ -101,4 +101,4 @@ namespace Physics::time
     Time hours(double value);
     std::optional<Time> try_hours(double value);
 
-} // namespace Physics::time
+} // namespace physics::time

@@ -1,6 +1,6 @@
-#include "Physics/operations/operations.hpp"
+#include "physics/operations/operations.hpp"
 
-namespace Physics::force
+namespace physics::force
 {
 
     Force operator+(Force left, Force right)
@@ -38,4 +38,4 @@ namespace Physics::force
         return left.raw_si() / right.raw_si();
     }
 
-} // namespace Physics::force
+} // namespace physics::force

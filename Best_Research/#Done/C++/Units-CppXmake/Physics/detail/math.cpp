@@ -1,6 +1,6 @@
-#include "Physics/detail/math.hpp"
+#include "physics/detail/math.hpp"
 
-namespace Physics::detail
+namespace physics::detail
 {
 
     double absolute(double value)
@@ -8,4 +8,4 @@ namespace Physics::detail
         return value < 0.0 ? -value : value;
     }
 
-} // namespace Physics::detail
+} // namespace physics::detail

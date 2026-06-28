@@ -2,11 +2,11 @@
 
 #include <optional>
 
-#include "Physics/acceleration/acceleration.hpp"
-#include "Physics/detail/quantity_display.hpp"
-#include "Physics/time/time.hpp"
+#include "physics/acceleration/acceleration.hpp"
+#include "physics/detail/quantity_display.hpp"
+#include "physics/time/time.hpp"
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     enum class VelocityUnit
@@ -63,4 +63,4 @@ namespace Physics::velocity
     Velocity kilometers_per_hour(double value);
     std::optional<Velocity> try_kilometers_per_hour(double value);
 
-} // namespace Physics::velocity
+} // namespace physics::velocity

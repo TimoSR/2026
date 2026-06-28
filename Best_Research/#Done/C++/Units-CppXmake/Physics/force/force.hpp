@@ -2,11 +2,11 @@
 
 #include <optional>
 
-#include "Physics/acceleration/acceleration.hpp"
-#include "Physics/detail/quantity_display.hpp"
-#include "Physics/mass/mass.hpp"
+#include "physics/acceleration/acceleration.hpp"
+#include "physics/detail/quantity_display.hpp"
+#include "physics/mass/mass.hpp"
 
-namespace Physics::force
+namespace physics::force
 {
 
     enum class ForceUnit
@@ -74,4 +74,4 @@ namespace Physics::force
     Force kilonewtons(double value);
     std::optional<Force> try_kilonewtons(double value);
 
-} // namespace Physics::force
+} // namespace physics::force

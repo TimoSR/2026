@@ -1,6 +1,6 @@
-#include "Physics/operations/operations.hpp"
+#include "physics/operations/operations.hpp"
 
-namespace Physics::time
+namespace physics::time
 {
 
     Time operator+(Time left, Time right)
@@ -38,4 +38,4 @@ namespace Physics::time
         return left.raw_si() / right.raw_si();
     }
 
-} // namespace Physics::time
+} // namespace physics::time

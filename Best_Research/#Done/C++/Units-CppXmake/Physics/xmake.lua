@@ -1,4 +1,4 @@
-set_project("Physics")
+set_project("physics")
 set_version("0.1.0")
 
 set_languages("c++23")
@@ -13,7 +13,7 @@ local warning_flags = function()
     add_cxxflags("-Wall", "-Wextra", "-Wpedantic", {tools = {"clang", "gcc"}})
 end
 
-target("Physics")
+target("physics")
     set_kind("static")
     add_files(path.join(physics_dir, "**.cpp"))
     remove_files(path.join(physics_dir, "tests/**.cpp"))
@@ -31,6 +31,6 @@ if path.absolute(os.projectdir()) == path.absolute(physics_dir) then
         add_files(path.join(physics_dir, "tests/main.cpp"))
         add_files(path.join(physics_dir, "**/tests.cpp"))
         add_includedirs(workspace_dir)
-        add_deps("Physics", "Testing")
+        add_deps("physics", "Testing")
         warning_flags()
 end

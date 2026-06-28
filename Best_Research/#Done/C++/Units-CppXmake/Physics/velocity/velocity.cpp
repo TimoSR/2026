@@ -1,8 +1,8 @@
-#include "Physics/velocity/velocity.hpp"
+#include "physics/velocity/velocity.hpp"
 
-#include "Physics/detail/math.hpp"
+#include "physics/detail/math.hpp"
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     Velocity::Velocity(double meters_per_second) : _meters_per_second(meters_per_second)
@@ -59,4 +59,4 @@ namespace Physics::velocity
         return left._meters_per_second == right._meters_per_second;
     }
 
-} // namespace Physics::velocity
+} // namespace physics::velocity

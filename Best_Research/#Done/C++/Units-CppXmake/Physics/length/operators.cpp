@@ -1,6 +1,6 @@
-#include "Physics/operations/operations.hpp"
+#include "physics/operations/operations.hpp"
 
-namespace Physics::length
+namespace physics::length
 {
 
     Length operator+(Length left, Length right)
@@ -38,4 +38,4 @@ namespace Physics::length
         return left.raw_si() / right.raw_si();
     }
 
-} // namespace Physics::length
+} // namespace physics::length

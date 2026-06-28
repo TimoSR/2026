@@ -1,8 +1,8 @@
-#include "Physics/display/display.hpp"
+#include "physics/display/display.hpp"
 
 #include <ostream>
 
-namespace Physics::length
+namespace physics::length
 {
 
     const char* symbol(LengthUnit unit)
@@ -112,4 +112,4 @@ namespace Physics::length
         return stream << value.display_as(LengthUnit::Meters);
     }
 
-} // namespace Physics::length
+} // namespace physics::length

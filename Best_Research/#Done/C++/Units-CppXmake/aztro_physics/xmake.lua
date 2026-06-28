@@ -16,7 +16,7 @@ end
 target("aztro_physics")
     set_kind("static")
     set_toolchains("clang-cl")
-    add_files(path.join(aztro_physics_dir, "Physics.cppm"), {public = true})
+    add_files(path.join(aztro_physics_dir, "physics.cppm"), {public = true})
     add_files(path.join(aztro_physics_dir, "**.cpp"))
     remove_files(path.join(aztro_physics_dir, "tests/**.cpp"))
     remove_files(path.join(aztro_physics_dir, "**/tests.cpp"))

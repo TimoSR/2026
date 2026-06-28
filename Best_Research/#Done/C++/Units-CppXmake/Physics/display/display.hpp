@@ -2,69 +2,69 @@
 
 #include <iosfwd>
 
-#include "Physics/acceleration/acceleration.hpp"
-#include "Physics/detail/quantity_display.hpp"
-#include "Physics/force/force.hpp"
-#include "Physics/length/length.hpp"
-#include "Physics/mass/mass.hpp"
-#include "Physics/time/time.hpp"
-#include "Physics/velocity/velocity.hpp"
+#include "physics/acceleration/acceleration.hpp"
+#include "physics/detail/quantity_display.hpp"
+#include "physics/force/force.hpp"
+#include "physics/length/length.hpp"
+#include "physics/mass/mass.hpp"
+#include "physics/time/time.hpp"
+#include "physics/velocity/velocity.hpp"
 
-namespace Physics::length
+namespace physics::length
 {
 
     const char* symbol(LengthUnit unit);
     double value_in_unit(Length value, LengthUnit unit);
     std::ostream& operator<<(std::ostream& stream, Length value);
 
-} // namespace Physics::length
+} // namespace physics::length
 
-namespace Physics::time
+namespace physics::time
 {
 
     const char* symbol(TimeUnit unit);
     double value_in_unit(Time value, TimeUnit unit);
     std::ostream& operator<<(std::ostream& stream, Time value);
 
-} // namespace Physics::time
+} // namespace physics::time
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     const char* symbol(MassUnit unit);
     double value_in_unit(Mass value, MassUnit unit);
     std::ostream& operator<<(std::ostream& stream, Mass value);
 
-} // namespace Physics::mass
+} // namespace physics::mass
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     const char* symbol(VelocityUnit unit);
     double value_in_unit(Velocity value, VelocityUnit unit);
     std::ostream& operator<<(std::ostream& stream, Velocity value);
 
-} // namespace Physics::velocity
+} // namespace physics::velocity
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     const char* symbol(AccelerationUnit unit);
     double value_in_unit(Acceleration value, AccelerationUnit unit);
     std::ostream& operator<<(std::ostream& stream, Acceleration value);
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration
 
-namespace Physics::force
+namespace physics::force
 {
 
     const char* symbol(ForceUnit unit);
     double value_in_unit(Force value, ForceUnit unit);
     std::ostream& operator<<(std::ostream& stream, Force value);
 
-} // namespace Physics::force
+} // namespace physics::force
 
-namespace Physics
+namespace physics
 {
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<length::Length, length::LengthUnit> display);
@@ -74,4 +74,4 @@ namespace Physics
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<acceleration::Acceleration, acceleration::AccelerationUnit> display);
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<force::Force, force::ForceUnit> display);
 
-} // namespace Physics
+} // namespace physics

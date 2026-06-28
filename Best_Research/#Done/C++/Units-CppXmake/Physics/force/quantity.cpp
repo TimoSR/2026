@@ -1,9 +1,9 @@
-#include "Physics/force/force.hpp"
+#include "physics/force/force.hpp"
 
 #include <cmath>
 #include <optional>
 
-namespace Physics::force
+namespace physics::force
 {
 
     std::optional<Force> Force::try_newtons(double value)
@@ -71,4 +71,4 @@ namespace Physics::force
         return Force::try_kilonewtons(value);
     }
 
-} // namespace Physics::force
+} // namespace physics::force

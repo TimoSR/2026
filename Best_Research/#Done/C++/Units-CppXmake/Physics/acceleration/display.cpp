@@ -1,8 +1,8 @@
-#include "Physics/display/display.hpp"
+#include "physics/display/display.hpp"
 
 #include <ostream>
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     const char* symbol(AccelerationUnit unit)
@@ -56,4 +56,4 @@ namespace Physics::acceleration
         return stream << value.display_as(AccelerationUnit::MetersPerSecondSquared);
     }
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration

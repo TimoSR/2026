@@ -1,8 +1,8 @@
-#include "Physics/display/display.hpp"
+#include "physics/display/display.hpp"
 
 #include <ostream>
 
-namespace Physics::force
+namespace physics::force
 {
 
     const char* symbol(ForceUnit unit)
@@ -70,4 +70,4 @@ namespace Physics::force
         return stream << value.display_as(ForceUnit::Newtons);
     }
 
-} // namespace Physics::force
+} // namespace physics::force

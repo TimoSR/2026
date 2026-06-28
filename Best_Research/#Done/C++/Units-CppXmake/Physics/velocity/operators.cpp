@@ -1,6 +1,6 @@
-#include "Physics/operations/operations.hpp"
+#include "physics/operations/operations.hpp"
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     Velocity operator+(Velocity left, Velocity right)
@@ -38,4 +38,4 @@ namespace Physics::velocity
         return left.raw_si() / right.raw_si();
     }
 
-} // namespace Physics::velocity
+} // namespace physics::velocity

@@ -1,6 +1,6 @@
-#include "Physics/operations/operations.hpp"
+#include "physics/operations/operations.hpp"
 
-namespace Physics::length
+namespace physics::length
 {
 
     velocity::Velocity operator/(Length distance, time::Time time)
@@ -13,9 +13,9 @@ namespace Physics::length
         return time::Time::seconds(distance.to_meters() / velocity.to_meters_per_second());
     }
 
-} // namespace Physics::length
+} // namespace physics::length
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     Velocity calculate(length::Length distance, time::Time time)
@@ -38,9 +38,9 @@ namespace Physics::velocity
         return time::Time::seconds(velocity.to_meters_per_second() / acceleration.to_meters_per_second_squared());
     }
 
-} // namespace Physics::velocity
+} // namespace physics::velocity
 
-namespace Physics::time
+namespace physics::time
 {
 
     length::Length operator*(Time time, velocity::Velocity velocity)
@@ -53,9 +53,9 @@ namespace Physics::time
         return velocity::Velocity::meters_per_second(time.to_seconds() * acceleration.to_meters_per_second_squared());
     }
 
-} // namespace Physics::time
+} // namespace physics::time
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     Acceleration calculate(velocity::Velocity velocity, time::Time time)
@@ -73,9 +73,9 @@ namespace Physics::acceleration
         return force::Force::newtons(acceleration.to_meters_per_second_squared() * mass.to_kilograms());
     }
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     force::Force operator*(Mass mass, acceleration::Acceleration acceleration)
@@ -83,9 +83,9 @@ namespace Physics::mass
         return force::Force::newtons(mass.to_kilograms() * acceleration.to_meters_per_second_squared());
     }
 
-} // namespace Physics::mass
+} // namespace physics::mass
 
-namespace Physics::force
+namespace physics::force
 {
 
     Force calculate(mass::Mass mass, acceleration::Acceleration acceleration)
@@ -103,4 +103,4 @@ namespace Physics::force
         return mass::Mass::kilograms(force.to_newtons() / acceleration.to_meters_per_second_squared());
     }
 
-} // namespace Physics::force
+} // namespace physics::force

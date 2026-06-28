@@ -35,13 +35,13 @@ run: all
 test: all
     Write-Host "No root tests configured."
 test-physics:
-    xmake f -P Physics -m debug
-    xmake run -P Physics PhysicsTests
+    xmake f -P physics -m debug
+    xmake run -P physics PhysicsTests
 test-aztro-physics:
     xmake f -m debug
     xmake run aztro_physicsSmoke
 format:
-    Get-ChildItem -Path Physics,aztro_physics,Testing,src -Recurse -Include *.hpp,*.cpp,*.cppm | ForEach-Object { clang-format -i $_.FullName }
+    Get-ChildItem -Path physics,aztro_physics,Testing,src -Recurse -Include *.hpp,*.cpp,*.cppm | ForEach-Object { clang-format -i $_.FullName }
 release:
     xmake f -m release
     xmake project -k compile_commands --lsp=clangd .

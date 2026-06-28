@@ -1,8 +1,8 @@
 #pragma once
 
-namespace Physics::detail
+namespace physics::detail
 {
 
     double absolute(double value);
 
-} // namespace Physics::detail
+} // namespace physics::detail

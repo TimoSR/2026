@@ -1,8 +1,8 @@
-#include "Physics/mass/mass.hpp"
+#include "physics/mass/mass.hpp"
 
-#include "Physics/detail/math.hpp"
+#include "physics/detail/math.hpp"
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     Mass::Mass(double kilograms) : _kilograms(kilograms)
@@ -94,4 +94,4 @@ namespace Physics::mass
         return left._kilograms == right._kilograms;
     }
 
-} // namespace Physics::mass
+} // namespace physics::mass

@@ -2,14 +2,14 @@
 
 #include <optional>
 
-#include "Physics/acceleration/acceleration.hpp"
-#include "Physics/force/force.hpp"
-#include "Physics/length/length.hpp"
-#include "Physics/mass/mass.hpp"
-#include "Physics/time/time.hpp"
-#include "Physics/velocity/velocity.hpp"
+#include "physics/acceleration/acceleration.hpp"
+#include "physics/force/force.hpp"
+#include "physics/length/length.hpp"
+#include "physics/mass/mass.hpp"
+#include "physics/time/time.hpp"
+#include "physics/velocity/velocity.hpp"
 
-namespace Physics::length
+namespace physics::length
 {
 
     Length operator+(Length left, Length right);
@@ -23,9 +23,9 @@ namespace Physics::length
     velocity::Velocity operator/(Length distance, time::Time time);
     time::Time operator/(Length distance, velocity::Velocity velocity);
 
-} // namespace Physics::length
+} // namespace physics::length
 
-namespace Physics::time
+namespace physics::time
 {
 
     Time operator+(Time left, Time right);
@@ -39,9 +39,9 @@ namespace Physics::time
     length::Length operator*(Time time, velocity::Velocity velocity);
     velocity::Velocity operator*(Time time, acceleration::Acceleration acceleration);
 
-} // namespace Physics::time
+} // namespace physics::time
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     Mass operator+(Mass left, Mass right);
@@ -54,9 +54,9 @@ namespace Physics::mass
 
     force::Force operator*(Mass mass, acceleration::Acceleration acceleration);
 
-} // namespace Physics::mass
+} // namespace physics::mass
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     Velocity operator+(Velocity left, Velocity right);
@@ -74,9 +74,9 @@ namespace Physics::velocity
     acceleration::Acceleration operator/(Velocity velocity, time::Time time);
     time::Time operator/(Velocity velocity, acceleration::Acceleration acceleration);
 
-} // namespace Physics::velocity
+} // namespace physics::velocity
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     Acceleration operator+(Acceleration left, Acceleration right);
@@ -93,9 +93,9 @@ namespace Physics::acceleration
     velocity::Velocity operator*(Acceleration acceleration, time::Time time);
     force::Force operator*(Acceleration acceleration, mass::Mass mass);
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration
 
-namespace Physics::force
+namespace physics::force
 {
 
     Force operator+(Force left, Force right);
@@ -111,4 +111,4 @@ namespace Physics::force
     acceleration::Acceleration operator/(Force force, mass::Mass mass);
     mass::Mass operator/(Force force, acceleration::Acceleration acceleration);
 
-} // namespace Physics::force
+} // namespace physics::force

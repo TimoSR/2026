@@ -1,4 +1,4 @@
-# Convenience commands for the Physics library xmake workflow.
+# Convenience commands for the physics library xmake workflow.
 set dotenv-load
 set shell := ["pwsh.exe", "-NoLogo", "-Command"]
 set quiet

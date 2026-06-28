@@ -1,14 +1,14 @@
-#include "Physics/display/format.hpp"
+#include "physics/display/format.hpp"
 
-#include "Physics/acceleration/acceleration.hpp"
-#include "Physics/display/display.hpp"
-#include "Physics/force/force.hpp"
-#include "Physics/length/length.hpp"
-#include "Physics/mass/mass.hpp"
-#include "Physics/time/time.hpp"
-#include "Physics/velocity/velocity.hpp"
+#include "physics/acceleration/acceleration.hpp"
+#include "physics/display/display.hpp"
+#include "physics/force/force.hpp"
+#include "physics/length/length.hpp"
+#include "physics/mass/mass.hpp"
+#include "physics/time/time.hpp"
+#include "physics/velocity/velocity.hpp"
 
-namespace Physics::detail
+namespace physics::detail
 {
 
     template <typename Quantity, typename Unit> std::format_context::iterator format_quantity_display(std::format_context& context, QuantityDisplay<Quantity, Unit> display)
@@ -24,47 +24,47 @@ namespace Physics::detail
         return std::format_to(context.out(), "{} {}", value, unit_symbol);
     }
 
-} // namespace Physics::detail
+} // namespace physics::detail
 
 template <typename Quantity, typename Unit>
-std::format_context::iterator std::formatter<Physics::QuantityDisplay<Quantity, Unit>, char>::format(Physics::QuantityDisplay<Quantity, Unit> display, std::format_context& context) const
+std::format_context::iterator std::formatter<physics::QuantityDisplay<Quantity, Unit>, char>::format(physics::QuantityDisplay<Quantity, Unit> display, std::format_context& context) const
 {
-    return Physics::detail::format_quantity_display(context, display);
+    return physics::detail::format_quantity_display(context, display);
 }
 
-std::format_context::iterator std::formatter<Physics::length::Length, char>::format(Physics::length::Length value, std::format_context& context) const
+std::format_context::iterator std::formatter<physics::length::Length, char>::format(physics::length::Length value, std::format_context& context) const
 {
-    return Physics::detail::format_quantity_display(context, value.display_as(Physics::length::LengthUnit::Meters));
+    return physics::detail::format_quantity_display(context, value.display_as(physics::length::LengthUnit::Meters));
 }
 
-std::format_context::iterator std::formatter<Physics::time::Time, char>::format(Physics::time::Time value, std::format_context& context) const
+std::format_context::iterator std::formatter<physics::time::Time, char>::format(physics::time::Time value, std::format_context& context) const
 {
-    return Physics::detail::format_quantity_display(context, value.display_as(Physics::time::TimeUnit::Seconds));
+    return physics::detail::format_quantity_display(context, value.display_as(physics::time::TimeUnit::Seconds));
 }
 
-std::format_context::iterator std::formatter<Physics::mass::Mass, char>::format(Physics::mass::Mass value, std::format_context& context) const
+std::format_context::iterator std::formatter<physics::mass::Mass, char>::format(physics::mass::Mass value, std::format_context& context) const
 {
-    return Physics::detail::format_quantity_display(context, value.display_as(Physics::mass::MassUnit::Kilograms));
+    return physics::detail::format_quantity_display(context, value.display_as(physics::mass::MassUnit::Kilograms));
 }
 
-std::format_context::iterator std::formatter<Physics::velocity::Velocity, char>::format(Physics::velocity::Velocity value, std::format_context& context) const
+std::format_context::iterator std::formatter<physics::velocity::Velocity, char>::format(physics::velocity::Velocity value, std::format_context& context) const
 {
-    return Physics::detail::format_quantity_display(context, value.display_as(Physics::velocity::VelocityUnit::MetersPerSecond));
+    return physics::detail::format_quantity_display(context, value.display_as(physics::velocity::VelocityUnit::MetersPerSecond));
 }
 
-std::format_context::iterator std::formatter<Physics::acceleration::Acceleration, char>::format(Physics::acceleration::Acceleration value, std::format_context& context) const
+std::format_context::iterator std::formatter<physics::acceleration::Acceleration, char>::format(physics::acceleration::Acceleration value, std::format_context& context) const
 {
-    return Physics::detail::format_quantity_display(context, value.display_as(Physics::acceleration::AccelerationUnit::MetersPerSecondSquared));
+    return physics::detail::format_quantity_display(context, value.display_as(physics::acceleration::AccelerationUnit::MetersPerSecondSquared));
 }
 
-std::format_context::iterator std::formatter<Physics::force::Force, char>::format(Physics::force::Force value, std::format_context& context) const
+std::format_context::iterator std::formatter<physics::force::Force, char>::format(physics::force::Force value, std::format_context& context) const
 {
-    return Physics::detail::format_quantity_display(context, value.display_as(Physics::force::ForceUnit::Newtons));
+    return physics::detail::format_quantity_display(context, value.display_as(physics::force::ForceUnit::Newtons));
 }
 
-template struct std::formatter<Physics::QuantityDisplay<Physics::length::Length, Physics::length::LengthUnit>, char>;
-template struct std::formatter<Physics::QuantityDisplay<Physics::time::Time, Physics::time::TimeUnit>, char>;
-template struct std::formatter<Physics::QuantityDisplay<Physics::mass::Mass, Physics::mass::MassUnit>, char>;
-template struct std::formatter<Physics::QuantityDisplay<Physics::velocity::Velocity, Physics::velocity::VelocityUnit>, char>;
-template struct std::formatter<Physics::QuantityDisplay<Physics::acceleration::Acceleration, Physics::acceleration::AccelerationUnit>, char>;
-template struct std::formatter<Physics::QuantityDisplay<Physics::force::Force, Physics::force::ForceUnit>, char>;
+template struct std::formatter<physics::QuantityDisplay<physics::length::Length, physics::length::LengthUnit>, char>;
+template struct std::formatter<physics::QuantityDisplay<physics::time::Time, physics::time::TimeUnit>, char>;
+template struct std::formatter<physics::QuantityDisplay<physics::mass::Mass, physics::mass::MassUnit>, char>;
+template struct std::formatter<physics::QuantityDisplay<physics::velocity::Velocity, physics::velocity::VelocityUnit>, char>;
+template struct std::formatter<physics::QuantityDisplay<physics::acceleration::Acceleration, physics::acceleration::AccelerationUnit>, char>;
+template struct std::formatter<physics::QuantityDisplay<physics::force::Force, physics::force::ForceUnit>, char>;

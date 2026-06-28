@@ -1,8 +1,8 @@
-#include "Physics/length/length.hpp"
+#include "physics/length/length.hpp"
 
-#include "Physics/detail/math.hpp"
+#include "physics/detail/math.hpp"
 
-namespace Physics::length
+namespace physics::length
 {
 
     Length::Length(double meters) : _meters(meters)
@@ -99,4 +99,4 @@ namespace Physics::length
         return left._meters == right._meters;
     }
 
-} // namespace Physics::length
+} // namespace physics::length

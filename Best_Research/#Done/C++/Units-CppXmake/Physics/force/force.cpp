@@ -1,8 +1,8 @@
-#include "Physics/force/force.hpp"
+#include "physics/force/force.hpp"
 
-#include "Physics/detail/math.hpp"
+#include "physics/detail/math.hpp"
 
-namespace Physics::force
+namespace physics::force
 {
 
     Force::Force(double newtons) : _newtons(newtons)
@@ -69,4 +69,4 @@ namespace Physics::force
         return left._newtons == right._newtons;
     }
 
-} // namespace Physics::force
+} // namespace physics::force

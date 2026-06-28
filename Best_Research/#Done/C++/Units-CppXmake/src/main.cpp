@@ -1,4 +1,4 @@
-#include "Physics/Physics.hpp"
+#include "physics/physics.hpp"
 #include <iostream>
 #include <print>
 
@@ -6,21 +6,21 @@ import aztro_physics;
 
 void run_physics_example()
 {
-    auto distance = ::Physics::length::centimeters(10'000);
-    auto elapsed = ::Physics::time::milliseconds(9'580);
-    auto body_mass = ::Physics::mass::grams(80'000);
+    auto distance = ::physics::length::centimeters(10'000);
+    auto elapsed = ::physics::time::milliseconds(9'580);
+    auto body_mass = ::physics::mass::grams(80'000);
 
     auto velocity = distance / elapsed;
     auto acceleration = velocity / elapsed;
     auto force = body_mass * acceleration;
 
-    std::println("[Physics]");
+    std::println("[physics]");
     std::println("distance = {}", distance);
     std::println("time = {}", elapsed);
     std::println("mass = {}", body_mass);
-    std::println("velocity = {}", velocity.display_as_precision(::Physics::velocity::VelocityUnit::KilometersPerHour, 2));
+    std::println("velocity = {}", velocity.display_as_precision(::physics::velocity::VelocityUnit::KilometersPerHour, 2));
     std::println("acceleration = {}", acceleration);
-    std::println("force = {}", force.display_as_precision(::Physics::force::ForceUnit::Kilonewtons, 4));
+    std::println("force = {}", force.display_as_precision(::physics::force::ForceUnit::Kilonewtons, 4));
 }
 
 void run_aztro_physics_example()

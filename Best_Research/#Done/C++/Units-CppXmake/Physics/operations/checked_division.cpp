@@ -1,8 +1,8 @@
-#include "Physics/operations/operations.hpp"
+#include "physics/operations/operations.hpp"
 
 #include <optional>
 
-namespace Physics::length
+namespace physics::length
 {
 
     std::optional<velocity::Velocity> Length::checked_div_time(time::Time time)
@@ -25,9 +25,9 @@ namespace Physics::length
         return *this / velocity;
     }
 
-} // namespace Physics::length
+} // namespace physics::length
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     std::optional<Velocity> checked_calculate(length::Length distance, time::Time time)
@@ -60,9 +60,9 @@ namespace Physics::velocity
         return *this / acceleration;
     }
 
-} // namespace Physics::velocity
+} // namespace physics::velocity
 
-namespace Physics::force
+namespace physics::force
 {
 
     std::optional<acceleration::Acceleration> Force::checked_div_mass(mass::Mass mass)
@@ -85,9 +85,9 @@ namespace Physics::force
         return *this / acceleration;
     }
 
-} // namespace Physics::force
+} // namespace physics::force
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     std::optional<Acceleration> checked_calculate(velocity::Velocity velocity, time::Time time)
@@ -100,4 +100,4 @@ namespace Physics::acceleration
         return calculate(velocity, time);
     }
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration

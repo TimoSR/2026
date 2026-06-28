@@ -8,7 +8,7 @@ export module aztro_physics;
 
 export {
 
-    // From Physics/detail/quantity_display.hpp
+    // From physics/detail/quantity_display.hpp
 
     namespace aztro::physics
     {
@@ -32,7 +32,7 @@ export {
 
     } // namespace aztro::physics
 
-    // From Physics/detail/math.hpp
+    // From physics/detail/math.hpp
 
     namespace aztro::physics::detail
     {
@@ -41,7 +41,7 @@ export {
 
     } // namespace aztro::physics::detail
 
-    // From Physics/acceleration/acceleration.hpp
+    // From physics/acceleration/acceleration.hpp
 
     namespace aztro::physics::acceleration
     {
@@ -102,7 +102,7 @@ export {
 
     } // namespace aztro::physics::acceleration
 
-    // From Physics/time/time.hpp
+    // From physics/time/time.hpp
 
     namespace aztro::physics::time
     {
@@ -203,7 +203,7 @@ export {
 
     } // namespace aztro::physics::time
 
-    // From Physics/mass/mass.hpp
+    // From physics/mass/mass.hpp
 
     namespace aztro::physics::mass
     {
@@ -299,7 +299,7 @@ export {
 
     } // namespace aztro::physics::mass
 
-    // From Physics/velocity/velocity.hpp
+    // From physics/velocity/velocity.hpp
 
     namespace aztro::physics::velocity
     {
@@ -360,7 +360,7 @@ export {
 
     } // namespace aztro::physics::velocity
 
-    // From Physics/length/length.hpp
+    // From physics/length/length.hpp
 
     namespace aztro::physics::length
     {
@@ -464,7 +464,7 @@ export {
 
     } // namespace aztro::physics::length
 
-    // From Physics/force/force.hpp
+    // From physics/force/force.hpp
 
     namespace aztro::physics::force
     {
@@ -536,7 +536,7 @@ export {
 
     } // namespace aztro::physics::force
 
-    // From Physics/display/display.hpp
+    // From physics/display/display.hpp
 
     namespace aztro::physics::length
     {
@@ -604,7 +604,7 @@ export {
 
     } // namespace aztro::physics
 
-    // From Physics/operations/operations.hpp
+    // From physics/operations/operations.hpp
 
     namespace aztro::physics::length
     {
@@ -710,7 +710,7 @@ export {
 
     } // namespace aztro::physics::force
 
-    // From Physics/display/format.hpp
+    // From physics/display/format.hpp
 
     template <typename Quantity, typename Unit> struct std::formatter<aztro::physics::QuantityDisplay<Quantity, Unit>, char>
     {

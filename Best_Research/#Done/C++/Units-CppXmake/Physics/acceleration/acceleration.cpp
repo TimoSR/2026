@@ -1,8 +1,8 @@
-#include "Physics/acceleration/acceleration.hpp"
+#include "physics/acceleration/acceleration.hpp"
 
-#include "Physics/detail/math.hpp"
+#include "physics/detail/math.hpp"
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     double Acceleration::standard_gravity_meters_per_second_squared()
@@ -64,4 +64,4 @@ namespace Physics::acceleration
         return left._meters_per_second_squared == right._meters_per_second_squared;
     }
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration

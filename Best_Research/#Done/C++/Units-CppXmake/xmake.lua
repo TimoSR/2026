@@ -5,7 +5,7 @@ set_languages("c++23")
 
 add_rules("mode.debug", "mode.release")
 
-includes("Physics")
+includes("physics")
 includes("aztro_physics")
 
 local warning_flags = function()
@@ -20,5 +20,5 @@ target("PhysicsDemo")
     set_toolchains("clang-cl")
     add_files("src/main.cpp")
     add_includedirs(".")
-    add_deps("Physics", "aztro_physics")
+    add_deps("physics", "aztro_physics")
     warning_flags()

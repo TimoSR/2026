@@ -2,9 +2,9 @@
 
 #include <optional>
 
-#include "Physics/detail/quantity_display.hpp"
+#include "physics/detail/quantity_display.hpp"
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     enum class MassUnit
@@ -96,4 +96,4 @@ namespace Physics::mass
     Mass tons(double value);
     std::optional<Mass> try_tons(double value);
 
-} // namespace Physics::mass
+} // namespace physics::mass

@@ -1,9 +1,9 @@
-#include "Physics/acceleration/acceleration.hpp"
+#include "physics/acceleration/acceleration.hpp"
 
 #include <cmath>
 #include <optional>
 
-namespace Physics::acceleration
+namespace physics::acceleration
 {
 
     std::optional<Acceleration> Acceleration::try_meters_per_second_squared(double value)
@@ -51,4 +51,4 @@ namespace Physics::acceleration
         return Acceleration::try_standard_gravity(value);
     }
 
-} // namespace Physics::acceleration
+} // namespace physics::acceleration

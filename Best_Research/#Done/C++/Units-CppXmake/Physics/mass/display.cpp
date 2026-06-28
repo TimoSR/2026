@@ -1,8 +1,8 @@
-#include "Physics/display/display.hpp"
+#include "physics/display/display.hpp"
 
 #include <ostream>
 
-namespace Physics::mass
+namespace physics::mass
 {
 
     const char* symbol(MassUnit unit)
@@ -98,4 +98,4 @@ namespace Physics::mass
         return stream << value.display_as(MassUnit::Kilograms);
     }
 
-} // namespace Physics::mass
+} // namespace physics::mass

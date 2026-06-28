@@ -2,7 +2,7 @@
 
 #include <optional>
 
-namespace Physics
+namespace physics
 {
 
     template <typename Quantity, typename Unit> class QuantityDisplay
@@ -22,4 +22,4 @@ namespace Physics
             std::optional<int> precision_;
     };
 
-} // namespace Physics
+} // namespace physics

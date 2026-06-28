@@ -1,9 +1,9 @@
-#include "Physics/velocity/velocity.hpp"
+#include "physics/velocity/velocity.hpp"
 
 #include <cmath>
 #include <optional>
 
-namespace Physics::velocity
+namespace physics::velocity
 {
 
     std::optional<Velocity> Velocity::try_meters_per_second(double value)
@@ -51,4 +51,4 @@ namespace Physics::velocity
         return Velocity::try_kilometers_per_hour(value);
     }
 
-} // namespace Physics::velocity
+} // namespace physics::velocity

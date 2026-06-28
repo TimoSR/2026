@@ -1,9 +1,9 @@
-#include "Physics/time/time.hpp"
+#include "physics/time/time.hpp"
 
 #include <cmath>
 #include <optional>
 
-namespace Physics::time
+namespace physics::time
 {
 
     std::optional<Time> Time::try_seconds(double value)
@@ -126,4 +126,4 @@ namespace Physics::time
         return Time::try_hours(value);
     }
 
-} // namespace Physics::time
+} // namespace physics::time

@@ -1,13 +1,13 @@
 #include "Testing/Testing.hpp"
 
-#include "Physics/Physics.hpp"
+#include "physics/physics.hpp"
 
 TEST("velocity quantity")
 {
-    auto distance = Physics::length::meters(100);
-    auto elapsed = Physics::time::seconds(10);
-    auto velocity = Physics::velocity::calculate(distance, elapsed);
+    auto distance = physics::length::meters(100);
+    auto elapsed = physics::time::seconds(10);
+    auto velocity = physics::velocity::calculate(distance, elapsed);
 
-    CHECK(velocity == Physics::velocity::meters_per_second(10));
-    CHECK(!Physics::velocity::checked_calculate(distance, Physics::time::seconds(0)).has_value());
+    CHECK(velocity == physics::velocity::meters_per_second(10));
+    CHECK(!physics::velocity::checked_calculate(distance, physics::time::seconds(0)).has_value());
 }
