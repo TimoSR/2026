@@ -2,7 +2,7 @@
 
 #include "units/detail/quantity_display.hpp"
 
-namespace units
+namespace units::mass
 {
 
     enum class MassUnit
@@ -16,6 +16,8 @@ namespace units
 
     class Mass
     {
+            double _kilograms;
+
         public:
             static Mass fromRawSi(double kilograms);
 
@@ -53,8 +55,6 @@ namespace units
 
         private:
             explicit Mass(double kilograms);
-
-            double kilograms_;
     };
 
-} // namespace units
+} // namespace units::mass

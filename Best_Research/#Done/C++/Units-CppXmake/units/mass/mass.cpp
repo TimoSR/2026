@@ -2,10 +2,10 @@
 
 #include "units/detail/math.hpp"
 
-namespace units
+namespace units::mass
 {
 
-    Mass::Mass(double kilograms) : kilograms_(kilograms)
+    Mass::Mass(double kilograms) : _kilograms(kilograms)
     {
     }
 
@@ -46,37 +46,37 @@ namespace units
 
     double Mass::rawSi()
     {
-        return kilograms_;
+        return _kilograms;
     }
 
     double Mass::asKilograms()
     {
-        return kilograms_;
+        return _kilograms;
     }
 
     double Mass::asGrams()
     {
-        return kilograms_ * 1'000.0;
+        return _kilograms * 1'000.0;
     }
 
     double Mass::asMilligrams()
     {
-        return kilograms_ * 1'000'000.0;
+        return _kilograms * 1'000'000.0;
     }
 
     double Mass::asMicrograms()
     {
-        return kilograms_ * 1'000'000'000.0;
+        return _kilograms * 1'000'000'000.0;
     }
 
     double Mass::asTons()
     {
-        return kilograms_ / 1'000.0;
+        return _kilograms / 1'000.0;
     }
 
     bool Mass::approximatelyEquals(Mass other, double epsilon)
     {
-        return detail::absolute(kilograms_ - other.kilograms_) <= epsilon;
+        return detail::absolute(_kilograms - other._kilograms) <= epsilon;
     }
 
     QuantityDisplay<Mass, MassUnit> Mass::displayAs(MassUnit unit)
@@ -91,7 +91,7 @@ namespace units
 
     bool operator==(Mass left, Mass right)
     {
-        return left.kilograms_ == right.kilograms_;
+        return left._kilograms == right._kilograms;
     }
 
-} // namespace units
+} // namespace units::mass

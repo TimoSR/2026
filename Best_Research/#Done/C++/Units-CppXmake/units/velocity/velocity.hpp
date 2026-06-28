@@ -6,7 +6,7 @@
 #include "units/detail/quantity_display.hpp"
 #include "units/time/time.hpp"
 
-namespace units
+namespace units::velocity
 {
 
     enum class VelocityUnit
@@ -17,6 +17,8 @@ namespace units
 
     class Velocity
     {
+            double _metersPerSecond;
+
         public:
             static Velocity fromRawSi(double metersPerSecond);
 
@@ -36,15 +38,13 @@ namespace units
 
             QuantityDisplay<Velocity, VelocityUnit> displayAsPrecision(VelocityUnit unit, int precision);
 
-            std::optional<Acceleration> checkedDivTime(Time time);
-            std::optional<Time> checkedDivAcceleration(Acceleration acceleration);
+            std::optional<acceleration::Acceleration> checkedDivTime(time::Time time);
+            std::optional<time::Time> checkedDivAcceleration(acceleration::Acceleration acceleration);
 
             friend bool operator==(Velocity left, Velocity right);
 
         private:
             explicit Velocity(double metersPerSecond);
-
-            double metersPerSecond_;
     };
 
-} // namespace units
+} // namespace units::velocity

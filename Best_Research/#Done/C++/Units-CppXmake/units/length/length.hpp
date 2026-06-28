@@ -6,7 +6,7 @@
 #include "units/time/time.hpp"
 #include "units/velocity/velocity.hpp"
 
-namespace units
+namespace units::length
 {
 
     enum class LengthUnit
@@ -21,6 +21,8 @@ namespace units
 
     class Length
     {
+            double _meters;
+
         public:
             static Length fromRawSi(double meters);
 
@@ -56,15 +58,13 @@ namespace units
 
             QuantityDisplay<Length, LengthUnit> displayAsPrecision(LengthUnit unit, int precision);
 
-            std::optional<Velocity> checkedDivTime(Time time);
-            std::optional<Time> checkedDivVelocity(Velocity velocity);
+            std::optional<velocity::Velocity> checkedDivTime(time::Time time);
+            std::optional<time::Time> checkedDivVelocity(velocity::Velocity velocity);
 
             friend bool operator==(Length left, Length right);
 
         private:
             explicit Length(double meters);
-
-            double meters_;
     };
 
-} // namespace units
+} // namespace units::length

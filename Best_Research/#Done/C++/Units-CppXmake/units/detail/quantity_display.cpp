@@ -30,11 +30,11 @@ namespace units
         return precision_;
     }
 
-    template class QuantityDisplay<Length, LengthUnit>;
-    template class QuantityDisplay<Time, TimeUnit>;
-    template class QuantityDisplay<Mass, MassUnit>;
-    template class QuantityDisplay<Velocity, VelocityUnit>;
-    template class QuantityDisplay<Acceleration, AccelerationUnit>;
-    template class QuantityDisplay<Force, ForceUnit>;
+    template class QuantityDisplay<length::Length, length::LengthUnit>;
+    template class QuantityDisplay<time::Time, time::TimeUnit>;
+    template class QuantityDisplay<mass::Mass, mass::MassUnit>;
+    template class QuantityDisplay<velocity::Velocity, velocity::VelocityUnit>;
+    template class QuantityDisplay<acceleration::Acceleration, acceleration::AccelerationUnit>;
+    template class QuantityDisplay<force::Force, force::ForceUnit>;
 
 } // namespace units

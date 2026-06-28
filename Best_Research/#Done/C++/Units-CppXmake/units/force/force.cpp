@@ -2,10 +2,10 @@
 
 #include "units/detail/math.hpp"
 
-namespace units
+namespace units::force
 {
 
-    Force::Force(double newtons) : newtons_(newtons)
+    Force::Force(double newtons) : _newtons(newtons)
     {
     }
 
@@ -31,27 +31,27 @@ namespace units
 
     double Force::rawSi()
     {
-        return newtons_;
+        return _newtons;
     }
 
     double Force::asNewtons()
     {
-        return newtons_;
+        return _newtons;
     }
 
     double Force::asMillinewtons()
     {
-        return newtons_ * 1'000.0;
+        return _newtons * 1'000.0;
     }
 
     double Force::asKilonewtons()
     {
-        return newtons_ / 1'000.0;
+        return _newtons / 1'000.0;
     }
 
     bool Force::approximatelyEquals(Force other, double epsilon)
     {
-        return detail::absolute(newtons_ - other.newtons_) <= epsilon;
+        return detail::absolute(_newtons - other._newtons) <= epsilon;
     }
 
     QuantityDisplay<Force, ForceUnit> Force::displayAs(ForceUnit unit)
@@ -66,7 +66,7 @@ namespace units
 
     bool operator==(Force left, Force right)
     {
-        return left.newtons_ == right.newtons_;
+        return left._newtons == right._newtons;
     }
 
-} // namespace units
+} // namespace units::force

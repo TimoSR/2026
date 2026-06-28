@@ -2,7 +2,7 @@
 
 #include "units/detail/math.hpp"
 
-namespace units
+namespace units::acceleration
 {
 
     double Acceleration::standardGravityMetersPerSecondSquared()
@@ -10,7 +10,7 @@ namespace units
         return 9.80665;
     }
 
-    Acceleration::Acceleration(double metersPerSecondSquared) : metersPerSecondSquared_(metersPerSecondSquared)
+    Acceleration::Acceleration(double metersPerSecondSquared) : _metersPerSecondSquared(metersPerSecondSquared)
     {
     }
 
@@ -31,22 +31,22 @@ namespace units
 
     double Acceleration::rawSi()
     {
-        return metersPerSecondSquared_;
+        return _metersPerSecondSquared;
     }
 
     double Acceleration::asMetersPerSecondSquared()
     {
-        return metersPerSecondSquared_;
+        return _metersPerSecondSquared;
     }
 
     double Acceleration::asStandardGravity()
     {
-        return metersPerSecondSquared_ / standardGravityMetersPerSecondSquared();
+        return _metersPerSecondSquared / standardGravityMetersPerSecondSquared();
     }
 
     bool Acceleration::approximatelyEquals(Acceleration other, double epsilon)
     {
-        return detail::absolute(metersPerSecondSquared_ - other.metersPerSecondSquared_) <= epsilon;
+        return detail::absolute(_metersPerSecondSquared - other._metersPerSecondSquared) <= epsilon;
     }
 
     QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::displayAs(AccelerationUnit unit)
@@ -61,7 +61,7 @@ namespace units
 
     bool operator==(Acceleration left, Acceleration right)
     {
-        return left.metersPerSecondSquared_ == right.metersPerSecondSquared_;
+        return left._metersPerSecondSquared == right._metersPerSecondSquared;
     }
 
-} // namespace units
+} // namespace units::acceleration

@@ -20,62 +20,62 @@ template <typename Quantity, typename Unit> struct std::formatter<units::Quantit
         std::format_context::iterator format(units::QuantityDisplay<Quantity, Unit> display, std::format_context& context) const;
 };
 
-template <> struct std::formatter<units::Length, char>
+template <> struct std::formatter<units::length::Length, char>
 {
         constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
         {
             return context.begin();
         }
 
-        std::format_context::iterator format(units::Length value, std::format_context& context) const;
+        std::format_context::iterator format(units::length::Length value, std::format_context& context) const;
 };
 
-template <> struct std::formatter<units::Time, char>
+template <> struct std::formatter<units::time::Time, char>
 {
         constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
         {
             return context.begin();
         }
 
-        std::format_context::iterator format(units::Time value, std::format_context& context) const;
+        std::format_context::iterator format(units::time::Time value, std::format_context& context) const;
 };
 
-template <> struct std::formatter<units::Mass, char>
+template <> struct std::formatter<units::mass::Mass, char>
 {
         constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
         {
             return context.begin();
         }
 
-        std::format_context::iterator format(units::Mass value, std::format_context& context) const;
+        std::format_context::iterator format(units::mass::Mass value, std::format_context& context) const;
 };
 
-template <> struct std::formatter<units::Velocity, char>
+template <> struct std::formatter<units::velocity::Velocity, char>
 {
         constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
         {
             return context.begin();
         }
 
-        std::format_context::iterator format(units::Velocity value, std::format_context& context) const;
+        std::format_context::iterator format(units::velocity::Velocity value, std::format_context& context) const;
 };
 
-template <> struct std::formatter<units::Acceleration, char>
+template <> struct std::formatter<units::acceleration::Acceleration, char>
 {
         constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
         {
             return context.begin();
         }
 
-        std::format_context::iterator format(units::Acceleration value, std::format_context& context) const;
+        std::format_context::iterator format(units::acceleration::Acceleration value, std::format_context& context) const;
 };
 
-template <> struct std::formatter<units::Force, char>
+template <> struct std::formatter<units::force::Force, char>
 {
         constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
         {
             return context.begin();
         }
 
-        std::format_context::iterator format(units::Force value, std::format_context& context) const;
+        std::format_context::iterator format(units::force::Force value, std::format_context& context) const;
 };

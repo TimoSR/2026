@@ -2,7 +2,7 @@
 
 #include "units/detail/quantity_display.hpp"
 
-namespace units
+namespace units::time
 {
 
     enum class TimeUnit
@@ -17,6 +17,8 @@ namespace units
 
     class Time
     {
+            double _seconds;
+
         public:
             static Time fromRawSi(double seconds);
 
@@ -56,8 +58,6 @@ namespace units
 
         private:
             explicit Time(double seconds);
-
-            double seconds_;
     };
 
-} // namespace units
+} // namespace units::time

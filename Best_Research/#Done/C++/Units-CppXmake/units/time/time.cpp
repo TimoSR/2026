@@ -2,10 +2,10 @@
 
 #include "units/detail/math.hpp"
 
-namespace units
+namespace units::time
 {
 
-    Time::Time(double seconds) : seconds_(seconds)
+    Time::Time(double seconds) : _seconds(seconds)
     {
     }
 
@@ -46,42 +46,42 @@ namespace units
 
     double Time::rawSi()
     {
-        return seconds_;
+        return _seconds;
     }
 
     double Time::asSeconds()
     {
-        return seconds_;
+        return _seconds;
     }
 
     double Time::asMilliseconds()
     {
-        return seconds_ * 1'000.0;
+        return _seconds * 1'000.0;
     }
 
     double Time::asMicroseconds()
     {
-        return seconds_ * 1'000'000.0;
+        return _seconds * 1'000'000.0;
     }
 
     double Time::asNanoseconds()
     {
-        return seconds_ * 1'000'000'000.0;
+        return _seconds * 1'000'000'000.0;
     }
 
     double Time::asMinutes()
     {
-        return seconds_ / 60.0;
+        return _seconds / 60.0;
     }
 
     double Time::asHours()
     {
-        return seconds_ / 3'600.0;
+        return _seconds / 3'600.0;
     }
 
     bool Time::approximatelyEquals(Time other, double epsilon)
     {
-        return detail::absolute(seconds_ - other.seconds_) <= epsilon;
+        return detail::absolute(_seconds - other._seconds) <= epsilon;
     }
 
     QuantityDisplay<Time, TimeUnit> Time::displayAs(TimeUnit unit)
@@ -96,7 +96,7 @@ namespace units
 
     bool operator==(Time left, Time right)
     {
-        return left.seconds_ == right.seconds_;
+        return left._seconds == right._seconds;
     }
 
-} // namespace units
+} // namespace units::time

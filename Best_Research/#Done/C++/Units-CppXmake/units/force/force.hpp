@@ -6,7 +6,7 @@
 #include "units/detail/quantity_display.hpp"
 #include "units/mass/mass.hpp"
 
-namespace units
+namespace units::force
 {
 
     enum class ForceUnit
@@ -18,6 +18,8 @@ namespace units
 
     class Force
     {
+            double _newtons;
+
         public:
             static Force fromRawSi(double newtons);
 
@@ -41,15 +43,13 @@ namespace units
 
             QuantityDisplay<Force, ForceUnit> displayAsPrecision(ForceUnit unit, int precision);
 
-            std::optional<Acceleration> checkedDivMass(Mass mass);
-            std::optional<Mass> checkedDivAcceleration(Acceleration acceleration);
+            std::optional<acceleration::Acceleration> checkedDivMass(mass::Mass mass);
+            std::optional<mass::Mass> checkedDivAcceleration(acceleration::Acceleration acceleration);
 
             friend bool operator==(Force left, Force right);
 
         private:
             explicit Force(double newtons);
-
-            double newtons_;
     };
 
-} // namespace units
+} // namespace units::force

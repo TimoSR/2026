@@ -2,10 +2,10 @@
 
 #include "units/detail/math.hpp"
 
-namespace units
+namespace units::velocity
 {
 
-    Velocity::Velocity(double metersPerSecond) : metersPerSecond_(metersPerSecond)
+    Velocity::Velocity(double metersPerSecond) : _metersPerSecond(metersPerSecond)
     {
     }
 
@@ -26,22 +26,22 @@ namespace units
 
     double Velocity::rawSi()
     {
-        return metersPerSecond_;
+        return _metersPerSecond;
     }
 
     double Velocity::asMetersPerSecond()
     {
-        return metersPerSecond_;
+        return _metersPerSecond;
     }
 
     double Velocity::asKilometersPerHour()
     {
-        return metersPerSecond_ * 3.6;
+        return _metersPerSecond * 3.6;
     }
 
     bool Velocity::approximatelyEquals(Velocity other, double epsilon)
     {
-        return detail::absolute(metersPerSecond_ - other.metersPerSecond_) <= epsilon;
+        return detail::absolute(_metersPerSecond - other._metersPerSecond) <= epsilon;
     }
 
     QuantityDisplay<Velocity, VelocityUnit> Velocity::displayAs(VelocityUnit unit)
@@ -56,7 +56,7 @@ namespace units
 
     bool operator==(Velocity left, Velocity right)
     {
-        return left.metersPerSecond_ == right.metersPerSecond_;
+        return left._metersPerSecond == right._metersPerSecond;
     }
 
-} // namespace units
+} // namespace units::velocity

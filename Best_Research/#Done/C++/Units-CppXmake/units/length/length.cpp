@@ -2,10 +2,10 @@
 
 #include "units/detail/math.hpp"
 
-namespace units
+namespace units::length
 {
 
-    Length::Length(double meters) : meters_(meters)
+    Length::Length(double meters) : _meters(meters)
     {
     }
 
@@ -46,42 +46,42 @@ namespace units
 
     double Length::rawSi()
     {
-        return meters_;
+        return _meters;
     }
 
     double Length::asMeters()
     {
-        return meters_;
+        return _meters;
     }
 
     double Length::asKilometers()
     {
-        return meters_ / 1'000.0;
+        return _meters / 1'000.0;
     }
 
     double Length::asCentimeters()
     {
-        return meters_ * 100.0;
+        return _meters * 100.0;
     }
 
     double Length::asMillimeters()
     {
-        return meters_ * 1'000.0;
+        return _meters * 1'000.0;
     }
 
     double Length::asMicrometers()
     {
-        return meters_ * 1'000'000.0;
+        return _meters * 1'000'000.0;
     }
 
     double Length::asNanometers()
     {
-        return meters_ * 1'000'000'000.0;
+        return _meters * 1'000'000'000.0;
     }
 
     bool Length::approximatelyEquals(Length other, double epsilon)
     {
-        return detail::absolute(meters_ - other.meters_) <= epsilon;
+        return detail::absolute(_meters - other._meters) <= epsilon;
     }
 
     QuantityDisplay<Length, LengthUnit> Length::displayAs(LengthUnit unit)
@@ -96,7 +96,7 @@ namespace units
 
     bool operator==(Length left, Length right)
     {
-        return left.meters_ == right.meters_;
+        return left._meters == right._meters;
     }
 
-} // namespace units
+} // namespace units::length

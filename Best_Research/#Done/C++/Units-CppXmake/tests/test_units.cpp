@@ -68,10 +68,10 @@ namespace test
 
     void testEquationRulesIgnoreInputScale(TestContext& testContext)
     {
-        using units::Acceleration;
-        using units::Force;
-        using units::Mass;
-        using units::Velocity;
+        using units::acceleration::Acceleration;
+        using units::force::Force;
+        using units::mass::Mass;
+        using units::velocity::Velocity;
 
         auto distance = units::length::centimeters(10'000);
         auto time = units::time::milliseconds(9'580);
@@ -88,7 +88,7 @@ namespace test
 
     void testUnsupportedOperationsAreOmitted(TestContext&)
     {
-        static_assert(!CanDivide<units::Velocity, units::Mass>);
+        static_assert(!CanDivide<units::velocity::Velocity, units::mass::Mass>);
     }
 
     void testCheckedDivision(TestContext& testContext)
@@ -109,8 +109,8 @@ namespace test
         auto elapsed = units::time::milliseconds(9'580);
         auto velocity = distance / elapsed;
 
-        EXPECT(testContext, std::format("{}", distance.displayAs(units::LengthUnit::Meters)) == "100 m");
-        EXPECT(testContext, std::format("{}", velocity.displayAsPrecision(units::VelocityUnit::KilometersPerHour, 2)) == "37.58 km/h");
+        EXPECT(testContext, std::format("{}", distance.displayAs(units::length::LengthUnit::Meters)) == "100 m");
+        EXPECT(testContext, std::format("{}", velocity.displayAsPrecision(units::velocity::VelocityUnit::KilometersPerHour, 2)) == "37.58 km/h");
         EXPECT(testContext, std::format("{}", velocity).find("m/s") != std::string::npos);
     }
 

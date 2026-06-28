@@ -19,7 +19,7 @@ int main()
     auto elapsed = time::milliseconds(9'580);
     auto body_mass = mass::grams(80'000);
 
-    Velocity velocity = distance / elapsed;
+    auto velocity = distance / elapsed;
     auto acceleration = velocity / elapsed;
     auto force = body_mass * acceleration;
 
@@ -44,11 +44,11 @@ int main()
 
     return 0;
 
-    std::println("velocity = {}", velocity.displayAsPrecision(VelocityUnit::KilometersPerHour, 2));
+    std::println("velocity = {}", velocity.displayAsPrecision(velocity::VelocityUnit::KilometersPerHour, 2));
 
     std::println("acceleration = {}", acceleration);
 
-    std::println("force = {}", force.displayAsPrecision(ForceUnit::Kilonewtons, 4));
+    std::println("force = {}", force.displayAsPrecision(force::ForceUnit::Kilonewtons, 4));
 
     std::cout << "This is a very long output printed with std::cout.\n"
               << "You can keep chaining many strings together using the << operator.\n"

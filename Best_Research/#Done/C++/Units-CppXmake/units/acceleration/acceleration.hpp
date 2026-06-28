@@ -2,7 +2,7 @@
 
 #include "units/detail/quantity_display.hpp"
 
-namespace units
+namespace units::acceleration
 {
 
     enum class AccelerationUnit
@@ -13,6 +13,9 @@ namespace units
 
     class Acceleration
     {
+
+            double _metersPerSecondSquared;
+
         public:
             static double standardGravityMetersPerSecondSquared();
 
@@ -38,8 +41,6 @@ namespace units
 
         private:
             explicit Acceleration(double metersPerSecondSquared);
-
-            double metersPerSecondSquared_;
     };
 
-} // namespace units
+} // namespace units::acceleration
