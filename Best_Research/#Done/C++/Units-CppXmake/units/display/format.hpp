@@ -2,13 +2,13 @@
 
 #include <format>
 
-#include "units/acceleration.hpp"
+#include "units/acceleration/acceleration.hpp"
 #include "units/detail/quantity_display.hpp"
-#include "units/force.hpp"
-#include "units/length.hpp"
-#include "units/mass.hpp"
-#include "units/time.hpp"
-#include "units/velocity.hpp"
+#include "units/force/force.hpp"
+#include "units/length/length.hpp"
+#include "units/mass/mass.hpp"
+#include "units/time/time.hpp"
+#include "units/velocity/velocity.hpp"
 
 template <typename Quantity, typename Unit> struct std::formatter<units::QuantityDisplay<Quantity, Unit>, char>
 {

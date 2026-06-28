@@ -2,8 +2,9 @@
 
 #include <optional>
 
+#include "units/acceleration/acceleration.hpp"
 #include "units/detail/quantity_display.hpp"
-#include "units/forward.hpp"
+#include "units/mass/mass.hpp"
 
 namespace units
 {

@@ -7,7 +7,7 @@
 
 #include "units/units.hpp"
 
-namespace
+namespace test
 {
 
     template <typename Left, typename Right>
@@ -135,25 +135,25 @@ namespace
         return passed;
     }
 
-} // namespace
+} // namespace test
 
 int main()
 {
-    TestContext testContext(std::cout);
+    test::TestContext testContext(std::cout);
     int passedTests = 0;
     int failedTests = 0;
 
-    TestCase testCases[] = {
-        {"unit normalization", testUnitNormalization},
-        {"equation rules ignore input scale", testEquationRulesIgnoreInputScale},
-        {"unsupported operations are omitted", testUnsupportedOperationsAreOmitted},
-        {"checked division", testCheckedDivision},
-        {"std::format support", testStdFormatSupport},
+    test::TestCase testCases[] = {
+        {"unit normalization", test::testUnitNormalization},
+        {"equation rules ignore input scale", test::testEquationRulesIgnoreInputScale},
+        {"unsupported operations are omitted", test::testUnsupportedOperationsAreOmitted},
+        {"checked division", test::testCheckedDivision},
+        {"std::format support", test::testStdFormatSupport},
     };
 
-    for (TestCase testCase : testCases)
+    for (test::TestCase testCase : testCases)
     {
-        if (runTest(testCase, testContext))
+        if (test::runTest(testCase, testContext))
         {
             passedTests += 1;
         }

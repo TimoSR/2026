@@ -3,7 +3,8 @@
 #include <optional>
 
 #include "units/detail/quantity_display.hpp"
-#include "units/forward.hpp"
+#include "units/time/time.hpp"
+#include "units/velocity/velocity.hpp"
 
 namespace units
 {

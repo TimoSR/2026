@@ -1,4 +1,4 @@
-#include "units/velocity.hpp"
+#include "units/velocity/velocity.hpp"
 
 #include "units/detail/math.hpp"
 

@@ -1,4 +1,4 @@
-#include "units/mass.hpp"
+#include "units/mass/mass.hpp"
 
 #include "units/detail/math.hpp"
 

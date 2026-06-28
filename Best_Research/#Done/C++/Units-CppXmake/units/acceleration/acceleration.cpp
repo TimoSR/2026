@@ -1,4 +1,4 @@
-#include "units/acceleration.hpp"
+#include "units/acceleration/acceleration.hpp"
 
 #include "units/detail/math.hpp"
 

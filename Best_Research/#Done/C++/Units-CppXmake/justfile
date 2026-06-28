@@ -42,7 +42,7 @@ test: all
     xmake run units_tests
 
 format:
-    Get-ChildItem -Path include,src,tests -Recurse -Include *.hpp,*.cpp | ForEach-Object { clang-format -i $_.FullName }
+    Get-ChildItem -Path units,src,tests -Recurse -Include *.hpp,*.cpp | ForEach-Object { clang-format -i $_.FullName }
 
 release:
     xmake f -m release

@@ -1,14 +1,14 @@
-#include "units/display.hpp"
+#include "units/display/display.hpp"
 
 #include <iomanip>
 #include <ostream>
 
-#include "units/acceleration.hpp"
-#include "units/force.hpp"
-#include "units/length.hpp"
-#include "units/mass.hpp"
-#include "units/time.hpp"
-#include "units/velocity.hpp"
+#include "units/acceleration/acceleration.hpp"
+#include "units/force/force.hpp"
+#include "units/length/length.hpp"
+#include "units/mass/mass.hpp"
+#include "units/time/time.hpp"
+#include "units/velocity/velocity.hpp"
 
 namespace units
 {
@@ -217,7 +217,7 @@ namespace units
         return value.asNewtons();
     }
 
-    namespace
+    namespace detail
     {
 
         template <typename Quantity, typename Unit> std::ostream& writeDisplay(std::ostream& stream, QuantityDisplay<Quantity, Unit> display)
@@ -237,36 +237,36 @@ namespace units
             return stream;
         }
 
-    } // namespace
+    } // namespace detail
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<Length, LengthUnit> display)
     {
-        return writeDisplay(stream, display);
+        return detail::writeDisplay(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<Time, TimeUnit> display)
     {
-        return writeDisplay(stream, display);
+        return detail::writeDisplay(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<Mass, MassUnit> display)
     {
-        return writeDisplay(stream, display);
+        return detail::writeDisplay(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<Velocity, VelocityUnit> display)
     {
-        return writeDisplay(stream, display);
+        return detail::writeDisplay(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<Acceleration, AccelerationUnit> display)
     {
-        return writeDisplay(stream, display);
+        return detail::writeDisplay(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, QuantityDisplay<Force, ForceUnit> display)
     {
-        return writeDisplay(stream, display);
+        return detail::writeDisplay(stream, display);
     }
 
     std::ostream& operator<<(std::ostream& stream, Length value)
