@@ -13,7 +13,6 @@
   "C_Cpp.errorSquiggles": "disabled",
   "C_Cpp.autocomplete": "disabled",
   "xmake.compileCommandsBackend": "clangd",
-  "xmake.autoGenerateCompileCommands": "onFileChange",
   "xmake.compileCommandsDirectory": ".",
   "xmake.enableSyntaxCheck": false,
   "clangd.arguments": [

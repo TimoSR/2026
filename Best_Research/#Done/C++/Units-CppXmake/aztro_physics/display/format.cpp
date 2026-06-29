@@ -2,9 +2,17 @@ module;
 
 #include <format>
 
-module aztro_physics;
+export module aztro_physics:format;
 
-namespace aztro::physics::detail
+import :display;
+import :time;
+import :mass;
+import :acceleration;
+import :velocity;
+import :length;
+import :force;
+
+export namespace aztro::physics::detail
 {
 
     template <typename Quantity, typename Unit> std::format_context::iterator format_quantity_display(std::format_context& context, QuantityDisplay<Quantity, Unit> display)
@@ -22,45 +30,93 @@ namespace aztro::physics::detail
 
 } // namespace aztro::physics::detail
 
-template <typename Quantity, typename Unit>
-std::format_context::iterator std::formatter<aztro::physics::QuantityDisplay<Quantity, Unit>, char>::format(aztro::physics::QuantityDisplay<Quantity, Unit> display, std::format_context& context) const
+export template <typename Quantity, typename Unit> struct std::formatter<aztro::physics::QuantityDisplay<Quantity, Unit>, char>
 {
-    return aztro::physics::detail::format_quantity_display(context, display);
-}
+        constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
+        {
+            return context.begin();
+        }
 
-std::format_context::iterator std::formatter<aztro::physics::length::Length, char>::format(aztro::physics::length::Length value, std::format_context& context) const
+        std::format_context::iterator format(aztro::physics::QuantityDisplay<Quantity, Unit> display, std::format_context& context) const
+        {
+            return aztro::physics::detail::format_quantity_display(context, display);
+        }
+};
+
+export template <> struct std::formatter<aztro::physics::length::Length, char>
 {
-    return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::length::LengthUnit::Meters));
-}
+        constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
+        {
+            return context.begin();
+        }
 
-std::format_context::iterator std::formatter<aztro::physics::time::Time, char>::format(aztro::physics::time::Time value, std::format_context& context) const
+        std::format_context::iterator format(aztro::physics::length::Length value, std::format_context& context) const
+        {
+            return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::length::LengthUnit::Meters));
+        }
+};
+
+export template <> struct std::formatter<aztro::physics::time::Time, char>
 {
-    return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::time::TimeUnit::Seconds));
-}
+        constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
+        {
+            return context.begin();
+        }
 
-std::format_context::iterator std::formatter<aztro::physics::mass::Mass, char>::format(aztro::physics::mass::Mass value, std::format_context& context) const
+        std::format_context::iterator format(aztro::physics::time::Time value, std::format_context& context) const
+        {
+            return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::time::TimeUnit::Seconds));
+        }
+};
+
+export template <> struct std::formatter<aztro::physics::mass::Mass, char>
 {
-    return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::mass::MassUnit::Kilograms));
-}
+        constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
+        {
+            return context.begin();
+        }
 
-std::format_context::iterator std::formatter<aztro::physics::velocity::Velocity, char>::format(aztro::physics::velocity::Velocity value, std::format_context& context) const
+        std::format_context::iterator format(aztro::physics::mass::Mass value, std::format_context& context) const
+        {
+            return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::mass::MassUnit::Kilograms));
+        }
+};
+
+export template <> struct std::formatter<aztro::physics::velocity::Velocity, char>
 {
-    return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::velocity::VelocityUnit::MetersPerSecond));
-}
+        constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
+        {
+            return context.begin();
+        }
 
-std::format_context::iterator std::formatter<aztro::physics::acceleration::Acceleration, char>::format(aztro::physics::acceleration::Acceleration value, std::format_context& context) const
+        std::format_context::iterator format(aztro::physics::velocity::Velocity value, std::format_context& context) const
+        {
+            return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::velocity::VelocityUnit::MetersPerSecond));
+        }
+};
+
+export template <> struct std::formatter<aztro::physics::acceleration::Acceleration, char>
 {
-    return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::acceleration::AccelerationUnit::MetersPerSecondSquared));
-}
+        constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
+        {
+            return context.begin();
+        }
 
-std::format_context::iterator std::formatter<aztro::physics::force::Force, char>::format(aztro::physics::force::Force value, std::format_context& context) const
+        std::format_context::iterator format(aztro::physics::acceleration::Acceleration value, std::format_context& context) const
+        {
+            return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::acceleration::AccelerationUnit::MetersPerSecondSquared));
+        }
+};
+
+export template <> struct std::formatter<aztro::physics::force::Force, char>
 {
-    return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::force::ForceUnit::Newtons));
-}
+        constexpr std::format_parse_context::iterator parse(std::format_parse_context& context)
+        {
+            return context.begin();
+        }
 
-template struct std::formatter<aztro::physics::QuantityDisplay<aztro::physics::length::Length, aztro::physics::length::LengthUnit>, char>;
-template struct std::formatter<aztro::physics::QuantityDisplay<aztro::physics::time::Time, aztro::physics::time::TimeUnit>, char>;
-template struct std::formatter<aztro::physics::QuantityDisplay<aztro::physics::mass::Mass, aztro::physics::mass::MassUnit>, char>;
-template struct std::formatter<aztro::physics::QuantityDisplay<aztro::physics::velocity::Velocity, aztro::physics::velocity::VelocityUnit>, char>;
-template struct std::formatter<aztro::physics::QuantityDisplay<aztro::physics::acceleration::Acceleration, aztro::physics::acceleration::AccelerationUnit>, char>;
-template struct std::formatter<aztro::physics::QuantityDisplay<aztro::physics::force::Force, aztro::physics::force::ForceUnit>, char>;
+        std::format_context::iterator format(aztro::physics::force::Force value, std::format_context& context) const
+        {
+            return aztro::physics::detail::format_quantity_display(context, value.display_as(aztro::physics::force::ForceUnit::Newtons));
+        }
+};

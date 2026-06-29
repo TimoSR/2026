@@ -32,16 +32,3 @@ If:
 CompileFlags:
   Add:
     - -I.
-
----
-If:
-  PathMatch: .*aztro_physics[\\/].+[\\/].*\.cppm
-
-CompileFlags:
-  Add:
-    - -std=c++23
-    - -include
-    - aztro_physics/fragment_prelude.cppm
-
-Diagnostics:
-  UnusedIncludes: None

@@ -10,24 +10,21 @@ target("aztro_physics")
 
     add_files(path.join(aztro_physics_dir, "Physics.cppm"), { public = true })
 
-    add_files(path.join(aztro_physics_dir, "**.cpp"))
+    add_files(path.join(aztro_physics_dir, "**.cpp"), { public = true })
     remove_files(path.join(aztro_physics_dir, "tests/**.cpp"))
     remove_files(path.join(aztro_physics_dir, "**/tests.cpp"))
 
-if path.absolute(os.projectdir()) == path.absolute(aztro_physics_dir) then
-    includes(path.join(workspace_dir, "Testing"))
+target("AztroPhysicsTests")
+    set_kind("binary")
+    set_default(false)
+    set_rundir(os.projectdir())
 
-    target("AztroPhysicsTests")
-        set_kind("binary")
-        set_default(false)
-        set_rundir(os.projectdir())
+    set_languages("c++23")
+    set_toolchains("clang")
+    set_policy("build.c++.modules", true)
 
-        set_languages("c++23")
-        set_toolchains("clang")
-        set_policy("build.c++.modules", true)
-
-        add_files(path.join(aztro_physics_dir, "tests/main.cpp"))
-        add_files(path.join(aztro_physics_dir, "**/tests.cpp"))
-        add_includedirs(workspace_dir)
-        add_deps("aztro_physics", "Testing")
-end
+    add_files(path.join(aztro_physics_dir, "tests/main.cpp"))
+    add_files(path.join(aztro_physics_dir, "**/tests.cpp"))
+    add_files(path.join(workspace_dir, "Testing", "*.cpp"))
+    add_includedirs(workspace_dir)
+    add_deps("aztro_physics")

@@ -17,17 +17,21 @@ alias f1 := setup
 setup:
     just --completions powershell | Out-String | Set-Content -Encoding UTF8 $PROFILE
     {{ xmake_debug_config }}
+    xmake
+    xmake build AztroPhysicsTests
     {{ clangd_compile_database }}
 # Dependency example: `just all` runs step1, then step2, then step3.
 [doc]
-all: step1 step2 step3
+all: step1 step2 step3 step4
 
 step1:
     {{ xmake_debug_config }}
 step2:
-    {{ clangd_compile_database }}
-step3:
     xmake
+step3:
+    xmake build AztroPhysicsTests
+step4:
+    {{ clangd_compile_database }}
 build: all
 
 run: all
@@ -44,8 +48,8 @@ format:
     Get-ChildItem -Path physics,aztro_physics,Testing,src -Recurse -Include *.hpp,*.cpp,*.cppm | ForEach-Object { clang-format -i $_.FullName }
 release:
     xmake f -m release
-    xmake project -k compile_commands --lsp=clangd .
     xmake
+    xmake project -k compile_commands --lsp=clangd .
 flamegraph: run
     python scripts/render_flamegraph.py
 flamechart: run

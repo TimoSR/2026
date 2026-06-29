@@ -1,11 +1,22 @@
-module aztro_physics;
+module;
 
-namespace aztro::physics::detail
-{
+export module aztro_physics:detail_math;
 
-    double absolute(double value)
+export {
+    namespace aztro::physics::detail
     {
-        return value < 0.0 ? -value : value;
-    }
 
-} // namespace aztro::physics::detail
+        double absolute(double value);
+
+    } // namespace aztro::physics::detail
+
+    namespace aztro::physics::detail
+    {
+
+        double absolute(double value)
+        {
+            return value < 0.0 ? -value : value;
+        }
+
+    } // namespace aztro::physics::detail
+}

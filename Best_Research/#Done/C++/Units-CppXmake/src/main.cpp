@@ -28,6 +28,7 @@ void run_aztro_physics_example()
     auto distance = ::aztro::physics::length::centimeters(10'000);
     auto elapsed = ::aztro::physics::time::milliseconds(9'580);
     auto body_mass = ::aztro::physics::mass::grams(80'000);
+    auto qwe = ::aztro::physics::time::hours(10'0);
 
     auto velocity = distance / elapsed;
     auto acceleration = velocity / elapsed;

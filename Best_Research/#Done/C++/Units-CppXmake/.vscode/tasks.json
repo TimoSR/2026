@@ -16,6 +16,23 @@
       "problemMatcher": []
     },
     {
+      "label": "xmake build AztroPhysicsTests (debug)",
+      "type": "shell",
+      "command": "xmake",
+      "args": [
+        "build",
+        "AztroPhysicsTests"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "dependsOn": "xmake configure (debug)",
+      "problemMatcher": [
+        "$msCompile",
+        "$gcc"
+      ]
+    },
+    {
       "label": "xmake compile database (clangd)",
       "type": "shell",
       "command": "xmake",
@@ -29,7 +46,11 @@
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "dependsOn": "xmake configure (debug)",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "xmake build all (debug)",
+        "xmake build AztroPhysicsTests (debug)"
+      ],
       "problemMatcher": []
     },
     {
@@ -40,7 +61,7 @@
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "dependsOn": "xmake compile database (clangd)",
+      "dependsOn": "xmake configure (debug)",
       "problemMatcher": [
         "$msCompile",
         "$gcc"
@@ -57,7 +78,7 @@
       "options": {
         "cwd": "${workspaceFolder}"
       },
-      "dependsOn": "xmake build all (debug)",
+      "dependsOn": "xmake compile database (clangd)",
       "problemMatcher": [
         "$msCompile",
         "$gcc"
