@@ -20,7 +20,7 @@ setup:
     just --completions powershell | Out-String | Set-Content -Encoding UTF8 $PROFILE
     {{ xmake_debug_config }}
     xmake
-    xmake build AztroPhysicsTests
+    xmake build aztro_physics_tests
     {{ clangd_compile_database }}
 # Dependency example: `just all` runs step1, then step2, then step3.
 [doc]
@@ -33,10 +33,14 @@ step1:
 step2:
     xmake
 step3:
-    xmake build AztroPhysicsTests
+    xmake build aztro_physics_tests
 step4:
     {{ clangd_compile_database }}
 build: all
+
+build-demo:
+    {{ xmake_debug_config }}
+    xmake build physics_demo
 
 cmake:
     xmake project -k cmake {{ cmake_project_dir }}
@@ -44,16 +48,16 @@ cmake:
 vs:
     xmake project -k vsxmake -m "debug,release" -a x64 {{ visual_studio_project_dir }}
 
-run: all
-    xmake run PhysicsDemo
-test: all
+run: build-demo
+    xmake run physics_demo
+test:
     Write-Host "No root tests configured."
 test-physics:
     xmake f -P physics -m debug
-    xmake run -P physics PhysicsTests
+    xmake run -P physics physics_tests
 test-aztro-physics:
     xmake f -P aztro_physics -m debug
-    xmake run -P aztro_physics AztroPhysicsTests
+    xmake run -P aztro_physics aztro_physics_tests
 format:
     Get-ChildItem -Path physics,aztro_physics,Testing,src -Recurse -Include *.hpp,*.cpp,*.cppm | ForEach-Object { clang-format -i $_.FullName }
 release:
@@ -65,4 +69,4 @@ flamegraph: run
 flamechart: run
     python scripts/render_flamechart.py
 samply: release
-    samply record build/windows/x64/release/PhysicsDemo.exe
+    samply record build/windows/x64/release/physics_demo.exe

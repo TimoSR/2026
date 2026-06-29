@@ -20,7 +20,7 @@ target("physics")
 if is_standalone then
     includes(path.join(workspace_dir, "Testing"))
 
-    target("PhysicsTests")
+    target("physics_tests")
         set_kind("binary")
         set_default(false)
         set_rundir(os.projectdir())

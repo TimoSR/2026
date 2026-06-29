@@ -2,10 +2,10 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug PhysicsDemo",
+      "name": "Debug physics_demo",
       "type": "lldb",
       "request": "launch",
-      "program": "${workspaceFolder}/build/windows/x64/debug/PhysicsDemo.exe",
+      "program": "${workspaceFolder}/build/windows/x64/debug/physics_demo.exe",
       "args": [],
       "cwd": "${workspaceFolder}",
       "terminal": "integrated",

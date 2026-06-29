@@ -14,7 +14,7 @@ build:
 
 test:
     xmake f -P . -m debug
-    xmake run -P . AztroPhysicsTests
+    xmake run -P . aztro_physics_tests
 
 format:
     Get-ChildItem -Path . -Recurse -Include *.hpp,*.cpp,*.cppm | ForEach-Object { clang-format -i $_.FullName }

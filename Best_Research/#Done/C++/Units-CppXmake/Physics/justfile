@@ -19,7 +19,7 @@ build:
 
 test:
     {{ xmake_debug_config }}
-    xmake run -P . PhysicsTests
+    xmake run -P . physics_tests
 
 format:
     Get-ChildItem -Path . -Recurse -Include *.hpp,*.cpp | ForEach-Object { clang-format -i $_.FullName }

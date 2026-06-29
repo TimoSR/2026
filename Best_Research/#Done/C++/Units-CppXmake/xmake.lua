@@ -1,4 +1,4 @@
-set_project("PhysicsDemo")
+set_project("physics_demo")
 set_version("0.1.0")
 
 add_rules("mode.debug", "mode.release")
@@ -12,7 +12,7 @@ local project_dir = os.projectdir()
 includes("physics")
 includes("aztro_physics")
 
-target("PhysicsDemo")
+target("physics_demo")
     set_kind("binary")
     set_default(true)
     set_rundir(project_dir)

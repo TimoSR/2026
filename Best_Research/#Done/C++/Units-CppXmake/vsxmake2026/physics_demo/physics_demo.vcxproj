@@ -23,13 +23,13 @@ xmake version 3.0.8+HEAD.4f45b5a6b
 
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9EF34239-273F-4B04-835F-C8C618127263}</ProjectGuid>
+    <ProjectGuid>{7CAA8798-1E42-4BA4-97FD-3DA4C02AEF35}</ProjectGuid>
     <Configuration Condition="'$(Configuration)' == ''">release</Configuration>
     <Platform Condition="'$(Platform)' == ''">Win32</Platform>
-    <XmakeScriptDir>..\..\aztro_physics</XmakeScriptDir>
+    <XmakeScriptDir>..\..</XmakeScriptDir>
     <XmakeProjectDir>..\..</XmakeProjectDir>
     <XmakeProjectFile><!-- nil --></XmakeProjectFile>
-    <XmakeTarget>AztroPhysicsTests</XmakeTarget>
+    <XmakeTarget>physics_demo</XmakeTarget>
   </PropertyGroup>
   <PropertyGroup Label="XmakeProgram">
     <XmakeProgramDir Condition="'$(XmakeProgramDir)' == ''">$(XMAKE_PROGRAM_DIR)</XmakeProgramDir>
@@ -39,13 +39,13 @@ xmake version 3.0.8+HEAD.4f45b5a6b
   </PropertyGroup>
   <Import Project="$(XmakeProgramDir)\scripts\vsxmake\vsproj\Xmake.Defaults.props" />
   <PropertyGroup Label="XmakeConfig" Condition="'$(Configuration)|$(Platform)'=='debug|x64'">
-    <XmakeBasename>AztroPhysicsTests</XmakeBasename>
-    <XmakeFilename>AztroPhysicsTests.exe</XmakeFilename>
+    <XmakeBasename>physics_demo</XmakeBasename>
+    <XmakeFilename>physics_demo.exe</XmakeFilename>
     <XmakeMode>debug</XmakeMode>
     <XmakePlat>windows</XmakePlat>
     <XmakeArch>x64</XmakeArch>
     <XmakeKind>binary</XmakeKind>
-    <XmakeDefault>false</XmakeDefault>
+    <XmakeDefault>true</XmakeDefault>
     <XmakeDefines></XmakeDefines>
     <XmakeLanguages>cxx23</XmakeLanguages>
     <XmakeSubSystem>console</XmakeSubSystem>
@@ -55,7 +55,7 @@ xmake version 3.0.8+HEAD.4f45b5a6b
     <XmakeRunEnvs>PATH=C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\bin;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\lib;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\lib\clang\22\lib\windows;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.52.36418\bin\HostX64\x64;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64;C:\Program Files (x86)\HTML Help Workshop;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files\Microsoft Visual Studio\18\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\CodeCoverage.Console;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools;C:\Program Files\PowerShell\7;C:\Users\timot\.codex\tmp\arg0\codex-arg0UXQjgV;C:\Program Files\Eclipse Adoptium\jdk-25.0.3.9-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft SQL Server\170\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files\dotnet;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\CMake\bin;C:\Program Files\Meson;C:\Program Files\xmake;C:\Program Files (x86)\IncrediBuild;C:\Program Files\Neovim\bin;C:\Users\timot\AppData\Local\Programs\Python\Python310\Scripts;C:\Users\timot\AppData\Local\Programs\Python\Python310;C:\Program Files\LLVM\bin;C:\Users\timot\scoop\shims;C:\Users\timot\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\timot\AppData\Local\Programs\Python\Python311;C:\Users\timot\.cargo\bin;C:\Users\timot\AppData\Local\Microsoft\WindowsApps;C:\Users\timot\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\timot\.dotnet\tools;C:\Users\timot\AppData\Local\PowerToys\DSCModules;C:\Users\timot\AppData\Roaming\npm;C:\Users\timot\AppData\Local\gitkraken\bin;c:\users\timot\.local\bin;C:\Users\timot\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\timot\AppData\Local\Programs\Antigravity\bin;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Uncrustify.Uncrustify_Microsoft.Winget.Source_8wekyb3d8bbwe\bin;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Premake.Premake.5.Beta_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Bazel.Bazelisk_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg.Essentials_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-essentials_build\bin;C:\Users\timot\AppData\Local\Programs\Swift\Toolchains\6.3.2+Asserts\usr\bin;C:\Users\timot\AppData\Local\Programs\Swift\Runtimes\6.3.2\usr\bin;C:\Users\timot\AppData\Local\OpenAI\Codex\bin\ada252862d154cdd;C:\Program Files\WindowsApps\OpenAI.Codex_26.611.8604.0_x64__2p2nqsd0c76g0\app\resources;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe;C:\Program Files\Microsoft Visual Studio\18\Community\VC\vcpkg;$([System.Environment]::GetEnvironmentVariable('PATH'))</XmakeRunEnvs>
     <XmakeRunArgs><!-- nil --></XmakeRunArgs>
     <XmakeConfigFlags></XmakeConfigFlags>
-    <XmakeIncludeDirs>$(XmakeProjectDir)\aztro_physics\..</XmakeIncludeDirs>
+    <XmakeIncludeDirs>$(XmakeProjectDir)\physics\..</XmakeIncludeDirs>
     <XmakeForceIncludes></XmakeForceIncludes>
     <XmakeLinkDirs>$(XmakeProjectDir)\build\windows\x64\debug</XmakeLinkDirs>
     <XmakeSourceDirs></XmakeSourceDirs>
@@ -65,13 +65,13 @@ xmake version 3.0.8+HEAD.4f45b5a6b
     <XmakeCXXFlags></XmakeCXXFlags>
   </PropertyGroup>
   <PropertyGroup Label="XmakeConfig" Condition="'$(Configuration)|$(Platform)'=='release|x64'">
-    <XmakeBasename>AztroPhysicsTests</XmakeBasename>
-    <XmakeFilename>AztroPhysicsTests.exe</XmakeFilename>
+    <XmakeBasename>physics_demo</XmakeBasename>
+    <XmakeFilename>physics_demo.exe</XmakeFilename>
     <XmakeMode>release</XmakeMode>
     <XmakePlat>windows</XmakePlat>
     <XmakeArch>x64</XmakeArch>
     <XmakeKind>binary</XmakeKind>
-    <XmakeDefault>false</XmakeDefault>
+    <XmakeDefault>true</XmakeDefault>
     <XmakeDefines></XmakeDefines>
     <XmakeLanguages>cxx23</XmakeLanguages>
     <XmakeSubSystem>console</XmakeSubSystem>
@@ -81,7 +81,7 @@ xmake version 3.0.8+HEAD.4f45b5a6b
     <XmakeRunEnvs>PATH=C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\bin;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\lib;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\Llvm\x64\lib\clang\22\lib\windows;C:\Program Files\Microsoft Visual Studio\18\Community\VC\Tools\MSVC\14.52.36418\bin\HostX64\x64;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\VCPackages;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TestWindow;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer;C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\bin\Roslyn;C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\x64;C:\Program Files (x86)\HTML Help Workshop;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\FSharp\Tools;C:\Program Files\Microsoft Visual Studio\18\Community\Team Tools\DiagnosticsHub\Collector;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\Extensions\Microsoft\CodeCoverage.Console;C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64;C:\Program Files (x86)\Windows Kits\10\bin\x64;C:\Program Files\Microsoft Visual Studio\18\Community\MSBuild\Current\Bin\amd64;C:\Windows\Microsoft.NET\Framework64\v4.0.30319;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\Tools;C:\Program Files\PowerShell\7;C:\Users\timot\.codex\tmp\arg0\codex-arg0UXQjgV;C:\Program Files\Eclipse Adoptium\jdk-25.0.3.9-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Microsoft SQL Server\170\Tools\Binn;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn;C:\Program Files\dotnet;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit;C:\Program Files\nodejs;C:\Program Files\Git\cmd;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\CMake\bin;C:\Program Files\Meson;C:\Program Files\xmake;C:\Program Files (x86)\IncrediBuild;C:\Program Files\Neovim\bin;C:\Users\timot\AppData\Local\Programs\Python\Python310\Scripts;C:\Users\timot\AppData\Local\Programs\Python\Python310;C:\Program Files\LLVM\bin;C:\Users\timot\scoop\shims;C:\Users\timot\AppData\Local\Programs\Python\Python311\Scripts;C:\Users\timot\AppData\Local\Programs\Python\Python311;C:\Users\timot\.cargo\bin;C:\Users\timot\AppData\Local\Microsoft\WindowsApps;C:\Users\timot\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\timot\.dotnet\tools;C:\Users\timot\AppData\Local\PowerToys\DSCModules;C:\Users\timot\AppData\Roaming\npm;C:\Users\timot\AppData\Local\gitkraken\bin;c:\users\timot\.local\bin;C:\Users\timot\AppData\Local\JetBrains\Toolbox\scripts;C:\Users\timot\AppData\Local\Programs\Antigravity\bin;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Uncrustify.Uncrustify_Microsoft.Winget.Source_8wekyb3d8bbwe\bin;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Ninja-build.Ninja_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Premake.Premake.5.Beta_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Bazel.Bazelisk_Microsoft.Winget.Source_8wekyb3d8bbwe;C:\Users\timot\AppData\Local\Microsoft\WinGet\Packages\Gyan.FFmpeg.Essentials_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-8.1.1-essentials_build\bin;C:\Users\timot\AppData\Local\Programs\Swift\Toolchains\6.3.2+Asserts\usr\bin;C:\Users\timot\AppData\Local\Programs\Swift\Runtimes\6.3.2\usr\bin;C:\Users\timot\AppData\Local\OpenAI\Codex\bin\ada252862d154cdd;C:\Program Files\WindowsApps\OpenAI.Codex_26.611.8604.0_x64__2p2nqsd0c76g0\app\resources;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\Ninja;C:\Program Files\Microsoft Visual Studio\18\Community\Common7\IDE\VC\Linux\bin\ConnectionManagerExe;C:\Program Files\Microsoft Visual Studio\18\Community\VC\vcpkg;$([System.Environment]::GetEnvironmentVariable('PATH'))</XmakeRunEnvs>
     <XmakeRunArgs><!-- nil --></XmakeRunArgs>
     <XmakeConfigFlags></XmakeConfigFlags>
-    <XmakeIncludeDirs>$(XmakeProjectDir)\aztro_physics\..</XmakeIncludeDirs>
+    <XmakeIncludeDirs>$(XmakeProjectDir)\physics\..</XmakeIncludeDirs>
     <XmakeForceIncludes></XmakeForceIncludes>
     <XmakeLinkDirs>$(XmakeProjectDir)\build\windows\x64\release</XmakeLinkDirs>
     <XmakeSourceDirs></XmakeSourceDirs>
@@ -113,34 +113,7 @@ xmake version 3.0.8+HEAD.4f45b5a6b
   </ItemGroup>
   <ItemGroup>
 
-    <ClCompile Include="$(XmakeProjectDir)\Testing\test_context.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\acceleration\tests.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\display\tests.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\force\tests.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\length\tests.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\mass\tests.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\operations\tests.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\tests\main.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\time\tests.cpp">
-      <CompileAs>CompileAsCpp</CompileAs>
-    </ClCompile>
-    <ClCompile Include="$(XmakeProjectDir)\aztro_physics\velocity\tests.cpp">
+    <ClCompile Include="$(XmakeProjectDir)\src\main.cpp">
       <CompileAs>CompileAsCpp</CompileAs>
     </ClCompile>
 
@@ -159,6 +132,9 @@ xmake version 3.0.8+HEAD.4f45b5a6b
   <!-- <ItemGroup>
     <ProjectReference Include="..\aztro_physics\aztro_physics.vcxproj">
       <Project>{3489D099-2817-4D0A-B89D-03BF687D5F57}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\physics\physics.vcxproj">
+      <Project>{2603D2FC-98D7-4008-8E6A-7C5D344443CF}</Project>
     </ProjectReference>
 
   </ItemGroup> -->

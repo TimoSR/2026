@@ -1,5 +1,13 @@
 local aztro_physics_dir = os.scriptdir()
 local workspace_dir = path.join(aztro_physics_dir, "..")
+local is_standalone = path.absolute(os.projectdir()) == path.absolute(aztro_physics_dir)
+
+if is_standalone then
+    set_project("aztro_physics")
+    set_version("0.1.0")
+
+    add_rules("mode.debug", "mode.release")
+end
 
 target("aztro_physics")
     set_kind("static")
@@ -14,7 +22,7 @@ target("aztro_physics")
     remove_files(path.join(aztro_physics_dir, "tests/**.cpp"))
     remove_files(path.join(aztro_physics_dir, "**/tests.cpp"))
 
-target("AztroPhysicsTests")
+target("aztro_physics_tests")
     set_kind("binary")
     set_default(false)
     set_rundir(os.projectdir())
