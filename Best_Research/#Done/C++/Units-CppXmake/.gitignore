@@ -1,4 +1,5 @@
 .xmake/
 .cache/
 build/
+vsxmake2026/.vs/
 compile_commands.json

@@ -5,6 +5,8 @@ set quiet
 
 xmake_debug_config := "xmake f -m debug"
 clangd_compile_database := "xmake project -k compile_commands --lsp=clangd ."
+cmake_project_dir := "."
+visual_studio_project_dir := "."
 
 _default:
     just --list --unsorted
@@ -24,6 +26,8 @@ setup:
 [doc]
 all: step1 step2 step3 step4
 
+solution_gen: cmake vs
+
 step1:
     {{ xmake_debug_config }}
 step2:
@@ -33,6 +37,12 @@ step3:
 step4:
     {{ clangd_compile_database }}
 build: all
+
+cmake:
+    xmake project -k cmake {{ cmake_project_dir }}
+
+vs:
+    xmake project -k vsxmake -m "debug,release" -a x64 {{ visual_studio_project_dir }}
 
 run: all
     xmake run PhysicsDemo
