@@ -1,10 +1,9 @@
-use crate::printer::abc::{
-    self, a_function_outside_namespace,
-    a_namespace_inside_abc::{
-        loving_apples,
-        public_internal::{self, public_crate_internal_fn, public_internal_fn},
-    },
-};
+use crate::printer::abc::a_function_outside_namespace;
+use crate::printer::abc::a_namespace_inside_abc::loving_apples;
+use crate::printer::abc::a_namespace_inside_abc::public_internal::public_crate_internal_fn;
+use crate::printer::abc::a_namespace_inside_abc::public_internal::{self};
+use crate::printer::abc::{self};
+use crate::printer::woot;
 
 mod printer;
 
@@ -23,6 +22,9 @@ fn main() {
     //mod
     printer::hello_world();
     printer::abc::a_namespace_inside_abc::loving_apples();
+
+    println!();
+
     printer::abc::a_function_outside_namespace();
 
     //use crate
@@ -35,5 +37,7 @@ fn main() {
     public_internal::public_crate_internal_fn();
     public_internal::public_internal_fn();
     public_crate_internal_fn();
-    public_internal_fn();
+    public_internal::public_internal_fn();
+
+    woot();
 }

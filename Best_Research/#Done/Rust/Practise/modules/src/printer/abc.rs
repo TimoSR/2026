@@ -1,6 +1,5 @@
-use crate::printer::abc::a_namespace_inside_abc::public_internal::{
-    public_crate_internal_fn, public_internal_fn,
-};
+use crate::printer::abc::a_namespace_inside_abc::public_internal::public_crate_internal_fn;
+use crate::printer::abc::a_namespace_inside_abc::public_internal::public_internal_fn;
 
 pub fn a_function_outside_namespace() {
     public_crate_internal_fn();
@@ -8,7 +7,9 @@ pub fn a_function_outside_namespace() {
 }
 
 pub mod a_namespace_inside_abc {
-    use crate::printer::abc::a_namespace_inside_abc::private_internal::{hiddenfn, stillhidden};
+
+    use crate::printer::abc::a_namespace_inside_abc::private_internal::hiddenfn;
+    use crate::printer::abc::a_namespace_inside_abc::private_internal::stillhidden;
 
     //part of the user api
     pub fn loving_apples() {
@@ -19,6 +20,7 @@ pub mod a_namespace_inside_abc {
 
     //not part of the user api
     //only accesible inside the crate
+    #[allow(dead_code)]
     pub(crate) fn hate_apples() {
         print!("Loving Apples");
         hiddenfn();
@@ -32,6 +34,10 @@ pub mod a_namespace_inside_abc {
         //this is public accessible outside the crate
         //it would become a option for the api
         pub fn public_internal_fn() {}
+
+        pub mod public_double_internal {
+            pub fn halleluja() {}
+        }
     }
 
     mod private_internal {

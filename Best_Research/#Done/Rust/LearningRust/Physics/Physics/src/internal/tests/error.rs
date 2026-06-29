@@ -1,4 +1,6 @@
-use crate::internal::{QuantityError, check_nonzero, validate_finite};
+use crate::internal::QuantityError;
+use crate::internal::check_nonzero;
+use crate::internal::validate_finite;
 
 #[test]
 fn validate_finite_accepts_finite_values() {
@@ -17,10 +19,7 @@ fn validate_finite_rejects_infinity() {
             value: f64::INFINITY,
         }
     );
-    assert_eq!(
-        error.to_string(),
-        "Length value must be finite, got inf m"
-    );
+    assert_eq!(error.to_string(), "Length value must be finite, got inf m");
 }
 
 #[test]
@@ -32,11 +31,6 @@ fn check_nonzero_accepts_nonzero_values() {
 fn check_nonzero_rejects_zero() {
     let error = check_nonzero(0.0, "Length / Time").unwrap_err();
 
-    assert_eq!(
-        error,
-        QuantityError::DivisionByZero {
-            operation: "Length / Time",
-        }
-    );
+    assert_eq!(error, QuantityError::DivisionByZero { operation: "Length / Time" });
     assert_eq!(error.to_string(), "division by zero in Length / Time");
 }

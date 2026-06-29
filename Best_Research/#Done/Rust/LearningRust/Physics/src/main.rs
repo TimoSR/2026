@@ -1,7 +1,11 @@
-use physics::{acceleration, force, length, mass, time, velocity};
+use physics::acceleration;
+use physics::force;
+use physics::length;
+use physics::mass;
+use physics::time;
+use physics::velocity;
 
-fn main()
-{
+fn main() {
     let distance = length::centimeters(10_000.0);
     let time = time::milliseconds(9_580.0);
     let mass = mass::grams(80_000.0);
