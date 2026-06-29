@@ -5,8 +5,6 @@
 # project
 cmake_minimum_required(VERSION 3.28.0)
 cmake_policy(SET CMP0091 NEW)
-set(CMAKE_C_COMPILER "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/clang.exe")
-set(CMAKE_CXX_COMPILER "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/Llvm/x64/bin/clang++.exe")
 set(CMAKE_CXX_SCAN_FOR_MODULES ON)
 project(physics_demo VERSION 0.1.0 LANGUAGES CXX)
 set(CURRENT_COMPILER_ID ${CMAKE_CXX_COMPILER_ID})

@@ -26,7 +26,7 @@ setup:
 [doc]
 all: step1 step2 step3 step4
 
-solution_gen: cmake vs
+solution_gen: setup cmake vs
 
 step1:
     {{ xmake_debug_config }}
@@ -41,13 +41,10 @@ build: all
 build-demo:
     {{ xmake_debug_config }}
     xmake build physics_demo
-
 cmake:
     xmake project -k cmake {{ cmake_project_dir }}
-
 vs:
     xmake project -k vsxmake -m "debug,release" -a x64 {{ visual_studio_project_dir }}
-
 run: build-demo
     xmake run physics_demo
 test:
