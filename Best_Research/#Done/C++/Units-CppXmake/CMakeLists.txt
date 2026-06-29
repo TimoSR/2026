@@ -12,11 +12,13 @@ set(CURRENT_COMPILER_ID ${CMAKE_CXX_COMPILER_ID})
 # target
 add_library(aztro_physics STATIC "")
 set_target_properties(aztro_physics PROPERTIES OUTPUT_NAME "aztro_physics")
-set_target_properties(aztro_physics PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+set_target_properties(aztro_physics PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/release")
 target_compile_options(aztro_physics PRIVATE
     $<$<COMPILE_LANGUAGE:C>:--target=x86_64-pc-windows-msvc>
     $<$<COMPILE_LANGUAGE:CXX>:--target=x86_64-pc-windows-msvc>
-    $<$<COMPILE_LANGUAGE:CUDA>:-G>
+    $<$<COMPILE_LANGUAGE:C>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CXX>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CUDA>:-DNDEBUG>
 )
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(aztro_physics PRIVATE /EHsc)
@@ -29,18 +31,17 @@ endif()
 set_target_properties(aztro_physics PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(aztro_physics PRIVATE cxx_std_23)
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(aztro_physics PRIVATE $<$<CONFIG:Debug>:-Od>)
+    target_compile_options(aztro_physics PRIVATE $<$<CONFIG:Release>:-O2>)
 else()
-    target_compile_options(aztro_physics PRIVATE -O0)
+    target_compile_options(aztro_physics PRIVATE -O3)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(aztro_physics PRIVATE -Zi)
 else()
-    target_compile_options(aztro_physics PRIVATE -g)
+    target_compile_options(aztro_physics PRIVATE -fvisibility=hidden)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     set_property(TARGET aztro_physics PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+        MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
 endif()
 target_link_options(aztro_physics PRIVATE
     --target=x86_64-pc-windows-msvc
@@ -67,7 +68,7 @@ target_sources(aztro_physics PUBLIC FILE_SET CXX_MODULES FILES
 # target
 add_executable(aztro_physics_tests "")
 set_target_properties(aztro_physics_tests PROPERTIES OUTPUT_NAME "aztro_physics_tests")
-set_target_properties(aztro_physics_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+set_target_properties(aztro_physics_tests PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/release")
 add_dependencies(aztro_physics_tests aztro_physics)
 target_include_directories(aztro_physics_tests PRIVATE
     aztro_physics/..
@@ -75,7 +76,9 @@ target_include_directories(aztro_physics_tests PRIVATE
 target_compile_options(aztro_physics_tests PRIVATE
     $<$<COMPILE_LANGUAGE:C>:--target=x86_64-pc-windows-msvc>
     $<$<COMPILE_LANGUAGE:CXX>:--target=x86_64-pc-windows-msvc>
-    $<$<COMPILE_LANGUAGE:CUDA>:-G>
+    $<$<COMPILE_LANGUAGE:C>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CXX>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CUDA>:-DNDEBUG>
 )
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(aztro_physics_tests PRIVATE /EHsc)
@@ -88,24 +91,23 @@ endif()
 set_target_properties(aztro_physics_tests PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(aztro_physics_tests PRIVATE cxx_std_23)
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(aztro_physics_tests PRIVATE $<$<CONFIG:Debug>:-Od>)
+    target_compile_options(aztro_physics_tests PRIVATE $<$<CONFIG:Release>:-O2>)
 else()
-    target_compile_options(aztro_physics_tests PRIVATE -O0)
+    target_compile_options(aztro_physics_tests PRIVATE -O3)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(aztro_physics_tests PRIVATE -Zi)
 else()
-    target_compile_options(aztro_physics_tests PRIVATE -g)
+    target_compile_options(aztro_physics_tests PRIVATE -fvisibility=hidden)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     set_property(TARGET aztro_physics_tests PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+        MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
 endif()
 target_link_libraries(aztro_physics_tests PRIVATE
     aztro_physics
 )
 target_link_directories(aztro_physics_tests PRIVATE
-    build/windows/x64/debug
+    build/windows/x64/release
 )
 target_link_options(aztro_physics_tests PRIVATE
     --target=x86_64-pc-windows-msvc
@@ -127,7 +129,7 @@ target_sources(aztro_physics_tests PRIVATE
 # target
 add_library(physics STATIC "")
 set_target_properties(physics PROPERTIES OUTPUT_NAME "physics")
-set_target_properties(physics PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+set_target_properties(physics PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/release")
 target_include_directories(physics PRIVATE
     physics/..
 )
@@ -137,7 +139,9 @@ target_include_directories(physics INTERFACE
 target_compile_options(physics PRIVATE
     $<$<COMPILE_LANGUAGE:C>:--target=x86_64-pc-windows-msvc>
     $<$<COMPILE_LANGUAGE:CXX>:--target=x86_64-pc-windows-msvc>
-    $<$<COMPILE_LANGUAGE:CUDA>:-G>
+    $<$<COMPILE_LANGUAGE:C>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CXX>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CUDA>:-DNDEBUG>
 )
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(physics PRIVATE /EHsc)
@@ -150,18 +154,17 @@ endif()
 set_target_properties(physics PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(physics PRIVATE cxx_std_23)
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(physics PRIVATE $<$<CONFIG:Debug>:-Od>)
+    target_compile_options(physics PRIVATE $<$<CONFIG:Release>:-O2>)
 else()
-    target_compile_options(physics PRIVATE -O0)
+    target_compile_options(physics PRIVATE -O3)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(physics PRIVATE -Zi)
 else()
-    target_compile_options(physics PRIVATE -g)
+    target_compile_options(physics PRIVATE -fvisibility=hidden)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     set_property(TARGET physics PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+        MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
 endif()
 target_link_options(physics PRIVATE
     --target=x86_64-pc-windows-msvc
@@ -203,7 +206,7 @@ target_sources(physics PRIVATE
 # target
 add_executable(physics_demo "")
 set_target_properties(physics_demo PROPERTIES OUTPUT_NAME "physics_demo")
-set_target_properties(physics_demo PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/debug")
+set_target_properties(physics_demo PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_SOURCE_DIR}/build/windows/x64/release")
 add_dependencies(physics_demo aztro_physics physics)
 target_include_directories(physics_demo PRIVATE
     physics/..
@@ -211,7 +214,9 @@ target_include_directories(physics_demo PRIVATE
 target_compile_options(physics_demo PRIVATE
     $<$<COMPILE_LANGUAGE:C>:--target=x86_64-pc-windows-msvc>
     $<$<COMPILE_LANGUAGE:CXX>:--target=x86_64-pc-windows-msvc>
-    $<$<COMPILE_LANGUAGE:CUDA>:-G>
+    $<$<COMPILE_LANGUAGE:C>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CXX>:-DNDEBUG>
+    $<$<COMPILE_LANGUAGE:CUDA>:-DNDEBUG>
 )
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     target_compile_options(physics_demo PRIVATE /EHsc)
@@ -224,25 +229,24 @@ endif()
 set_target_properties(physics_demo PROPERTIES CXX_EXTENSIONS OFF)
 target_compile_features(physics_demo PRIVATE cxx_std_23)
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(physics_demo PRIVATE $<$<CONFIG:Debug>:-Od>)
+    target_compile_options(physics_demo PRIVATE $<$<CONFIG:Release>:-O2>)
 else()
-    target_compile_options(physics_demo PRIVATE -O0)
+    target_compile_options(physics_demo PRIVATE -O3)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
-    target_compile_options(physics_demo PRIVATE -Zi)
 else()
-    target_compile_options(physics_demo PRIVATE -g)
+    target_compile_options(physics_demo PRIVATE -fvisibility=hidden)
 endif()
 if(CURRENT_COMPILER_ID STREQUAL "MSVC")
     set_property(TARGET physics_demo PROPERTY
-        MSVC_RUNTIME_LIBRARY "MultiThreadedDebugDLL")
+        MSVC_RUNTIME_LIBRARY "MultiThreadedDLL")
 endif()
 target_link_libraries(physics_demo PRIVATE
     physics
     aztro_physics
 )
 target_link_directories(physics_demo PRIVATE
-    build/windows/x64/debug
+    build/windows/x64/release
 )
 target_link_options(physics_demo PRIVATE
     --target=x86_64-pc-windows-msvc
