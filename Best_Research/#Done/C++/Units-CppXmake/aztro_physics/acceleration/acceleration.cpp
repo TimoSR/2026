@@ -7,273 +7,271 @@ export module aztro_physics:acceleration;
 import :detail_math;
 import :quantity_display;
 
-export {
-    namespace aztro::physics::acceleration
+namespace aztro::physics::acceleration
+{
+
+    export enum class AccelerationUnit
+    {
+        MetersPerSecondSquared,
+        StandardGravity,
+    };
+
+    export class Acceleration
     {
 
-        enum class AccelerationUnit
-        {
-            MetersPerSecondSquared,
-            StandardGravity,
-        };
+        private:
+            double _meters_per_second_squared;
 
-        class Acceleration
-        {
-
-            private:
-                double _meters_per_second_squared;
-
-            private:
-                explicit Acceleration(double meters_per_second_squared)
-                {
-                    _meters_per_second_squared = meters_per_second_squared;
-                }
-
-            public:
-                static double standard_gravity_meters_per_second_squared();
-
-                static Acceleration from_raw_si(double meters_per_second_squared);
-
-                static Acceleration meters_per_second_squared(double value);
-
-                static std::optional<Acceleration> try_meters_per_second_squared(double value);
-
-                static Acceleration standard_gravity(double value);
-
-                static std::optional<Acceleration> try_standard_gravity(double value);
-
-                double raw_si();
-
-                double to_meters_per_second_squared();
-
-                double to_standard_gravity();
-
-                bool approximately_equals(Acceleration other, double epsilon);
-
-                QuantityDisplay<Acceleration, AccelerationUnit> display_as(AccelerationUnit unit);
-
-                QuantityDisplay<Acceleration, AccelerationUnit> display_as_precision(AccelerationUnit unit, int precision);
-
-                QuantityDisplay<Acceleration, AccelerationUnit> display_meters_per_second_squared();
-                QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity();
-
-                QuantityDisplay<Acceleration, AccelerationUnit> display_meters_per_second_squared_precision(int precision);
-                QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity_precision(int precision);
-
-                friend bool operator==(Acceleration left, Acceleration right);
-        };
-
-        Acceleration meters_per_second_squared(double value);
-        std::optional<Acceleration> try_meters_per_second_squared(double value);
-        Acceleration meters_pr_second_pr_second(double value);
-        Acceleration standard_gravity(double value);
-        std::optional<Acceleration> try_standard_gravity(double value);
-
-    } // namespace aztro::physics::acceleration
-
-    namespace aztro::physics::acceleration
-    {
-
-        double Acceleration::standard_gravity_meters_per_second_squared()
-        {
-            return 9.80665;
-        }
-
-        Acceleration Acceleration::from_raw_si(double meters_per_second_squared)
-        {
-            return Acceleration(meters_per_second_squared);
-        }
-
-        Acceleration Acceleration::meters_per_second_squared(double value)
-        {
-            return Acceleration(value);
-        }
-
-        Acceleration Acceleration::standard_gravity(double value)
-        {
-            return Acceleration(value * standard_gravity_meters_per_second_squared());
-        }
-
-        double Acceleration::raw_si()
-        {
-            return _meters_per_second_squared;
-        }
-
-        double Acceleration::to_meters_per_second_squared()
-        {
-            return _meters_per_second_squared;
-        }
-
-        double Acceleration::to_standard_gravity()
-        {
-            return _meters_per_second_squared / standard_gravity_meters_per_second_squared();
-        }
-
-        bool Acceleration::approximately_equals(Acceleration other, double epsilon)
-        {
-            return detail::absolute(_meters_per_second_squared - other._meters_per_second_squared) <= epsilon;
-        }
-
-        QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_as(AccelerationUnit unit)
-        {
-            return QuantityDisplay<Acceleration, AccelerationUnit>(*this, unit);
-        }
-
-        QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_as_precision(AccelerationUnit unit, int precision)
-        {
-            return QuantityDisplay<Acceleration, AccelerationUnit>(*this, unit, precision);
-        }
-
-        bool operator==(Acceleration left, Acceleration right)
-        {
-            return left._meters_per_second_squared == right._meters_per_second_squared;
-        }
-
-    } // namespace aztro::physics::acceleration
-
-    namespace aztro::physics::acceleration
-    {
-
-        std::optional<Acceleration> Acceleration::try_meters_per_second_squared(double value)
-        {
-            if (!std::isfinite(value))
+        private:
+            explicit Acceleration(double meters_per_second_squared)
             {
-                return std::nullopt;
+                _meters_per_second_squared = meters_per_second_squared;
             }
 
-            return Acceleration::meters_per_second_squared(value);
-        }
+        public:
+            static double standard_gravity_meters_per_second_squared();
 
-        std::optional<Acceleration> Acceleration::try_standard_gravity(double value)
-        {
-            if (!std::isfinite(value))
-            {
-                return std::nullopt;
-            }
+            static Acceleration from_raw_si(double meters_per_second_squared);
 
-            return Acceleration::standard_gravity(value);
-        }
+            static Acceleration meters_per_second_squared(double value);
 
-        Acceleration meters_per_second_squared(double value)
-        {
-            return Acceleration::meters_per_second_squared(value);
-        }
+            static std::optional<Acceleration> try_meters_per_second_squared(double value);
 
-        std::optional<Acceleration> try_meters_per_second_squared(double value)
-        {
-            return Acceleration::try_meters_per_second_squared(value);
-        }
+            static Acceleration standard_gravity(double value);
 
-        Acceleration meters_pr_second_pr_second(double value)
-        {
-            return Acceleration::meters_per_second_squared(value);
-        }
+            static std::optional<Acceleration> try_standard_gravity(double value);
 
-        Acceleration standard_gravity(double value)
-        {
-            return Acceleration::standard_gravity(value);
-        }
+            double raw_si();
 
-        std::optional<Acceleration> try_standard_gravity(double value)
-        {
-            return Acceleration::try_standard_gravity(value);
-        }
+            double to_meters_per_second_squared();
 
-    } // namespace aztro::physics::acceleration
+            double to_standard_gravity();
 
-    namespace aztro::physics::acceleration
+            bool approximately_equals(Acceleration other, double epsilon);
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_as(AccelerationUnit unit);
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_as_precision(AccelerationUnit unit, int precision);
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_meters_per_second_squared();
+            QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity();
+
+            QuantityDisplay<Acceleration, AccelerationUnit> display_meters_per_second_squared_precision(int precision);
+            QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity_precision(int precision);
+
+            friend bool operator==(Acceleration left, Acceleration right);
+    };
+
+    export Acceleration meters_per_second_squared(double value);
+    export std::optional<Acceleration> try_meters_per_second_squared(double value);
+    export Acceleration meters_pr_second_pr_second(double value);
+    export Acceleration standard_gravity(double value);
+    export std::optional<Acceleration> try_standard_gravity(double value);
+
+} // namespace aztro::physics::acceleration
+
+namespace aztro::physics::acceleration
+{
+
+    double Acceleration::standard_gravity_meters_per_second_squared()
     {
+        return 9.80665;
+    }
 
-        Acceleration operator+(Acceleration left, Acceleration right)
-        {
-            return Acceleration::from_raw_si(left.raw_si() + right.raw_si());
-        }
-
-        Acceleration operator-(Acceleration left, Acceleration right)
-        {
-            return Acceleration::from_raw_si(left.raw_si() - right.raw_si());
-        }
-
-        Acceleration operator-(Acceleration value)
-        {
-            return Acceleration::from_raw_si(-value.raw_si());
-        }
-
-        Acceleration operator*(Acceleration value, double scalar)
-        {
-            return Acceleration::from_raw_si(value.raw_si() * scalar);
-        }
-
-        Acceleration operator*(double scalar, Acceleration value)
-        {
-            return Acceleration::from_raw_si(scalar * value.raw_si());
-        }
-
-        Acceleration operator/(Acceleration value, double scalar)
-        {
-            return Acceleration::from_raw_si(value.raw_si() / scalar);
-        }
-
-        double operator/(Acceleration left, Acceleration right)
-        {
-            return left.raw_si() / right.raw_si();
-        }
-
-    } // namespace aztro::physics::acceleration
-
-    namespace aztro::physics::acceleration
+    Acceleration Acceleration::from_raw_si(double meters_per_second_squared)
     {
+        return Acceleration(meters_per_second_squared);
+    }
 
-        const char* symbol(AccelerationUnit unit)
+    Acceleration Acceleration::meters_per_second_squared(double value)
+    {
+        return Acceleration(value);
+    }
+
+    Acceleration Acceleration::standard_gravity(double value)
+    {
+        return Acceleration(value * standard_gravity_meters_per_second_squared());
+    }
+
+    double Acceleration::raw_si()
+    {
+        return _meters_per_second_squared;
+    }
+
+    double Acceleration::to_meters_per_second_squared()
+    {
+        return _meters_per_second_squared;
+    }
+
+    double Acceleration::to_standard_gravity()
+    {
+        return _meters_per_second_squared / standard_gravity_meters_per_second_squared();
+    }
+
+    bool Acceleration::approximately_equals(Acceleration other, double epsilon)
+    {
+        return detail::absolute(_meters_per_second_squared - other._meters_per_second_squared) <= epsilon;
+    }
+
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_as(AccelerationUnit unit)
+    {
+        return QuantityDisplay<Acceleration, AccelerationUnit>(*this, unit);
+    }
+
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_as_precision(AccelerationUnit unit, int precision)
+    {
+        return QuantityDisplay<Acceleration, AccelerationUnit>(*this, unit, precision);
+    }
+
+    export bool operator==(Acceleration left, Acceleration right)
+    {
+        return left._meters_per_second_squared == right._meters_per_second_squared;
+    }
+
+} // namespace aztro::physics::acceleration
+
+namespace aztro::physics::acceleration
+{
+
+    std::optional<Acceleration> Acceleration::try_meters_per_second_squared(double value)
+    {
+        if (!std::isfinite(value))
         {
-            switch (unit)
-            {
-            case AccelerationUnit::MetersPerSecondSquared:
-                return "m/s^2";
-            case AccelerationUnit::StandardGravity:
-                return "g0";
-            }
-
-            return "";
+            return std::nullopt;
         }
 
-        double value_in_unit(Acceleration value, AccelerationUnit unit)
-        {
-            switch (unit)
-            {
-            case AccelerationUnit::MetersPerSecondSquared:
-                return value.to_meters_per_second_squared();
-            case AccelerationUnit::StandardGravity:
-                return value.to_standard_gravity();
-            }
+        return Acceleration::meters_per_second_squared(value);
+    }
 
+    std::optional<Acceleration> Acceleration::try_standard_gravity(double value)
+    {
+        if (!std::isfinite(value))
+        {
+            return std::nullopt;
+        }
+
+        return Acceleration::standard_gravity(value);
+    }
+
+    export Acceleration meters_per_second_squared(double value)
+    {
+        return Acceleration::meters_per_second_squared(value);
+    }
+
+    std::optional<Acceleration> try_meters_per_second_squared(double value)
+    {
+        return Acceleration::try_meters_per_second_squared(value);
+    }
+
+    export Acceleration meters_pr_second_pr_second(double value)
+    {
+        return Acceleration::meters_per_second_squared(value);
+    }
+
+    export Acceleration standard_gravity(double value)
+    {
+        return Acceleration::standard_gravity(value);
+    }
+
+    std::optional<Acceleration> try_standard_gravity(double value)
+    {
+        return Acceleration::try_standard_gravity(value);
+    }
+
+} // namespace aztro::physics::acceleration
+
+namespace aztro::physics::acceleration
+{
+
+    export Acceleration operator+(Acceleration left, Acceleration right)
+    {
+        return Acceleration::from_raw_si(left.raw_si() + right.raw_si());
+    }
+
+    export Acceleration operator-(Acceleration left, Acceleration right)
+    {
+        return Acceleration::from_raw_si(left.raw_si() - right.raw_si());
+    }
+
+    export Acceleration operator-(Acceleration value)
+    {
+        return Acceleration::from_raw_si(-value.raw_si());
+    }
+
+    export Acceleration operator*(Acceleration value, double scalar)
+    {
+        return Acceleration::from_raw_si(value.raw_si() * scalar);
+    }
+
+    export Acceleration operator*(double scalar, Acceleration value)
+    {
+        return Acceleration::from_raw_si(scalar * value.raw_si());
+    }
+
+    export Acceleration operator/(Acceleration value, double scalar)
+    {
+        return Acceleration::from_raw_si(value.raw_si() / scalar);
+    }
+
+    export double operator/(Acceleration left, Acceleration right)
+    {
+        return left.raw_si() / right.raw_si();
+    }
+
+} // namespace aztro::physics::acceleration
+
+namespace aztro::physics::acceleration
+{
+
+    export const char* symbol(AccelerationUnit unit)
+    {
+        switch (unit)
+        {
+        case AccelerationUnit::MetersPerSecondSquared:
+            return "m/s^2";
+        case AccelerationUnit::StandardGravity:
+            return "g0";
+        }
+
+        return "";
+    }
+
+    export double value_in_unit(Acceleration value, AccelerationUnit unit)
+    {
+        switch (unit)
+        {
+        case AccelerationUnit::MetersPerSecondSquared:
             return value.to_meters_per_second_squared();
+        case AccelerationUnit::StandardGravity:
+            return value.to_standard_gravity();
         }
 
-        QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_meters_per_second_squared()
-        {
-            return display_as(AccelerationUnit::MetersPerSecondSquared);
-        }
+        return value.to_meters_per_second_squared();
+    }
 
-        QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_standard_gravity()
-        {
-            return display_as(AccelerationUnit::StandardGravity);
-        }
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_meters_per_second_squared()
+    {
+        return display_as(AccelerationUnit::MetersPerSecondSquared);
+    }
 
-        QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_meters_per_second_squared_precision(int precision)
-        {
-            return display_as_precision(AccelerationUnit::MetersPerSecondSquared, precision);
-        }
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_standard_gravity()
+    {
+        return display_as(AccelerationUnit::StandardGravity);
+    }
 
-        QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_standard_gravity_precision(int precision)
-        {
-            return display_as_precision(AccelerationUnit::StandardGravity, precision);
-        }
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_meters_per_second_squared_precision(int precision)
+    {
+        return display_as_precision(AccelerationUnit::MetersPerSecondSquared, precision);
+    }
 
-        std::ostream& operator<<(std::ostream& stream, Acceleration value)
-        {
-            return stream << value.to_meters_per_second_squared() << " m/s^2";
-        }
+    QuantityDisplay<Acceleration, AccelerationUnit> Acceleration::display_standard_gravity_precision(int precision)
+    {
+        return display_as_precision(AccelerationUnit::StandardGravity, precision);
+    }
 
-    } // namespace aztro::physics::acceleration
-}
+    export std::ostream& operator<<(std::ostream& stream, Acceleration value)
+    {
+        return stream << value.to_meters_per_second_squared() << " m/s^2";
+    }
+
+} // namespace aztro::physics::acceleration

@@ -12,7 +12,7 @@ import :velocity;
 import :length;
 import :force;
 
-export namespace aztro::physics::detail
+namespace aztro::physics::detail
 {
 
     template <typename Quantity, typename Unit> std::format_context::iterator format_quantity_display(std::format_context& context, QuantityDisplay<Quantity, Unit> display)
