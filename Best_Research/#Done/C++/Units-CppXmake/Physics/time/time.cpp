@@ -5,8 +5,9 @@
 namespace physics::time
 {
 
-    Time::Time(double seconds) : _seconds(seconds)
+    Time::Time(double seconds)
     {
+        _seconds = seconds;
     }
 
     Time Time::from_raw_si(double seconds)

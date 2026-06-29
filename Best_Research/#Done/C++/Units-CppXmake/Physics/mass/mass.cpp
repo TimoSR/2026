@@ -5,8 +5,9 @@
 namespace physics::mass
 {
 
-    Mass::Mass(double kilograms) : _kilograms(kilograms)
+    Mass::Mass(double kilograms)
     {
+        _kilograms = kilograms;
     }
 
     Mass Mass::from_raw_si(double kilograms)

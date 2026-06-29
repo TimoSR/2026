@@ -22,7 +22,14 @@ export {
 
         class Force
         {
+            private:
                 double _newtons;
+
+            private:
+                explicit Force(double newtons)
+                {
+                    _newtons = newtons;
+                }
 
             public:
                 static Force from_raw_si(double newtons);
@@ -65,9 +72,6 @@ export {
                 std::optional<mass::Mass> checked_div_acceleration(acceleration::Acceleration acceleration);
 
                 friend bool operator==(Force left, Force right);
-
-            private:
-                explicit Force(double newtons);
         };
 
         Force newtons(double value);
@@ -82,10 +86,6 @@ export {
 
     namespace aztro::physics::force
     {
-
-        Force::Force(double newtons) : _newtons(newtons)
-        {
-        }
 
         Force Force::from_raw_si(double newtons)
         {

@@ -15,8 +15,11 @@ namespace physics::acceleration
 
     class Acceleration
     {
-
+        private:
             double _meters_per_second_squared;
+
+        private:
+            explicit Acceleration(double meters_per_second_squared);
 
         public:
             static double standard_gravity_meters_per_second_squared();
@@ -50,9 +53,6 @@ namespace physics::acceleration
             QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity_precision(int precision);
 
             friend bool operator==(Acceleration left, Acceleration right);
-
-        private:
-            explicit Acceleration(double meters_per_second_squared);
     };
 
     Acceleration meters_per_second_squared(double value);

@@ -18,7 +18,11 @@ namespace physics::force
 
     class Force
     {
+        private:
             double _newtons;
+
+        private:
+            explicit Force(double newtons);
 
         public:
             static Force from_raw_si(double newtons);
@@ -61,9 +65,6 @@ namespace physics::force
             std::optional<mass::Mass> checked_div_acceleration(acceleration::Acceleration acceleration);
 
             friend bool operator==(Force left, Force right);
-
-        private:
-            explicit Force(double newtons);
     };
 
     Force newtons(double value);

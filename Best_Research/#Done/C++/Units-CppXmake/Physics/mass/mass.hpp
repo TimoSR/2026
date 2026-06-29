@@ -18,7 +18,11 @@ namespace physics::mass
 
     class Mass
     {
+        private:
             double _kilograms;
+
+        private:
+            explicit Mass(double kilograms);
 
         public:
             static Mass from_raw_si(double kilograms);
@@ -78,9 +82,6 @@ namespace physics::mass
             QuantityDisplay<Mass, MassUnit> display_tons_precision(int precision);
 
             friend bool operator==(Mass left, Mass right);
-
-        private:
-            explicit Mass(double kilograms);
     };
 
     Mass kilograms(double value);

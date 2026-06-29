@@ -5,8 +5,9 @@
 namespace physics::force
 {
 
-    Force::Force(double newtons) : _newtons(newtons)
+    Force::Force(double newtons)
     {
+        _newtons = newtons;
     }
 
     Force Force::from_raw_si(double newtons)

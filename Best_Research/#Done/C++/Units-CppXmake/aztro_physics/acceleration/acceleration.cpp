@@ -20,7 +20,14 @@ export {
         class Acceleration
         {
 
+            private:
                 double _meters_per_second_squared;
+
+            private:
+                explicit Acceleration(double meters_per_second_squared)
+                {
+                    _meters_per_second_squared = meters_per_second_squared;
+                }
 
             public:
                 static double standard_gravity_meters_per_second_squared();
@@ -54,9 +61,6 @@ export {
                 QuantityDisplay<Acceleration, AccelerationUnit> display_standard_gravity_precision(int precision);
 
                 friend bool operator==(Acceleration left, Acceleration right);
-
-            private:
-                explicit Acceleration(double meters_per_second_squared);
         };
 
         Acceleration meters_per_second_squared(double value);
@@ -73,10 +77,6 @@ export {
         double Acceleration::standard_gravity_meters_per_second_squared()
         {
             return 9.80665;
-        }
-
-        Acceleration::Acceleration(double meters_per_second_squared) : _meters_per_second_squared(meters_per_second_squared)
-        {
         }
 
         Acceleration Acceleration::from_raw_si(double meters_per_second_squared)

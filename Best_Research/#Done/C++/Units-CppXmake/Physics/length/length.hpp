@@ -21,7 +21,11 @@ namespace physics::length
 
     class Length
     {
+        private:
             double _meters;
+
+        private:
+            explicit Length(double meters);
 
         public:
             static Length from_raw_si(double meters);
@@ -88,9 +92,6 @@ namespace physics::length
             std::optional<time::Time> checked_div_velocity(velocity::Velocity velocity);
 
             friend bool operator==(Length left, Length right);
-
-        private:
-            explicit Length(double meters);
     };
 
     Length meters(double value);

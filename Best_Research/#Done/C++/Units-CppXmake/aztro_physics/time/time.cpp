@@ -23,7 +23,14 @@ export {
 
         class Time
         {
+            private:
                 double _seconds;
+
+            private:
+                explicit Time(double seconds)
+                {
+                    _seconds = seconds;
+                }
 
             public:
                 static Time from_raw_si(double seconds);
@@ -87,9 +94,6 @@ export {
                 QuantityDisplay<Time, TimeUnit> display_hours_precision(int precision);
 
                 friend bool operator==(Time left, Time right);
-
-            private:
-                explicit Time(double seconds);
         };
 
         Time seconds(double value);
@@ -109,10 +113,6 @@ export {
 
     namespace aztro::physics::time
     {
-
-        Time::Time(double seconds) : _seconds(seconds)
-        {
-        }
 
         Time Time::from_raw_si(double seconds)
         {

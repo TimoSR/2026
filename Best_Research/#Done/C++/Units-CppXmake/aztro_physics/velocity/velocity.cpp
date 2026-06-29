@@ -21,7 +21,14 @@ export {
 
         class Velocity
         {
+            private:
                 double _meters_per_second;
+
+            private:
+                explicit Velocity(double meters_per_second)
+                {
+                    _meters_per_second = meters_per_second;
+                }
 
             public:
                 static Velocity from_raw_si(double meters_per_second);
@@ -56,9 +63,6 @@ export {
                 std::optional<time::Time> checked_div_acceleration(acceleration::Acceleration acceleration);
 
                 friend bool operator==(Velocity left, Velocity right);
-
-            private:
-                explicit Velocity(double meters_per_second);
         };
 
         Velocity meters_per_second(double value);
@@ -71,10 +75,6 @@ export {
 
     namespace aztro::physics::velocity
     {
-
-        Velocity::Velocity(double meters_per_second) : _meters_per_second(meters_per_second)
-        {
-        }
 
         Velocity Velocity::from_raw_si(double meters_per_second)
         {

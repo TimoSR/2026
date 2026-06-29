@@ -19,7 +19,11 @@ namespace physics::time
 
     class Time
     {
+        private:
             double _seconds;
+
+        private:
+            explicit Time(double seconds);
 
         public:
             static Time from_raw_si(double seconds);
@@ -83,9 +87,6 @@ namespace physics::time
             QuantityDisplay<Time, TimeUnit> display_hours_precision(int precision);
 
             friend bool operator==(Time left, Time right);
-
-        private:
-            explicit Time(double seconds);
     };
 
     Time seconds(double value);

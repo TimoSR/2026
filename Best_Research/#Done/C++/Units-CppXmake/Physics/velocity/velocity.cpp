@@ -5,8 +5,9 @@
 namespace physics::velocity
 {
 
-    Velocity::Velocity(double meters_per_second) : _meters_per_second(meters_per_second)
+    Velocity::Velocity(double meters_per_second)
     {
+        _meters_per_second = meters_per_second;
     }
 
     Velocity Velocity::from_raw_si(double meters_per_second)

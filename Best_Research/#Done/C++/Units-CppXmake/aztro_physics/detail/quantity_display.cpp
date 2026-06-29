@@ -9,19 +9,25 @@ export {
 
         template <typename Quantity, typename Unit> class QuantityDisplay
         {
-            public:
-                QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision = std::nullopt);
+            private:
+                std::optional<Quantity> value_;
+                Unit unit_;
+                std::optional<int> precision_;
 
+            public:
+                QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision = std::nullopt)
+                {
+                    value_ = value;
+                    unit_ = unit;
+                    precision_ = precision;
+                }
+
+            public:
                 Quantity value();
 
                 Unit unit();
 
                 std::optional<int> precision();
-
-            private:
-                Quantity value_;
-                Unit unit_;
-                std::optional<int> precision_;
         };
 
     } // namespace aztro::physics
@@ -29,14 +35,9 @@ export {
     namespace aztro::physics
     {
 
-        template <typename Quantity, typename Unit>
-        QuantityDisplay<Quantity, Unit>::QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision) : value_(value), unit_(unit), precision_(precision)
-        {
-        }
-
         template <typename Quantity, typename Unit> Quantity QuantityDisplay<Quantity, Unit>::value()
         {
-            return value_;
+            return *value_;
         }
 
         template <typename Quantity, typename Unit> Unit QuantityDisplay<Quantity, Unit>::unit()

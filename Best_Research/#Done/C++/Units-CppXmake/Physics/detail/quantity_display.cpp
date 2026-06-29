@@ -11,13 +11,16 @@ namespace physics
 {
 
     template <typename Quantity, typename Unit>
-    QuantityDisplay<Quantity, Unit>::QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision) : value_(value), unit_(unit), precision_(precision)
+    QuantityDisplay<Quantity, Unit>::QuantityDisplay(Quantity value, Unit unit, std::optional<int> precision)
     {
+        value_ = value;
+        unit_ = unit;
+        precision_ = precision;
     }
 
     template <typename Quantity, typename Unit> Quantity QuantityDisplay<Quantity, Unit>::value()
     {
-        return value_;
+        return *value_;
     }
 
     template <typename Quantity, typename Unit> Unit QuantityDisplay<Quantity, Unit>::unit()

@@ -5,8 +5,9 @@
 namespace physics::length
 {
 
-    Length::Length(double meters) : _meters(meters)
+    Length::Length(double meters)
     {
+        _meters = meters;
     }
 
     Length Length::from_raw_si(double meters)

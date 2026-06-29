@@ -22,7 +22,14 @@ export {
 
         class Mass
         {
+            private:
                 double _kilograms;
+
+            private:
+                explicit Mass(double kilograms)
+                {
+                    _kilograms = kilograms;
+                }
 
             public:
                 static Mass from_raw_si(double kilograms);
@@ -82,9 +89,6 @@ export {
                 QuantityDisplay<Mass, MassUnit> display_tons_precision(int precision);
 
                 friend bool operator==(Mass left, Mass right);
-
-            private:
-                explicit Mass(double kilograms);
         };
 
         Mass kilograms(double value);
@@ -104,10 +108,6 @@ export {
 
     namespace aztro::physics::mass
     {
-
-        Mass::Mass(double kilograms) : _kilograms(kilograms)
-        {
-        }
 
         Mass Mass::from_raw_si(double kilograms)
         {

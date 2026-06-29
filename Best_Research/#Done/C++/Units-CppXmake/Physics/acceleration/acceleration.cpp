@@ -10,8 +10,9 @@ namespace physics::acceleration
         return 9.80665;
     }
 
-    Acceleration::Acceleration(double meters_per_second_squared) : _meters_per_second_squared(meters_per_second_squared)
+    Acceleration::Acceleration(double meters_per_second_squared)
     {
+        _meters_per_second_squared = meters_per_second_squared;
     }
 
     Acceleration Acceleration::from_raw_si(double meters_per_second_squared)

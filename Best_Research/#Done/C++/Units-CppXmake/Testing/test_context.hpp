@@ -17,9 +17,15 @@ namespace Testing
 
     class TestContext
     {
+        private:
+            std::ostream* output_ = nullptr;
+            int checks_run_ = 0;
+            int failed_checks_ = 0;
+
         public:
             explicit TestContext(std::ostream& output);
 
+        public:
             void check(bool condition, std::string_view expression, std::source_location location = std::source_location::current());
 
             int checks_run();
@@ -27,11 +33,6 @@ namespace Testing
             int failed_checks();
 
             std::ostream& output();
-
-        private:
-            std::ostream& output_;
-            int checks_run_ = 0;
-            int failed_checks_ = 0;
     };
 
     struct TestCase

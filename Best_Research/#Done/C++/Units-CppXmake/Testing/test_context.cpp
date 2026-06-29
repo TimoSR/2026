@@ -23,8 +23,9 @@ namespace Testing
         return std::fabs(left - right) <= epsilon;
     }
 
-    TestContext::TestContext(std::ostream& output) : output_(output)
+    TestContext::TestContext(std::ostream& output)
     {
+        output_ = &output;
     }
 
     void TestContext::check(bool condition, std::string_view expression, std::source_location location)
@@ -37,7 +38,7 @@ namespace Testing
         }
 
         failed_checks_ += 1;
-        output_ << "    FAIL " << location.file_name() << ':' << location.line() << " `" << expression << "`\n";
+        output() << "    FAIL " << location.file_name() << ':' << location.line() << " `" << expression << "`\n";
     }
 
     int TestContext::checks_run()
@@ -52,7 +53,7 @@ namespace Testing
 
     std::ostream& TestContext::output()
     {
-        return output_;
+        return *output_;
     }
 
     TestRegistration::TestRegistration(std::string_view name, TestFunction run)

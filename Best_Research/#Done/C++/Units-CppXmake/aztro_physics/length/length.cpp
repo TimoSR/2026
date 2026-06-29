@@ -25,7 +25,14 @@ export {
 
         class Length
         {
+            private:
                 double _meters;
+
+            private:
+                explicit Length(double meters)
+                {
+                    _meters = meters;
+                }
 
             public:
                 static Length from_raw_si(double meters);
@@ -92,9 +99,6 @@ export {
                 std::optional<time::Time> checked_div_velocity(velocity::Velocity velocity);
 
                 friend bool operator==(Length left, Length right);
-
-            private:
-                explicit Length(double meters);
         };
 
         Length meters(double value);
@@ -114,10 +118,6 @@ export {
 
     namespace aztro::physics::length
     {
-
-        Length::Length(double meters) : _meters(meters)
-        {
-        }
 
         Length Length::from_raw_si(double meters)
         {
