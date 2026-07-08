@@ -348,6 +348,93 @@ where
     writer.write_all(b"\n")
 }
 
+#[doc(hidden)]
+pub fn write_template_buffer<W>(writer: &mut W, buffer: &mut String) -> io::Result<()>
+where
+    W: Write + ?Sized,
+{
+    buffer.push('\n');
+    writer.write_all(buffer.as_bytes())?;
+    Ok(())
+}
+
+#[doc(hidden)]
+pub fn append_template_literal_segment(
+    buffer: &mut String,
+    segment: &str,
+    previous_written: &mut Option<u8>,
+    pending_space: &mut bool,
+    value_was_just_written: &mut bool,
+) {
+    let bytes = segment.as_bytes();
+    let mut cursor = 0;
+
+    while cursor < bytes.len() {
+        if bytes[cursor].is_ascii_whitespace() {
+            *pending_space = true;
+            cursor += 1;
+            continue;
+        }
+
+        if (*value_was_just_written
+            || previous_written.is_some_and(|previous| previous == b']'))
+            && is_identifier_start(bytes[cursor])
+        {
+            buffer.push(' ');
+            *previous_written = Some(b' ');
+        } else if bytes[cursor] == b'['
+            && previous_written
+                .is_some_and(|previous| previous.is_ascii_alphanumeric() || previous == b']')
+        {
+            buffer.push(' ');
+            *previous_written = Some(b' ');
+        } else if *pending_space
+            && previous_written
+                .is_some_and(|previous| should_write_pending_template_space(previous, bytes[cursor]))
+        {
+            buffer.push(' ');
+            *previous_written = Some(b' ');
+        }
+
+        *pending_space = false;
+        *value_was_just_written = false;
+
+        let run_start = cursor;
+
+        while cursor < bytes.len() && !bytes[cursor].is_ascii_whitespace() {
+            cursor += 1;
+        }
+
+        buffer.push_str(&segment[run_start..cursor]);
+        *previous_written = Some(bytes[cursor - 1]);
+    }
+}
+
+#[doc(hidden)]
+pub fn append_template_value<Value>(
+    buffer: &mut String,
+    value: Value,
+    previous_written: &mut Option<u8>,
+    pending_space: &mut bool,
+    value_was_just_written: &mut bool,
+)
+where
+    Value: Display,
+{
+    if previous_written
+        .is_some_and(|previous| should_write_pending_template_space(previous, b'x'))
+    {
+        buffer.push(' ');
+    }
+
+    *pending_space = false;
+
+    let _ = fmt::Write::write_fmt(buffer, format_args!("{value}"));
+
+    *previous_written = Some(b'x');
+    *value_was_just_written = true;
+}
+
 fn should_write_pending_template_space(previous: u8, next: u8) -> bool {
     !matches!(previous, b'[' | b'(' | b'{' | b'/' | b'^')
         && !matches!(next, b',' | b'.' | b':' | b';' | b']' | b')' | b'}' | b'/' | b'^')
@@ -914,7 +1001,7 @@ macro_rules! output {
         let __stdout_handle = ::std::io::stdout();
         let mut __stdout_lock = __stdout_handle.lock();
 
-        $crate::output_to! {
+        $crate::output_buffered_to! {
             writer: &mut __stdout_lock,
             $($tokens)*
         }
@@ -941,6 +1028,28 @@ macro_rules! output_to {
     }};
 }
 
+#[macro_export]
+macro_rules! output_buffered_to {
+    (
+        writer: $writer:expr,
+    ) => {{}};
+
+    (
+        writer: $writer:expr,
+        << $($tokens:tt)*
+    ) => {{
+        let mut __writer = $writer;
+        let mut __output_buffer = ::std::string::String::with_capacity(512);
+
+        $crate::__output_buffered_arrow_lines! {
+            writer: __writer,
+            buffer: __output_buffer,
+            current: [],
+            scan: $($tokens)*
+        }
+    }};
+}
+
 #[doc(hidden)]
 #[macro_export]
 macro_rules! __output_arrow_lines {
@@ -955,7 +1064,7 @@ macro_rules! __output_arrow_lines {
         current: [$($line:tt)+],
         scan:
     ) => {
-        $crate::__output_one_line! {
+        $crate::__output_direct_one_line! {
             writer: $writer,
             $($line)+
         }
@@ -978,7 +1087,7 @@ macro_rules! __output_arrow_lines {
         current: [$($line:tt)+],
         scan: << $($rest:tt)*
     ) => {
-        $crate::__output_one_line! {
+        $crate::__output_direct_one_line! {
             writer: $writer,
             $($line)+
         }
@@ -1089,10 +1198,194 @@ macro_rules! __output_arrow_lines {
     (
         writer: $writer:ident,
         current: [$($line:tt)*],
-        scan: _ $($rest:tt)*
+        scan: $next:tt $($rest:tt)*
     ) => {
         $crate::__output_arrow_lines! {
             writer: $writer,
+            current: [$($line)* $next],
+            scan: $($rest)*
+        }
+    };
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __output_buffered_arrow_lines {
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [],
+        scan:
+    ) => {};
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)+],
+        scan:
+    ) => {
+        $crate::__output_one_line! {
+            writer: $writer,
+            buffer: $buffer,
+            $($line)+
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [],
+        scan: << $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)+],
+        scan: << $($rest:tt)*
+    ) => {
+        $crate::__output_one_line! {
+            writer: $writer,
+            buffer: $buffer,
+            $($line)+
+        }
+
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: [$($group:tt)*] $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* [$($group)*]],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: { $($group:tt)* } $next:ident $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* {$($group)*} $next],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: { $($group:tt)* } $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* {$($group)*}],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: ( $($group:tt)* ) $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* ( $($group)* )],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: $first:ident $second:ident $third:ident $fourth:ident $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* $first $second $third $fourth],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: $first:ident $second:ident $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* $first $second],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: $next:ident $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* $next],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: $literal:literal $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
+            current: [$($line)* $literal],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        current: [$($line:tt)*],
+        scan: _ $($rest:tt)*
+    ) => {
+        $crate::__output_buffered_arrow_lines! {
+            writer: $writer,
+            buffer: $buffer,
             current: [$($line)* _],
             scan: $($rest)*
         }
@@ -1100,11 +1393,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: = $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* =],
             scan: $($rest)*
         }
@@ -1112,11 +1407,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: , $next:ident $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* , $next],
             scan: $($rest)*
         }
@@ -1124,11 +1421,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: , $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* ,],
             scan: $($rest)*
         }
@@ -1136,11 +1435,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: . $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* .],
             scan: $($rest)*
         }
@@ -1148,11 +1449,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: : $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* :],
             scan: $($rest)*
         }
@@ -1160,11 +1463,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: ; $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* ;],
             scan: $($rest)*
         }
@@ -1172,11 +1477,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: / $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* /],
             scan: $($rest)*
         }
@@ -1184,11 +1491,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: ^ $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* ^],
             scan: $($rest)*
         }
@@ -1196,11 +1505,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: - $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* -],
             scan: $($rest)*
         }
@@ -1208,11 +1519,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: + $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* +],
             scan: $($rest)*
         }
@@ -1220,11 +1533,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: * $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* *],
             scan: $($rest)*
         }
@@ -1232,11 +1547,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: % $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* %],
             scan: $($rest)*
         }
@@ -1244,11 +1561,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: ! $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* !],
             scan: $($rest)*
         }
@@ -1256,11 +1575,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: ? $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* ?],
             scan: $($rest)*
         }
@@ -1268,11 +1589,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: @ $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* @],
             scan: $($rest)*
         }
@@ -1280,11 +1603,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: # $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* #],
             scan: $($rest)*
         }
@@ -1292,11 +1617,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: & $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* &],
             scan: $($rest)*
         }
@@ -1304,11 +1631,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: | $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* |],
             scan: $($rest)*
         }
@@ -1316,11 +1645,13 @@ macro_rules! __output_arrow_lines {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         current: [$($line:tt)*],
         scan: > $($rest:tt)*
     ) => {
-        $crate::__output_arrow_lines! {
+        $crate::__output_buffered_arrow_lines! {
             writer: $writer,
+            buffer: $buffer,
             current: [$($line)* >],
             scan: $($rest)*
         }
@@ -1329,7 +1660,7 @@ macro_rules! __output_arrow_lines {
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! __output_one_line {
+macro_rules! __output_direct_one_line {
     (
         writer: $writer:ident,
         $($line:tt)+
@@ -1338,7 +1669,7 @@ macro_rules! __output_one_line {
         let mut __pending_space = false;
         let mut __value_was_just_written = false;
 
-        $crate::__output_write_line_parts! {
+        $crate::__output_direct_line_parts! {
             writer: $writer,
             previous_written: __previous_written,
             pending_space: __pending_space,
@@ -1351,7 +1682,7 @@ macro_rules! __output_one_line {
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! __output_write_line_parts {
+macro_rules! __output_direct_line_parts {
     (
         writer: $writer:ident,
         previous_written: $previous_written:ident,
@@ -1395,7 +1726,7 @@ macro_rules! __output_write_line_parts {
             &mut $value_was_just_written,
         );
 
-        $crate::__output_write_line_parts! {
+        $crate::__output_direct_line_parts! {
             writer: $writer,
             previous_written: $previous_written,
             pending_space: $pending_space,
@@ -1429,7 +1760,7 @@ macro_rules! __output_write_line_parts {
             &mut $value_was_just_written,
         );
 
-        $crate::__output_write_fragment_parts! {
+        $crate::__output_direct_fragment_parts! {
             writer: $writer,
             previous_written: $previous_written,
             pending_space: $pending_space,
@@ -1446,7 +1777,7 @@ macro_rules! __output_write_line_parts {
             &mut $value_was_just_written,
         );
 
-        $crate::__output_write_line_parts! {
+        $crate::__output_direct_line_parts! {
             writer: $writer,
             previous_written: $previous_written,
             pending_space: $pending_space,
@@ -1464,7 +1795,7 @@ macro_rules! __output_write_line_parts {
         literal: [$($literal:tt)*],
         scan: ( $($group:tt)* ) $($rest:tt)*
     ) => {
-        $crate::__output_write_line_parts! {
+        $crate::__output_direct_line_parts! {
             writer: $writer,
             previous_written: $previous_written,
             pending_space: $pending_space,
@@ -1482,7 +1813,7 @@ macro_rules! __output_write_line_parts {
         literal: [$($literal:tt)*],
         scan: $next:tt $($rest:tt)*
     ) => {
-        $crate::__output_write_line_parts! {
+        $crate::__output_direct_line_parts! {
             writer: $writer,
             previous_written: $previous_written,
             pending_space: $pending_space,
@@ -1495,7 +1826,7 @@ macro_rules! __output_write_line_parts {
 
 #[doc(hidden)]
 #[macro_export]
-macro_rules! __output_write_fragment_parts {
+macro_rules! __output_direct_fragment_parts {
     (
         writer: $writer:ident,
         previous_written: $previous_written:ident,
@@ -1537,7 +1868,7 @@ macro_rules! __output_write_fragment_parts {
             &mut $value_was_just_written,
         );
 
-        $crate::__output_write_fragment_parts! {
+        $crate::__output_direct_fragment_parts! {
             writer: $writer,
             previous_written: $previous_written,
             pending_space: $pending_space,
@@ -1553,18 +1884,122 @@ macro_rules! __output_write_fragment_parts {
         pending_space: $pending_space:ident,
         value_was_just_written: $value_was_just_written:ident,
         literal: [$($literal:tt)*],
-        scan: [$($group:tt)*] $($rest:tt)*
+        scan: $next:tt $($rest:tt)*
+    ) => {
+        $crate::__output_direct_fragment_parts! {
+            writer: $writer,
+            previous_written: $previous_written,
+            pending_space: $pending_space,
+            value_was_just_written: $value_was_just_written,
+            literal: [$($literal)* $next],
+            scan: $($rest)*
+        }
+    };
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __output_one_line {
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        $($line:tt)+
     ) => {{
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
+        $buffer.clear();
+        let mut __previous_written = None;
+        let mut __pending_space = false;
+        let mut __value_was_just_written = false;
+
+        $crate::__output_write_line_parts! {
+            writer: $writer,
+            buffer: $buffer,
+            previous_written: __previous_written,
+            pending_space: __pending_space,
+            value_was_just_written: __value_was_just_written,
+            literal: [],
+            scan: $($line)+
+        }
+    }};
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __output_write_line_parts {
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan:
+    ) => {{
+        $crate::append_template_literal_segment(
+            &mut $buffer,
             stringify!($($literal)*),
             &mut $previous_written,
             &mut $pending_space,
             &mut $value_was_just_written,
         );
 
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
+        let _ = $crate::write_template_buffer(&mut $writer, &mut $buffer);
+    }};
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan: { $value:expr } $($rest:tt)*
+    ) => {{
+        $crate::append_template_literal_segment(
+            &mut $buffer,
+            stringify!($($literal)*),
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::append_template_value(
+            &mut $buffer,
+            $value,
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::__output_write_line_parts! {
+            writer: $writer,
+            buffer: $buffer,
+            previous_written: $previous_written,
+            pending_space: $pending_space,
+            value_was_just_written: $value_was_just_written,
+            literal: [],
+            scan: $($rest)*
+        }
+    }};
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan: [$($group:tt)*] $($rest:tt)*
+    ) => {{
+        $crate::append_template_literal_segment(
+            &mut $buffer,
+            stringify!($($literal)*),
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::append_template_literal_segment(
+            &mut $buffer,
             "[",
             &mut $previous_written,
             &mut $pending_space,
@@ -1573,6 +2008,7 @@ macro_rules! __output_write_fragment_parts {
 
         $crate::__output_write_fragment_parts! {
             writer: $writer,
+            buffer: $buffer,
             previous_written: $previous_written,
             pending_space: $pending_space,
             value_was_just_written: $value_was_just_written,
@@ -1580,16 +2016,17 @@ macro_rules! __output_write_fragment_parts {
             scan: $($group)*
         }
 
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
+        $crate::append_template_literal_segment(
+            &mut $buffer,
             "]",
             &mut $previous_written,
             &mut $pending_space,
             &mut $value_was_just_written,
         );
 
-        $crate::__output_write_fragment_parts! {
+        $crate::__output_write_line_parts! {
             writer: $writer,
+            buffer: $buffer,
             previous_written: $previous_written,
             pending_space: $pending_space,
             value_was_just_written: $value_was_just_written,
@@ -1600,14 +2037,16 @@ macro_rules! __output_write_fragment_parts {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
         previous_written: $previous_written:ident,
         pending_space: $pending_space:ident,
         value_was_just_written: $value_was_just_written:ident,
         literal: [$($literal:tt)*],
         scan: ( $($group:tt)* ) $($rest:tt)*
     ) => {
-        $crate::__output_write_fragment_parts! {
+        $crate::__output_write_line_parts! {
             writer: $writer,
+            buffer: $buffer,
             previous_written: $previous_written,
             pending_space: $pending_space,
             value_was_just_written: $value_was_just_written,
@@ -1618,6 +2057,159 @@ macro_rules! __output_write_fragment_parts {
 
     (
         writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan: $next:tt $($rest:tt)*
+    ) => {
+        $crate::__output_write_line_parts! {
+            writer: $writer,
+            buffer: $buffer,
+            previous_written: $previous_written,
+            pending_space: $pending_space,
+            value_was_just_written: $value_was_just_written,
+            literal: [$($literal)* $next],
+            scan: $($rest)*
+        }
+    };
+}
+
+#[doc(hidden)]
+#[macro_export]
+macro_rules! __output_write_fragment_parts {
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan:
+    ) => {{
+        $crate::append_template_literal_segment(
+            &mut $buffer,
+            stringify!($($literal)*),
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+    }};
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan: { $value:expr } $($rest:tt)*
+    ) => {{
+        $crate::append_template_literal_segment(
+            &mut $buffer,
+            stringify!($($literal)*),
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::append_template_value(
+            &mut $buffer,
+            $value,
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::__output_write_fragment_parts! {
+            writer: $writer,
+            buffer: $buffer,
+            previous_written: $previous_written,
+            pending_space: $pending_space,
+            value_was_just_written: $value_was_just_written,
+            literal: [],
+            scan: $($rest)*
+        }
+    }};
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan: [$($group:tt)*] $($rest:tt)*
+    ) => {{
+        $crate::append_template_literal_segment(
+            &mut $buffer,
+            stringify!($($literal)*),
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::append_template_literal_segment(
+            &mut $buffer,
+            "[",
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::__output_write_fragment_parts! {
+            writer: $writer,
+            buffer: $buffer,
+            previous_written: $previous_written,
+            pending_space: $pending_space,
+            value_was_just_written: $value_was_just_written,
+            literal: [],
+            scan: $($group)*
+        }
+
+        $crate::append_template_literal_segment(
+            &mut $buffer,
+            "]",
+            &mut $previous_written,
+            &mut $pending_space,
+            &mut $value_was_just_written,
+        );
+
+        $crate::__output_write_fragment_parts! {
+            writer: $writer,
+            buffer: $buffer,
+            previous_written: $previous_written,
+            pending_space: $pending_space,
+            value_was_just_written: $value_was_just_written,
+            literal: [],
+            scan: $($rest)*
+        }
+    }};
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
+        previous_written: $previous_written:ident,
+        pending_space: $pending_space:ident,
+        value_was_just_written: $value_was_just_written:ident,
+        literal: [$($literal:tt)*],
+        scan: ( $($group:tt)* ) $($rest:tt)*
+    ) => {
+        $crate::__output_write_fragment_parts! {
+            writer: $writer,
+            buffer: $buffer,
+            previous_written: $previous_written,
+            pending_space: $pending_space,
+            value_was_just_written: $value_was_just_written,
+            literal: [$($literal)* ( $($group)* )],
+            scan: $($rest)*
+        }
+    };
+
+    (
+        writer: $writer:ident,
+        buffer: $buffer:ident,
         previous_written: $previous_written:ident,
         pending_space: $pending_space:ident,
         value_was_just_written: $value_was_just_written:ident,
@@ -1626,6 +2218,7 @@ macro_rules! __output_write_fragment_parts {
     ) => {
         $crate::__output_write_fragment_parts! {
             writer: $writer,
+            buffer: $buffer,
             previous_written: $previous_written,
             pending_space: $pending_space,
             value_was_just_written: $value_was_just_written,
@@ -1742,3 +2335,7 @@ macro_rules! __output_collect_values {
         }
     };
 }
+
+
+
+

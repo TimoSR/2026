@@ -83,14 +83,14 @@ Recent result on this machine:
 
 ```text
 iterations: 1000000
-output_to!: 3.3099112s, 3309.9 ns/report, 1238000000 bytes
-writeln!: 1.1640321s, 1164.0 ns/report, 1238000000 bytes
-writeln! was 2.84x faster
+output_to!: 2.9490697s, 2949.1 ns/report, 1238000000 bytes, 461000000 writes
+writeln!: 1.3115585s, 1311.6 ns/report, 1238000000 bytes, 103000000 writes
+writeln! was 2.25x faster
 ```
 
 Both implementations wrote the same byte count. The traditional `writeln!`
 version is faster because Rust's formatting machinery uses direct format
-strings. `output_to!` now writes literals and values directly, but still has to
+strings. `output_to!` writes literals and values directly, but still has to
 restore spacing around token boundaries for the free-form `<<` syntax.
 
 The comparison intentionally uses `output_to!` and `writeln!` with the same
@@ -114,10 +114,14 @@ Recent result on this machine with stdout redirected to `$null`:
 
 ```text
 iterations: 10000
-output!: 390.0141ms, 39001.4 ns/report
-println!: 332.4042ms, 33240.4 ns/report
-println! was 1.17x faster
+output!: 358.2989ms, 35829.9 ns/report
+println!: 335.8473ms, 33584.7 ns/report
+println! was 1.07x faster
 ```
+
+`output!` uses a buffered stdout path: it locks stdout once and reuses a line
+buffer for the whole block. `output_to!` uses a direct writer path, which is
+better for the CPU-focused counting-writer benchmark.
 
 ## Test
 
