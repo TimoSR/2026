@@ -101,6 +101,24 @@ measure stdout locking, buffering, terminal speed, and OS behavior.
 `println!` writes to stdout and appends a newline. `writeln!` writes to any
 `Write` target, also appends a newline, and returns a `Result`.
 
+There is also a stdout comparison between `output!` and the same report written
+with `println!`:
+
+```powershell
+$env:RUSTFLAGS='-C opt-level=3'
+cargo run --release --bin perf_stdout_compare -- 10000 > $null
+```
+
+The benchmark prints timing results to stderr, so stdout can be redirected away.
+Recent result on this machine with stdout redirected to `$null`:
+
+```text
+iterations: 10000
+output!: 390.0141ms, 39001.4 ns/report
+println!: 332.4042ms, 33240.4 ns/report
+println! was 1.17x faster
+```
+
 ## Test
 
 ```powershell
