@@ -1,0 +1,12 @@
+{
+  "C_Cpp.intelliSenseEngine": "Default",
+  "C_Cpp.errorSquiggles": "Enabled",
+  "files.associations": {
+    "*.ixx": "cpp",
+    "*.md": "markdown"
+  },
+  "clangd.arguments": [
+    "--background-index"
+  ]
+  
+}

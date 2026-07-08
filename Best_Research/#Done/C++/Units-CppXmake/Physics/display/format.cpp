@@ -11,7 +11,8 @@
 namespace physics::detail
 {
 
-    template <typename Quantity, typename Unit> std::format_context::iterator format_quantity_display(std::format_context& context, QuantityDisplay<Quantity, Unit> display)
+    template <typename Quantity, typename Unit> 
+    std::format_context::iterator format_quantity_display(std::format_context& context, QuantityDisplay<Quantity, Unit> display)
     {
         auto value = value_in_unit(display.value(), display.unit());
         auto unit_symbol = symbol(display.unit());

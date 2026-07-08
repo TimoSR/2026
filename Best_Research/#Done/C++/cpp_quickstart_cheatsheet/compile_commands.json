@@ -1,0 +1,19 @@
+[
+  {
+    "command": "C:/Program Files/LLVM/bin/clang++.exe -std=c++20 -x c++-module -c \"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\06_code_organization_approaches\\04_cpp20_modules\\bank_account_module.ixx\" -o \"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\.build\\modules\\bank_account_module.obj\"",
+    "directory": "C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet",
+    "file": "C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\06_code_organization_approaches\\04_cpp20_modules\\bank_account_module.ixx"
+  },
+  {
+    "command": "C:/Program Files/LLVM/bin/clang++.exe -std=c++20 -c \"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\06_code_organization_approaches\\04_cpp20_modules\\bank_account_module_usage.test.cpp\" -fmodule-file=bank_account_module=\"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\.build\\modules\\bank_account_module.pcm\" -o \"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\.build\\modules\\bank_account_module_usage.test.obj\"",
+    "directory": "C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet",
+    "file": "C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\06_code_organization_approaches\\04_cpp20_modules\\bank_account_module_usage.test.cpp"
+  },
+  {
+    "command": "C:/Program Files/LLVM/bin/clang++.exe -std=c++20 -c \"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\06_code_organization_approaches\\04_cpp20_modules\\bank_account_module_usage.cpp\" -fmodule-file=bank_account_module=\"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\.build\\modules\\bank_account_module.pcm\" -o \"C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\.build\\modules\\bank_account_module_usage.obj\"",
+    "directory": "C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet",
+    "file": "C:\\Users\\timot\\code\\2026\\Codex-Test\\LearningCPP\\cpp_quickstart_cheatsheet\\06_code_organization_approaches\\04_cpp20_modules\\bank_account_module_usage.cpp"
+  }
+]
+
+

@@ -1,0 +1,1 @@
+pub type Text = &'static str;

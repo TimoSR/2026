@@ -1,0 +1,15 @@
+[package]
+name = "models"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+graphics = { path = "../graphics" }
+
+[dependencies.windows]
+version = "0.62"
+features = [
+    "Data_Json",
+    "Win32_Foundation",
+]

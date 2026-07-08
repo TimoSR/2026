@@ -1,7 +1,6 @@
 use std::{collections::HashMap, mem};
 
 fn main() {
-    
     // https://doc.rust-lang.org/std/collections/
 
     let mut scores = HashMap::new();
@@ -15,7 +14,7 @@ fn main() {
 
     match score {
         Some(x) => println!("Score: {x}"),
-        None => println!("Key was not found")
+        None => println!("Key was not found"),
     }
 
     let mut vector = Vec::new();
@@ -29,8 +28,11 @@ fn main() {
 
     const MY_STRING: &str = "Hello, World!"; // ['H','e','l'...]
 
-    const GET_CHAR_OF_STRING: fn(&str, usize) -> char  = |_string: &str, index: usize| -> char {
-        return MY_STRING.chars().nth(index).expect("String index should not be empty");
+    const GET_CHAR_OF_STRING: fn(&str, usize) -> char = |_string: &str, index: usize| -> char {
+        return MY_STRING
+            .chars()
+            .nth(index)
+            .expect("String index should not be empty");
     };
 
     println!("{} {:?}", MY_STRING.len(), GET_CHAR_OF_STRING(MY_STRING, 0));

@@ -19,7 +19,7 @@
     "--experimental-modules-support"
   ],
   "[cpp]": {
-    "editor.inlayHints.enabled": "on",
+    "editor.inlayHints.enabled": "off",
     "editor.formatOnSave": true
   }
 }
