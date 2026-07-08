@@ -1,0 +1,11 @@
+[package]
+name = "io_macros_project_macros"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.88"
+description = "Procedural macros for io_macros_project."
+license = "MIT OR Apache-2.0"
+
+[lib]
+proc-macro = true
+path = "src/lib.rs"

@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "io_macros_project",
+    "io_macros_project_macros",
+]
+resolver = "2"

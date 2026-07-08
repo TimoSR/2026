@@ -1,0 +1,13 @@
+[package]
+name = "io_macros_project"
+version = "0.1.0"
+edition = "2021"
+description = "Beginner-friendly input/output macros for Rust console programs."
+license = "MIT OR Apache-2.0"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+name = "io_macros_project"
+path = "src/main.rs"
