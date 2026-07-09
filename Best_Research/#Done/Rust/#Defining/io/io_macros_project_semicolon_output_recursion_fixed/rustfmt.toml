@@ -1,0 +1,17 @@
+edition = "2024"
+style_edition = "2024"
+
+max_width = 300
+use_small_heuristics = "Max"
+
+fn_call_width = 300
+attr_fn_like_width = 300
+array_width = 300
+chain_width = 300
+single_line_if_else_max_width = 300
+struct_lit_width = 300
+struct_variant_width = 300
+
+newline_style = "Unix"
+tab_spaces = 4
+hard_tabs = false

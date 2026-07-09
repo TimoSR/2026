@@ -66,6 +66,30 @@ renders as:
 [distance details] distance = 10, bubels = 1000 centimeters, meters = 10.
 ```
 
+Arrays, vectors, and slices can be printed directly without Rust's `:?` debug
+marker:
+
+```rust
+let lister = [1, 3, 4];
+
+output! {
+    << {lister}
+}
+```
+
+renders as:
+
+```text
+[1, 3, 4]
+```
+
+String values inside lists use the same output style as normal `{value}`
+interpolation, so they print without debug quotes.
+
+The built-in output value support covers numbers, booleans, characters,
+strings, arrays, vectors, slices, and references to those values. Custom types
+can opt in by implementing `io_macros_project::OutputValue`.
+
 ## Performance Comparison
 
 The project includes a benchmark-style comparison binary:
@@ -83,9 +107,9 @@ Recent result on this machine:
 
 ```text
 iterations: 1000000
-output_to!: 2.9490697s, 2949.1 ns/report, 1238000000 bytes, 461000000 writes
-writeln!: 1.3115585s, 1311.6 ns/report, 1238000000 bytes, 103000000 writes
-writeln! was 2.25x faster
+output_to!: 2.8531065s, 2853.1 ns/report, 1238000000 bytes, 461000000 writes
+writeln!: 1.1950106s, 1195.0 ns/report, 1238000000 bytes, 103000000 writes
+writeln! was 2.39x faster
 ```
 
 Both implementations wrote the same byte count. The traditional `writeln!`
@@ -114,14 +138,15 @@ Recent result on this machine with stdout redirected to `$null`:
 
 ```text
 iterations: 10000
-output!: 358.2989ms, 35829.9 ns/report
-println!: 335.8473ms, 33584.7 ns/report
-println! was 1.07x faster
+output!: 163.8296ms, 16383.0 ns/report
+println!: 353.3016ms, 35330.2 ns/report
+output! was 2.16x faster
 ```
 
-`output!` uses a buffered stdout path: it locks stdout once and reuses a line
-buffer for the whole block. `output_to!` uses a direct writer path, which is
-better for the CPU-focused counting-writer benchmark.
+`output!` uses a whole-block buffered stdout path: it renders the block into a
+memory buffer, locks stdout once, and writes the rendered bytes once.
+`output_to!` uses a direct writer path, which avoids the extra memory buffer for
+caller-provided writers but performs more small writes.
 
 ## Test
 

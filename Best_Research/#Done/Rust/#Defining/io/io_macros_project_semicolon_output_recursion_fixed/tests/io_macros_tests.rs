@@ -2,15 +2,14 @@
 
 use std::io::Cursor;
 
-use io_macros_project::{input_from, output_to, read_value_from, try_read_value_from, InputError};
+use io_macros_project::{InputError, input_from, output_to, read_value_from, try_read_value_from};
 
 #[test]
 fn try_read_value_retries_until_valid_input() {
     let mut reader = Cursor::new(b"not-a-number\n42\n");
     let mut writer = Vec::new();
 
-    let value: i32 = try_read_value_from(&mut reader, &mut writer, "answer")
-        .expect("valid fallback input should parse");
+    let value: i32 = try_read_value_from(&mut reader, &mut writer, "answer").expect("valid fallback input should parse");
 
     assert_eq!(value, 42);
 
@@ -238,14 +237,7 @@ fn output_to_interpolates_expressions_inside_braces() {
 
     let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
 
-    assert_eq!(
-        output,
-        concat!(
-            "Distance is 12.5\n",
-            "Time is 2.5\n",
-            "Speed is 5\n",
-        )
-    );
+    assert_eq!(output, concat!("Distance is 12.5\n", "Time is 2.5\n", "Speed is 5\n",));
 }
 
 #[test]
@@ -276,14 +268,13 @@ fn output_to_respects_spacing_around_values_units_and_punctuation() {
     output_to! {
         writer: &mut writer,
         << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << Please give me input!
+        << Ready?
     }
 
     let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
 
-    assert_eq!(
-        output,
-        "[distance details] distance = 10, bubels = 1000 centimeters, meters = 10.\n"
-    );
+    assert_eq!(output, concat!("[distance details] distance = 10, bubels = 1000 centimeters, meters = 10.\n", "Please give me input!\n", "Ready?\n",));
 }
 
 #[test]
@@ -299,13 +290,7 @@ fn output_to_supports_string_slices_without_string_from() {
 
     let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
 
-    assert_eq!(
-        output,
-        concat!(
-            "force = Hello\n",
-            "greeting = Hello\n",
-        )
-    );
+    assert_eq!(output, concat!("force = Hello\n", "greeting = Hello\n",));
 }
 
 #[test]
@@ -323,6 +308,41 @@ fn output_to_still_supports_owned_strings() {
     assert_eq!(output, "force = Hello\n");
 }
 
+#[test]
+fn output_to_formats_arrays_vectors_and_slices_without_debug_marker() {
+    let array = [1, 3, 4];
+    let vector = vec![2, 4, 8];
+    let slice = &vector[1..];
+    let words = ["red", "blue"];
+    let nested = [[1, 2], [3, 4]];
+    let hello = String::from("Hello");
+
+    let mut writer = Vec::new();
+
+    output_to! {
+        writer: &mut writer,
+        << array = {array}
+        << vector = {vector}
+        << slice = {slice}
+        << words = {words}
+        << nested = {nested}
+        << string still displays without quotes = {hello}
+    }
+
+    let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
+
+    assert_eq!(
+        output,
+        concat!(
+            "array = [1, 3, 4]\n",
+            "vector = [2, 4, 8]\n",
+            "slice = [4, 8]\n",
+            "words = [red, blue]\n",
+            "nested = [[1, 2], [3, 4]]\n",
+            "string still displays without quotes = Hello\n",
+        )
+    );
+}
 
 #[test]
 fn output_to_handles_long_complex_text_without_recursion_limit_failure() {
