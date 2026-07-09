@@ -69,6 +69,1801 @@ fn main() {
         << [list: vector] checkpoints = {checkpoints}.
         << [list: slice] recent checkpoints = {recent_checkpoints}.
         << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+    }
+
+    output! {
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+    }
+
+    output! {
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+    }
+
+    output! {
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+    }
+
+    output! {
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+    }
+
+    output! {
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+        << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
+        << [distance details] distance = {distance}, bubels = {centimeters} centimeters, meters = {meters}.
+        << [time details] time = {seconds} seconds, source value = {time}, status: accepted;
+        << [mass details] mass = {kilograms} kilograms, input validation: complete, range check: not applied.
+        << [motion: velocity] velocity = {kilometers_per_hour} km/h, calculated from distance and time.
+        << [motion: acceleration] acceleration = {acceleration} m/s^2, derived from velocity over time.
+        << [gravity comparison] gravity = {gravity} g, where 1.0 g means standard Earth gravity.
+        << [force calculation] force = {kilonewtons} kN, based on mass, velocity, and acceleration.
+        << [summary: values] distance [{distance}], centimeters [{centimeters}], meters [{meters}], seconds [{seconds}], kilograms [{kilograms}].
+        << [summary: motion] velocity [{kilometers_per_hour} km/h], acceleration [{acceleration} m/s^2], gravity [{gravity} g].
+        << [summary: force] force [{kilonewtons} kN], message [{hello}].
+        << [report] The object moved {meters} meters, over {seconds} seconds, with mass {kilograms} kilograms.
+        << [report] The resulting velocity was {kilometers_per_hour} km/h, and acceleration was {acceleration} m/s^2.
+        << [report] Compared with Earth gravity, this acceleration is {gravity} g.
+        << [report] Final force output: {kilonewtons} kN.
+        << [message] force label reused with text value: {hello}.
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
     }
 
     println!();
