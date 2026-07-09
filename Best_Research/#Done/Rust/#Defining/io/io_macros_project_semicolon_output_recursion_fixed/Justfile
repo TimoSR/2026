@@ -1,4 +1,4 @@
-set shell := ["powershell.exe", "-NoLogo", "-NoProfile", "-Command"]
+set shell := ["pwsh.exe", "-NoLogo", "-NoProfile", "-Command"]
 
 default:
     just --list
@@ -12,8 +12,12 @@ test:
 lint:
     @cargo clippy --all-targets -- -D warnings
 
-perf writer_iterations="1000000" stdout_iterations="10000":
-    @$env:RUSTFLAGS='-C opt-level=3'; cargo run --release --bin perf_all -- {{writer_iterations}} {{stdout_iterations}} > $null
+perf:
+    @$env:RUSTFLAGS='-C opt-level=3'; cargo run --release --bin perf_all -- 1000000 10000 > $null
+
+perf_prop writer_iterations="1000000" stdout_iterations="10000":
+    @$env:RUSTFLAGS='-C opt-level=3'; cargo build --release --bin perf_all
+    @.\target\release\perf_all.exe {{ writer_iterations }} {{ stdout_iterations }} > $null
 
 perf-smoke:
-    @$env:RUSTFLAGS='-C opt-level=3'; cargo run --release --bin perf_all -- 1000 10 > $null
+    @just perf_prop 10000 100

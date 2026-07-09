@@ -1,7 +1,7 @@
 use std::fmt;
 use std::io::Cursor;
 
-use io_macros_project::{InputError, input_from, output_to, read_value_from, try_read_value_from};
+use io_macros_project::{InputError, input_from, output_buffered_to, output_to, read_value_from, try_read_value_from};
 
 struct CustomDisplayValue(u32);
 
@@ -226,6 +226,38 @@ fn output_to_writes_arrow_marked_template_lines() {
     let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
 
     assert_eq!(output, "distance = 10\nvelocity = 5\n");
+}
+
+#[test]
+fn output_buffered_to_accepts_human_buffer_size() {
+    let distance = 10.0;
+    let mut writer = Vec::new();
+
+    output_buffered_to! {
+        writer: &mut writer,
+        buffer: 8 KB,
+        << distance = {distance}
+    }
+
+    let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
+
+    assert_eq!(output, "distance = 10\n");
+}
+
+#[test]
+fn output_buffered_to_accepts_uppercase_bytes_unit() {
+    let distance = 10.0;
+    let mut writer = Vec::new();
+
+    output_buffered_to! {
+        writer: &mut writer,
+        buffer: 8192 BYTES,
+        << distance = {distance}
+    }
+
+    let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
+
+    assert_eq!(output, "distance = 10\n");
 }
 
 #[test]

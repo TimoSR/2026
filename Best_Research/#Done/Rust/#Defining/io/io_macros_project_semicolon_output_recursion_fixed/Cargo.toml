@@ -19,3 +19,6 @@ path = "src/main.rs"
 [[bin]]
 name = "perf_all"
 path = "src/perf_all.rs"
+
+[profile.release]
+lto = false

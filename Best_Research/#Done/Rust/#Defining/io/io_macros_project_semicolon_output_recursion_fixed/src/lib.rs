@@ -171,63 +171,6 @@ where
     }
 }
 
-#[doc(hidden)]
-pub fn write_template_literal_segment<W>(writer: &mut W, segment: &str, previous_written: &mut Option<u8>, pending_space: &mut bool, value_was_just_written: &mut bool) -> io::Result<()>
-where
-    W: Write + ?Sized,
-{
-    let bytes = segment.as_bytes();
-    let mut cursor = 0;
-
-    while cursor < bytes.len() {
-        if bytes[cursor].is_ascii_whitespace() {
-            *pending_space = true;
-            cursor += 1;
-            continue;
-        }
-
-        let needs_space_after_value_or_bracket = (*value_was_just_written || previous_written.is_some_and(|previous| previous == b']')) && is_identifier_start(bytes[cursor]);
-        let needs_space_before_bracket = bytes[cursor] == b'[' && previous_written.is_some_and(|previous| previous.is_ascii_alphanumeric() || previous == b']');
-        let needs_pending_template_space = *pending_space && previous_written.is_some_and(|previous| should_write_pending_template_space(previous, bytes[cursor]));
-
-        if needs_space_after_value_or_bracket || needs_space_before_bracket || needs_pending_template_space {
-            writer.write_all(b" ")?;
-            *previous_written = Some(b' ');
-        }
-
-        *pending_space = false;
-        *value_was_just_written = false;
-
-        let run_start = cursor;
-
-        while cursor < bytes.len() && !bytes[cursor].is_ascii_whitespace() {
-            cursor += 1;
-        }
-
-        writer.write_all(&bytes[run_start..cursor])?;
-        *previous_written = Some(bytes[cursor - 1]);
-    }
-
-    Ok(())
-}
-
-#[doc(hidden)]
-pub fn write_template_newline<W>(writer: &mut W) -> io::Result<()>
-where
-    W: Write + ?Sized,
-{
-    writer.write_all(b"\n")
-}
-
-#[doc(hidden)]
-pub fn should_write_pending_template_space(previous: u8, next: u8) -> bool {
-    !matches!(previous, b'[' | b'(' | b'{' | b'/' | b'^') && !matches!(next, b',' | b'.' | b':' | b';' | b'!' | b'?' | b']' | b')' | b'}' | b'/' | b'^')
-}
-
-fn is_identifier_start(byte: u8) -> bool {
-    byte == b'_' || byte.is_ascii_alphabetic()
-}
-
 #[macro_export]
 macro_rules! input {
     (
