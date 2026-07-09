@@ -9,6 +9,9 @@ default-run = "io_macros_project"
 [lib]
 path = "src/lib.rs"
 
+[dependencies]
+io_macros_project_macros = { path = "io_macros_project_macros" }
+
 [[bin]]
 name = "io_macros_project"
 path = "src/main.rs"

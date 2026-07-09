@@ -1,6 +1,17 @@
-#![recursion_limit = "512"]
+use std::fmt;
 
 use io_macros_project::{input, output};
+
+struct ReportLabel {
+    name: &'static str,
+    status: &'static str,
+}
+
+impl fmt::Display for ReportLabel {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(formatter, "{} ({})", self.name, self.status)
+    }
+}
 
 fn main() {
     let time: f64;
@@ -31,8 +42,10 @@ fn main() {
     let gravity = acceleration / 9.80665;
     let kilonewtons = force / 1000.0;
     let hello = "Hello";
-    let happy_list = [1, 3, 4];
-    let happy_vec = vec![10, 20, 30];
+    let lister = [1, 3, 4];
+    let checkpoints = vec![distance, centimeters, meters];
+    let recent_checkpoints = &checkpoints[1..];
+    let report_label = ReportLabel { name: "force", status: "accepted" };
 
     output! {
         << [measurement: distance] raw input = {distance}, converted value = {centimeters} centimeters, normalized value = {meters} meters.
@@ -51,26 +64,9 @@ fn main() {
         << [report] Compared with Earth gravity, this acceleration is {gravity} g.
         << [report] Final force output: {kilonewtons} kN.
         << [message] force label reused with text value: {hello}.
-        << {happy_list}
-        << {happy_vec}
-    };
-
-    println!("[measurement: distance] raw input = {}, converted value = {} centimeters, normalized value = {} meters.", distance, centimeters, meters);
-    println!("[distance details] distance = {}, bubels = {} centimeters, meters = {}.", distance, centimeters, meters);
-    println!("[time details] time = {} seconds, source value = {}, status: accepted;", seconds, time);
-    println!("[mass details] mass = {} kilograms, input validation: complete, range check: not applied.", kilograms);
-    println!("[motion: velocity] velocity = {} km/h, calculated from distance and time.", kilometers_per_hour);
-    println!("[motion: acceleration] acceleration = {} m/s^2, derived from velocity over time.", acceleration);
-    println!("[gravity comparison] gravity = {} g, where 1.0 g means standard Earth gravity.", gravity);
-    println!("[force calculation] force = {} kN, based on mass, velocity, and acceleration.", kilonewtons);
-    println!("[summary: values] distance [{}], centimeters [{}], meters [{}], seconds [{}], kilograms [{}].", distance, centimeters, meters, seconds, kilograms);
-    println!("[summary: motion] velocity [{} km/h], acceleration [{} m/s^2], gravity [{} g].", kilometers_per_hour, acceleration, gravity);
-    println!("[summary: force] force [{} kN], message [{}].", kilonewtons, hello);
-    println!("[report] The object moved {} meters, over {} seconds, with mass {} kilograms.", meters, seconds, kilograms);
-    println!("[report] The resulting velocity was {} km/h, and acceleration was {} m/s^2.", kilometers_per_hour, acceleration);
-    println!("[report] Compared with Earth gravity, this acceleration is {} g.", gravity);
-    println!("[report] Final force output: {} kN.", kilonewtons);
-    println!("[message] force label reused with text value: {}.", hello);
-    println!("{:?}", happy_list);
-    println!("{:?}", happy_vec);
+        << [list: array] lister = {lister}.
+        << [list: vector] checkpoints = {checkpoints}.
+        << [list: slice] recent checkpoints = {recent_checkpoints}.
+        << [custom display] report label = {report_label}.
+    }
 }

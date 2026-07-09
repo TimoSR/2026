@@ -105,60 +105,28 @@ where
 }
 
 pub trait OutputValue {
-    fn write_output_value<W>(&self, writer: &mut W) -> io::Result<()>
+    fn write_output_value<W>(self, writer: &mut W) -> io::Result<()>
     where
         W: Write + ?Sized;
 }
 
-macro_rules! implement_output_value_with_display {
-    ($($value_type:ty),+ $(,)?) => {
-        $(
-            impl OutputValue for $value_type {
-                fn write_output_value<W>(&self, writer: &mut W) -> io::Result<()>
-                where
-                    W: Write + ?Sized,
-                {
-                    write!(writer, "{self}")
-                }
-            }
-        )+
-    };
-}
-
-implement_output_value_with_display!(
-    bool, char, str, String, i8, i16, i32, i64, i128, isize, u8, u16, u32, u64, u128, usize,
-    f32, f64,
-);
-
-impl<Value> OutputValue for &Value
+impl<Value> OutputValue for &&Value
 where
-    Value: OutputValue + ?Sized,
+    Value: Display + ?Sized,
 {
-    fn write_output_value<W>(&self, writer: &mut W) -> io::Result<()>
+    fn write_output_value<W>(self, writer: &mut W) -> io::Result<()>
     where
         W: Write + ?Sized,
     {
-        (*self).write_output_value(writer)
+        write!(writer, "{}", *self)
     }
 }
 
-impl<Value> OutputValue for &mut Value
+impl<OutputItem> OutputValue for &[OutputItem]
 where
-    Value: OutputValue + ?Sized,
+    OutputItem: Display,
 {
-    fn write_output_value<W>(&self, writer: &mut W) -> io::Result<()>
-    where
-        W: Write + ?Sized,
-    {
-        (**self).write_output_value(writer)
-    }
-}
-
-impl<OutputItem> OutputValue for [OutputItem]
-where
-    OutputItem: OutputValue,
-{
-    fn write_output_value<W>(&self, writer: &mut W) -> io::Result<()>
+    fn write_output_value<W>(self, writer: &mut W) -> io::Result<()>
     where
         W: Write + ?Sized,
     {
@@ -171,7 +139,7 @@ where
                 writer.write_all(b", ")?;
             }
 
-            self[index].write_output_value(writer)?;
+            write!(writer, "{}", &self[index])?;
             index += 1;
         }
 
@@ -179,11 +147,11 @@ where
     }
 }
 
-impl<OutputItem, const ITEM_COUNT: usize> OutputValue for [OutputItem; ITEM_COUNT]
+impl<OutputItem, const ITEM_COUNT: usize> OutputValue for &[OutputItem; ITEM_COUNT]
 where
-    OutputItem: OutputValue,
+    OutputItem: Display,
 {
-    fn write_output_value<W>(&self, writer: &mut W) -> io::Result<()>
+    fn write_output_value<W>(self, writer: &mut W) -> io::Result<()>
     where
         W: Write + ?Sized,
     {
@@ -191,11 +159,11 @@ where
     }
 }
 
-impl<OutputItem> OutputValue for Vec<OutputItem>
+impl<OutputItem> OutputValue for &Vec<OutputItem>
 where
-    OutputItem: OutputValue,
+    OutputItem: Display,
 {
-    fn write_output_value<W>(&self, writer: &mut W) -> io::Result<()>
+    fn write_output_value<W>(self, writer: &mut W) -> io::Result<()>
     where
         W: Write + ?Sized,
     {
@@ -204,13 +172,7 @@ where
 }
 
 #[doc(hidden)]
-pub fn write_template_literal_segment<W>(
-    writer: &mut W,
-    segment: &str,
-    previous_written: &mut Option<u8>,
-    pending_space: &mut bool,
-    value_was_just_written: &mut bool,
-) -> io::Result<()>
+pub fn write_template_literal_segment<W>(writer: &mut W, segment: &str, previous_written: &mut Option<u8>, pending_space: &mut bool, value_was_just_written: &mut bool) -> io::Result<()>
 where
     W: Write + ?Sized,
 {
@@ -224,23 +186,11 @@ where
             continue;
         }
 
-        if (*value_was_just_written
-            || previous_written.is_some_and(|previous| previous == b']'))
-            && is_identifier_start(bytes[cursor])
-        {
-            writer.write_all(b" ")?;
-            *previous_written = Some(b' ');
-        } else if bytes[cursor] == b'['
-            && previous_written
-                .is_some_and(|previous| previous.is_ascii_alphanumeric() || previous == b']')
-        {
-            writer.write_all(b" ")?;
-            *previous_written = Some(b' ');
-        } else if *pending_space
-            && previous_written.is_some_and(|previous| {
-                should_write_pending_template_space(previous, bytes[cursor])
-            })
-        {
+        let needs_space_after_value_or_bracket = (*value_was_just_written || previous_written.is_some_and(|previous| previous == b']')) && is_identifier_start(bytes[cursor]);
+        let needs_space_before_bracket = bytes[cursor] == b'[' && previous_written.is_some_and(|previous| previous.is_ascii_alphanumeric() || previous == b']');
+        let needs_pending_template_space = *pending_space && previous_written.is_some_and(|previous| should_write_pending_template_space(previous, bytes[cursor]));
+
+        if needs_space_after_value_or_bracket || needs_space_before_bracket || needs_pending_template_space {
             writer.write_all(b" ")?;
             *previous_written = Some(b' ');
         }
@@ -262,32 +212,6 @@ where
 }
 
 #[doc(hidden)]
-pub fn write_template_value<W, Value>(
-    writer: &mut W,
-    value: &Value,
-    previous_written: &mut Option<u8>,
-    pending_space: &mut bool,
-    value_was_just_written: &mut bool,
-) -> io::Result<()>
-where
-    W: Write + ?Sized,
-    Value: OutputValue + ?Sized,
-{
-    if previous_written.is_some_and(|previous| should_write_pending_template_space(previous, b'x')) {
-        writer.write_all(b" ")?;
-    }
-
-    *pending_space = false;
-
-    value.write_output_value(writer)?;
-
-    *previous_written = Some(b'x');
-    *value_was_just_written = true;
-
-    Ok(())
-}
-
-#[doc(hidden)]
 pub fn write_template_newline<W>(writer: &mut W) -> io::Result<()>
 where
     W: Write + ?Sized,
@@ -295,7 +219,8 @@ where
     writer.write_all(b"\n")
 }
 
-fn should_write_pending_template_space(previous: u8, next: u8) -> bool {
+#[doc(hidden)]
+pub fn should_write_pending_template_space(previous: u8, next: u8) -> bool {
     !matches!(previous, b'[' | b'(' | b'{' | b'/' | b'^') && !matches!(next, b',' | b'.' | b':' | b';' | b'!' | b'?' | b']' | b')' | b'}' | b'/' | b'^')
 }
 
@@ -665,458 +590,4 @@ macro_rules! input_from {
     };
 }
 
-#[macro_export]
-macro_rules! output {
-    (
-        $(
-            $tokens:tt
-        )*
-    ) => {{
-        let __stdout_handle = ::std::io::stdout();
-        let mut __stdout_lock = __stdout_handle.lock();
-
-        $crate::output_buffered_to! {
-            writer: &mut __stdout_lock,
-            $($tokens)*
-        }
-    }};
-}
-
-#[macro_export]
-macro_rules! output_to {
-    (
-        writer: $writer:expr,
-    ) => {{}};
-
-    (
-        writer: $writer:expr,
-        << $($tokens:tt)*
-    ) => {{
-        let mut __writer = $writer;
-
-        $crate::__output_arrow_lines! {
-            writer: __writer,
-            current: [],
-            scan: $($tokens)*
-        }
-    }};
-}
-
-#[macro_export]
-macro_rules! output_buffered_to {
-    (
-        writer: $writer:expr,
-    ) => {{}};
-
-    (
-        writer: $writer:expr,
-        << $($tokens:tt)*
-    ) => {{
-        let mut __writer = $writer;
-        let mut __output_buffer: ::std::vec::Vec<u8> = ::std::vec::Vec::with_capacity(2048);
-
-        $crate::output_to! {
-            writer: &mut __output_buffer,
-            << $($tokens)*
-        }
-
-        let _ = ::std::io::Write::write_all(&mut __writer, &__output_buffer);
-    }};
-}
-
-#[doc(hidden)]
-#[macro_export]
-macro_rules! __output_arrow_lines {
-    (
-        writer: $writer:ident,
-        current: [],
-        scan:
-    ) => {};
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)+],
-        scan:
-    ) => {
-        $crate::__output_direct_one_line! {
-            writer: $writer,
-            $($line)+
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [],
-        scan: << $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)+],
-        scan: << $($rest:tt)*
-    ) => {
-        $crate::__output_direct_one_line! {
-            writer: $writer,
-            $($line)+
-        }
-
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: [$($group:tt)*] $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* [$($group)*]],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: { $($group:tt)* } $next:ident $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* {$($group)*} $next],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: { $($group:tt)* } $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* {$($group)*}],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: ( $($group:tt)* ) $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* ( $($group)* )],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: $first:ident $second:ident $third:ident $fourth:ident $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* $first $second $third $fourth],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: $first:ident $second:ident $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* $first $second],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: $next:ident $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* $next],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: $literal:literal $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* $literal],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        current: [$($line:tt)*],
-        scan: $next:tt $($rest:tt)*
-    ) => {
-        $crate::__output_arrow_lines! {
-            writer: $writer,
-            current: [$($line)* $next],
-            scan: $($rest)*
-        }
-    };
-}
-
-#[doc(hidden)]
-#[macro_export]
-macro_rules! __output_direct_one_line {
-    (
-        writer: $writer:ident,
-        $($line:tt)+
-    ) => {{
-        let mut __previous_written = None;
-        let mut __pending_space = false;
-        let mut __value_was_just_written = false;
-
-        $crate::__output_direct_line_parts! {
-            writer: $writer,
-            previous_written: __previous_written,
-            pending_space: __pending_space,
-            value_was_just_written: __value_was_just_written,
-            literal: [],
-            scan: $($line)+
-        }
-    }};
-}
-
-#[doc(hidden)]
-#[macro_export]
-macro_rules! __output_direct_line_parts {
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan:
-    ) => {{
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
-            stringify!($($literal)*),
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        let _ = $crate::write_template_newline(&mut $writer);
-    }};
-
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan: { $value:expr } $($rest:tt)*
-    ) => {{
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
-            stringify!($($literal)*),
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        let _ = $crate::write_template_value(
-            &mut $writer,
-            &($value),
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        $crate::__output_direct_line_parts! {
-            writer: $writer,
-            previous_written: $previous_written,
-            pending_space: $pending_space,
-            value_was_just_written: $value_was_just_written,
-            literal: [],
-            scan: $($rest)*
-        }
-    }};
-
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan: [$($group:tt)*] $($rest:tt)*
-    ) => {{
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
-            stringify!($($literal)*),
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
-            "[",
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        $crate::__output_direct_fragment_parts! {
-            writer: $writer,
-            previous_written: $previous_written,
-            pending_space: $pending_space,
-            value_was_just_written: $value_was_just_written,
-            literal: [],
-            scan: $($group)*
-        }
-
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
-            "]",
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        $crate::__output_direct_line_parts! {
-            writer: $writer,
-            previous_written: $previous_written,
-            pending_space: $pending_space,
-            value_was_just_written: $value_was_just_written,
-            literal: [],
-            scan: $($rest)*
-        }
-    }};
-
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan: ( $($group:tt)* ) $($rest:tt)*
-    ) => {
-        $crate::__output_direct_line_parts! {
-            writer: $writer,
-            previous_written: $previous_written,
-            pending_space: $pending_space,
-            value_was_just_written: $value_was_just_written,
-            literal: [$($literal)* ( $($group)* )],
-            scan: $($rest)*
-        }
-    };
-
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan: $next:tt $($rest:tt)*
-    ) => {
-        $crate::__output_direct_line_parts! {
-            writer: $writer,
-            previous_written: $previous_written,
-            pending_space: $pending_space,
-            value_was_just_written: $value_was_just_written,
-            literal: [$($literal)* $next],
-            scan: $($rest)*
-        }
-    };
-}
-
-#[doc(hidden)]
-#[macro_export]
-macro_rules! __output_direct_fragment_parts {
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan:
-    ) => {{
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
-            stringify!($($literal)*),
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-    }};
-
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan: { $value:expr } $($rest:tt)*
-    ) => {{
-        let _ = $crate::write_template_literal_segment(
-            &mut $writer,
-            stringify!($($literal)*),
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        let _ = $crate::write_template_value(
-            &mut $writer,
-            &($value),
-            &mut $previous_written,
-            &mut $pending_space,
-            &mut $value_was_just_written,
-        );
-
-        $crate::__output_direct_fragment_parts! {
-            writer: $writer,
-            previous_written: $previous_written,
-            pending_space: $pending_space,
-            value_was_just_written: $value_was_just_written,
-            literal: [],
-            scan: $($rest)*
-        }
-    }};
-
-    (
-        writer: $writer:ident,
-        previous_written: $previous_written:ident,
-        pending_space: $pending_space:ident,
-        value_was_just_written: $value_was_just_written:ident,
-        literal: [$($literal:tt)*],
-        scan: $next:tt $($rest:tt)*
-    ) => {
-        $crate::__output_direct_fragment_parts! {
-            writer: $writer,
-            previous_written: $previous_written,
-            pending_space: $pending_space,
-            value_was_just_written: $value_was_just_written,
-            literal: [$($literal)* $next],
-            scan: $($rest)*
-        }
-    };
-}
+pub use io_macros_project_macros::{output, output_buffered_to, output_to};

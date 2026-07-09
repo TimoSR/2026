@@ -5,3 +5,10 @@ version = 4
 [[package]]
 name = "io_macros_project"
 version = "0.1.0"
+dependencies = [
+ "io_macros_project_macros",
+]
+
+[[package]]
+name = "io_macros_project_macros"
+version = "0.1.0"

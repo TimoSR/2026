@@ -30,6 +30,10 @@ output! {
 Each `<<` starts a new printed line. Semicolons are normal text, not line
 terminators.
 
+Large reports can stay in one `output!` block. The output macros parse the
+block with a procedural macro, so normal Rust projects do not need a
+crate-level `recursion_limit` setting for long text.
+
 Use braces when you want no trailing semicolon after the macro call:
 
 ```rust
@@ -86,8 +90,8 @@ renders as:
 String values inside lists use the same output style as normal `{value}`
 interpolation, so they print without debug quotes.
 
-The built-in output value support covers numbers, booleans, characters,
-strings, arrays, vectors, slices, and references to those values. Custom types
+The built-in output value support covers any type with `Display`, plus arrays,
+vectors, slices, and references to those values. Custom collection-like types
 can opt in by implementing `io_macros_project::OutputValue`.
 
 ## Performance Comparison
@@ -107,9 +111,9 @@ Recent result on this machine:
 
 ```text
 iterations: 1000000
-output_to!: 2.8531065s, 2853.1 ns/report, 1238000000 bytes, 461000000 writes
-writeln!: 1.1950106s, 1195.0 ns/report, 1238000000 bytes, 103000000 writes
-writeln! was 2.39x faster
+output_to!: 2.7853473s, 2785.3 ns/report, 1238000000 bytes, 479000000 writes
+writeln!: 1.1354744s, 1135.5 ns/report, 1238000000 bytes, 103000000 writes
+writeln! was 2.45x faster
 ```
 
 Both implementations wrote the same byte count. The traditional `writeln!`
@@ -138,9 +142,9 @@ Recent result on this machine with stdout redirected to `$null`:
 
 ```text
 iterations: 10000
-output!: 163.8296ms, 16383.0 ns/report
-println!: 353.3016ms, 35330.2 ns/report
-output! was 2.16x faster
+output!: 202.3539ms, 20235.4 ns/report
+println!: 379.0747ms, 37907.5 ns/report
+output! was 1.87x faster
 ```
 
 `output!` uses a whole-block buffered stdout path: it renders the block into a

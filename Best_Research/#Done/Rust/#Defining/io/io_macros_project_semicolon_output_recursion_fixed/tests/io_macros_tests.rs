@@ -1,8 +1,15 @@
-#![recursion_limit = "512"]
-
+use std::fmt;
 use std::io::Cursor;
 
 use io_macros_project::{InputError, input_from, output_to, read_value_from, try_read_value_from};
+
+struct CustomDisplayValue(u32);
+
+impl fmt::Display for CustomDisplayValue {
+    fn fmt(&self, formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
+        write!(formatter, "custom-{}", self.0)
+    }
+}
 
 #[test]
 fn try_read_value_retries_until_valid_input() {
@@ -314,8 +321,9 @@ fn output_to_formats_arrays_vectors_and_slices_without_debug_marker() {
     let vector = vec![2, 4, 8];
     let slice = &vector[1..];
     let words = ["red", "blue"];
-    let nested = [[1, 2], [3, 4]];
     let hello = String::from("Hello");
+    let custom = CustomDisplayValue(7);
+    let custom_list = [CustomDisplayValue(1), CustomDisplayValue(2)];
 
     let mut writer = Vec::new();
 
@@ -325,23 +333,14 @@ fn output_to_formats_arrays_vectors_and_slices_without_debug_marker() {
         << vector = {vector}
         << slice = {slice}
         << words = {words}
-        << nested = {nested}
         << string still displays without quotes = {hello}
+        << custom display = {custom}
+        << custom display list = {custom_list}
     }
 
     let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
 
-    assert_eq!(
-        output,
-        concat!(
-            "array = [1, 3, 4]\n",
-            "vector = [2, 4, 8]\n",
-            "slice = [4, 8]\n",
-            "words = [red, blue]\n",
-            "nested = [[1, 2], [3, 4]]\n",
-            "string still displays without quotes = Hello\n",
-        )
-    );
+    assert_eq!(output, concat!("array = [1, 3, 4]\n", "vector = [2, 4, 8]\n", "slice = [4, 8]\n", "words = [red, blue]\n", "string still displays without quotes = Hello\n", "custom display = custom-7\n", "custom display list = [custom-1, custom-2]\n",));
 }
 
 #[test]

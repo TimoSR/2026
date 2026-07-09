@@ -1,0 +1,9 @@
+[package]
+name = "io_macros_project_macros"
+version = "0.1.0"
+edition = "2021"
+description = "Procedural output macros for io_macros_project."
+license = "MIT OR Apache-2.0"
+
+[lib]
+proc-macro = true
