@@ -1,7 +1,7 @@
 use std::fmt;
 use std::io::Cursor;
 
-use io_macros_project::{InputError, input_from, output_buffered_to, output_to, read_value_from, try_read_value_from};
+use io_macros_project::{InputError, input_from, output_buffered_to, output_reusing_to, output_to, read_value_from, try_read_value_from};
 
 struct CustomDisplayValue(u32);
 
@@ -258,6 +258,26 @@ fn output_buffered_to_accepts_uppercase_bytes_unit() {
     let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
 
     assert_eq!(output, "distance = 10\n");
+}
+
+#[test]
+fn output_reusing_to_uses_caller_owned_buffer() {
+    let distance = 10.0;
+    let mut writer = Vec::new();
+    let mut buffer = Vec::with_capacity(64);
+    buffer.extend_from_slice(b"old content");
+
+    output_reusing_to! {
+        writer: &mut writer,
+        buffer: &mut buffer,
+        << distance = {distance}
+    }
+
+    let output = String::from_utf8(writer).expect("writer should contain valid UTF-8");
+    let buffered_output = String::from_utf8(buffer).expect("buffer should contain valid UTF-8");
+
+    assert_eq!(output, "distance = 10\n");
+    assert_eq!(buffered_output, "distance = 10\n");
 }
 
 #[test]

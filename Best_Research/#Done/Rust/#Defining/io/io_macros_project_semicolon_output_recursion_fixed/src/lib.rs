@@ -533,4 +533,4 @@ macro_rules! input_from {
     };
 }
 
-pub use io_macros_project_macros::{output, output_buffered_to, output_to};
+pub use io_macros_project_macros::{output, output_buffered_to, output_reusing_to, output_to};

@@ -1,7 +1,7 @@
 use std::fmt;
 use std::io;
 
-use io_macros_project::{input, output, output_buffered_to, output_to};
+use io_macros_project::{input, output, output_buffered_to, output_reusing_to, output_to};
 
 struct ReportLabel {
     name: &'static str,
@@ -103,5 +103,13 @@ fn main() {
         writer: &mut direct_writer,
         buffer: 8 KB,
         << [writer output] output_buffered_to! builds one buffer, then writes it once.
+    }
+
+    let mut reusable_output_buffer = Vec::with_capacity(8 * 1024);
+
+    output_reusing_to! {
+        writer: &mut direct_writer,
+        buffer: &mut reusable_output_buffer,
+        << [writer output] output_reusing_to! reuses caller-owned buffer memory.
     }
 }

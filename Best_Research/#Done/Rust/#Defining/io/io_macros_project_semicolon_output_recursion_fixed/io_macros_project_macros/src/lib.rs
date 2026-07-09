@@ -85,6 +85,24 @@ pub fn output_buffered_to(input: TokenStream) -> TokenStream {
     block(inner)
 }
 
+#[proc_macro]
+pub fn output_reusing_to(input: TokenStream) -> TokenStream {
+    let (writer, output_tokens) = parse_writer_input(input);
+    let (buffer, output_tokens) = parse_reusable_buffer_input(output_tokens);
+    let body = generate_output_body("__output_buffer", output_tokens);
+
+    let mut inner = parse_generated_tokens("let mut __writer = ");
+    inner.extend(writer);
+    inner.extend(parse_generated_tokens("; let mut __output_buffer = "));
+    inner.extend(buffer);
+    inner.extend(parse_generated_tokens("; __output_buffer.clear();"));
+    inner.extend(body);
+    inner.extend(parse_generated_tokens(
+        "let _ = ::std::io::Write::write_all(&mut __writer, __output_buffer.as_slice());",
+    ));
+    block(inner)
+}
+
 fn parse_buffer_input(input: TokenStream) -> (TokenStream, TokenStream) {
     let tokens: Vec<TokenTree> = input.into_iter().collect();
     let mut cursor = 0;
@@ -128,6 +146,54 @@ fn parse_buffer_input(input: TokenStream) -> (TokenStream, TokenStream) {
     let rest = TokenStream::from_iter(tokens[cursor..].iter().cloned());
 
     (buffer_size, rest)
+}
+
+fn parse_reusable_buffer_input(input: TokenStream) -> (TokenStream, TokenStream) {
+    let tokens: Vec<TokenTree> = input.into_iter().collect();
+    let mut cursor = 0;
+
+    if !matches!(tokens.get(cursor), Some(TokenTree::Ident(ident)) if ident.to_string() == "buffer")
+    {
+        return (
+            compile_error_expression("expected `buffer: &mut buffer,`"),
+            TokenStream::new(),
+        );
+    }
+
+    cursor += 1;
+
+    if !matches!(tokens.get(cursor), Some(TokenTree::Punct(punct)) if punct.as_char() == ':') {
+        return (
+            compile_error_expression("expected `buffer: &mut buffer,`"),
+            TokenStream::new(),
+        );
+    }
+
+    cursor += 1;
+
+    let mut buffer_tokens = Vec::new();
+
+    while cursor < tokens.len() {
+        if matches!(tokens.get(cursor), Some(TokenTree::Punct(punct)) if punct.as_char() == ',') {
+            cursor += 1;
+            break;
+        }
+
+        buffer_tokens.push(tokens[cursor].clone());
+        cursor += 1;
+    }
+
+    if buffer_tokens.is_empty() {
+        return (
+            compile_error_expression("expected `buffer: &mut buffer,`"),
+            TokenStream::new(),
+        );
+    }
+
+    let buffer = TokenStream::from_iter(buffer_tokens);
+    let rest = TokenStream::from_iter(tokens[cursor..].iter().cloned());
+
+    (buffer, rest)
 }
 
 fn parse_buffer_size(tokens: Vec<TokenTree>) -> TokenStream {
