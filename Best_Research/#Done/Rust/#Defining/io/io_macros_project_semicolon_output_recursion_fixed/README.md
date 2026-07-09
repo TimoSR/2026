@@ -96,61 +96,114 @@ can opt in by implementing `io_macros_project::OutputValue`.
 
 ## Performance Comparison
 
-The project includes a benchmark-style comparison binary:
+Run all performance checks with one command:
 
 ```powershell
-$env:RUSTFLAGS='-C opt-level=3'
-cargo run --release --bin perf_compare -- 1000000
+just perf
+```
+
+The `Justfile` also accepts custom iteration counts:
+
+```powershell
+just perf 1000000 10000
+```
+
+Without `just`, run the underlying Cargo command directly:
+
+```powershell
+$env:RUSTFLAGS='-C opt-level=3'; cargo run --release --bin perf_all -- 1000000 10000 > $null
 ```
 
 `cargo run --release` already uses Cargo's optimized release profile. The
 explicit `RUSTFLAGS` setting makes the `-O` / `opt-level=3` optimization level
 unambiguous.
 
+The first number is the writer benchmark iteration count. The second number is
+the stdout benchmark iteration count. The command redirects the large benchmark
+output text to `$null`; the metrics are printed to stderr so they remain
+visible.
+
+The benchmark first renders every compared implementation to byte buffers and
+asserts that the bytes are identical. It then reports the metrics a user needs
+to judge whether this library is the right fit:
+
+- `ns/report`: elapsed time per full report
+- `bytes/report`: rendered output size
+- `write ops/r`: exact `Write` calls for wrapped writers; logical stdout-facing calls for stdout benchmarks
+- `allocs/r`: allocation calls per report
+- `alloc bytes/r`: allocated bytes per report
+- `extra alloc/r`: extra allocation calls per report compared with the baseline
+
 Recent result on this machine:
 
 ```text
+============================================================
+io_macros_project performance report
+============================================================
+proof: PASS - every benchmark implementation renders identical report bytes before timing
+report bytes: 1238
+build: release profile with requested optimization flags
+
+------------------------------------------------------------
+how to read this report
+------------------------------------------------------------
+- ns/report: lower is faster for one complete report.
+- write ops/r: fewer write calls usually means less writer or stdout overhead.
+- allocs/r: 0 means no heap allocation inside the measured loop; 1 means one new allocation per report.
+- alloc bytes/r: 2048 means a new 2 KiB buffer was allocated for each report.
+- extra alloc/r: allocation count compared with that section's baseline.
+- output_to! trades zero allocation for more write calls.
+- output!, output_buffered_to!, and new-Vec buffering trade one allocation for one write call.
+- reused-Vec buffering allocates before timing and reuses that memory.
+
+------------------------------------------------------------
+1. writer benchmarks
+------------------------------------------------------------
 iterations: 1000000
-output_to!: 2.7853473s, 2785.3 ns/report, 1238000000 bytes, 479000000 writes
-writeln!: 1.1354744s, 1135.5 ns/report, 1238000000 bytes, 103000000 writes
-writeln! was 2.45x faster
-```
+write ops/report: exact counted calls to the wrapped Write target
++---------------------------------+--------------+--------------+--------------+-------------+---------------+---------------+
+| implementation                  |    ns/report | bytes/report |  write ops/r | allocs/r    | alloc bytes/r | extra alloc/r |
++---------------------------------+--------------+--------------+--------------+-------------+---------------+---------------+
+| output_to!                      |       3107.5 |       1238.0 |        479.0 |       0.000 |           0.0 |        +0.000 |
+| output_buffered_to!             |       3842.1 |       1238.0 |          1.0 |       1.000 |        2048.0 |        +1.000 |
+| writeln!                        |       1162.4 |       1238.0 |        103.0 |       0.000 |           0.0 |        +0.000 |
+| buffered writeln! new Vec       |       1526.8 |       1238.0 |          1.0 |       1.000 |        2048.0 |        +1.000 |
+| buffered writeln! reused Vec    |       1360.4 |       1238.0 |          1.0 |       0.000 |           0.0 |        +0.000 |
++---------------------------------+--------------+--------------+--------------+-------------+---------------+---------------+
+fastest: writeln!
+writeln! is 2.67x faster than output_to!
+writeln! is 3.31x faster than output_buffered_to!
+writeln! is 1.31x faster than buffered writeln! new Vec
+writeln! is 1.17x faster than buffered writeln! reused Vec
 
-Both implementations wrote the same byte count. The traditional `writeln!`
-version is faster because Rust's formatting machinery uses direct format
-strings. `output_to!` writes literals and values directly, but still has to
-restore spacing around token boundaries for the free-form `<<` syntax.
-
-The comparison intentionally uses `output_to!` and `writeln!` with the same
-in-memory counting writer. That keeps the benchmark focused on formatting and
-template-processing overhead. Comparing `output!` with `println!` would mostly
-measure stdout locking, buffering, terminal speed, and OS behavior.
-
-`println!` writes to stdout and appends a newline. `writeln!` writes to any
-`Write` target, also appends a newline, and returns a `Result`.
-
-There is also a stdout comparison between `output!` and the same report written
-with `println!`:
-
-```powershell
-$env:RUSTFLAGS='-C opt-level=3'
-cargo run --release --bin perf_stdout_compare -- 10000 > $null
-```
-
-The benchmark prints timing results to stderr, so stdout can be redirected away.
-Recent result on this machine with stdout redirected to `$null`:
-
-```text
+------------------------------------------------------------
+2. stdout benchmarks
+------------------------------------------------------------
 iterations: 10000
-output!: 202.3539ms, 20235.4 ns/report
-println!: 379.0747ms, 37907.5 ns/report
-output! was 1.87x faster
+note: run this command with stdout redirected, for example `> $null` on PowerShell
+write ops/report: logical stdout-facing calls per report, not OS syscall count
++---------------------------------+--------------+--------------+--------------+-------------+---------------+---------------+
+| implementation                  |    ns/report | bytes/report |  write ops/r | allocs/r    | alloc bytes/r | extra alloc/r |
++---------------------------------+--------------+--------------+--------------+-------------+---------------+---------------+
+| output!                         |      31942.5 |       1238.0 |          1.0 |       1.000 |        2048.0 |        +1.000 |
+| println!                        |      47970.9 |       1238.0 |         16.0 |       0.000 |           0.0 |        +0.000 |
+| locked writeln!                 |      45591.1 |       1238.0 |         16.0 |       0.000 |           0.0 |        +0.000 |
+| buffered writeln! new Vec       |      16773.8 |       1238.0 |          1.0 |       1.000 |        2048.0 |        +1.000 |
+| buffered writeln! reused Vec    |      17493.6 |       1238.0 |          1.0 |       0.000 |           0.0 |        +0.000 |
++---------------------------------+--------------+--------------+--------------+-------------+---------------+---------------+
+fastest: buffered writeln! new Vec
+buffered writeln! new Vec is 1.90x faster than output!
+buffered writeln! new Vec is 2.86x faster than println!
+buffered writeln! new Vec is 2.72x faster than locked writeln!
+buffered writeln! new Vec is 1.04x faster than buffered writeln! reused Vec
 ```
 
-`output!` uses a whole-block buffered stdout path: it renders the block into a
-memory buffer, locks stdout once, and writes the rendered bytes once.
-`output_to!` uses a direct writer path, which avoids the extra memory buffer for
-caller-provided writers but performs more small writes.
+The factual conclusion is mixed, not one-sided. `output!` avoids the worst
+repeated-locking cost of naive `println!`, but it allocates one 2048-byte buffer
+per report. A carefully written `writeln!` implementation that reuses its buffer
+is faster than `output!`. `output_to!` does not allocate, but it performs many
+small writes because it preserves the free-form `<<` template syntax and spacing
+rules.
 
 ## Test
 

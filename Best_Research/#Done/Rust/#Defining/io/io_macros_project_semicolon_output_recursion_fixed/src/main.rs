@@ -1,6 +1,7 @@
 use std::fmt;
+use std::io;
 
-use io_macros_project::{input, output};
+use io_macros_project::{input, output, output_buffered_to, output_to};
 
 struct ReportLabel {
     name: &'static str,
@@ -69,4 +70,31 @@ fn main() {
         << [list: slice] recent checkpoints = {recent_checkpoints}.
         << [custom display] report label = {report_label}.
     }
+
+    println!();
+
+    let mut saved_report = Vec::new();
+
+    output_to! {
+        writer: &mut saved_report,
+        << [output_to example] saved report label = {report_label}, bytes will be kept in memory.
+        << [output_to example] checkpoints = {checkpoints}.
+    }
+
+    let saved_report_text = String::from_utf8_lossy(&saved_report);
+
+    output! {
+        << [output_to result] captured text:
+        << {saved_report_text}
+    }
+
+    let mut stdout = io::stdout();
+
+    output_buffered_to! {
+        writer: &mut stdout,
+        << [output_buffered_to example] one buffered write to stdout for this mini report.
+        << [output_buffered_to example] force = {kilonewtons} kN, label = {report_label}.
+    }
+
+    println!();
 }
