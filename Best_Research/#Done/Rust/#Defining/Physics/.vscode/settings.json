@@ -15,7 +15,7 @@
     "[rust]": {
         "editor.inlayHints.enabled": "off",
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "rust-lang.rust-analyzer"
+        "editor.defaultFormatter": "rust-lang.rust-analyzer",
     },
     "rust-analyzer.rustfmt.extraArgs": [
         "+nightly"
