@@ -40,6 +40,7 @@ pub fn output(input: TokenStream) -> TokenStream {
     );
     inner.extend(parenthesized(buffer_size));
     inner.extend(parse_generated_tokens(";"));
+    inner.extend(output_value_import());
 
     inner.extend(body);
     inner.extend(parse_generated_tokens(
@@ -59,6 +60,7 @@ pub fn output_to(input: TokenStream) -> TokenStream {
     let mut inner = parse_generated_tokens("let mut __writer = ");
     inner.extend(writer);
     inner.extend(parse_generated_tokens(";"));
+    inner.extend(output_value_import());
     inner.extend(body);
     block(inner)
 }
@@ -78,6 +80,7 @@ pub fn output_buffered_to(input: TokenStream) -> TokenStream {
     ));
     inner.extend(parenthesized(buffer_size));
     inner.extend(parse_generated_tokens(";"));
+    inner.extend(output_value_import());
     inner.extend(body);
     inner.extend(parse_generated_tokens(
         "let _ = ::std::io::Write::write_all(&mut __writer, &__output_buffer);",
@@ -96,6 +99,7 @@ pub fn output_reusing_to(input: TokenStream) -> TokenStream {
     inner.extend(parse_generated_tokens("; let mut __output_buffer = "));
     inner.extend(buffer);
     inner.extend(parse_generated_tokens("; __output_buffer.clear();"));
+    inner.extend(output_value_import());
     inner.extend(body);
     inner.extend(parse_generated_tokens(
         "let _ = ::std::io::Write::write_all(&mut __writer, __output_buffer.as_slice());",
@@ -301,26 +305,13 @@ fn parse_writer_input(input: TokenStream) -> (TokenStream, TokenStream) {
 
 fn generate_output_body(writer_name: &str, input: TokenStream) -> TokenStream {
     let lines = parse_lines(input);
-    let mut code = TokenStream::new();
+    let mut operations = Vec::new();
 
     for line in lines {
-        let mut line_code = TokenStream::new();
-
-        for operation in render_line_operations(parse_parts(line)) {
-            match operation {
-                OutputOperation::Literal(literal) => {
-                    line_code.extend(literal_write_statement(&literal, writer_name));
-                }
-                OutputOperation::Value(value) => {
-                    line_code.extend(value_write_block(value, writer_name));
-                }
-            }
-        }
-
-        code.extend(block(line_code));
+        operations.extend(render_line_operations(parse_parts(line)));
     }
 
-    code
+    compact_write_statement(operations, writer_name)
 }
 
 fn render_line_operations(parts: Vec<OutputPart>) -> Vec<OutputOperation> {
@@ -524,8 +515,29 @@ fn parse_generated_tokens(code: &str) -> TokenStream {
     code.parse().expect("generated output macro should parse")
 }
 
+fn output_value_import() -> TokenStream {
+    parse_generated_tokens("use ::io_macros_project::OutputValue as _;")
+}
+
 fn compile_error_expression(message: &str) -> TokenStream {
     parse_generated_tokens(&format!("{{ compile_error!({}); }}", rust_string_literal(message)))
+}
+
+fn compact_write_statement(operations: Vec<OutputOperation>, writer_name: &str) -> TokenStream {
+    let mut code = TokenStream::new();
+
+    for operation in operations {
+        match operation {
+            OutputOperation::Literal(literal) => {
+                code.extend(literal_write_statement(&literal, writer_name));
+            }
+            OutputOperation::Value(value) => {
+                code.extend(value_write_statement(value, writer_name));
+            }
+        }
+    }
+
+    code
 }
 
 fn literal_write_statement(literal: &str, writer_name: &str) -> TokenStream {
@@ -535,33 +547,19 @@ fn literal_write_statement(literal: &str, writer_name: &str) -> TokenStream {
     ))
 }
 
+fn value_write_statement(value: TokenStream, writer_name: &str) -> TokenStream {
+    parse_generated_tokens(&format!(
+        "let _ = (&({})).write_output_value(&mut {writer_name});",
+        value
+    ))
+}
+
 fn block(inner: TokenStream) -> TokenStream {
     TokenStream::from(TokenTree::Group(Group::new(Delimiter::Brace, inner)))
 }
 
 fn parenthesized(inner: TokenStream) -> TokenStream {
     TokenStream::from(TokenTree::Group(Group::new(Delimiter::Parenthesis, inner)))
-}
-
-fn value_write_block(value: TokenStream, writer_name: &str) -> TokenStream {
-    let mut body = parse_generated_tokens("use ::io_macros_project::OutputValue as _;");
-    body.extend(parse_generated_tokens("let _ = "));
-
-    let mut inner_value = parse_generated_tokens("&");
-    inner_value.extend(TokenStream::from(TokenTree::Group(Group::new(
-        Delimiter::Parenthesis,
-        value,
-    ))));
-
-    body.extend(TokenStream::from(TokenTree::Group(Group::new(
-        Delimiter::Parenthesis,
-        inner_value,
-    ))));
-    body.extend(parse_generated_tokens(&format!(
-        ".write_output_value(&mut {writer_name});"
-    )));
-
-    block(body)
 }
 
 fn should_write_pending_template_space(previous: u8, next: u8) -> bool {

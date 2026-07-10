@@ -1,0 +1,8 @@
+[package]
+name = "output_stress_case"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+io_macros_project = { path = "../.." }

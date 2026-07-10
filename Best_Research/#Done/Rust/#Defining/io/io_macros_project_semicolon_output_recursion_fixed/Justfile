@@ -6,6 +6,9 @@ default:
 check:
     @cargo check
 
+check-output-stress:
+    @cargo check --manifest-path stress_cases/output_stress_case/Cargo.toml
+
 test:
     @cargo test
 
@@ -21,3 +24,6 @@ perf_prop writer_iterations="1000000" stdout_iterations="10000":
 
 perf-smoke:
     @just perf_prop 10000 100
+
+run-output-stress:
+    @cargo run --manifest-path stress_cases/output_stress_case/Cargo.toml

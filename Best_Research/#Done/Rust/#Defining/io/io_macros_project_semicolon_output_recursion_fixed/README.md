@@ -34,6 +34,24 @@ Large reports can stay in one `output!` block. The output macros parse the
 block with a procedural macro, so normal Rust projects do not need a
 crate-level `recursion_limit` setting for long text.
 
+Very large output blocks still have a compile-time cost. The macro moves text
+parsing and spacing work out of runtime and into compilation, then emits normal
+Rust write calls. That can make runtime faster than repeated `println!`, but a
+project with many huge `output!` blocks can compile slower than the same project
+written with `println!`.
+
+The intentionally large compile-stress example is kept in an opt-in binary:
+
+```powershell
+just check-output-stress
+cargo run --manifest-path stress_cases/output_stress_case/Cargo.toml
+```
+
+The default `cargo run` path stays small so normal development does not compile
+the stress case every time. The stress case is outside the main Cargo package
+targets, so `perf_all`, `cargo test`, and `cargo clippy --all-targets` do not
+compile it unless you call the stress command explicitly.
+
 Use braces when you want no trailing semicolon after the macro call:
 
 ```rust

@@ -1,17 +1,32 @@
+# rustfmt.toml
+
+unstable_features = true
+
 edition = "2024"
 style_edition = "2024"
 
-max_width = 300
+max_width = 220
 use_small_heuristics = "Max"
 
-fn_call_width = 300
-attr_fn_like_width = 300
-array_width = 300
-chain_width = 300
-single_line_if_else_max_width = 300
-struct_lit_width = 300
-struct_variant_width = 300
+# Keep small function signatures compact, wrap larger ones.
+fn_params_layout = "Tall"
+
+# Also controls parenthesized, list-like macro invocations such as
+# println!, writeln!, format!, vec!, and similar macros.
+fn_call_width = 160
+
+# Keep small struct literals on one line.
+struct_lit_single_line = true
+struct_lit_width = 80
+
+format_strings = false
+
+# Allman-style braces.
+brace_style = "AlwaysNextLine"
+control_brace_style = "AlwaysNextLine"
 
 newline_style = "Unix"
-tab_spaces = 4
 hard_tabs = false
+tab_spaces = 4
+
+empty_item_single_line = true
