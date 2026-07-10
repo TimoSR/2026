@@ -350,17 +350,18 @@ fn stress_iterations(iterations: usize) -> usize {
 }
 
 fn run_practical_writer_benchmarks(iterations: usize) -> io::Result<()> {
-    print_section("1. practical writer benchmarks");
+    print_section("1. practical concrete-writer benchmarks");
     eprintln!("iterations: {iterations}");
+    eprintln!("writer target: concrete CountingWriter, so these rows do not include dyn Write dispatch");
     eprintln!("write ops/report: exact counted calls to the wrapped Write target");
 
-    let output_to_result = measure_writer(iterations, "output_to!", write_with_output_to)?;
-    let output_buffered_result = measure_writer(iterations, "output_buffered_to!", write_with_output_buffered_to)?;
-    let output_buffered_large_result = measure_writer(iterations, "output_buffered_to! buffer 8 KB", write_with_output_buffered_to_large_capacity)?;
-    let output_reusing_result = measure_output_reusing_to(iterations, "output_reusing_to! reused Vec", REPORT_BUFFER_CAPACITY, write_with_output_reusing_to)?;
-    let writeln_result = measure_writer(iterations, "writeln!", write_traditional)?;
-    let single_writeln_result = measure_writer(iterations, "single writeln!", write_traditional_single_call)?;
-    let buffered_writeln_result = measure_writer(iterations, "buffered writeln! new Vec", write_traditional_buffered)?;
+    let output_to_result = measure_writer(iterations, "output_to!", write_with_output_to::<CountingWriter>)?;
+    let output_buffered_result = measure_writer(iterations, "output_buffered_to!", write_with_output_buffered_to::<CountingWriter>)?;
+    let output_buffered_large_result = measure_writer(iterations, "output_buffered_to! buffer 8 KB", write_with_output_buffered_to_large_capacity::<CountingWriter>)?;
+    let output_reusing_result = measure_output_reusing_to(iterations, "output_reusing_to! reused Vec", REPORT_BUFFER_CAPACITY, write_with_output_reusing_to::<CountingWriter>)?;
+    let writeln_result = measure_writer(iterations, "writeln!", write_traditional::<CountingWriter>)?;
+    let single_writeln_result = measure_writer(iterations, "single writeln!", write_traditional_single_call::<CountingWriter>)?;
+    let buffered_writeln_result = measure_writer(iterations, "buffered writeln! new Vec", write_traditional_buffered::<CountingWriter>)?;
     let reused_buffer_result = measure_reused_buffered_writeln(iterations)?;
 
     let results = vec![output_to_result, output_buffered_result, output_buffered_large_result, output_reusing_result, writeln_result, single_writeln_result, buffered_writeln_result, reused_buffer_result];
@@ -374,11 +375,12 @@ fn run_practical_stdout_benchmarks(iterations: usize, report_size: usize) -> io:
     print_section("2. practical stdout benchmarks");
     eprintln!("iterations: {iterations}");
     eprintln!("note: run this command with stdout redirected, for example `> $null` on PowerShell");
+    eprintln!("lock shape: output!/println! rows use their normal locking; reused-buffer rows hold stdout lock across the measured loop");
     eprintln!("write ops/report: logical stdout-facing calls per report, not OS syscall count");
 
     let output_result = measure_stdout(iterations, "output!", report_size, 1, write_with_output_macro)?;
     let output_large_result = measure_stdout(iterations, "output! buffer 8 KB", report_size, 1, write_with_output_macro_large_capacity)?;
-    let output_reusing_result = measure_stdout_output_reusing_to(iterations, "output_reusing_to! stdout reused Vec", report_size, REPORT_BUFFER_CAPACITY, write_with_output_reusing_to)?;
+    let output_reusing_result = measure_stdout_output_reusing_to(iterations, "output_reusing_to! stdout reused Vec", report_size, REPORT_BUFFER_CAPACITY, write_with_output_reusing_to_dyn)?;
     let println_result = measure_stdout(iterations, "println!", report_size, 16, write_with_println)?;
     let single_println_result = measure_stdout(iterations, "single println!", report_size, 1, write_with_single_println)?;
     let locked_writeln_result = measure_stdout(iterations, "locked writeln!", report_size, 16, write_with_locked_writeln)?;
@@ -393,18 +395,19 @@ fn run_practical_stdout_benchmarks(iterations: usize, report_size: usize) -> io:
 }
 
 fn run_stress_writer_benchmarks(iterations: usize) -> io::Result<()> {
-    print_section("3. stress writer benchmarks");
+    print_section("3. stress concrete-writer benchmarks");
     eprintln!("iterations: {iterations}");
     eprintln!("stress shape: one large output macro block matching {STRESS_REPORT_BLOCKS} practical reports");
+    eprintln!("writer target: concrete CountingWriter, so these rows do not include dyn Write dispatch");
     eprintln!("write ops/report: exact counted calls to the wrapped Write target");
 
-    let output_to_result = measure_writer(iterations, "output_to! stress", write_stress_with_output_to)?;
-    let output_buffered_result = measure_writer(iterations, "output_buffered_to! stress", write_stress_with_output_buffered_to)?;
-    let output_buffered_large_result = measure_writer(iterations, "output_buffered_to! stress buffer 8 KB", write_stress_with_output_buffered_to_large_capacity)?;
-    let output_reusing_result = measure_output_reusing_to(iterations, "output_reusing_to! stress reused Vec", REPORT_BUFFER_CAPACITY * STRESS_REPORT_BLOCKS, write_stress_with_output_reusing_to)?;
-    let writeln_result = measure_writer(iterations, "writeln! stress", write_stress_traditional)?;
-    let single_writeln_result = measure_writer(iterations, "single writeln! stress", write_stress_traditional_single_call)?;
-    let buffered_writeln_result = measure_writer(iterations, "buffered writeln! stress", write_stress_traditional_buffered)?;
+    let output_to_result = measure_writer(iterations, "output_to! stress", write_stress_with_output_to::<CountingWriter>)?;
+    let output_buffered_result = measure_writer(iterations, "output_buffered_to! stress", write_stress_with_output_buffered_to::<CountingWriter>)?;
+    let output_buffered_large_result = measure_writer(iterations, "output_buffered_to! stress buffer 8 KB", write_stress_with_output_buffered_to_large_capacity::<CountingWriter>)?;
+    let output_reusing_result = measure_output_reusing_to(iterations, "output_reusing_to! stress reused Vec", REPORT_BUFFER_CAPACITY * STRESS_REPORT_BLOCKS, write_stress_with_output_reusing_to::<CountingWriter>)?;
+    let writeln_result = measure_writer(iterations, "writeln! stress", write_stress_traditional::<CountingWriter>)?;
+    let single_writeln_result = measure_writer(iterations, "single writeln! stress", write_stress_traditional_single_call::<CountingWriter>)?;
+    let buffered_writeln_result = measure_writer(iterations, "buffered writeln! stress", write_stress_traditional_buffered::<CountingWriter>)?;
     let reused_buffer_result = measure_stress_reused_buffered_writeln(iterations)?;
 
     let results = vec![output_to_result, output_buffered_result, output_buffered_large_result, output_reusing_result, writeln_result, single_writeln_result, buffered_writeln_result, reused_buffer_result];
@@ -419,11 +422,12 @@ fn run_stress_stdout_benchmarks(iterations: usize, report_size: usize) -> io::Re
     eprintln!("iterations: {iterations}");
     eprintln!("stress shape: one large output! block compared with repeated println! and one large single println!");
     eprintln!("note: run this command with stdout redirected, for example `> $null` on PowerShell");
+    eprintln!("lock shape: output!/println! rows use their normal locking; reused-buffer rows hold stdout lock across the measured loop");
     eprintln!("write ops/report: logical stdout-facing calls per report, not OS syscall count");
 
     let output_result = measure_stdout(iterations, "output! stress", report_size, 1, write_stress_with_output_macro)?;
     let output_large_result = measure_stdout(iterations, "output! stress buffer 8 KB", report_size, 1, write_stress_with_output_macro_large_capacity)?;
-    let output_reusing_result = measure_stdout_output_reusing_to(iterations, "output_reusing_to! stress stdout reused Vec", report_size, REPORT_BUFFER_CAPACITY * STRESS_REPORT_BLOCKS, write_stress_with_output_reusing_to)?;
+    let output_reusing_result = measure_stdout_output_reusing_to(iterations, "output_reusing_to! stress stdout reused Vec", report_size, REPORT_BUFFER_CAPACITY * STRESS_REPORT_BLOCKS, write_stress_with_output_reusing_to_dyn)?;
     let println_result = measure_stdout(iterations, "println! stress", report_size, 16 * STRESS_REPORT_BLOCKS, write_stress_with_println)?;
     let single_println_result = measure_stdout(iterations, "single println! stress", report_size, 1, write_stress_with_single_println)?;
     let locked_writeln_result = measure_stdout(iterations, "locked writeln! stress", report_size, 16 * STRESS_REPORT_BLOCKS, write_stress_with_locked_writeln)?;
@@ -441,14 +445,15 @@ fn run_buffer_size_benchmarks(iterations: usize) -> io::Result<()> {
     print_section("5. output_buffered_to! buffer size benchmarks");
     eprintln!("iterations: {iterations}");
     eprintln!("stress shape: one large output_buffered_to! block matching {STRESS_REPORT_BLOCKS} practical reports");
+    eprintln!("writer target: concrete CountingWriter, so these rows do not include dyn Write dispatch");
     eprintln!("write ops/report: exact counted calls to the wrapped Write target");
 
-    let buffer_2kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 2 KB", write_stress_with_output_buffered_to_buffer_2kb)?;
-    let buffer_4kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 4 KB", write_stress_with_output_buffered_to_buffer_4kb)?;
-    let buffer_8kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 8 KB", write_stress_with_output_buffered_to_large_capacity)?;
-    let buffer_16kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 16 KB", write_stress_with_output_buffered_to_buffer_16kb)?;
-    let buffer_32kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 32 KB", write_stress_with_output_buffered_to_buffer_32kb)?;
-    let buffer_64kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 64 KB", write_stress_with_output_buffered_to_buffer_64kb)?;
+    let buffer_2kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 2 KB", write_stress_with_output_buffered_to_buffer_2kb::<CountingWriter>)?;
+    let buffer_4kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 4 KB", write_stress_with_output_buffered_to_buffer_4kb::<CountingWriter>)?;
+    let buffer_8kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 8 KB", write_stress_with_output_buffered_to_large_capacity::<CountingWriter>)?;
+    let buffer_16kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 16 KB", write_stress_with_output_buffered_to_buffer_16kb::<CountingWriter>)?;
+    let buffer_32kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 32 KB", write_stress_with_output_buffered_to_buffer_32kb::<CountingWriter>)?;
+    let buffer_64kb_result = measure_writer(iterations, "output_buffered_to! stress buffer 64 KB", write_stress_with_output_buffered_to_buffer_64kb::<CountingWriter>)?;
 
     let results = vec![buffer_2kb_result, buffer_4kb_result, buffer_8kb_result, buffer_16kb_result, buffer_32kb_result, buffer_64kb_result];
 
@@ -473,6 +478,8 @@ fn print_metric_guide() {
     print_section("how to read this report");
     eprintln!("- ns/report: lower is faster for one complete report.");
     eprintln!("- write ops/r: fewer write calls usually means less writer or stdout overhead.");
+    eprintln!("- concrete-writer sections use CountingWriter directly, avoiding dyn Write dispatch in the measured report writer.");
+    eprintln!("- stdout sections include each API's normal locking shape; reused-buffer stdout rows hold one lock across the loop.");
     eprintln!("- allocs/r: 0 means no heap allocation inside the measured loop; 1 means one new allocation per report.");
     eprintln!("- alloc bytes/r: bytes requested from the allocator per report; 2048 is the default output buffer, 8192 is the large-buffer test.");
     eprintln!("- extra alloc/r: allocation count compared with that section's baseline.");
@@ -534,7 +541,7 @@ fn allocation_snapshot() -> AllocationSnapshot {
     AllocationSnapshot { allocation_calls: ALLOCATION_CALLS.load(Ordering::Relaxed), allocated_bytes: ALLOCATED_BYTES.load(Ordering::Relaxed) }
 }
 
-fn measure_writer(iterations: usize, label: &'static str, write_report: fn(&mut dyn Write, &ReportValues) -> io::Result<()>) -> io::Result<BenchmarkResult> {
+fn measure_writer(iterations: usize, label: &'static str, write_report: fn(&mut CountingWriter, &ReportValues) -> io::Result<()>) -> io::Result<BenchmarkResult> {
     let values = ReportValues::new();
     let mut warmup_writer = CountingWriter::default();
 
@@ -577,7 +584,7 @@ fn measure_reused_buffered_writeln(iterations: usize) -> io::Result<BenchmarkRes
     Ok(BenchmarkResult { label: "buffered writeln! reused Vec", duration, bytes_written: black_box(writer.bytes_written), write_operations: black_box(writer.write_calls), allocation_calls: allocation_snapshot.allocation_calls, allocated_bytes: allocation_snapshot.allocated_bytes })
 }
 
-fn measure_output_reusing_to(iterations: usize, label: &'static str, buffer_capacity: usize, write_report: fn(&mut dyn Write, &mut Vec<u8>, &ReportValues) -> io::Result<()>) -> io::Result<BenchmarkResult> {
+fn measure_output_reusing_to(iterations: usize, label: &'static str, buffer_capacity: usize, write_report: fn(&mut CountingWriter, &mut Vec<u8>, &ReportValues) -> io::Result<()>) -> io::Result<BenchmarkResult> {
     let values = ReportValues::new();
     let mut writer = CountingWriter::default();
     let mut buffer = Vec::with_capacity(buffer_capacity);
@@ -996,7 +1003,10 @@ fn verify_stress_report_bytes() -> io::Result<usize> {
     Ok(traditional_buffer.len())
 }
 
-fn write_with_output_to(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_with_output_to<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     let distance = values.distance;
     let centimeters = values.centimeters;
     let meters = values.meters;
@@ -1032,7 +1042,10 @@ fn write_with_output_to(writer: &mut dyn Write, values: &ReportValues) -> io::Re
     Ok(())
 }
 
-fn write_with_output_buffered_to(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_with_output_buffered_to<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     let distance = values.distance;
     let centimeters = values.centimeters;
     let meters = values.meters;
@@ -1068,7 +1081,10 @@ fn write_with_output_buffered_to(writer: &mut dyn Write, values: &ReportValues) 
     Ok(())
 }
 
-fn write_with_output_buffered_to_large_capacity(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_with_output_buffered_to_large_capacity<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     let distance = values.distance;
     let centimeters = values.centimeters;
     let meters = values.meters;
@@ -1105,7 +1121,10 @@ fn write_with_output_buffered_to_large_capacity(writer: &mut dyn Write, values: 
     Ok(())
 }
 
-fn write_with_output_reusing_to(writer: &mut dyn Write, buffer: &mut Vec<u8>, values: &ReportValues) -> io::Result<()> {
+fn write_with_output_reusing_to<Writer>(writer: &mut Writer, buffer: &mut Vec<u8>, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     let distance = values.distance;
     let centimeters = values.centimeters;
     let meters = values.meters;
@@ -1140,6 +1159,10 @@ fn write_with_output_reusing_to(writer: &mut dyn Write, buffer: &mut Vec<u8>, va
     }
 
     Ok(())
+}
+
+fn write_with_output_reusing_to_dyn(writer: &mut dyn Write, buffer: &mut Vec<u8>, values: &ReportValues) -> io::Result<()> {
+    write_with_output_reusing_to(writer, buffer, values)
 }
 
 fn write_with_output_macro(values: &ReportValues) -> io::Result<()> {
@@ -1213,58 +1236,89 @@ fn write_with_output_macro_large_capacity(values: &ReportValues) -> io::Result<(
     Ok(())
 }
 
-fn write_stress_with_output_to(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_to<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_to, [writer: writer,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_buffered_to(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_buffered_to<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_buffered_to, [writer: writer,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_buffered_to_buffer_2kb(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_buffered_to_buffer_2kb<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_buffered_to, [writer: writer, buffer: 2 KB,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_buffered_to_buffer_4kb(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_buffered_to_buffer_4kb<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_buffered_to, [writer: writer, buffer: 4 KB,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_buffered_to_large_capacity(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_buffered_to_large_capacity<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_buffered_to, [writer: writer, buffer: 8 KB,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_buffered_to_buffer_16kb(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_buffered_to_buffer_16kb<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_buffered_to, [writer: writer, buffer: 16 KB,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_buffered_to_buffer_32kb(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_buffered_to_buffer_32kb<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_buffered_to, [writer: writer, buffer: 32 KB,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_buffered_to_buffer_64kb(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_buffered_to_buffer_64kb<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_buffered_to, [writer: writer, buffer: 64 KB,], values);
 
     Ok(())
 }
 
-fn write_stress_with_output_reusing_to(writer: &mut dyn Write, buffer: &mut Vec<u8>, values: &ReportValues) -> io::Result<()> {
+fn write_stress_with_output_reusing_to<Writer>(writer: &mut Writer, buffer: &mut Vec<u8>, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_output_report!(output_reusing_to, [writer: writer, buffer: buffer,], values);
 
     Ok(())
+}
+
+fn write_stress_with_output_reusing_to_dyn(writer: &mut dyn Write, buffer: &mut Vec<u8>, values: &ReportValues) -> io::Result<()> {
+    write_stress_with_output_reusing_to(writer, buffer, values)
 }
 
 fn write_stress_with_output_macro(values: &ReportValues) -> io::Result<()> {
@@ -1385,14 +1439,20 @@ fn write_stress_with_buffered_writeln(values: &ReportValues) -> io::Result<()> {
     stdout_lock.write_all(&buffer)
 }
 
-fn write_traditional_buffered(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_traditional_buffered<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     let mut buffer = Vec::with_capacity(REPORT_BUFFER_CAPACITY);
 
     write_traditional(&mut buffer, values)?;
     writer.write_all(&buffer)
 }
 
-fn write_stress_traditional_buffered(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_traditional_buffered<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     let mut buffer = Vec::with_capacity(REPORT_BUFFER_CAPACITY * STRESS_REPORT_BLOCKS);
 
     write_stress_traditional(&mut buffer, values)?;
@@ -1417,7 +1477,10 @@ where
     writer.write_all(buffer)
 }
 
-fn write_traditional_single_call(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_traditional_single_call<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     writeln!(
         writer,
         report_format!(),
@@ -1455,11 +1518,17 @@ fn write_traditional_single_call(writer: &mut dyn Write, values: &ReportValues) 
     )
 }
 
-fn write_stress_traditional_single_call(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_traditional_single_call<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     stress_single_format_call!(writeln, [writer,], values)
 }
 
-fn write_traditional(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_traditional<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     writeln!(writer, "[measurement: distance] raw input = {}, converted value = {} centimeters, normalized value = {} meters.", values.distance, values.centimeters, values.meters)?;
     writeln!(writer, "[distance details] distance = {}, bubels = {} centimeters, meters = {}.", values.distance, values.centimeters, values.meters)?;
     writeln!(writer, "[time details] time = {} seconds, source value = {}, status: accepted;", values.seconds, values.seconds)?;
@@ -1480,7 +1549,10 @@ fn write_traditional(writer: &mut dyn Write, values: &ReportValues) -> io::Resul
     Ok(())
 }
 
-fn write_stress_traditional(writer: &mut dyn Write, values: &ReportValues) -> io::Result<()> {
+fn write_stress_traditional<Writer>(writer: &mut Writer, values: &ReportValues) -> io::Result<()>
+where
+    Writer: Write + ?Sized,
+{
     for _ in 0..STRESS_REPORT_BLOCKS {
         write_traditional(writer, values)?;
     }
